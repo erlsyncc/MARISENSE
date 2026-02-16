@@ -1,0 +1,120 @@
+Enum booking_status {
+  pending
+  confirmed
+  cancelled
+  completed
+}
+
+Enum payment_status {
+  pending
+  succeeded
+  failed
+  refunded
+}
+
+Table users {
+  id                integer [pk, increment]
+  username          varchar(30) [null]
+  status            varchar(255) [null]
+  status_message    varchar(255) [null]
+  active            boolean [default: false]
+  last_active       datetime [null]
+  created_at        datetime [null]
+  updated_at        datetime [null]
+  deleted_at        datetime [null]
+
+  Indexes {
+    (username) [unique]
+  }
+}
+
+Table auth_groups_users {
+  id          integer [pk, increment]
+  user_id     integer
+  group       varchar(255)
+  created_at  datetime
+}
+
+Table activities {
+  id                          integer [pk, increment]
+  name                        varchar(150)
+  description                 text
+  duration_minutes            integer
+  base_price                  decimal(10,2)          // per person
+  max_participants_per_session integer [default: 10]
+  category                    varchar(50)            // jet_ski, banana_boat, surfing, snorkeling, etc.
+  requires_equipment          boolean [default: false]
+  requires_instructor         boolean [default: false]
+  is_active                   boolean [default: true]
+  created_at                  timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at                  timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Indexes {
+    (category)
+  }
+}
+
+Table activity_sessions {
+  id                integer [pk, increment]
+  activity_id       integer [ref: > activities.id]
+  session_date      date
+  start_time        time
+  end_time          time
+  max_capacity      integer
+  booked_capacity   integer [default: 0]
+  instructor_id     integer [null]                 // references users.id when required
+  status            varchar(20) [default: 'available']   // available, full, cancelled
+  created_at        timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at        timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Indexes {
+    (activity_id, session_date) [name: 'idx_activity_date']
+    (session_date, start_time)
+  }
+}
+
+Table bookings {
+  id                  integer [pk, increment]
+  user_id             integer
+  booking_reference   varchar(20) [unique]           // e.g. BOOK-20260216-7843
+  total_amount        decimal(10,2)
+  status              booking_status [default: 'pending']
+  created_at          timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at          timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Indexes {
+    (user_id)
+    (booking_reference) [unique]
+  }
+}
+
+Table booking_items {
+  id                    integer [pk, increment]
+  booking_id            integer [ref: > bookings.id]
+  activity_session_id   integer [ref: > activity_sessions.id]
+  participants          integer [default: 1]
+  price_per_person      decimal(10,2)
+  subtotal              decimal(10,2)
+  special_requests      text [null]
+  status                varchar(20) [default: 'confirmed']
+}
+
+Table payments {
+  id                integer [pk, increment]
+  booking_id        integer [ref: > bookings.id]
+  amount            decimal(10,2)
+  payment_method    varchar(50)                    // gcash, card, cash, bank_transfer...
+  transaction_id    varchar(100) [null]
+  status            payment_status [default: 'pending']
+  paid_at           timestamp [null]
+  created_at        timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Indexes {
+    (booking_id)
+    (transaction_id) [unique]
+  }
+}
+
+Ref: auth_groups_users.user_id > users.id
+Ref: bookings.user_id > users.id
+Ref: activity_sessions.instructor_id > users.id
