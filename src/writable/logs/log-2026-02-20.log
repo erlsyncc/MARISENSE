@@ -1,0 +1,48 @@
+CRITICAL - 2026-02-20 14:07:08 --> ErrorException: include(footer.php): Failed to open stream: No such file or directory
+[Method: GET, Route: /]
+in APPPATH\Views\welcome_message.php on line 533.
+ 1 APPPATH\Views\welcome_message.php(533): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH\Views\welcome_message.php(533): include()
+ 3 SYSTEMPATH\View\View.php(238): include('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\app\\Views\\welcome_message.php')
+ 4 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->{closure:CodeIgniter\View\View::render():235}()
+ 5 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render()
+ 6 APPPATH\Controllers\Home.php(9): view()
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Home->index()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-02-20 14:37:11 --> ErrorException: include(footer.php): Failed to open stream: No such file or directory
+[Method: GET, Route: /]
+in APPPATH\Views\landing.php on line 98.
+ 1 APPPATH\Views\landing.php(98): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH\Views\landing.php(98): include()
+ 3 SYSTEMPATH\View\View.php(238): include('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\app\\Views\\landing.php')
+ 4 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->{closure:CodeIgniter\View\View::render():235}()
+ 5 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render()
+ 6 APPPATH\Controllers\Home.php(10): view()
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Home->index()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-02-20 14:37:13 --> ErrorException: include(footer.php): Failed to open stream: No such file or directory
+[Method: GET, Route: /]
+in APPPATH\Views\landing.php on line 98.
+ 1 APPPATH\Views\landing.php(98): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 APPPATH\Views\landing.php(98): include()
+ 3 SYSTEMPATH\View\View.php(238): include('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\app\\Views\\landing.php')
+ 4 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->{closure:CodeIgniter\View\View::render():235}()
+ 5 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render()
+ 6 APPPATH\Controllers\Home.php(10): view()
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Home->index()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
