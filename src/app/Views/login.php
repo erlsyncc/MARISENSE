@@ -17,19 +17,17 @@
     }
 
     body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    /* Default background before mouse moves */
-    background: radial-gradient(circle at center, #7ac2e8, #5a87af);
-    overflow: hidden;
-    transition: background 0.1s ease; /* Makes the follow effect smooth */
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: radial-gradient(circle at center, #7ac2e8, #5a87af);
+        overflow: hidden;
+        transition: background 0.1s ease;
     }
 
-    /* Page Entrance Animation */
     @keyframes fadeInUp {
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
@@ -59,29 +57,41 @@
         padding: 40px;
         text-align: center;
         position: relative;
-        overflow: hidden; /* Clips the interactive particles */
+        overflow: hidden;
     }
 
     canvas#particleCanvas {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 0; left: 0; width: 100%; height: 100%;
         pointer-events: none;
+    }
+
+    /* Brand Header Styles */
+    .login-visual h1 {
+        color: var(--accent-cyan);
+        font-weight: 700;
+        font-size: 1.2rem; /* Subheader feel but H1 priority */
+        letter-spacing: 5px;
+        margin-bottom: -5px; /* Pulls WAVES closer */
+        z-index: 2;
+        text-transform: uppercase;
     }
 
     .login-visual h2 {
         font-weight: 700;
-        font-size: 2.5rem;
+        font-size: 3.5rem;
         z-index: 2;
         letter-spacing: 2px;
+        margin-bottom: 5px;
+        line-height: 1;
     }
 
     .login-visual p {
         font-weight: 300;
-        opacity: 0.8;
+        opacity: 0.9;
         z-index: 2;
+        margin-top: 5px;
+        font-size: 0.9rem;
     }
 
     /* Right Side: Form Area */
@@ -93,23 +103,30 @@
         justify-content: center;
     }
 
+    .form-group-custom {
+        margin-bottom: 25px;
+        text-align: left;
+    }
+
     .form-label {
         font-size: 0.75rem;
         font-weight: 700;
         color: var(--ocean-blue);
         text-transform: uppercase;
         letter-spacing: 1.5px;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
+        display: block;
     }
 
     .form-control {
         border: none;
         border-bottom: 2px solid #e9ecef;
         border-radius: 0;
-        padding: 10px 0;
+        padding: 12px 0;
         transition: all 0.3s ease;
         font-size: 1rem;
         background: transparent;
+        width: 100%;
     }
 
     .form-control:focus {
@@ -125,7 +142,7 @@
         padding: 14px;
         font-weight: 600;
         color: white;
-        margin-top: 30px;
+        margin-top: 15px;
         transition: 0.3s;
         box-shadow: 0 10px 20px rgba(0, 119, 182, 0.2);
     }
@@ -133,19 +150,29 @@
     .btn-login:hover {
         transform: translateY(-3px);
         box-shadow: 0 15px 25px rgba(0, 119, 182, 0.3);
+        color: white;
+    }
+
+    .back-link {
+        margin-top: 25px;
     }
 
     .back-link a {
         text-decoration: none;
-        color: #adb5bd;
-        font-size: 0.85rem;
+        color: #6c757d;
+        font-size: 0.9rem;
+        font-weight: 500;
         transition: 0.3s;
     }
 
-    .back-link a:hover { color: var(--ocean-blue); }
+    .back-link a:hover { 
+        color: var(--ocean-blue);
+        text-decoration: underline;
+    }
 
     @media (max-width: 768px) {
         .login-container { width: 95%; height: auto; flex-direction: column; }
+        .login-visual { padding: 60px 20px; }
     }
 </style>
 </head>
@@ -167,12 +194,12 @@
         <?php endif; ?>
 
         <form method="post" action="/loginAuth">
-            <div class="mb-4">
-                <label class="form-label">Email</label>
+            <div class="form-group-custom">
+                <label class="form-label">Email Address</label>
                 <input type="email" name="email" class="form-control" placeholder="example@mail.com" required>
             </div>
 
-            <div class="mb-4">
+            <div class="form-group-custom">
                 <label class="form-label">Password</label>
                 <input type="password" name="password" class="form-control" placeholder="••••••••" required>
             </div>
@@ -180,33 +207,25 @@
             <button type="submit" class="btn btn-login w-100">Login to Dashboard</button>
         </form>
 
-        <div class="back-link text-center mt-4">
-            <a href="/">← Return to Home</a>
+        <div class="back-link text-center">
+            <a href="/">← Return to Home Screen</a>
         </div>
     </div>
 </div>
 
 <script>
-
     document.addEventListener('mousemove', (e) => {
-        // Calculate mouse position in percentage
         const x = (e.clientX / window.innerWidth) * 100;
         const y = (e.clientY / window.innerHeight) * 100;
-        
-        // Update the radial gradient center dynamically
         document.body.style.background = `radial-gradient(circle at ${x}% ${y}%, #7ac2e8, #5a87af)`;
     });
-    /** * INTERACTIVE PARTICLE SCRIPT 
-     * Creates floating "bubbles" that react to mouse movement
-     */
+
     const canvas = document.getElementById('particleCanvas');
     const ctx = canvas.getContext('2d');
     const zone = document.getElementById('interactiveZone');
-
     let particles = [];
     let mouse = { x: null, y: null };
 
-    // Resize canvas to fill the visual div
     function resize() {
         canvas.width = zone.offsetWidth;
         canvas.height = zone.offsetHeight;
@@ -214,7 +233,6 @@
     window.addEventListener('resize', resize);
     resize();
 
-    // Track mouse over the visual side
     zone.addEventListener('mousemove', (e) => {
         const rect = zone.getBoundingClientRect();
         mouse.x = e.clientX - rect.left;
@@ -227,14 +245,12 @@
             this.y = Math.random() * canvas.height;
             this.size = Math.random() * 3 + 1;
             this.speedX = Math.random() * 0.5 - 0.25;
-            this.speedY = Math.random() * -1 - 0.5; // Move upwards like bubbles
+            this.speedY = Math.random() * -1 - 0.5;
             this.opacity = Math.random() * 0.5 + 0.1;
         }
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
-
-            // React to mouse
             const dx = mouse.x - this.x;
             const dy = mouse.y - this.y;
             const distance = Math.sqrt(dx*dx + dy*dy);
@@ -242,9 +258,7 @@
                 this.x -= dx/20;
                 this.y -= dy/20;
             }
-
             if (this.y < 0) this.y = canvas.height;
-            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
         }
         draw() {
             ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
@@ -255,6 +269,7 @@
     }
 
     function init() {
+        particles = [];
         for (let i = 0; i < 50; i++) {
             particles.push(new Particle());
         }
@@ -272,8 +287,6 @@
     init();
     animate();
 </script>
-
-
 
 </body>
 </html>
