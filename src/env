@@ -70,6 +70,3 @@ session.savePath = writable/session
 #--------------------------------------------------------------------
 
 # logger.threshold = 4
-
-
-

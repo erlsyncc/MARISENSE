@@ -36,7 +36,7 @@
     .login-container {
         display: flex;
         width: 900px;
-        height: 550px;
+        height: 600px; /* Increased height to accommodate new links */
         background: white;
         border-radius: 30px;
         overflow: hidden;
@@ -66,17 +66,6 @@
         pointer-events: none;
     }
 
-    /* Brand Header Styles */
-    .login-visual h1 {
-        color: var(--accent-cyan);
-        font-weight: 700;
-        font-size: 1.2rem; /* Subheader feel but H1 priority */
-        letter-spacing: 5px;
-        margin-bottom: -5px; /* Pulls WAVES closer */
-        z-index: 2;
-        text-transform: uppercase;
-    }
-
     .login-visual h2 {
         font-weight: 700;
         font-size: 3.5rem;
@@ -90,21 +79,20 @@
         font-weight: 300;
         opacity: 0.9;
         z-index: 2;
-        margin-top: 5px;
         font-size: 0.9rem;
     }
 
     /* Right Side: Form Area */
     .login-form-area {
         flex: 1.2;
-        padding: 60px;
+        padding: 50px 60px;
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
 
     .form-group-custom {
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         text-align: left;
     }
 
@@ -122,7 +110,7 @@
         border: none;
         border-bottom: 2px solid #e9ecef;
         border-radius: 0;
-        padding: 12px 0;
+        padding: 10px 0;
         transition: all 0.3s ease;
         font-size: 1rem;
         background: transparent;
@@ -132,7 +120,40 @@
     .form-control:focus {
         box-shadow: none;
         border-color: var(--accent-cyan);
-        background: transparent;
+    }
+
+    .extra-options {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: -10px;
+        margin-bottom: 20px;
+    }
+
+    .extra-options a {
+        font-size: 0.8rem;
+        color: var(--ocean-blue);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease; /* Smooth transition */
+    }
+
+    .extra-options a:hover {
+        color: var(--accent-cyan); 
+        text-shadow: 0 0 8px rgba(72, 202, 228, 0.6); /* Lighting effect */
+    }
+
+    /* Hover effect para sa Create Account link */
+    .create-account-text a {
+        color: var(--accent-cyan);
+        text-decoration: none;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+
+    .create-account-text a:hover {
+        color: #0077b6; 
+        text-shadow: 0 0 10px rgba(0, 119, 182, 0.4); /* Glow effect */
+        text-decoration: underline;
     }
 
     .btn-login {
@@ -142,7 +163,6 @@
         padding: 14px;
         font-weight: 600;
         color: white;
-        margin-top: 15px;
         transition: 0.3s;
         box-shadow: 0 10px 20px rgba(0, 119, 182, 0.2);
     }
@@ -153,26 +173,33 @@
         color: white;
     }
 
+    .create-account-text {
+        font-size: 0.85rem;
+        margin-top: 20px;
+        color: #6c757d;
+    }
+
+    .create-account-text a {
+        color: var(--accent-cyan);
+        text-decoration: none;
+        font-weight: 700;
+    }
+
     .back-link {
         margin-top: 25px;
     }
 
     .back-link a {
         text-decoration: none;
-        color: #6c757d;
-        font-size: 0.9rem;
-        font-weight: 500;
+        color: #adb5bd;
+        font-size: 0.85rem;
         transition: 0.3s;
     }
 
-    .back-link a:hover { 
-        color: var(--ocean-blue);
-        text-decoration: underline;
-    }
+    .back-link a:hover { color: var(--ocean-blue); }
 
     @media (max-width: 768px) {
         .login-container { width: 95%; height: auto; flex-direction: column; }
-        .login-visual { padding: 60px 20px; }
     }
 </style>
 </head>
@@ -186,12 +213,14 @@
     </div>
 
     <div class="login-form-area">
-        <h3 class="fw-bold mb-1">Welcome Back</h3>
+        <h3 class="fw-bold mb-1">Welcome Back!</h3>
         <p class="text-muted small mb-4">Please log in to manage your bookings.</p>
 
         <?php if($session->getFlashdata('error')): ?>
-            <div class="alert alert-danger py-2 small"><?= $session->getFlashdata('error') ?></div>
-        <?php endif; ?>
+        <div class="small fw-bold mb-3" style="color: #ff4d4d; border-left: 3px solid #ff4d4d; padding-left: 10px;">
+            <?= $session->getFlashdata('error') ?>
+        </div>
+    <?php endif; ?>
 
         <form method="post" action="/loginAuth">
             <div class="form-group-custom">
@@ -204,8 +233,16 @@
                 <input type="password" name="password" class="form-control" placeholder="••••••••" required>
             </div>
 
+            <div class="extra-options">
+                <a href="<?= url_to('magic-link') ?>">Forgot Password?</a>
+            </div>
+
             <button type="submit" class="btn btn-login w-100">Login to Dashboard</button>
         </form>
+
+        <div class="text-center create-account-text">
+            Don't have an account? <a href="<?= url_to('register') ?>">Create Account</a>
+        </div>
 
         <div class="back-link text-center">
             <a href="/">← Return to Home Screen</a>
@@ -214,6 +251,7 @@
 </div>
 
 <script>
+    // Particle and mouse effect logic remains the same for consistency
     document.addEventListener('mousemove', (e) => {
         const x = (e.clientX / window.innerWidth) * 100;
         const y = (e.clientY / window.innerHeight) * 100;
@@ -270,17 +308,12 @@
 
     function init() {
         particles = [];
-        for (let i = 0; i < 50; i++) {
-            particles.push(new Particle());
-        }
+        for (let i = 0; i < 50; i++) particles.push(new Particle());
     }
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
+        particles.forEach(p => { p.update(); p.draw(); });
         requestAnimationFrame(animate);
     }
 
