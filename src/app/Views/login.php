@@ -7,6 +7,7 @@
     <title>Login | Waves Water Sports</title>
     <link rel="stylesheet" href="<?= base_url('bootstrap5/css/bootstrap.min.css') ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
     :root {
@@ -319,6 +320,19 @@
 
     init();
     animate();
+</script>
+
+<script>
+    // Check kung may 'message' flashdata mula sa controller
+    <?php if (session()->getFlashdata('message')) : ?>
+        Swal.fire({
+            title: 'Success!',
+            text: "<?= session()->getFlashdata('message') ?>",
+            icon: 'success',
+            confirmButtonColor: '#0a5872',
+            confirmButtonText: 'Great!'
+        });
+    <?php endif; ?>
 </script>
 
 </body>

@@ -31,15 +31,12 @@ app.forceGlobalSecureRequests = false
 #--------------------------------------------------------------------
 
 # .env file snippet
-database.default.hostname = 
-database.default.database = 
-database.default.username = 
+database.default.hostname = localhost
+database.default.database = marisense_db
+database.default.username = root
 database.default.password = 
-# Use MySQLi driver
 database.default.DBDriver = MySQLi
-# database.default.DBPrefix =
 database.default.port = 3306
-database.default.DBEncrypt = false
 
 # If you use MySQLi as tests, first update the values of Config\Database::$tests.
 # database.tests.hostname = localhost
