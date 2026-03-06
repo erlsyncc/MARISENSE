@@ -12,10 +12,14 @@ $routes->get('/', 'Home::index');
 $routes->get('login', 'Auth::login');
 $routes->post('loginAuth', 'Auth::loginAuth');
 $routes->get('logout', 'Auth::logout');
-
-// Idagdag itong dalawa para sa Register
 $routes->get('register', 'Auth::register'); 
 $routes->post('registerAuth', 'Auth::registerAuth');
 
-// Shield default routes (Keep this at the bottom)
+// Protektadong Routes (Dapat naka-login para makapasok)
+$routes->group('', ['filter' => 'session'], function($routes) {
+    $routes->get('user/home', 'User::index');
+    $routes->get('admin/dashboard', 'Admin::index');
+});
+
+// Shield default routes
 service('auth')->routes($routes);

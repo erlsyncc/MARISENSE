@@ -54,21 +54,24 @@ class Auth extends BaseController
 
     public function loginAuth()
     {
-        $session = session();
-        $email = $this->request->getPost('email');
-        $password = $this->request->getPost('password');
-
-        // Gamitin na natin ang Shield para mag-login sa database
         $credentials = [
-            'email'    => $email,
-            'password' => $password
+            'email'    => $this->request->getPost('email'),
+            'password' => $this->request->getPost('password')
         ];
 
         if (auth()->attempt($credentials)->isOK()) {
-            return redirect()->to('/');
+            // Kunin ang logged-in user
+            $user = auth()->user();
+
+            // Check if Admin or User
+            if ($user->inGroup('admin')) {
+                return redirect()->to('/admin/dashboard');
+            } 
+            
+            // Default redirect for 'user' group
+            return redirect()->to('/user/home');
         } else {
-            $session->setFlashdata('error', 'Invalid Email or Password');
-            return redirect()->to('/login');
+            return redirect()->to('/login')->with('error', 'Invalid Email or Password');
         }
     }
 
