@@ -354,11 +354,11 @@
 
         <div class="nav-menu-center d-none d-lg-flex">
             <a href="<?= base_url('user/home') ?>" class="nav-link-custom active">Home</a>
-            <a href="#" class="nav-link-custom">Activities</a>
-            <a href="#" class="nav-link-custom">Safety & Sea Conditions</a>
-            <a href="#" class="nav-link-custom">Book & Reserve</a>
-            <a href="#" class="nav-link-custom">Calendar</a>
-            <a href="#" class="nav-link-custom">Reviews</a>
+            <a href="<?= base_url('user/activities') ?>" class="nav-link-custom">Activities</a>
+            <a href="<?= base_url('user/safety') ?>" class="nav-link-custom">Safety & Sea Conditions</a>
+            <a href="<?= base_url('user/booking') ?>" class="nav-link-custom">Book & Reserve</a>
+            <a href="<?= base_url('user/calendar') ?>" class="nav-link-custom">Calendar</a>
+            <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
 
         <div class="logout-wrapper">
@@ -377,15 +377,15 @@
             check real-time sea conditions powered by <strong>MARISENSE</strong>, and reserve with ease.
         </p>
         <div class="d-flex justify-content-center flex-wrap gap-3">
-            <a href="#activities-section" class="btn btn-primary btn-action shadow-lg">
+            <a href="<?= base_url('user/activities') ?>" class="btn btn-primary btn-action shadow-lg text-white">
                 <i class="fa-solid fa-magnifying-glass me-2"></i> Explore Activities
             </a>
 
-            <a href="#conditions-section" class="btn btn-info text-white btn-action shadow-lg">
+            <a href="<?= base_url('user/safety') ?>" class="btn btn-info text-white btn-action shadow-lg">
                 <i class="fa-solid fa-cloud-sun-rain me-2"></i> Check Sea Conditions
             </a>
 
-            <a href="#booking-section" class="btn btn-light btn-action shadow-lg">
+            <a href="<?= base_url('user/booking') ?>" class="btn btn-light btn-action shadow-lg">
                 <i class="fa-solid fa-calendar-check me-2"></i> Book Adventure
             </a>
         </div>
@@ -454,10 +454,10 @@
                 </div>
                 
                 <div class="text-center mt-5">
-                        <a href="#" class="btn-view-details">
-                            View Full Detailed Report <i class="fa-solid fa-chevron-right ms-2"></i>
-                        </a>
-                    </div>
+                    <a href="<?= base_url('user/safety') ?>" class="btn-view-details">
+                        View Full Detailed Report <i class="fa-solid fa-chevron-right ms-2"></i>
+                    </a>
+                </div>
                 </div>
             </div>
         </div>
@@ -469,10 +469,10 @@
             <h2 class="fw-bold mb-3">Ready for your next water adventure?</h2>
             <p class="opacity-75 mb-4">The waves are waiting. Check availability and book your slot today!</p>
             <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="#" class="btn btn-info text-white btn-action px-5 shadow">
+                <a href="<?= base_url('user/booking') ?>" class="btn btn-info text-white btn-action px-5 shadow">
                     <i class="fa-solid fa-calendar-check me-2"></i> Book Now
                 </a>
-                <a href="#" class="btn btn-outline-light btn-action px-5">
+                <a href="<?= base_url('user/calendar') ?>" class="btn btn-outline-light btn-action px-5">
                     <i class="fa-solid fa-calendar-days me-2"></i> View Calendar
                 </a>
             </div>

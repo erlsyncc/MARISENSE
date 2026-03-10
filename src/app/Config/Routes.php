@@ -5,7 +5,8 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-// Landing Page
+
+// 1. PUBLIC ROUTES (Kahit hindi naka-login)
 $routes->get('/', 'Home::index');
 
 // Custom Auth Routes
@@ -15,11 +16,20 @@ $routes->get('logout', 'Auth::logout');
 $routes->get('register', 'Auth::register'); 
 $routes->post('registerAuth', 'Auth::registerAuth');
 
-// Protektadong Routes (Dapat naka-login para makapasok)
+// 2. PROTECTED ROUTES (Kailangan ng Session/Login)
 $routes->group('', ['filter' => 'session'], function($routes) {
-    $routes->get('user/home', 'User::index');
+    
+    // USER SIDE ROUTES
+    $routes->get('user/home', 'User::index');       // home.php
+    $routes->get('user/activities', 'User::activities'); // activities.php
+    $routes->get('user/safety', 'User::safety');     // safety.php
+    $routes->get('user/booking', 'User::booking');   // booking.php
+    $routes->get('user/calendar', 'User::calendar'); // calendar.php
+    $routes->get('user/reviews', 'User::reviews');   // reviews.php
+
+    // ADMIN SIDE ROUTES
     $routes->get('admin/dashboard', 'Admin::index');
 });
 
-// Shield default routes
+// 3. SHIELD DEFAULT ROUTES
 service('auth')->routes($routes);
