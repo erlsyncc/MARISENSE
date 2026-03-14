@@ -402,10 +402,10 @@
     <div class="activities-flex-container">
         <?php 
         $activities = [
-            ['Jet Ski', 'Experience high-speed water adventure.', 'jetski.jpg'],
-            ['Banana Boat', 'Thrilling group ride with friends.', 'bananaboats.jpg'],
-            ['Kayaking', 'Explore the clear waters and breeze.', 'kayak.jpg'],
-            ['Flying Saucer', 'Glide and spin over the surface.', 'flying.jpg']
+            ['Jet Ski', 'Experience high-speed water adventure.', 'jetski.jpg', 'jet-ski'],
+            ['Banana Boat', 'Thrilling group ride with friends.', 'bananaboats.jpg', 'banana-boat'],
+            ['Kayaking', 'Explore the clear waters and breeze.', 'kayak.jpg', 'kayaking'],
+            ['Flying Saucer', 'Glide and spin over the surface.', 'flying.jpg', 'flying-saucer']
         ];
         foreach($activities as $act): ?>
         
@@ -415,7 +415,7 @@
             <div class="p-4 text-center d-flex flex-column align-items-center justify-content-center">
                 <h2 class="fw-bold text-white mb-2"><?= $act[0] ?></h2>
                 <p class="small text-white-50 mb-3"><?= $act[1] ?></p>
-                <a href="#" class="btn-view-details">
+                <a href="<?= base_url('user/activities') ?>#<?= $act[3] ?>" class="btn-view-details">
                     View Details
                 </a>
             </div>
@@ -487,7 +487,7 @@
         </div>
         
         <div class="social-icons">
-            <a href="https://facebook.com" target="_blank" title="Facebook">
+            <a href="https://www.facebook.com/profile.php?id=100077368436521" target="_blank" title="Facebook">
                 <i class="fa-brands fa-facebook"></i>
             </a>
             <a href="https://instagram.com" target="_blank" title="Instagram">

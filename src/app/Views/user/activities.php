@@ -90,6 +90,59 @@
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
         .social-icons i { color: rgba(255, 255, 255, 0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
         .social-icons i:hover { color: var(--accent-cyan); transform: scale(1.2); }
+
+        /* Gallery setup - ginawang mas maliit ang rows */
+        .vertical-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 180px); /* Binabaan mula 220px para mas compact */
+            gap: 12px;
+        }
+
+        .vertical-gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px; /* Mas malinis na corner */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.3s ease;
+        }
+
+        /* Container adjustment */
+        .activity-container { 
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 30px; 
+            padding: 30px; /* Binawasan ang padding para hindi masyadong malaki ang puting space */
+            margin-bottom: 60px; /* Binawasan ang layo ng bawat activity section */
+            max-width: 1100px; /* Nilimitahan ang lapad para maging "centered" focus */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Info Panel adjustment */
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Pantay sa gitna ng pictures */
+            height: 100%;
+        }
+
+        /* Idagdag ito sa <style> section */
+        .activities-wrapper {
+            padding-left: 10%;  /* Dynamic space sa left */
+            padding-right: 10%; /* Dynamic space sa right */
+            margin-top: 50px;
+        }
+
+        /* Para sa mas malalaking screen (Desktop), mas lalakihan natin ang space */
+        @media (min-width: 1200px) {
+            .activities-wrapper {
+                padding-left: 150px;
+                padding-right: 150px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -120,69 +173,80 @@
 
 <div class="container">
     <?php 
-    $activities = [
-        [
-            'name' => 'Jet Ski',
-            'desc' => 'Ride across the open sea on a powerful jet ski. Perfect for thrill-seekers who enjoy speed and ocean adventure.',
-            'details' => ['Duration: 15 minutes', 'Max Riders: 1–2 persons', 'Gear: Life vest', 'Difficulty: Moderate'],
-            'images' => ['jetski1.jpg', 'jetski2.jpg', 'jetski3.jpg', 'jetski4.jpg']
-        ],
-        [
-            'name' => 'Banana Boat',
-            'desc' => 'A fun group ride on an inflatable banana-shaped boat pulled by a speedboat. Expect splashes and laughter.',
-            'details' => ['Duration: 10 minutes', 'Max Riders: 6 persons', 'Difficulty: Easy', 'Best For: Groups'],
-            'images' => ['banana1.jpg', 'banana2.jpg', 'banana3.jpg', 'banana4.jpg']
-        ],
-        [
-            'name' => 'Kayaking',
-            'desc' => 'Paddle along the calm waters and enjoy the scenic view of Matabungkay Beach.',
-            'details' => ['Duration: 30 minutes', 'Max Riders: 1–2 persons', 'Difficulty: Easy'],
-            'images' => ['kayak1.jpg', 'kayak2.jpg', 'kayak3.jpg', 'kayak4.jpg']
-        ],
-        [
-            'name' => 'Flying Saucer',
-            'desc' => 'An exciting inflatable ride that spins and glides across the waves.',
-            'details' => ['Duration: 10 minutes', 'Max Riders: 4 persons', 'Difficulty: Moderate'],
-            'images' => ['flying1.jpg', 'flying2.jpg', 'flying3.jpg', 'flying4.jpg']
-        ]
-    ];
+// 1. Siguraduhin na nandito itong array na ito sa itaas ng foreach
+$activities = [
+    [
+        'name' => 'Jet Ski',
+        'desc' => 'Ride across the open sea on a powerful jet ski. Perfect for thrill-seekers who enjoy speed and ocean adventure.',
+        'details' => [' Duration: 15 minutes', ' Max Riders: 1–2 persons', ' Gear: Life vest', ' Difficulty: Moderate'],
+        'images' => ['jetski.jpg', 'jetski1.jpg', 'jetski2.jpg', 'jetski3.jpg']
+    ],
+    [
+        'name' => 'Banana Boat',
+        'desc' => 'A fun group ride on an inflatable banana-shaped boat pulled by a speedboat. Expect splashes and laughter.',
+        'details' => [' Duration: 10 minutes', ' Max Riders: 6 persons', ' Difficulty: Easy', ' Best For: Groups'],
+        'images' => ['bananaboats.jpg', 'banana1.jpg', 'banana2.jpg', 'banana3.jpg']
+    ],
+    [
+        'name' => 'Kayaking',
+        'desc' => 'Paddle along the calm waters and enjoy the scenic view of Matabungkay Beach.',
+        'details' => [' Duration: 30 minutes', ' Max Riders: 1–2 persons', ' Difficulty: Easy'],
+        'images' => ['kayak.jpg', 'kayak1.jpg', 'kayak2.jpg', 'kayak3.jpg']
+    ],
+    [
+        'name' => 'Flying Saucer',
+        'desc' => 'An exciting inflatable ride that spins and glides across the waves.',
+        'details' => [' Duration: 10 minutes', ' Max Riders: 4 persons', ' Difficulty: Moderate'],
+        'images' => ['flying.jpg', 'flying1.jpg', 'flying2.jpg', 'flying3.jpg']
+    ]
+];
 
-    foreach($activities as $item): ?>
+// 2. Ngayon, safe na itong i-loop
+foreach($activities as $item): ?>
     
-    <div class="d-flex flex-column align-items-start">
+    <div id="<?= strtolower(str_replace(' ', '-', $item['name'])) ?>" class="text-center w-100 mt-5">
         <h1 class="activity-title"><?= $item['name'] ?></h1>
         <div class="activity-line"></div>
     </div>
 
-    <div class="activity-container shadow-lg">
-        <div class="row">
-            <div class="col-lg-7 vertical-gallery">
-                <?php foreach($item['images'] as $img): ?>
-                    <img src="<?= base_url('images/' . $img) ?>" alt="<?= $item['name'] ?>">
-                <?php endforeach; ?>
-            </div>
-
-            <div class="col-lg-5">
-                <div class="info-panel p-lg-4">
-                    <h2 class="fw-bold text-info mb-4">About the Activity</h2>
-                    <p class="lead opacity-80 mb-4"><?= $item['desc'] ?></p>
-                    
-                    <div class="details-grid mb-4">
-                        <?php foreach($item['details'] as $detail): ?>
-                            <span class="detail-badge"><i class="fa-solid fa-check-circle me-2"></i><?= $detail ?></span>
+    <div class="container px-md-5">
+        <div class="activity-container shadow-lg">
+            <div class="row align-items-center">
+                
+                <div class="col-lg-7 mb-4 mb-lg-0">
+                    <div class="vertical-gallery">
+                        <?php foreach($item['images'] as $img): ?>
+                            <img src="<?= base_url('images/' . $img) ?>" alt="<?= $item['name'] ?>">
                         <?php endforeach; ?>
                     </div>
+                </div>
 
-                    <div class="mt-5 border-top border-secondary pt-4">
-                        <p class="small opacity-60">Ready to ride?</p>
-                        <a href="<?= base_url('user/booking') ?>" class="btn-book-now">Book <?= $item['name'] ?></a>
+                <div class="col-lg-5">
+                    <div class="info-panel p-lg-4">
+                        <h2 class="fw-bold text-info mb-4">About the Activity: </h2>
+                        <p class="lead opacity-80 mb-4" style="font-size: 1.1rem;"><?= $item['desc'] ?></p>
+                        
+                        <div class="details-grid mb-4">
+                            <?php foreach($item['details'] as $detail): ?>
+                                <span class="detail-badge">
+                                    <i class="fa-solid fa-check-circle me-2"></i><?= $detail ?>
+                                </span>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <div class="mt-4 border-top border-secondary pt-4 text-center">
+                            <a href="<?= base_url('user/booking') ?>" class="btn-book-now w-100">
+                                Book <?= $item['name'] ?>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+
+            </div> 
+        </div> 
     </div>
 
-    <?php endforeach; ?>
+<?php endforeach; ?>
 
     <div class="alert bg-transparent border-warning text-center p-5 rounded-4 mb-5" style="border: 2px dashed #ffc107 !important;">
         <h4 class="fw-bold text-warning mb-3"><i class="fa-solid fa-triangle-exclamation me-2"></i> Safety First</h4>
@@ -193,10 +257,16 @@
 <footer class="text-center">
     <div class="container d-flex flex-column align-items-center">
         <div class="footer-inquiry-text mb-4 opacity-75">For inquiries, message us through our social media platforms.</div>
-        <div class="social-icons mb-4">
-            <a href="#"><i class="fa-brands fa-facebook"></i></a>
-            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=100077368436521" target="_blank" title="Facebook">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" title="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" title="Twitter">
+                <i class="fa-brands fa-twitter"></i>
+            </a>
         </div>
         <div class="copyright-text opacity-50">&copy; 2026 Waves Water Sports | Tech by <span class="text-info fw-bold">MARISENSE</span></div>
     </div>

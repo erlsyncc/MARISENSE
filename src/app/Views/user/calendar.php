@@ -39,7 +39,7 @@
 
 <nav class="waves-navbar">
     <div class="container header-container">
-        <div class="user-greeting"><i class="fa-solid fa-circle-user me-2 text-info"></i>Hi, <span class="fw-bold"><?= auth()->user()->username ?></span></div>
+        <div class="user-greeting"><i class="fa-solid fa-circle-user me-2 text-info"></i> Hi, <span class="fw-bold"><?= auth()->user()->username ?></span></div>
         <div class="nav-menu-center d-none d-lg-flex">
             <a href="<?= base_url('user/home') ?>" class="nav-link-custom">Home</a>
             <a href="<?= base_url('user/activities') ?>" class="nav-link-custom">Activities</a>
@@ -74,9 +74,15 @@
     <div class="container d-flex flex-column align-items-center">
         <div class="footer-inquiry-text">For inquiries, message us through our social media platforms.</div>
         <div class="social-icons">
-            <a href="#"><i class="fa-brands fa-facebook"></i></a>
-            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=100077368436521" target="_blank" title="Facebook">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" title="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" title="Twitter">
+                <i class="fa-brands fa-twitter"></i>
+            </a>
         </div>
         <div class="copyright-text">&copy; 2026 Waves Water Sports | Tech by <span class="text-info fw-bold">MARISENSE</span></div>
     </div>
