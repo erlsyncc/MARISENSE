@@ -17,6 +17,13 @@
             --safe-green: #2ecc71;
         }
 
+        .highlight-brand {
+            font-weight: 700;
+            color: #48cae4; /* Matches your accent cyan */
+            text-shadow: 0 0 10px rgba(72, 202, 228, 0.4);
+            letter-spacing: 1px;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             /* Gradient Background: Cyan -> Ocean -> Deep Blue */
@@ -357,7 +364,6 @@
             <a href="<?= base_url('user/activities') ?>" class="nav-link-custom">Activities</a>
             <a href="<?= base_url('user/safety') ?>" class="nav-link-custom">Safety & Sea Conditions</a>
             <a href="<?= base_url('user/booking') ?>" class="nav-link-custom">Book & Reserve</a>
-            <a href="<?= base_url('user/calendar') ?>" class="nav-link-custom">Calendar</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
 
@@ -374,7 +380,7 @@
         <h1 class="display-3 fw-bold mb-3">Welcome to Waves Water Sports</h1>
         <p class="lead mb-5 opacity-90 mx-auto" style="max-width: 800px;">
             Plan your perfect water adventure at Matabungkay Beach. Explore exciting activities, 
-            check real-time sea conditions powered by <strong>MARISENSE</strong>, and reserve with ease.
+            check real-time sea conditions powered by <span class="highlight-brand">MARISENSE</span>, and reserve with ease.
         </p>
         <div class="d-flex justify-content-center flex-wrap gap-3">
             <a href="<?= base_url('user/activities') ?>" class="btn btn-primary btn-action shadow-lg text-white">

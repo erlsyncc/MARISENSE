@@ -11,7 +11,14 @@
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; }
         body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--ocean-blue) 40%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; }
         
-         /* Navbar Styles */
+        .highlight-brand {
+            font-weight: 700;
+            color: #48cae4; /* Matches your accent cyan */
+            text-shadow: 0 0 10px rgba(72, 202, 228, 0.4);
+            letter-spacing: 1px;
+        }
+        
+        /* Navbar Styles */
         .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
         .user-greeting { color: white; font-size: 1.2rem; font-weight: 400; flex: 1; }
@@ -143,6 +150,54 @@
                 padding-right: 150px;
             }
         }
+
+        /* Safety Section Styling */
+        .safety-banner {
+            border: 2px dashed #ffc107 !important;
+            background: rgba(255, 193, 7, 0.05);
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 900px;
+            margin: 0 auto 100px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .safety-wrapper {
+            max-width: 1300px;
+            margin: 80px auto; /* Centered container */
+            text-align: center;
+            padding: 40px;
+            border: 2px dashed #ffc107;
+            border-radius: 30px;
+            background: rgba(255, 193, 7, 0.05);
+        }
+
+        .yellow-line-move {
+            height: 4px;
+            width: 80px;
+            background: #ffc107;
+            margin: 15px auto; /* Centered line */
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .yellow-line-move::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -155,7 +210,6 @@
             <a href="<?= base_url('user/activities') ?>" class="nav-link-custom active">Activities</a>
             <a href="<?= base_url('user/safety') ?>" class="nav-link-custom">Safety & Sea Conditions</a>
             <a href="<?= base_url('user/booking') ?>" class="nav-link-custom">Book & Reserve</a>
-            <a href="<?= base_url('user/calendar') ?>" class="nav-link-custom">Calendar</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
         <div class="logout-wrapper"><a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a></div>
@@ -248,11 +302,18 @@ foreach($activities as $item): ?>
 
 <?php endforeach; ?>
 
-    <div class="alert bg-transparent border-warning text-center p-5 rounded-4 mb-5" style="border: 2px dashed #ffc107 !important;">
-        <h4 class="fw-bold text-warning mb-3"><i class="fa-solid fa-triangle-exclamation me-2"></i> Safety First</h4>
-        <p class="mb-0 opacity-75">All activities are monitored by <strong>MARISENSE</strong>. We may suspend operations during high tide or strong winds.</p>
+    <div class="safety-wrapper shadow-sm">
+        <h3 class="fw-bold text-warning mb-0">
+            <i></i>⚠️ Safety First
+        </h3>
+        
+        <div class="yellow-line-move"></div>
+        
+        <p class="mb-0 opacity-75" style="font-size: 1.1rem;">
+            All activities are monitored by <span class="highlight-brand">MARISENSE</span>. 
+            We may suspend operations during high tide or strong winds to ensure your protection.
+        </p>
     </div>
-</div>
 
 <footer class="text-center">
     <div class="container d-flex flex-column align-items-center">

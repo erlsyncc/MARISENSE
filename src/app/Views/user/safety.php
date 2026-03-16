@@ -11,6 +11,13 @@
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; }
         body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--ocean-blue) 40%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; }
 
+        .highlight-brand {
+            font-weight: 700;
+            color: #48cae4; /* Matches your accent cyan */
+            text-shadow: 0 0 10px rgba(72, 202, 228, 0.4);
+            letter-spacing: 1px;
+        }
+
         /* Navbar Styles */
         .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
@@ -68,18 +75,53 @@
         .data-card .label { font-size: 0.75rem; text-transform: uppercase; opacity: 0.7; letter-spacing: 1px; }
         .data-card .value { font-size: 1.3rem; font-weight: 700; }
 
-        /* Feature Cards */
+        /* I-override natin ang padding para sa saktong 2 inches sides */
+        .system-features-wrapper {
+            padding: 0 15%; /* 2 inches approx side space */
+            margin: 80px 0;
+        }
+
+        /* Eto yung 2x2 Grid logic na gaya ng source mo */
+        .system-grid-layout {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns */
+            grid-template-rows: repeat(2, auto);    /* 2 rows */
+            gap: 30px; /* 1 inch approx space sa gitna */
+        }
+
+        /* Feature Box Adjustment */
         .feature-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 25px;
-            padding: 25px;
-            height: 100%;
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             transition: 0.3s;
         }
-        .feature-box:hover { background: rgba(255, 255, 255, 0.07); transform: translateY(-5px); }
-        .feature-box i { font-size: 2rem; color: var(--accent-cyan); margin-bottom: 15px; }
 
+        /* Typography para sa malaking text */
+        .feature-box h5 {
+            font-size: 1.5rem; /* Mas malaki */
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin: 15px 0;
+        }
+
+        .feature-box p {
+            font-size: 1rem; /* Mas malaki */
+            line-height: 1.5;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .feature-box i {
+            font-size: 3.5rem; /* Mas malaking icon */
+            color: var(--accent-cyan);
+        }
         /* Status Indicators */
         .status-bar { border-radius: 50px; padding: 10px 20px; display: inline-flex; align-items: center; gap: 10px; font-weight: 600; }
         .bg-safe { background: rgba(40, 167, 69, 0.2); color: #28a745; border: 1px solid #28a745; }
@@ -90,6 +132,70 @@
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
         .social-icons i { color: rgba(255, 255, 255, 0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
         .social-icons i:hover { color: var(--accent-cyan); transform: scale(1.2); }
+
+        /* I-center ang header wrapper para sa titles */
+        .section-header-centered {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        /* Siguraduhin na ang animated line ay laging nasa gitna */
+        .activity-line { 
+            height: 5px; 
+            width: 100px; 
+            background: var(--accent-cyan); 
+            border-radius: 10px; 
+            margin: 10px auto 40px auto; /* 'auto' sa left at right ang nagpapacenter nito */
+        }
+
+                /* Eto yung kailangang-kailangan na CSS */
+        .safety-wrapper-final {
+            width: 100%;
+            max-width: 1100px; 
+            margin: 60px auto !important; /* Pinupuwersa sa gitna */
+            text-align: center !important; /* Sinisiguradong lahat ng text ay centered */
+            padding: 60px 40px;
+            
+            /* Ang Yellow Dashed Line na nakapalibot (-------) */
+            border: 3px dashed #ffc107 !important; 
+            border-radius: 40px;
+            background: rgba(255, 193, 7, 0.05);
+            display: block; /* Para gumana ang margin auto */
+        }
+
+        .yellow-line-move {
+            height: 4px;
+            width: 100px;
+            background: #ffc107;
+            margin: 20px auto !important; /* Centered line */
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .yellow-line-move::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Para sa alignment ng mga listahan sa loob */
+        .safety-content-box {
+            display: inline-block;
+            text-align: left; /* Para ang text ay left-aligned pero ang box ay centered */
+            vertical-align: top;
+        }
     </style>
 </head>
 <body>
@@ -102,7 +208,6 @@
             <a href="<?= base_url('user/activities') ?>" class="nav-link-custom">Activities</a>
             <a href="<?= base_url('user/safety') ?>" class="nav-link-custom active">Safety & Sea Conditions</a>
             <a href="<?= base_url('user/booking') ?>" class="nav-link-custom">Book & Reserve</a>
-            <a href="<?= base_url('user/calendar') ?>" class="nav-link-custom">Calendar</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
         <div class="logout-wrapper"><a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a></div>
@@ -113,14 +218,14 @@
     <div class="container">
         <h1 class="display-3 fw-bold mb-3">Safety & Sea Conditions</h1>
         <p class="lead mb-0 opacity-90 mx-auto" style="max-width: 800px;">
-            Real-time marine monitoring powered by MARISENSE technology.
+            Real-time marine monitoring powered by <span class="highlight-brand">MARISENSE</span> technology.
         </p>
     </div>
 </header>
 
 <div class="container">
-    <div class="text-center">
-        <h2 class="fw-bold text-white mb-1">About MARISENSE</h2>
+    <<div class="section-header-centered mt-5">
+        <h1 class="fw-bold text-white mb-1">About <span class="highlight-brand">MARISENSE</span></h1>
         <div class="activity-line"></div>
     </div>
     <div class="safety-main-container shadow-lg mb-5">
@@ -128,7 +233,7 @@
             <div class="col-lg-6">
                 <h4 class="text-info fw-bold mb-3">Smart Marine Monitoring</h4>
                 <p class="opacity-80 mb-3">
-                    <strong>MARISENSE</strong> (Marine Analytics for Resilient and Intelligent Synchronized Coastal Systems) is a smart marine monitoring system designed to improve safety for coastal leisure activities.
+                    <span class="highlight-brand">MARISENSE</span> (Marine Analytics for Resilient and Intelligent Synchronized Coastal Systems) is a smart marine monitoring system designed to improve safety for coastal leisure activities.
                 </p>
                 <p class="opacity-80 mb-3">
                     The system collects real-time environmental data such as wind speed, wind direction, wave height, and wave period using sensors installed on a floating buoy.
@@ -156,58 +261,66 @@
         </div>
     </div>
 
-    <div class="text-center mt-5">
-        <h2 class="fw-bold text-white mb-1">System Features</h2>
-        <div class="activity-line"></div>
-    </div>
-    <div class="row g-4 mb-5">
-        <div class="col-md-3">
-            <div class="feature-box text-center">
-                <i class="fa-solid fa-wind"></i>
-                <h6 class="fw-bold">Wind Monitoring</h6>
-                <p class="small opacity-70">Detects speed and direction to identify unsafe wind conditions.</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="feature-box text-center">
-                <i class="fa-solid fa-water"></i>
-                <h6 class="fw-bold">Wave Monitoring</h6>
-                <p class="small opacity-70">Measures height and movement using onboard motion sensors.</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="feature-box text-center">
-                <i class="fa-solid fa-location-crosshairs"></i>
-                <h6 class="fw-bold">GPS Tracking</h6>
-                <p class="small opacity-70">Ensures data is collected from the exact activity zone.</p>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="feature-box text-center">
-                <i class="fa-solid fa-bell"></i>
-                <h6 class="fw-bold">Safety Alerts</h6>
-                <p class="small opacity-70">Alerts staff immediately when sea conditions exceed safe thresholds.</p>
-            </div>
-        </div>
-    </div>
+<div class="section-header-centered mt-5">
+    <h1 class="fw-bold text-white mb-1">System Features</h1>
+    <div class="activity-line"></div>
+</div>
 
-    <div class="safety-main-container bg-opacity-10 mb-5">
-        <div class="row">
-            <div class="col-md-6 border-end border-white border-opacity-10">
+<div class="system-features-wrapper">
+    <div class="system-grid-layout">
+        
+        <div class="feature-box">
+            <i class="fa-solid fa-wind"></i>
+            <h5>Wind Monitoring</h5>
+            <p>Detects speed and direction to identify unsafe wind conditions for water sports.</p>
+        </div>
+
+        <div class="feature-box">
+            <i class="fa-solid fa-water"></i>
+            <h5>Wave Monitoring</h5>
+            <p>Measures height and movement using onboard motion sensors to ensure guest safety.</p>
+        </div>
+
+        <div class="feature-box">
+            <i class="fa-solid fa-location-crosshairs"></i>
+            <h5>GPS Tracking</h5>
+            <p>Ensures data is collected from the exact activity zone for precise marine updates.</p>
+        </div>
+
+        <div class="feature-box">
+            <i class="fa-solid fa-bell"></i>
+            <h5>Safety Alerts</h5>
+            <p>Alerts staff immediately when sea conditions exceed safe thresholds in real-time.</p>
+        </div>
+
+    </div>
+</div>
+
+    <div class="container text-center"> <div class="safety-wrapper-final shadow-lg">
+        
+        <h3 class="fw-bold text-warning mb-0">
+            <i></i> Activity Safety Protocol
+        </h3>
+        
+        <div class="yellow-line-move"></div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-5 border-end border-white border-opacity-10">
                 <h5 class="fw-bold text-info mb-4">Safety Status Indicator</h5>
-                <div class="d-flex flex-column gap-3">
-                    <div class="d-flex align-items-center gap-3"><span class="badge rounded-circle p-2 bg-success"> </span> <span><strong>Green</strong>: Safe for Activities</span></div>
-                    <div class="d-flex align-items-center gap-3"><span class="badge rounded-circle p-2 bg-warning"> </span> <span><strong>Yellow</strong>: Moderate Conditions</span></div>
-                    <div class="d-flex align-items-center gap-3"><span class="badge rounded-circle p-2 bg-danger"> </span> <span><strong>Red</strong>: Unsafe / Suspended</span></div>
+                <div class="safety-content-box">
+                    <div class="mb-2"><span class="dot dot-green"></span> <strong>Green:</strong> Safe for Activities</div>
+                    <div class="mb-2"><span class="dot dot-yellow"></span> <strong>Yellow:</strong> Moderate Conditions</div>
+                    <div><span class="dot dot-red"></span> <strong>Red:</strong> Unsafe / Suspended</div>
                 </div>
             </div>
-            <div class="col-md-6 ps-md-5">
+
+            <div class="col-md-5 ps-md-4">
                 <h5 class="fw-bold text-warning mb-4">Activity Safety Guide</h5>
-                <ul class="list-unstyled opacity-80">
-                    <li class="mb-2"><i class="fa-solid fa-circle-exclamation me-2"></i> Wind > 15 knots = <strong>UNSAFE</strong></li>
-                    <li class="mb-2"><i class="fa-solid fa-circle-exclamation me-2"></i> Wave Height > 1.5 meters = <strong>UNSAFE</strong></li>
-                    <li><i class="fa-solid fa-circle-info me-2"></i> Operations may pause during high tide.</li>
-                </ul>
+                <div class="safety-content-box">
+                    <div class="mb-2"><i class="fa-solid fa-wind text-warning me-2"></i> Wind > 15 knots = <strong class="text-danger">UNSAFE</strong></div>
+                    <div class="mb-2"><i class="fa-solid fa-water text-warning me-2"></i> Wave Height > 1.5m = <strong class="text-danger">UNSAFE</strong></div>
+                    <div><i class="fa-solid fa-circle-info text-warning me-2"></i> Operations may pause during high tide.</div>
+                </div>
             </div>
         </div>
     </div>
