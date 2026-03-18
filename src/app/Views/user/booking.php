@@ -12,14 +12,28 @@
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; }
         body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--ocean-blue) 40%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; }
 
+        /* Navbar Styles */
         .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
-        .nav-link-custom { color: rgba(255, 255, 255, 0.8); text-decoration: none; padding: 8px 16px; border-radius: 50px; transition: 0.3s; }
+        .user-greeting { color: white; font-size: 1.2rem; font-weight: 400; flex: 1; }
+        .nav-menu-center { display: flex; gap: 10px; justify-content: center; flex: 2; }
+        .logout-wrapper { flex: 1; display: flex; justify-content: flex-end; }
+        .nav-link-custom { color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 8px 16px; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
+        .nav-link-custom:hover { color: var(--accent-cyan); background: rgba(255, 255, 255, 0.1); }
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
+        .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 50px; transition: 0.3s; }
+        .btn-logout-custom:hover { background: #ff6b6b; color: white; }
 
         .welcome-hero {
-            background: linear-gradient(rgba(5, 44, 57, 0.6), rgba(5, 44, 57, 0.8)), url('<?= base_url('images/coveract.png') ?>'); 
-            background-size: cover; background-position: center; padding: 120px 40px; text-align: center; border-radius: 0 0 80px 80px; margin-bottom: 50px;
+            background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), 
+                        url('<?= base_url('images/coveract.png') ?>'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 145px 40px;
+            color: white;
+            border-radius: 0 0 80px 80px;
+            margin-bottom: 60px;
         }
 
         /* Container & Cards */
@@ -52,6 +66,53 @@
         .btn-confirm:hover { background: var(--accent-cyan); color: var(--deep-blue); transform: translateY(-3px); }
 
         @media (max-width: 992px) { .booking-main-grid { grid-template-columns: 1fr; } .summary-card { position: static; } }
+
+        /* Footer Styles */
+        footer { background: var(--deep-blue); padding: 100px 0 40px 0; color: rgba(255, 255, 255, 0.6) !important; border-top: 1px solid rgba(255, 255, 255, 0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
+        .social-icons i { color: rgba(255, 255, 255, 0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
+        .social-icons i:hover { color: var(--accent-cyan); transform: scale(1.2); }
+
+        /* interactive Floating Scroll Button (Center Right) */
+        #scrollBtn {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            width: 50px; /* Nilakihan nang konti para mas maluwag */
+            height: 150px; /* Mas mahaba para mas pill-shaped look */
+            background: rgba(10, 88, 114, 0.85); /* Bahagyang mas malinaw ang background */
+            backdrop-filter: blur(10px); /* Mas blurred ang background */
+            border: 3px solid var(--accent-cyan); /* Mas makapal na border */
+            border-radius: 60px; /* Mas rounded pill shape */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-cyan);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* Mas malalim na anino */
+        }
+
+        #scrollBtn:hover {
+            background: var(--accent-cyan);
+            color: var(--deep-blue);
+            right: 25px; /* Konting galaw pabalik pag ni-hover */
+        }
+
+        /* NILAKIHAN NATIN ITO: Ang arrow icon sa loob */
+        #scrollBtn i {
+            font-size: 2.5rem; /* Mas malaking icon para mas kita */
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            margin: 0 auto; /* Naka-center vertical at horizontal */
+        }
+
+        /* Rotation for Upward Arrow */
+        .rotate-up {
+            transform: rotate(180deg);
+        }
+        
     </style>
 </head>
 <body>
@@ -65,6 +126,7 @@
             <a href="<?= base_url('user/safety') ?>" class="nav-link-custom">Safety & Sea Conditions</a>
             <a href="<?= base_url('user/booking') ?>" class="nav-link-custom active">Book & Reserve</a>
             <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom">My Bookings</a>
+            <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
         <div class="logout-wrapper"><a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a></div>
     </div>
@@ -207,9 +269,60 @@
 
 <footer class="text-center">
     <div class="container d-flex flex-column align-items-center">
+        <div class="footer-inquiry-text mb-4 opacity-75">For inquiries, message us through our social media platforms.</div>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=100077368436521" target="_blank" title="Facebook">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" title="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" title="Twitter">
+                <i class="fa-brands fa-twitter"></i>
+            </a>
+        </div>
         <div class="copyright-text opacity-50">&copy; 2026 Waves Water Sports | Tech by <span class="text-info fw-bold">MARISENSE</span></div>
     </div>
 </footer>
+
+<script>
+        function smartScroll() {
+            const scrollIcon = document.getElementById("scrollIcon");
+            // Check kung malapit na sa dulo (200px buffer)
+            const isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 200);
+
+            if (isAtBottom || scrollIcon.classList.contains("rotate-up")) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                // Interactive jump: 600px pababa
+                window.scrollBy({ top: 600, left: 0, behavior: 'smooth' });
+            }
+        }
+
+        window.addEventListener('scroll', function() {
+            const scrollIcon = document.getElementById("scrollIcon");
+            const scrollBtn = document.getElementById("scrollBtn");
+            
+            // Kalkulahin ang scroll percentage
+            const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollValue = window.scrollY / scrollTotal;
+            
+            // Kapag lumampas sa 80% ng page, iikot ang arrow ↑
+            if (scrollValue > 0.8) {
+                scrollIcon.classList.add("rotate-up");
+                scrollBtn.style.background = "#48cae4"; // Accent Cyan
+                scrollIcon.style.color = "#052c39";    // Deep Blue
+            } else {
+                scrollIcon.classList.remove("rotate-up");
+                scrollBtn.style.background = "rgba(10, 88, 114, 0.8)";
+                scrollIcon.style.color = "#48cae4";
+            }
+        });
+    </script>
+
+<div id="scrollBtn" onclick="smartScroll()" title="Navigate Page">
+    <i class="fa-solid fa-arrow-down" id="scrollIcon"></i>
+</div>
 
 </body>
 </html>

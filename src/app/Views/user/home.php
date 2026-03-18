@@ -347,6 +347,46 @@
             color: var(--accent-cyan);
             transform: scale(1.2);
         }
+
+        /* interactive Floating Scroll Button (Center Right) */
+        #scrollBtn {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            width: 50px; /* Nilakihan nang konti para mas maluwag */
+            height: 150px; /* Mas mahaba para mas pill-shaped look */
+            background: rgba(10, 88, 114, 0.85); /* Bahagyang mas malinaw ang background */
+            backdrop-filter: blur(10px); /* Mas blurred ang background */
+            border: 3px solid var(--accent-cyan); /* Mas makapal na border */
+            border-radius: 60px; /* Mas rounded pill shape */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-cyan);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* Mas malalim na anino */
+        }
+
+        #scrollBtn:hover {
+            background: var(--accent-cyan);
+            color: var(--deep-blue);
+            right: 25px; /* Konting galaw pabalik pag ni-hover */
+        }
+
+        /* NILAKIHAN NATIN ITO: Ang arrow icon sa loob */
+        #scrollBtn i {
+            font-size: 2.5rem; /* Mas malaking icon para mas kita */
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            margin: 0 auto; /* Naka-center vertical at horizontal */
+        }
+
+        /* Rotation for Upward Arrow */
+        .rotate-up {
+            transform: rotate(180deg);
+        }
         
     </style>
 </head>
@@ -479,9 +519,6 @@
                 <a href="<?= base_url('user/booking') ?>" class="btn btn-info text-white btn-action px-5 shadow">
                     <i class="fa-solid fa-calendar-check me-2"></i> Book Now
                 </a>
-                <a href="<?= base_url('user/calendar') ?>" class="btn btn-outline-light btn-action px-5">
-                    <i class="fa-solid fa-calendar-days me-2"></i> View Calendar
-                </a>
             </div>
         </div>
     </div>
@@ -514,5 +551,45 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+        function smartScroll() {
+            const scrollIcon = document.getElementById("scrollIcon");
+            // Check kung malapit na sa dulo (200px buffer)
+            const isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 200);
+
+            if (isAtBottom || scrollIcon.classList.contains("rotate-up")) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                // Interactive jump: 600px pababa
+                window.scrollBy({ top: 600, left: 0, behavior: 'smooth' });
+            }
+        }
+
+        window.addEventListener('scroll', function() {
+            const scrollIcon = document.getElementById("scrollIcon");
+            const scrollBtn = document.getElementById("scrollBtn");
+            
+            // Kalkulahin ang scroll percentage
+            const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollValue = window.scrollY / scrollTotal;
+            
+            // Kapag lumampas sa 80% ng page, iikot ang arrow ↑
+            if (scrollValue > 0.8) {
+                scrollIcon.classList.add("rotate-up");
+                scrollBtn.style.background = "#48cae4"; // Accent Cyan
+                scrollIcon.style.color = "#052c39";    // Deep Blue
+            } else {
+                scrollIcon.classList.remove("rotate-up");
+                scrollBtn.style.background = "rgba(10, 88, 114, 0.8)";
+                scrollIcon.style.color = "#48cae4";
+            }
+        });
+    </script>
+
+<div id="scrollBtn" onclick="smartScroll()" title="Navigate Page">
+    <i class="fa-solid fa-arrow-down" id="scrollIcon"></i>
+</div>
+
 </body>
 </html>
