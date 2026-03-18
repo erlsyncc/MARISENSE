@@ -30,13 +30,16 @@
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
 
-        /* Hero Header */
         .welcome-hero {
-            background: linear-gradient(rgba(5, 44, 57, 0.6), rgba(5, 44, 57, 0.8)), 
+            background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), 
                         url('<?= base_url('images/coveract.png') ?>'); 
-            background-size: cover; background-position: center; background-attachment: fixed;
-            padding: 120px 40px; color: white; border-radius: 0 0 80px 80px;
-            text-align: center; display: flex; flex-direction: column; align-items: center;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 145px 40px;
+            color: white;
+            border-radius: 0 0 80px 80px;
+            margin-bottom: 60px;
         }
 
         /* Activity Section Styles */
@@ -210,6 +213,7 @@
             <a href="<?= base_url('user/activities') ?>" class="nav-link-custom active">Activities</a>
             <a href="<?= base_url('user/safety') ?>" class="nav-link-custom">Safety & Sea Conditions</a>
             <a href="<?= base_url('user/booking') ?>" class="nav-link-custom">Book & Reserve</a>
+            <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom">My Bookings</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
         <div class="logout-wrapper"><a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a></div>
@@ -218,9 +222,9 @@
 
 <header class="welcome-hero">
     <div class="container">
-        <h1 class="display-3 fw-bold mb-3">Water Adventures at Waves Water Sports</h1>
+        <h1 class="display-3 fw-bold mb-3">Discover Exciting Water Activities</h1>
         <p class="lead mb-0 opacity-90 mx-auto" style="max-width: 800px;">
-            Discover thrilling water activities designed for fun, excitement, and unforgettable experiences at Matabungkay Beach.
+            Experience thrilling adventures at Matabungkay Beach—from high-speed jet skiing to fun group rides. Choose your perfect activity and get ready for an unforgettable day on the water.
         </p>
     </div>
 </header>

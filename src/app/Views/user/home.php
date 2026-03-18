@@ -364,6 +364,7 @@
             <a href="<?= base_url('user/activities') ?>" class="nav-link-custom">Activities</a>
             <a href="<?= base_url('user/safety') ?>" class="nav-link-custom">Safety & Sea Conditions</a>
             <a href="<?= base_url('user/booking') ?>" class="nav-link-custom">Book & Reserve</a>
+            <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom">My Bookings</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
 

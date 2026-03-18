@@ -30,13 +30,15 @@
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
 
-        /* UNIFIED HERO - Ginaya ang size sa Activities/Home */
         .welcome-hero {
-            background: linear-gradient(rgba(5, 44, 57, 0.6), rgba(5, 44, 57, 0.8)), 
+            background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), 
                         url('<?= base_url('images/marisensebg.png') ?>'); 
-            background-size: cover; background-position: center; background-attachment: fixed;
-            padding: 120px 40px; color: white; border-radius: 0 0 80px 80px;
-            text-align: center; display: flex; flex-direction: column; align-items: center;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 150px 40px;
+            color: white;
+            border-radius: 0 0 80px 80px;
             margin-bottom: 60px;
         }
 
@@ -196,6 +198,22 @@
             text-align: left; /* Para ang text ay left-aligned pero ang box ay centered */
             vertical-align: top;
         }
+
+        /* Color Dots and Labels */
+        .dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-right: 10px; }
+        .dot-green { background-color: #28a745; box-shadow: 0 0 10px #28a745; }
+        .dot-yellow { background-color: #ffc107; box-shadow: 0 0 10px #ffc107; }
+        .dot-red { background-color: #dc3545; box-shadow: 0 0 10px #dc3545; }
+
+        .text-safe { color: #28a745; font-weight: 600; }
+        .text-moderate { color: #ffc107; font-weight: 600; }
+        .text-suspended { color: #dc3545; font-weight: 600; }
+
+        /* Vertical Divider for Safety Wrapper */
+        .vertical-divider {
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+        }
     </style>
 </head>
 <body>
@@ -208,6 +226,7 @@
             <a href="<?= base_url('user/activities') ?>" class="nav-link-custom">Activities</a>
             <a href="<?= base_url('user/safety') ?>" class="nav-link-custom active">Safety & Sea Conditions</a>
             <a href="<?= base_url('user/booking') ?>" class="nav-link-custom">Book & Reserve</a>
+            <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom">My Bookings</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
         <div class="logout-wrapper"><a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a></div>
@@ -216,15 +235,15 @@
 
 <header class="welcome-hero">
     <div class="container">
-        <h1 class="display-3 fw-bold mb-3">Safety & Sea Conditions</h1>
+        <h1 class="display-3 fw-bold mb-3">Stay Updated with Sea Conditions</h1>
         <p class="lead mb-0 opacity-90 mx-auto" style="max-width: 800px;">
-            Real-time marine monitoring powered by <span class="highlight-brand">MARISENSE</span> technology.
+            Monitor real-time wind and wave data powered by MARISENSE. Make informed decisions and enjoy water activities safely with accurate coastal insights.
         </p>
     </div>
 </header>
 
 <div class="container">
-    <<div class="section-header-centered mt-5">
+    <div class="section-header-centered mt-5">
         <h1 class="fw-bold text-white mb-1">About <span class="highlight-brand">MARISENSE</span></h1>
         <div class="activity-line"></div>
     </div>
@@ -296,30 +315,54 @@
     </div>
 </div>
 
-    <div class="container text-center"> <div class="safety-wrapper-final shadow-lg">
+    <div class="container text-center"> 
+    <div class="safety-wrapper-final shadow-lg">
         
-        <h3 class="fw-bold text-warning mb-0">
-            <i></i> Activity Safety Protocol
-        </h3>
+        <h2 class="fw-bold text-warning mb-0">
+            Activity Safety Protocol
+        </h2>
         
         <div class="yellow-line-move"></div>
 
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-5 border-end border-white border-opacity-10">
-                <h5 class="fw-bold text-info mb-4">Safety Status Indicator</h5>
-                <div class="safety-content-box">
-                    <div class="mb-2"><span class="dot dot-green"></span> <strong>Green:</strong> Safe for Activities</div>
-                    <div class="mb-2"><span class="dot dot-yellow"></span> <strong>Yellow:</strong> Moderate Conditions</div>
-                    <div><span class="dot dot-red"></span> <strong>Red:</strong> Unsafe / Suspended</div>
+        <div class="row g-4 align-items-start mt-2">
+            
+            <div class="col-md-5 text-start ps-lg-5">
+                <h4 class="fw-bold text-info mb-4">Safety Status Indicator</h4>
+                <div class="ps-2">
+                    <div class="mb-3 d-flex align-items-center">
+                        <span class="dot dot-green"></span> 
+                        <span><strong class="text-safe">Green:</strong> Safe for Activities</span>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center">
+                        <span class="dot dot-yellow"></span> 
+                        <span><strong class="text-moderate">Yellow:</strong> Moderate Conditions</span>
+                    </div>
+                    <div class="mb-0 d-flex align-items-center">
+                        <span class="dot dot-red"></span> 
+                        <span><strong class="text-suspended">Red:</strong> Unsafe / Suspended</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-5 ps-md-4">
-                <h5 class="fw-bold text-warning mb-4">Activity Safety Guide</h5>
-                <div class="safety-content-box">
-                    <div class="mb-2"><i class="fa-solid fa-wind text-warning me-2"></i> Wind > 15 knots = <strong class="text-danger">UNSAFE</strong></div>
-                    <div class="mb-2"><i class="fa-solid fa-water text-warning me-2"></i> Wave Height > 1.5m = <strong class="text-danger">UNSAFE</strong></div>
-                    <div><i class="fa-solid fa-circle-info text-warning me-2"></i> Operations may pause during high tide.</div>
+            <div class="col-md-2 d-none d-md-flex justify-content-center">
+                <div class="vertical-divider"></div>
+            </div>
+
+            <div class="col-md-5 text-start pe-lg-5">
+                <h4 class="fw-bold text-warning mb-4">Activity Safety Guide</h4>
+                <div class="ps-2">
+                    <div class="mb-3">
+                        <i class="fa-solid fa-wind text-info me-2"></i> 
+                        Wind > 15 knots = <strong style="color: #ff4d4d;">UNSAFE</strong>
+                    </div>
+                    <div class="mb-3">
+                        <i class="fa-solid fa-water text-info me-2"></i> 
+                        Wave Height > 1.5m = <strong style="color: #ff4d4d;">UNSAFE</strong>
+                    </div>
+                    <div class="mb-0">
+                        <i class="fa-solid fa-circle-exclamation text-info me-2"></i> 
+                        Operations may pause during high tide.
+                    </div>
                 </div>
             </div>
         </div>

@@ -23,50 +23,43 @@
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
-
+        
         /* Hero Header */
         .welcome-hero {
-            background: linear-gradient(rgba(5, 44, 57, 0.6), rgba(5, 44, 57, 0.8)), 
-                        url('<?= base_url('images/coveract.png') ?>'); 
-            background-size: cover; background-position: center; background-attachment: fixed;
-            padding: 120px 40px; color: white; border-radius: 0 0 80px 80px;
-            text-align: center; display: flex; flex-direction: column; align-items: center;
+            background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), 
+                        url('<?= base_url('images/marisensebg.png') ?>'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 150px 40px;
+            color: white;
+            border-radius: 0 0 80px 80px;
+            margin-bottom: 60px;
         }
 
-        /* Review Cards Styling */
-        .testimonial-card {
-            background: white; color: var(--deep-blue); border-radius: 25px; padding: 40px 30px;
-            text-align: center; height: 100%; position: relative; transition: 0.3s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-top: 50px;
-        }
-        .testimonial-card:hover { transform: translateY(-10px); }
+        /* Rating Summary Card */
+        .rating-summary-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 30px; padding: 30px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 50px; }
+        .big-rating { font-size: 3.5rem; font-weight: 700; color: #ffc107; }
+
+        /* Filter Buttons */
+        .filter-btn { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 25px; border-radius: 50px; transition: 0.3s; margin: 5px; }
+        .filter-btn:hover, .filter-btn.active { background: var(--accent-cyan); color: var(--deep-blue); border-color: var(--accent-cyan); font-weight: 600; }
+
+        /* Review Feed Cards */
+        .review-feed-card { background: white; color: var(--deep-blue); border-radius: 25px; padding: 30px; margin-bottom: 25px; transition: 0.3s; position: relative; }
+        .review-feed-card:hover { transform: scale(1.02); }
+        .badge-activity { background: var(--ocean-blue); color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; }
+        .badge-safety { background: #e8f5e9; color: #2e7d32; padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
+
+        /* Share Adventure Form */
+        .feedback-card { background: rgba(5, 44, 57, 0.4); border: 2px dashed var(--accent-cyan); border-radius: 40px; padding: 50px; margin-top: 80px; }
+        .sub-rating-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 15px; margin-bottom: 10px; }
+        .star-input { color: #ffc107; cursor: pointer; font-size: 1.2rem; }
         
-        .testimonial-avatar {
-            width: 90px; height: 90px; border-radius: 50%; border: 5px solid var(--accent-cyan);
-            object-fit: cover; position: absolute; top: -45px; left: 50%; transform: translateX(-50%);
-            background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        .form-control-custom { background: white; border-radius: 15px; padding: 15px; border: none; }
+        .btn-post { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 700; border-radius: 50px; padding: 15px 50px; border: none; transition: 0.3s; font-size: 1.1rem; }
+        .btn-post:hover { background: white; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-        .testimonial-text { font-style: italic; font-size: 0.95rem; line-height: 1.6; margin-top: 30px; min-height: 80px; }
-        .testimonial-author { border-top: 1px solid #eee; padding-top: 15px; margin-top: 20px; }
-        .testimonial-name { font-weight: 700; color: var(--ocean-blue); margin-bottom: 5px; }
-        .star-color { color: #ffc107; }
-
-        /* Feedback Form Section */
-        .feedback-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 30px; padding: 40px; }
-        .form-label { font-weight: 600; color: var(--accent-cyan); }
-        .feedback-textarea { border-radius: 15px; border: none; padding: 20px; background: white; color: var(--deep-blue); }
-        
-        /* Star Rating Input */
-        .star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 10px; font-size: 2.5rem; }
-        .star-rating input { display: none; }
-        .star-rating label { color: rgba(255, 255, 255, 0.3); cursor: pointer; transition: 0.2s; }
-        .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: #ffc107; }
-
-        .btn-submit { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 700; border-radius: 50px; padding: 12px 40px; border: none; transition: 0.3s; }
-        .btn-submit:hover { background: white; transform: scale(1.05); }
-
-        .btn-book-now:hover { background: white; color: var(--deep-blue); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
         /* Footer Styles */
         footer { background: var(--deep-blue); padding: 100px 0 40px 0; color: rgba(255, 255, 255, 0.6) !important; border-top: 1px solid rgba(255, 255, 255, 0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
@@ -84,7 +77,8 @@
             <a href="<?= base_url('user/activities') ?>" class="nav-link-custom">Activities</a>
             <a href="<?= base_url('user/safety') ?>" class="nav-link-custom">Safety & Sea Conditions</a>
             <a href="<?= base_url('user/booking') ?>" class="nav-link-custom">Book & Reserve</a>
-            <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom active">Reviews</a>
+            <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom">My Bookings</a>
+            <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom  active">Reviews</a>
         </div>
         <div class="logout-wrapper"><a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a></div>
     </div>
@@ -92,69 +86,153 @@
 
 <header class="welcome-hero">
     <div class="container">
-        <h1 class="display-4 fw-bold">Guest Experiences</h1>
-        <p class="lead">Hear the thrill and joy from our adventurers.</p>
+        <h1 class="display-4 fw-bold mb-2">Hear from Our Happy Adventurers</h1>
+        <p class="lead mb-0 opacity-90 mx-auto" style="max-width: 800px;">Read real experiences from our guests and share your own water adventure. Your feedback helps us improve safety, service, and overall experience.</p>
     </div>
 </header>
 
-<div class="container py-5">
-    <div class="row g-5 mb-5">
-        <?php if (!empty($recentTestimonials)): ?>
-            <?php foreach ($recentTestimonials as $testimonial): ?>
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card">
-                        <?php 
-                            $avatar = !empty($testimonial['profile_pic']) 
-                                ? base_url('uploads/profile_pics/'.$testimonial['profile_pic']) 
-                                : "https://ui-avatars.com/api/?name=".urlencode($testimonial['fullname'])."&background=0a5872&color=fff";
-                        ?>
-                        <img src="<?= $avatar ?>" class="testimonial-avatar shadow">
-                        <div class="testimonial-text">
-                            "<?= esc($testimonial['comments']) ?>"
+<div class="rating-summary-card">
+    <div class="row align-items-center text-center">
+        <div class="col-md-3 border-end border-white border-opacity-10">
+            <div class="label opacity-75">Overall Rating</div>
+            <div class="big-rating">4.9 <small style="font-size: 1.5rem;">/ 5</small></div>
+            <div class="text-warning">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+        </div>
+        
+        <div class="col-md-5 border-end border-white border-opacity-10">
+            <h6 class="fw-bold mb-3">Filter by Activity</h6>
+            <div class="d-flex flex-wrap justify-content-center">
+                <button class="filter-btn active" data-filter="activity" data-value="all">All</button>
+                <button class="filter-btn" data-filter="activity" data-value="Jet Ski">Jet Ski</button>
+                <button class="filter-btn" data-filter="activity" data-value="Banana Boat">Banana Boat</button>
+                <button class="filter-btn" data-filter="activity" data-value="Kayaking">Kayaking</button>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <h6 class="fw-bold mb-3">Filter by Stars</h6>
+            <div class="d-flex flex-wrap justify-content-center">
+                <button class="filter-btn active" data-filter="star" data-value="all">All</button>
+                <button class="filter-btn" data-filter="star" data-value="5">5</button>
+                <button class="filter-btn" data-filter="star" data-value="4">4</button>
+                <button class="filter-btn" data-filter="star" data-value="3">3</button>
+                <button class="filter-btn" data-filter="star" data-value="3">2</button>
+                <button class="filter-btn" data-filter="star" data-value="3">1</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            
+            <div class="review-feed-card shadow-sm">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="d-flex align-items-center">
+                        <img src="https://ui-avatars.com/api/?name=Juan+Dela+Cruz&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
+                        <div>
+                            <h6 class="fw-bold mb-0">Juan Dela Cruz</h6>
+                            <small class="opacity-50">March 15, 2026</small>
                         </div>
-                        <div class="testimonial-author">
-                            <div class="testimonial-name"><?= esc($testimonial['fullname']) ?></div>
-                            <div class="small">
-                                <?php for ($i = 1; $i <= 5; $i++): ?>
-                                    <i class="fa-solid fa-star <?= $i <= $testimonial['rating'] ? 'star-color' : 'text-muted' ?>"></i>
-                                <?php endfor; ?>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="text-warning small">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
-
-    <div class="row justify-content-center mt-5">
-        <div class="col-lg-8">
-            <div class="text-center mb-4">
-                <h2 class="fw-bold">Share Your Adventure</h2>
-                <p class="opacity-75">Your feedback helps us make Waves Water Sports even better!</p>
+                <p class="mb-3">“Napakasaya! Safe kahit may konting alon. Very accommodating din ang mga staff.”</p>
+                <div class="d-flex gap-2">
+                    <span class="badge-activity">Activity: Banana Boat</span>
+                    <span class="badge-safety"><i class="fa-solid fa-circle-check me-1"></i> Safety: ✔ Safe</span>
+                </div>
             </div>
 
-            <div class="feedback-card">
-                <form action="<?= site_url('feedback/submit') ?>" method="post" id="feedbackForm">
-                    <?= csrf_field() ?>
-                    
-                    <div class="text-center mb-4">
-                        <label class="form-label d-block">Overall Rating</label>
-                        <div class="star-rating">
-                            <input type="radio" id="star5" name="rating" value="5" required/><label for="star5">★</label>
-                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
-                            <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
-                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
-                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
+            <div class="review-feed-card shadow-sm">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="d-flex align-items-center">
+                        <img src="https://ui-avatars.com/api/?name=Maria+Santos&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
+                        <div>
+                            <h6 class="fw-bold mb-0">Maria Santos</h6>
+                            <small class="opacity-50">March 12, 2026</small>
                         </div>
                     </div>
-
-                    <div class="mb-4">
-                        <label class="form-label">Tell us about your experience</label>
-                        <textarea class="form-control feedback-textarea" name="feedback" rows="5" placeholder="What was your favorite activity? How was our staff?" required></textarea>
+                    <div class="text-warning small">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
                     </div>
+                </div>
+                <p class="mb-3">“Maganda experience pero medyo malakas alon nung hapon. Buti na lang real-time ang monitoring ng MARISENSE.”</p>
+                <div class="d-flex gap-2">
+                    <span class="badge-activity">Activity: Jet Ski</span>
+                    <span class="badge-safety"><i class="fa-solid fa-circle-check me-1"></i> Safety: ✔ Safe</span>
+                </div>
+            </div>
 
-                    <div class="text-center">
-                        <button type="submit" class="btn-submit shadow">Post Review</button>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="feedback-card">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-white">Share Your Adventure</h2>
+                    <div class="activity-line bg-accent-cyan mx-auto"></div>
+                </div>
+
+                <form action="<?= base_url('user/post-review') ?>" method="POST" enctype="multipart/form-data">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="mb-4">
+                                <label class="form-label text-info fw-bold">Select Activity</label>
+                                <select class="form-select form-control-custom" name="activity" required>
+                                    <option value="Banana Boat">Banana Boat</option>
+                                    <option value="Jet Ski">Jet Ski</option>
+                                    <option value="Kayaking">Kayaking</option>
+                                    <option value="Flying Saucer">Flying Saucer</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label text-info fw-bold">Rate Your Experience</label>
+                                <div class="sub-rating-row">
+                                    <span>Safety</span>
+                                    <div class="text-warning"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></div>
+                                </div>
+                                <div class="sub-rating-row">
+                                    <span>Staff Friendlyness</span>
+                                    <div class="text-warning"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></div>
+                                </div>
+                                <div class="sub-rating-row">
+                                    <span>Fun Level</span>
+                                    <div class="text-warning"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-4">
+                                <label class="form-label text-info fw-bold">Did you feel safe?</label>
+                                <div class="d-flex gap-3">
+                                    <div class="form-check"><input class="form-check-input" type="radio" name="safe_feel" id="s1" value="Yes" checked><label class="form-check-label" for="s1">Yes</label></div>
+                                    <div class="form-check"><input class="form-check-input" type="radio" name="safe_feel" id="s2" value="No"><label class="form-check-label" for="s2">No</label></div>
+                                    <div class="form-check"><input class="form-check-input" type="radio" name="safe_feel" id="s3" value="Moderate"><label class="form-check-label" for="s3">Moderate</label></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label text-info fw-bold">Your Review</label>
+                                <textarea class="form-control form-control-custom" rows="4" placeholder="How was your adventure?"></textarea>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label text-info fw-bold">Upload Photo (Optional)</label>
+                                <input type="file" class="form-control form-control-custom">
+                            </div>
+                        </div>
+
+                        <div class="col-12 text-center mt-4">
+                            <button type="submit" class="btn-post shadow-lg">Post Review</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -179,6 +257,56 @@
         <div class="copyright-text opacity-50">&copy; 2026 Waves Water Sports | Tech by <span class="text-info fw-bold">MARISENSE</span></div>
     </div>
 </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filters = {
+        activity: 'all',
+        star: 'all'
+    };
+
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const reviewCards = document.querySelectorAll('.review-feed-card');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filterType = this.getAttribute('data-filter');
+            const filterValue = this.getAttribute('data-value');
+
+            // 1. Update active button UI
+            document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`).forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            // 2. Store filter value
+            filters[filterType] = filterValue;
+
+            // 3. Filter the cards
+            reviewCards.forEach(card => {
+                const cardActivity = card.getAttribute('data-activity');
+                const cardStar = card.getAttribute('data-star');
+
+                const activityMatch = (filters.activity === 'all' || filters.activity === cardActivity);
+                const starMatch = (filters.star === 'all' || filters.star === cardStar);
+
+                if (activityMatch && starMatch) {
+                    card.style.display = 'block';
+                    // Optional: Add a small animation
+                    card.style.animation = 'fadeIn 0.5s';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+</script>
+
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
 
 </body>
 </html>

@@ -20,12 +20,16 @@ $routes->post('registerAuth', 'Auth::registerAuth');
 $routes->group('', ['filter' => 'session'], function($routes) {
     
     // USER SIDE ROUTES
-    $routes->get('user/home', 'User::index');       // home.php
+    $routes->get('user/home', 'User::index');           // home.php
     $routes->get('user/activities', 'User::activities'); // activities.php
-    $routes->get('user/safety', 'User::safety');     // safety.php
-    $routes->get('user/booking', 'User::booking');   // booking.php
-    $routes->get('user/calendar', 'User::calendar'); // calendar.php
-    $routes->get('user/reviews', 'User::reviews');   // reviews.php
+    $routes->get('user/safety', 'User::safety');         // safety.php
+    
+    // BINAGO NATIN DITO:
+    $routes->get('user/booking', 'User::booking');       // Ito yung Reservation Form (booking.php)
+    $routes->get('user/my-bookings', 'User::my_bookings'); // ITO YUNG BAGO: Tracking ng status (my_bookings.php)
+    
+    $routes->get('user/calendar', 'User::calendar');     // calendar.php
+    $routes->get('user/reviews', 'User::reviews');       // reviews.php
 
     // ADMIN SIDE ROUTES
     $routes->get('admin/dashboard', 'Admin::index');

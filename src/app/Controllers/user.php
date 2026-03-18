@@ -20,8 +20,8 @@ class User extends BaseController
         return view('user/booking');
     }
 
-    public function calendar() {
-        return view('user/calendar');
+    public function my_bookings() {
+        return view('user/my_bookings'); // Siguraduhin na 'my_bookings.php' ang filename sa 'views/user/'
     }
 
     public function reviews() {
