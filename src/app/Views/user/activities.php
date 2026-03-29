@@ -241,6 +241,9 @@
         .rotate-up {
             transform: rotate(180deg);
         }
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
@@ -276,13 +279,13 @@ $activities = [
     [
         'name' => 'Jet Ski',
         'desc' => 'Ride across the open sea on a powerful jet ski. Perfect for thrill-seekers who enjoy speed and ocean adventure.',
-        'details' => [' Duration: 15 minutes', ' Max Riders: 1–2 persons', ' Gear: Life vest', ' Difficulty: Moderate'],
+        'details' => [' Duration: 15 minutes', ' Max Riders: 1–3 persons', ' Gear: Life vest', ' Difficulty: Moderate'],
         'images' => ['jetski.jpg', 'jetski1.jpg', 'jetski2.jpg', 'jetski3.jpg']
     ],
     [
         'name' => 'Banana Boat',
         'desc' => 'A fun group ride on an inflatable banana-shaped boat pulled by a speedboat. Expect splashes and laughter.',
-        'details' => [' Duration: 10 minutes', ' Max Riders: 6 persons', ' Difficulty: Easy', ' Best For: Groups'],
+        'details' => [' Duration: 10 minutes', ' Max Riders: 12 persons', ' Difficulty: Easy', ' Best For: Groups'],
         'images' => ['bananaboats.jpg', 'banana1.jpg', 'banana2.jpg', 'banana3.jpg']
     ],
     [
@@ -294,7 +297,7 @@ $activities = [
     [
         'name' => 'Flying Saucer',
         'desc' => 'An exciting inflatable ride that spins and glides across the waves.',
-        'details' => [' Duration: 10 minutes', ' Max Riders: 4 persons', ' Difficulty: Moderate'],
+        'details' => [' Duration: 10 minutes', ' Max Riders: 4-10 persons', ' Difficulty: Moderate'],
         'images' => ['flying.jpg', 'flying1.jpg', 'flying2.jpg', 'flying3.jpg']
     ]
 ];

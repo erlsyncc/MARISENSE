@@ -27,7 +27,7 @@
         /* Hero Header */
         .welcome-hero {
             background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), 
-                        url('<?= base_url('images/marisensebg.png') ?>'); 
+                        url('<?= base_url('images/reviews_bg.png') ?>'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -105,6 +105,44 @@
         .rotate-up {
             transform: rotate(180deg);
         }
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Star Rating styling */
+        .stars-outer {
+            position: relative;
+            display: inline-block;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.2); /* Kulay ng empty stars */
+        }
+
+        .stars-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 93%; /* Ito ang magdedetermine ng kulay (4.9 / 5 = 98%) */
+            color: #ffc107; /* Kulay ng filled stars */
+        }
+
+        /* Custom Select Styling */
+        .filter-select {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 8px 20px;
+            cursor: pointer;
+            outline: none;
+            appearance: auto; /* Para lumabas yung default arrow */
+        }
+
+        .filter-select option {
+            background: var(--ocean-blue);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -132,35 +170,44 @@
 </header>
 
 <div class="rating-summary-card">
-    <div class="row align-items-center text-center">
-        <div class="col-md-3 border-end border-white border-opacity-10">
-            <div class="label opacity-75">Overall Rating</div>
-            <div class="big-rating">4.9 <small style="font-size: 1.5rem;">/ 5</small></div>
-            <div class="text-warning">
-                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-4">
+            
+            <div class="d-flex align-items-center gap-3">
+                <div class="text-start">
+                    <div class="label opacity-75 small">Overall Rating</div>
+                    <div class="big-rating mb-0" style="font-size: 2.5rem; line-height: 1;">4.9 <small style="font-size: 1rem;">/ 5</small></div>
+                </div>
+                <div class="stars-outer">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <div class="stars-inner">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="col-md-5 border-end border-white border-opacity-10">
-            <h6 class="fw-bold mb-3">Filter by Activity</h6>
-            <div class="d-flex flex-wrap justify-content-center">
-                <button class="filter-btn active" data-filter="activity" data-value="all">All</button>
-                <button class="filter-btn" data-filter="activity" data-value="Jet Ski">Jet Ski</button>
-                <button class="filter-btn" data-filter="activity" data-value="Banana Boat">Banana Boat</button>
-                <button class="filter-btn" data-filter="activity" data-value="Kayaking">Kayaking</button>
-            </div>
-        </div>
 
-        <div class="col-md-4">
-            <h6 class="fw-bold mb-3">Filter by Stars</h6>
-            <div class="d-flex flex-wrap justify-content-center">
-                <button class="filter-btn active" data-filter="star" data-value="all">All</button>
-                <button class="filter-btn" data-filter="star" data-value="5">5</button>
-                <button class="filter-btn" data-filter="star" data-value="4">4</button>
-                <button class="filter-btn" data-filter="star" data-value="3">3</button>
-                <button class="filter-btn" data-filter="star" data-value="3">2</button>
-                <button class="filter-btn" data-filter="star" data-value="3">1</button>
+            <div class="d-flex align-items-center gap-2">
+                <label class="fw-bold small mb-0">Filter by Activity:</label>
+                <select class="filter-select" id="activityFilter">
+                    <option value="all">All Activities</option>
+                    <option value="Jet Ski">Jet Ski</option>
+                    <option value="Banana Boat">Banana Boat</option>
+                    <option value="Kayaking">Kayaking</option>
+                </select>
             </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <label class="fw-bold small mb-0">Filter by Stars:</label>
+                <select class="filter-select" id="starFilter">
+                    <option value="all">All Stars</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                </select>
+            </div>
+
         </div>
     </div>
 </div>

@@ -27,7 +27,7 @@
         /* Unified Hero Section */
         .welcome-hero {
             background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), 
-                        url('<?= base_url('images/marisensebg.png') ?>'); 
+                        url('<?= base_url('images/bookings_bg.png') ?>'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -114,6 +114,9 @@
         .rotate-up {
             transform: rotate(180deg);
         }
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
@@ -153,63 +156,86 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="me-3 p-3 bg-info bg-opacity-10 rounded-circle text-info"><i class="fa-solid fa-jet-ski fa-lg"></i></div>
-                            <div>
-                                <h6 class="mb-0 fw-bold">Jetskiing (1 Hour)</h6>
-                                <small class="opacity-50">Booking ID: #WVS-2026-001</small>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="fw-bold">March 25, 2026</div>
-                        <small class="opacity-70 text-info">10:30 AM</small>
-                    </td>
-                    <td><span class="badge-status status-confirmed"><i class="fa-solid fa-circle-check me-1"></i> Confirmed</span></td>
-                    <td><span class="text-success fw-bold">Paid</span></td>
-                    <td class="text-center"><button class="btn-view-details">View Details</button></td>
-                </tr>
+            <?php if (!empty($bookings)): ?>
+                <?php foreach ($bookings as $booking): ?>
+                    <?php
+                        // Status Class
+                        $statusClass = match(strtolower($booking['status'])) {
+                            'pending' => 'status-pending',
+                            'confirmed', 'approved' => 'status-confirmed',
+                            'completed' => 'status-completed',
+                            'cancelled' => 'status-cancelled',
+                            default => ''
+                        };
 
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="me-3 p-3 bg-warning bg-opacity-10 rounded-circle text-warning"><i class="fa-solid fa-person-swimming fa-lg"></i></div>
-                            <div>
-                                <h6 class="mb-0 fw-bold">Banana Boat Riding</h6>
-                                <small class="opacity-50">Booking ID: #WVS-2026-002</small>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="fw-bold">March 28, 2026</div>
-                        <small class="opacity-70 text-info">02:00 PM</small>
-                    </td>
-                    <td><span class="badge-status status-pending"><i class="fa-solid fa-clock me-1"></i> Pending</span></td>
-                    <td><span class="text-warning fw-bold">Unpaid</span></td>
-                    <td class="text-center"><button class="btn-view-details">View Details</button></td>
-                </tr>
+                        // Payment Label
+                        $paymentLabel = ($booking['payment_status'] == 'paid') 
+                            ? '<span class="text-success fw-bold">Paid</span>' 
+                            : '<span class="text-warning fw-bold">Unpaid</span>';
 
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="me-3 p-3 bg-light bg-opacity-10 rounded-circle text-white"><i class="fa-solid fa-umbrella-beach fa-lg"></i></div>
-                            <div>
-                                <h6 class="mb-0 fw-bold">Kayaking (Standard)</h6>
-                                <small class="opacity-50">Booking ID: #WVS-2026-003</small>
+                        // Icon based on activity (optional)
+                        $icon = match(strtolower($booking['activity_name'])) {
+                            'jetskiing' => 'fa-jet-ski text-info',
+                            'banana boat riding' => 'fa-person-swimming text-warning',
+                            'kayaking' => 'fa-umbrella-beach text-light',
+                            default => 'fa-water text-info'
+                        };
+                    ?>
+
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="me-3 p-3 bg-info bg-opacity-10 rounded-circle">
+                                    <i class="fa-solid <?= $icon ?> fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fw-bold"><?= esc($booking['activity_name']) ?></h6>
+                                    <small class="opacity-50">Booking ID: #<?= esc($booking['booking_code']) ?></small>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="fw-bold">March 15, 2026</div>
-                        <small class="opacity-70 text-info">09:00 AM</small>
-                    </td>
-                    <td><span class="badge-status status-completed"><i class="fa-solid fa-flag-checkered me-1"></i> Completed</span></td>
-                    <td><span class="text-info fw-bold">Paid</span></td>
-                    <td class="text-center"><button class="btn-view-details">View Details</button></td>
-                </tr>
-            </tbody>
+                        </td>
+
+                        <td>
+                            <div class="fw-bold">
+                                <?= date('F d, Y', strtotime($booking['date'])) ?>
+                            </div>
+                            <small class="opacity-70 text-info">
+                                <?= date('h:i A', strtotime($booking['time'])) ?>
+                            </small>
+                        </td>
+
+                        <td>
+                            <span class="badge-status <?= $statusClass ?>">
+                                <i class="fa-solid fa-circle-check me-1"></i>
+                                <?= ucfirst($booking['status']) ?>
+                            </span>
+                        </td>
+
+                        <td>
+                            <?= $paymentLabel ?>
+                        </td>
+
+                        <td class="text-center">
+                            <button 
+                                class="btn-view-details"
+                                onclick="viewDetails(<?= $booking['id'] ?>)"
+                            >
+                                View Details
+                            </button>
+                        </td>
+                    </tr>
+
+                <?php endforeach; ?>
+
+<?php else: ?>
+    <tr>
+        <td colspan="5" class="text-center py-5">
+            <i class="fa-solid fa-calendar-xmark fa-2x mb-3 opacity-50"></i>
+            <p class="mb-0">No bookings found.</p>
+        </td>
+    </tr>
+<?php endif; ?>
+</tbody>
         </table>
     </div>
 </div>
@@ -265,6 +291,10 @@
                 scrollIcon.style.color = "#48cae4";
             }
         });
+
+        function viewDetails(id) {
+            window.location.href = "<?= base_url('user/booking-details/') ?>" + id;
+        }
     </script>
 
     <div id="scrollBtn" onclick="smartScroll()" title="Navigate Page">

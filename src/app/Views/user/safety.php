@@ -254,6 +254,9 @@
         .rotate-up {
             transform: rotate(180deg);
         }
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
@@ -283,7 +286,7 @@
 </header>
 
 <div class="container">
-    <div class="section-header-centered mt-5">
+    <div class="section-header-centered mt-5" id="marisense-section">
         <h1 class="fw-bold text-white mb-1">About <span class="highlight-brand">MARISENSE</span></h1>
         <div class="activity-line"></div>
     </div>

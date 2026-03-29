@@ -388,6 +388,9 @@
             transform: rotate(180deg);
         }
         
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
@@ -424,12 +427,13 @@
             check real-time sea conditions powered by <span class="highlight-brand">MARISENSE</span>, and reserve with ease.
         </p>
         <div class="d-flex justify-content-center flex-wrap gap-3">
-            <a href="<?= base_url('user/activities') ?>" class="btn btn-primary btn-action shadow-lg text-white">
+            <a href="<?= base_url('user/activities') ?>#jet-ski" class="btn btn-primary btn-action shadow-lg text-white">
                 <i class="fa-solid fa-magnifying-glass me-2"></i> Explore Activities
             </a>
 
-            <a href="<?= base_url('user/safety') ?>" class="btn btn-info text-white btn-action shadow-lg">
-                <i class="fa-solid fa-cloud-sun-rain me-2"></i> Check Sea Conditions
+            <a href="<?= base_url('user/safety') ?>#marisense-section" class="btn btn-primary btn-action shadow-lg text-white">
+                <i class="fa-solid fa-magnifying-glass me-2"></i>
+                Check Sea Conditions
             </a>
 
             <a href="<?= base_url('user/booking') ?>" class="btn btn-light btn-action shadow-lg">
@@ -501,7 +505,7 @@
                 </div>
                 
                 <div class="text-center mt-5">
-                    <a href="<?= base_url('user/safety') ?>" class="btn-view-details">
+                    <a href="<?= base_url('user/safety') ?>#marisense-section" class="btn-view-details">
                         View Full Detailed Report <i class="fa-solid fa-chevron-right ms-2"></i>
                     </a>
                 </div>
