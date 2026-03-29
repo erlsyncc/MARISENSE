@@ -38,7 +38,15 @@
         }
 
         /* Rating Summary Card */
-        .rating-summary-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 30px; padding: 30px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 50px; }
+        .rating-summary-card { 
+            background: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px); 
+            border-radius: 30px; 
+            padding: 30px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            margin: 0 auto 50px auto;   /* center */
+            max-width: 1100px;          /* 👈 eto talaga magpapaliit */
+        }
         .big-rating { font-size: 3.5rem; font-weight: 700; color: #ffc107; }
 
         /* Filter Buttons */
@@ -143,6 +151,42 @@
             background: var(--ocean-blue);
             color: white;
         }
+
+        .rating-row {
+            display: flex;
+            justify-content: center;   /* center horizontally */
+            align-items: center;
+            gap: 40px;                /* spacing between items */
+            flex-wrap: nowrap;        /* IMPORTANT: no wrapping */
+            text-align: center;
+        }
+
+        /* Para pantay alignment ng bawat section */
+        .rating-row > div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Optional: responsive (para di masira sa mobile) */
+        @media (max-width: 768px) {
+            .rating-row {
+                flex-wrap: wrap; /* babalik sa 2-3 lines sa mobile */
+                gap: 15px;
+            }
+        }
+        .overall-inline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .big-rating-inline {
+            font-size: 1.5rem; /* adjust mo if gusto mo mas malaki */
+            font-weight: 700;
+            color: #ffc107;
+        }
+        
     </style>
 </head>
 <body>
@@ -170,13 +214,13 @@
 </header>
 
 <div class="rating-summary-card">
-    <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-4">
+    <div>
+        <div class="rating-row">
             
             <div class="d-flex align-items-center gap-3">
-                <div class="text-start">
-                    <div class="label opacity-75 small">Overall Rating</div>
-                    <div class="big-rating mb-0" style="font-size: 2.5rem; line-height: 1;">4.9 <small style="font-size: 1rem;">/ 5</small></div>
+                <div class="overall-inline">
+                    <span class="label opacity-75 small">Overall Rating:</span>
+                    <span class="big-rating-inline">4.9 / 5</span>
                 </div>
                 <div class="stars-outer">
                     <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
@@ -212,15 +256,16 @@
     </div>
 </div>
 
-    <div class="row justify-content-center">
-        <div class="col-lg-9">
+    <div class="container px-4">
+        <div class="row g-4 justify-content-center">
             
-            <div class="review-feed-card shadow-sm">
+            <div class="col-md-6 col-lg-4">
+            <div class="review-feed-card shadow-sm h-100">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div class="d-flex align-items-center">
-                        <img src="https://ui-avatars.com/api/?name=Juan+Dela+Cruz&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
+                        <img src="https://ui-avatars.com/api/?name=Cardo+Dalisay&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
                         <div>
-                            <h6 class="fw-bold mb-0">Juan Dela Cruz</h6>
+                            <h3 class="fw-bold mb-0">Cardo Dalisay</h3>
                             <small class="opacity-50">March 15, 2026</small>
                         </div>
                     </div>
@@ -238,9 +283,9 @@
             <div class="review-feed-card shadow-sm">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div class="d-flex align-items-center">
-                        <img src="https://ui-avatars.com/api/?name=Maria+Santos&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
+                        <img src="https://ui-avatars.com/api/?name=Maria+Clara&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
                         <div>
-                            <h6 class="fw-bold mb-0">Maria Santos</h6>
+                            <h3 class="fw-bold mb-0">Maria Clara</h3>
                             <small class="opacity-50">March 12, 2026</small>
                         </div>
                     </div>
@@ -249,6 +294,26 @@
                     </div>
                 </div>
                 <p class="mb-3">“Maganda experience pero medyo malakas alon nung hapon. Buti na lang real-time ang monitoring ng MARISENSE.”</p>
+                <div class="d-flex gap-2">
+                    <span class="badge-activity">Activity: Jet Ski</span>
+                    <span class="badge-safety"><i class="fa-solid fa-circle-check me-1"></i> Safety: ✔ Safe</span>
+                </div>
+            </div>
+
+            <div class="review-feed-card shadow-sm">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="d-flex align-items-center">
+                        <img src="https://ui-avatars.com/api/?name=Gabby+Garcia&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
+                        <div>
+                            <h3 class="fw-bold mb-0">Gabby Garcia</h3>
+                            <small class="opacity-50">March 12, 2026</small>
+                        </div>
+                    </div>
+                    <div class="text-warning small">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                <p class="mb-3">“Ayos sya, hightech dahil namomonitor na ang lagay ng dagat dahil sa kanilang MARISENSE.”</p>
                 <div class="d-flex gap-2">
                     <span class="badge-activity">Activity: Jet Ski</span>
                     <span class="badge-safety"><i class="fa-solid fa-circle-check me-1"></i> Safety: ✔ Safe</span>
