@@ -6,7 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// 1. PUBLIC ROUTES (Kahit hindi naka-login)
+// 1. PUBLIC ROUTES
 $routes->get('/', 'Home::index');
 
 // Custom Auth Routes
@@ -16,23 +16,43 @@ $routes->get('logout', 'Auth::logout');
 $routes->get('register', 'Auth::register'); 
 $routes->post('registerAuth', 'Auth::registerAuth');
 
-// 2. PROTECTED ROUTES (Kailangan ng Session/Login)
+// 2. PROTECTED ROUTES (Kailangan ng Login)
 $routes->group('', ['filter' => 'session'], function($routes) {
     
-    // USER SIDE ROUTES
-    $routes->get('user/home', 'User::index');           // home.php
-    $routes->get('user/activities', 'User::activities'); // activities.php
-    $routes->get('user/safety', 'User::safety');         // safety.php
-    
-    // BINAGO NATIN DITO:
-    $routes->get('user/booking', 'User::booking');       // Ito yung Reservation Form (booking.php)
-    $routes->get('user/my-bookings', 'User::my_bookings'); // ITO YUNG BAGO: Tracking ng status (my_bookings.php)
-    
-    $routes->get('user/calendar', 'User::calendar');     // calendar.php
-    $routes->get('user/reviews', 'User::reviews');       // reviews.php
+    // --- USER SIDE ROUTES ---
+    $routes->get('user/home', 'User::index');
+    $routes->get('user/activities', 'User::activities');
+    $routes->get('user/safety', 'User::safety');
+    $routes->get('user/booking', 'User::booking');
+    $routes->get('user/my-bookings', 'User::my_bookings');
+    $routes->get('user/calendar', 'User::calendar');
+    $routes->get('user/reviews', 'User::reviews');
 
-    // ADMIN SIDE ROUTES
-    $routes->get('admin/dashboard', 'Admin::index');
+    // --- ADMIN SIDE ROUTES ---
+    // Lahat ng ito ay magsisimula sa /admin/...
+    $routes->group('admin', function($routes) {
+        // Dashboard
+        $routes->get('dashboard',      'Admin::index');
+        
+        // Bookings Management
+        $routes->get('bookings',       'Admin::bookings');
+        $routes->post('bookings/update-status', 'Admin::updateBookingStatus');
+
+        // User Management
+        $routes->get('users',          'Admin::users');
+
+        // MARISENSE / Sea Conditions
+        $routes->get('sea-conditions', 'Admin::seaConditions');
+        $routes->post('sea-conditions/update', 'Admin::updateSeaConditions');
+
+        // Reviews Moderation
+        $routes->get('reviews',        'Admin::reviews');
+        $routes->post('reviews/delete', 'Admin::deleteReview');
+
+        // Activities Management
+        $routes->get('activities',     'Admin::activitiesPage');
+        $routes->post('activities/save', 'Admin::saveActivity');
+    });
 });
 
 // 3. SHIELD DEFAULT ROUTES

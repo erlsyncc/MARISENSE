@@ -60,9 +60,12 @@
         .badge-safety { background: #e8f5e9; color: #2e7d32; padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
 
         /* Share Adventure Form */
-        .feedback-card { background: rgba(5, 44, 57, 0.4); border: 2px dashed var(--accent-cyan); border-radius: 40px; padding: 50px; margin-top: 80px; }
+        .feedback-card { background: rgba(5, 44, 57, 0.4); border: 2px dashed var(--accent-cyan); border-radius: 40px; padding: 50px; margin-top: 80px; margin-bottom: 80px; margin-left: clamp(20px, 10vw, 192px); margin-right: clamp(20px, 10vw, 192px);}
         .sub-rating-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 15px; margin-bottom: 10px; }
         .star-input { color: #ffc107; cursor: pointer; font-size: 1.2rem; }
+        .form-control-custom { background: white; border-radius: 15px; padding: 15px; border: none; }
+        .btn-post { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 700; border-radius: 50px; padding: 15px 50px; border: none; transition: 0.3s; font-size: 1.1rem; }
+        .btn-post:hover { background: white; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
         
         .form-control-custom { background: white; border-radius: 15px; padding: 15px; border: none; }
         .btn-post { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 700; border-radius: 50px; padding: 15px 50px; border: none; transition: 0.3s; font-size: 1.1rem; }
@@ -186,6 +189,36 @@
             font-weight: 700;
             color: #ffc107;
         }
+
+        /* Para sa 2-inch padding (approx 192px sa standard screens) */
+        .side-spaced-container {
+            padding-left: 10%; 
+            padding-right: 10%;
+        }
+
+        /* Horizontal Review Container */
+        .horizontal-review-row {
+            display: flex;
+            overflow-x: auto; /* Nagiging scrollable pakanan kung marami na sila */
+            gap: 25px;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Para tago ang scrollbar pero functional (Optional) */
+        .horizontal-review-row::-webkit-scrollbar {
+            height: 8px;
+        }
+        .horizontal-review-row::-webkit-scrollbar-thumb {
+            background: var(--accent-cyan);
+            border-radius: 10px;
+        }
+
+        .review-feed-card {
+            min-width: 400px; /* Sinisiguro na hindi liliit ang card sa isang line */
+            flex: 0 0 auto;
+        }
         
     </style>
 </head>
@@ -256,72 +289,71 @@
     </div>
 </div>
 
-    <div class="container px-4">
-        <div class="row g-4 justify-content-center">
-            
-            <div class="col-md-6 col-lg-4">
-            <div class="review-feed-card shadow-sm h-100">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="d-flex align-items-center">
-                        <img src="https://ui-avatars.com/api/?name=Cardo+Dalisay&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
-                        <div>
-                            <h3 class="fw-bold mb-0">Cardo Dalisay</h3>
-                            <small class="opacity-50">March 15, 2026</small>
-                        </div>
-                    </div>
-                    <div class="text-warning small">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+    <div class="container-fluid side-spaced-container mb-5">
+    <div class="horizontal-review-row" id="reviewContainer">
+        
+        <div class="review-feed-card shadow-sm" data-activity="Banana Boat" data-star="5">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="d-flex align-items-center">
+                    <img src="https://ui-avatars.com/api/?name=Cardo+Dalisay&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
+                    <div>
+                        <h3 class="fw-bold mb-0" style="font-size: 1.1rem;">Cardo Dalisay</h3>
+                        <small class="opacity-50">March 15, 2026</small>
                     </div>
                 </div>
-                <p class="mb-3">“Napakasaya! Safe kahit may konting alon. Very accommodating din ang mga staff.”</p>
-                <div class="d-flex gap-2">
-                    <span class="badge-activity">Activity: Banana Boat</span>
-                    <span class="badge-safety"><i class="fa-solid fa-circle-check me-1"></i> Safety: ✔ Safe</span>
+                <div class="text-warning small">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                 </div>
             </div>
-
-            <div class="review-feed-card shadow-sm">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="d-flex align-items-center">
-                        <img src="https://ui-avatars.com/api/?name=Maria+Clara&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
-                        <div>
-                            <h3 class="fw-bold mb-0">Maria Clara</h3>
-                            <small class="opacity-50">March 12, 2026</small>
-                        </div>
-                    </div>
-                    <div class="text-warning small">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
-                    </div>
-                </div>
-                <p class="mb-3">“Maganda experience pero medyo malakas alon nung hapon. Buti na lang real-time ang monitoring ng MARISENSE.”</p>
-                <div class="d-flex gap-2">
-                    <span class="badge-activity">Activity: Jet Ski</span>
-                    <span class="badge-safety"><i class="fa-solid fa-circle-check me-1"></i> Safety: ✔ Safe</span>
-                </div>
+            <p class="mb-3">“Napakasaya! Safe kahit may konting alon. Very accommodating din ang mga staff.”</p>
+            <div class="d-flex gap-2">
+                <span class="badge-activity">Activity: Banana Boat</span>
+                <span class="badge-safety"><i class="fa-solid fa-circle-check me-1"></i> Safety: ✔ Safe</span>
             </div>
-
-            <div class="review-feed-card shadow-sm">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="d-flex align-items-center">
-                        <img src="https://ui-avatars.com/api/?name=Gabby+Garcia&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
-                        <div>
-                            <h3 class="fw-bold mb-0">Gabby Garcia</h3>
-                            <small class="opacity-50">March 12, 2026</small>
-                        </div>
-                    </div>
-                    <div class="text-warning small">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                </div>
-                <p class="mb-3">“Ayos sya, hightech dahil namomonitor na ang lagay ng dagat dahil sa kanilang MARISENSE.”</p>
-                <div class="d-flex gap-2">
-                    <span class="badge-activity">Activity: Jet Ski</span>
-                    <span class="badge-safety"><i class="fa-solid fa-circle-check me-1"></i> Safety: ✔ Safe</span>
-                </div>
-            </div>
-
         </div>
+
+        <div class="review-feed-card shadow-sm" data-activity="Jet Ski" data-star="4">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="d-flex align-items-center">
+                    <img src="https://ui-avatars.com/api/?name=Maria+Clara&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
+                    <div>
+                        <h3 class="fw-bold mb-0" style="font-size: 1.1rem;">Maria Clara</h3>
+                        <small class="opacity-50">March 12, 2026</small>
+                    </div>
+                </div>
+                <div class="text-warning small">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                </div>
+            </div>
+            <p class="mb-3">“Maganda experience pero medyo malakas alon nung hapon. Buti na lang real-time ang monitoring...”</p>
+            <div class="d-flex gap-2">
+                <span class="badge-activity">Activity: Jet Ski</span>
+                <span class="badge-safety"><i class="fa-solid fa-circle-check me-1"></i> Safety: ✔ Safe</span>
+            </div>
+        </div>
+
+        <div class="review-feed-card shadow-sm" data-activity="Jet Ski" data-star="5">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="d-flex align-items-center">
+                    <img src="https://ui-avatars.com/api/?name=Gabby+Garcia&background=0a5872&color=fff" class="rounded-circle me-3" width="50">
+                    <div>
+                        <h3 class="fw-bold mb-0" style="font-size: 1.1rem;">Gabby Garcia</h3>
+                        <small class="opacity-50">March 12, 2026</small>
+                    </div>
+                </div>
+                <div class="text-warning small">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+            </div>
+            <p class="mb-3">“Ayos sya, hightech dahil namomonitor na ang lagay ng dagat dahil sa kanilang MARISENSE.”</p>
+            <div class="d-flex gap-2">
+                <span class="badge-activity">Activity: Jet Ski</span>
+                <span class="badge-safety"><i class="fa-solid fa-circle-check me-1"></i> Safety: ✔ Safe</span>
+            </div>
+        </div>
+
     </div>
+</div>
 
     <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -343,24 +375,6 @@
                                     <option value="Flying Saucer">Flying Saucer</option>
                                 </select>
                             </div>
-
-                            <div class="mb-4">
-                                <label class="form-label text-info fw-bold">Rate Your Experience</label>
-                                <div class="sub-rating-row">
-                                    <span>Safety</span>
-                                    <div class="text-warning"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></div>
-                                </div>
-                                <div class="sub-rating-row">
-                                    <span>Staff Friendlyness</span>
-                                    <div class="text-warning"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></div>
-                                </div>
-                                <div class="sub-rating-row">
-                                    <span>Fun Level</span>
-                                    <div class="text-warning"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label text-info fw-bold">Did you feel safe?</label>
@@ -458,6 +472,7 @@ document.addEventListener('DOMContentLoaded', function() {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
 </style>
 
 <script>

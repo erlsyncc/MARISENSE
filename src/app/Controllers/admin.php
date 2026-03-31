@@ -6,7 +6,31 @@ class Admin extends BaseController
 {
     public function index()
     {
-        // Siguraduhin na ang view file ay nasa app/Views/admin/dashboard.php
         return view('admin/dashboard');
+    }
+
+    public function bookings()
+    {
+        return view('admin/bookings');
+    }
+
+    public function users()
+    {
+        return view('admin/users');
+    }
+
+    public function seaConditions()
+    {
+        return view('admin/sea_conditions');
+    }
+
+    public function reviews()
+    {
+        return view('admin/reviews');
+    }
+
+    public function activitiesPage()
+    {
+        return view('admin/activities');
     }
 }
