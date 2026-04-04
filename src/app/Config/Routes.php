@@ -20,16 +20,25 @@ $routes->post('registerAuth', 'Auth::registerAuth');
 $routes->group('', ['filter' => 'session'], function($routes) {
     
     // --- USER SIDE ROUTES ---
-    $routes->get('user/home', 'User::index');
-    $routes->get('user/activities', 'User::activities');
-    $routes->get('user/safety', 'User::safety');
-    $routes->get('user/booking', 'User::booking');
-    $routes->get('user/my-bookings', 'User::my_bookings');
-    $routes->get('user/calendar', 'User::calendar');
-    $routes->get('user/reviews', 'User::reviews');
+    $routes->get('user/home',        'User::index');
+    $routes->get('user/activities',  'User::activities');
+    $routes->get('user/safety',      'User::safety');
+    $routes->get('user/reviews',     'User::reviews');
+
+    // Booking - Form & Submit
+    $routes->get('user/booking',              'User::booking');
+    $routes->post('user/booking/store',       'User::storeBooking');
+
+    // Booking - AJAX endpoints
+    $routes->get('user/booking/slots',        'User::bookingSlots');
+    $routes->get('user/booking/booked-dates', 'User::bookedDates');
+
+    // My Bookings, Details & Cancel
+    $routes->get('user/my-bookings',              'User::my_bookings');
+    $routes->get('user/booking-details/(:num)',   'User::bookingDetails/$1');
+    $routes->post('user/booking/cancel/(:num)',   'User::cancelBooking/$1');
 
     // --- ADMIN SIDE ROUTES ---
-    // Lahat ng ito ay magsisimula sa /admin/...
     $routes->group('admin', function($routes) {
         // Dashboard
         $routes->get('dashboard',      'Admin::index');

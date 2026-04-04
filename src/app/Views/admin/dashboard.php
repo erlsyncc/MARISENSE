@@ -18,7 +18,7 @@
         * { box-sizing: border-box; }
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--ocean-blue) 40%, var(--deep-blue) 100%);
+            background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 60%, var(--deep-blue) 100%);
             background-attachment: fixed;
             color: var(--soft-white);
             margin: 0;
