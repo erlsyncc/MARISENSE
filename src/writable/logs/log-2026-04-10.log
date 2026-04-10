@@ -1,0 +1,442 @@
+DEBUG - 2026-04-10 02:56:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 02:56:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 02:56:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 02:56:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 02:56:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 02:56:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 02:56:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 02:56:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 02:56:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 02:56:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 02:57:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 02:57:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:03:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:04:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:04:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:04:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:04:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:04:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:04:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:04:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:04:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:07:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:08:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:08:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:08:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:09:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:10:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:10:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:10:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:10:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:10:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:13:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:13:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:15:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:15:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:15:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-10 03:16:01 --> Email: sendWithMail throwed ErrorException: mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set() in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1776
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'mail(): Failed ...', 'C:\\Users\\earls\\...', 1776)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1776): mail('earlsincombenid...', '=?UTF-8?Q?Your=...', 'This is a multi...', 'Date: Fri, 10 A...', '-f earlsincombe...')
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithMail()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Controllers\MagicLinkController.php(134): CodeIgniter\Email\Email->send(false)
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): CodeIgniter\Shield\Controllers\MagicLinkController->loginAction()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(CodeIgniter\Shield\Controllers\MagicLinkController))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#12 {main}
+ERROR - 2026-04-10 03:16:01 --> Email: Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.
+ERROR - 2026-04-10 03:16:01 --> 
+ERROR - 2026-04-10 03:16:01 --> Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 10 Apr 2026 03:15:59 +0000
+From: &quot;Earlsin Combenido&quot; &lt;earlsincombenido0@gmail.com&gt;
+Return-Path: &lt;earlsincombenido0@gmail.com&gt;
+Reply-To: &lt;earlsincombenido0@gmail.com&gt;
+User-Agent: CodeIgniter
+X-Sender: earlsincombenido0@gmail.com
+X-Mailer: CodeIgniter
+X-Priority: 3 (Normal)
+Message-ID: &lt;69d86b6f902871.49677336@gmail.com&gt;
+Mime-Version: 1.0
+Content-Type: multipart/alternative; boundary=&quot;B_ALT_69d86b6f902b89.07717763&quot;
+</pre>
+DEBUG - 2026-04-10 03:16:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:16:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:20:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:20:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:20:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:20:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:20:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:20:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-10 03:20:41 --> Email: sendWithMail throwed ErrorException: mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set() in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1776
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'mail(): Failed ...', 'C:\\Users\\earls\\...', 1776)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1776): mail('earlsincombenid...', '=?UTF-8?Q?Your=...', 'This is a multi...', 'Date: Fri, 10 A...', '-f earlsincombe...')
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithMail()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Controllers\MagicLinkController.php(134): CodeIgniter\Email\Email->send(false)
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): CodeIgniter\Shield\Controllers\MagicLinkController->loginAction()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(CodeIgniter\Shield\Controllers\MagicLinkController))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#12 {main}
+ERROR - 2026-04-10 03:20:41 --> Email: Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.
+ERROR - 2026-04-10 03:20:41 --> 
+ERROR - 2026-04-10 03:20:41 --> Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 10 Apr 2026 03:20:39 +0000
+From: &quot;Earlsin Combenido&quot; &lt;earlsincombenido0@gmail.com&gt;
+Return-Path: &lt;earlsincombenido0@gmail.com&gt;
+Reply-To: &lt;earlsincombenido0@gmail.com&gt;
+User-Agent: CodeIgniter
+X-Sender: earlsincombenido0@gmail.com
+X-Mailer: CodeIgniter
+X-Priority: 3 (Normal)
+Message-ID: &lt;69d86c87211772.89170451@gmail.com&gt;
+Mime-Version: 1.0
+Content-Type: multipart/alternative; boundary=&quot;B_ALT_69d86c872118e4.36066293&quot;
+</pre>
+DEBUG - 2026-04-10 03:20:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:20:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:23:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:24:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:25:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:25:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:25:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:26:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:26:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:26:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:26:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:26:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:26:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:26:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:26:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:27:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:27:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:29:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-10 03:29:56 --> Email: sendWithMail throwed ErrorException: mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set() in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1776
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'mail(): Failed ...', 'C:\\Users\\earls\\...', 1776)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1776): mail('earlsincombenid...', '=?UTF-8?Q?Your=...', 'This is a multi...', 'Date: Fri, 10 A...', '-f earlsincombe...')
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithMail()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Controllers\MagicLinkController.php(134): CodeIgniter\Email\Email->send(false)
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): CodeIgniter\Shield\Controllers\MagicLinkController->loginAction()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(CodeIgniter\Shield\Controllers\MagicLinkController))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#12 {main}
+ERROR - 2026-04-10 03:29:56 --> Email: Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.
+ERROR - 2026-04-10 03:29:56 --> 
+ERROR - 2026-04-10 03:29:56 --> Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 10 Apr 2026 03:29:54 +0000
+From: &quot;Earlsin Combenido&quot; &lt;earlsincombenido0@gmail.com&gt;
+Return-Path: &lt;earlsincombenido0@gmail.com&gt;
+Reply-To: &lt;earlsincombenido0@gmail.com&gt;
+User-Agent: CodeIgniter
+X-Sender: earlsincombenido0@gmail.com
+X-Mailer: CodeIgniter
+X-Priority: 3 (Normal)
+Message-ID: &lt;69d86eb23fa2b7.55060619@gmail.com&gt;
+Mime-Version: 1.0
+Content-Type: multipart/alternative; boundary=&quot;B_ALT_69d86eb23fa4f0.53366428&quot;
+</pre>
+DEBUG - 2026-04-10 03:29:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:29:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:31:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:31:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-10 03:32:15 --> Email: sendWithMail throwed ErrorException: mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set() in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1776
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'mail(): Failed ...', 'C:\\Users\\earls\\...', 1776)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1776): mail('earlsincombenid...', '=?UTF-8?Q?Your=...', 'This is a multi...', 'Date: Fri, 10 A...', '-f earlsincombe...')
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithMail()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Controllers\MagicLinkController.php(134): CodeIgniter\Email\Email->send(false)
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): CodeIgniter\Shield\Controllers\MagicLinkController->loginAction()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(CodeIgniter\Shield\Controllers\MagicLinkController))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#12 {main}
+ERROR - 2026-04-10 03:32:15 --> Email: Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.
+ERROR - 2026-04-10 03:32:15 --> 
+ERROR - 2026-04-10 03:32:15 --> Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 10 Apr 2026 03:32:13 +0000
+From: &quot;Earlsin Combenido&quot; &lt;earlsincombenido0@gmail.com&gt;
+Return-Path: &lt;earlsincombenido0@gmail.com&gt;
+Reply-To: &lt;earlsincombenido0@gmail.com&gt;
+User-Agent: CodeIgniter
+X-Sender: earlsincombenido0@gmail.com
+X-Mailer: CodeIgniter
+X-Priority: 3 (Normal)
+Message-ID: &lt;69d86f3d2b18b3.78366357@gmail.com&gt;
+Mime-Version: 1.0
+Content-Type: multipart/alternative; boundary=&quot;B_ALT_69d86f3d2b1a04.31935344&quot;
+</pre>
+DEBUG - 2026-04-10 03:32:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:32:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-10 03:32:32 --> Email: sendWithMail throwed ErrorException: mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set() in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1776
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'mail(): Failed ...', 'C:\\Users\\earls\\...', 1776)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1776): mail('earlsincombenid...', '=?UTF-8?Q?Your=...', 'This is a multi...', 'Date: Fri, 10 A...', '-f earlsincombe...')
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithMail()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Controllers\MagicLinkController.php(134): CodeIgniter\Email\Email->send(false)
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): CodeIgniter\Shield\Controllers\MagicLinkController->loginAction()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(CodeIgniter\Shield\Controllers\MagicLinkController))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#12 {main}
+ERROR - 2026-04-10 03:32:32 --> Email: Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.
+ERROR - 2026-04-10 03:32:32 --> 
+ERROR - 2026-04-10 03:32:32 --> Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 10 Apr 2026 03:32:30 +0000
+From: &quot;Earlsin Combenido&quot; &lt;earlsincombenido0@gmail.com&gt;
+Return-Path: &lt;earlsincombenido0@gmail.com&gt;
+Reply-To: &lt;earlsincombenido0@gmail.com&gt;
+User-Agent: CodeIgniter
+X-Sender: earlsincombenido0@gmail.com
+X-Mailer: CodeIgniter
+X-Priority: 3 (Normal)
+Message-ID: &lt;69d86f4e91e875.81319036@gmail.com&gt;
+Mime-Version: 1.0
+Content-Type: multipart/alternative; boundary=&quot;B_ALT_69d86f4e91e9d5.95452199&quot;
+</pre>
+DEBUG - 2026-04-10 03:32:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:32:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-10 03:32:37 --> Email: sendWithMail throwed ErrorException: mail(): Failed to connect to mailserver at &quot;localhost&quot; port 25, verify your &quot;SMTP&quot; and &quot;smtp_port&quot; setting in php.ini or use ini_set() in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1776
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'mail(): Failed ...', 'C:\\Users\\earls\\...', 1776)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1776): mail('abbbyygarcia@gm...', '=?UTF-8?Q?Your=...', 'This is a multi...', 'Date: Fri, 10 A...', '-f earlsincombe...')
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithMail()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Controllers\MagicLinkController.php(134): CodeIgniter\Email\Email->send(false)
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): CodeIgniter\Shield\Controllers\MagicLinkController->loginAction()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(CodeIgniter\Shield\Controllers\MagicLinkController))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#12 {main}
+ERROR - 2026-04-10 03:32:37 --> Email: Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.
+ERROR - 2026-04-10 03:32:37 --> 
+ERROR - 2026-04-10 03:32:37 --> Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 10 Apr 2026 03:32:35 +0000
+From: &quot;Earlsin Combenido&quot; &lt;earlsincombenido0@gmail.com&gt;
+Return-Path: &lt;earlsincombenido0@gmail.com&gt;
+Reply-To: &lt;earlsincombenido0@gmail.com&gt;
+User-Agent: CodeIgniter
+X-Sender: earlsincombenido0@gmail.com
+X-Mailer: CodeIgniter
+X-Priority: 3 (Normal)
+Message-ID: &lt;69d86f53bb4ec8.90730631@gmail.com&gt;
+Mime-Version: 1.0
+Content-Type: multipart/alternative; boundary=&quot;B_ALT_69d86f53bb5022.44397323&quot;
+</pre>
+DEBUG - 2026-04-10 03:32:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:32:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:37:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:37:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:37:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-10 03:37:42 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-04-10 03:37:42 --> 220 smtp.gmail.com ESMTP d2e1a72fcca58-82f0c35194asm1240142b3a.20 - gsmtp
+
+hello: 250-smtp.gmail.com at your service, [103.252.34.6]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+Failed to authenticate password. Error: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-82f0c35194asm1240142b3a.20 - gsmtp
+
+ERROR - 2026-04-10 03:37:42 --> 220 smtp.gmail.com ESMTP d2e1a72fcca58-82f0c35194asm1240142b3a.20 - gsmtp
+<br><pre>hello: 250-smtp.gmail.com at your service, [103.252.34.6]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+</pre>Failed to authenticate password. Error: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-82f0c35194asm1240142b3a.20 - gsmtp
+<br>Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 10 Apr 2026 03:37:39 +0000
+From: &quot;Waves Water Sports&quot; &lt;your-email@gmail.com&gt;
+Return-Path: &lt;your-email@gmail.com&gt;
+To: earlsincombenido0@gmail.com
+Subject: =?UTF-8?Q?Your=20Login=20Link?=
+Reply-To: &lt;your-email@gmail.com&gt;
+User-Agent: CodeIgniter
+X-Sender: your-email@gmail.com
+X-Mailer: CodeIgniter
+X-Priority: 3 (Normal)
+Message-ID: &lt;69d87083093e78.77343596@gmail.com&gt;
+Mime-Version: 1.0
+
+</pre>
+DEBUG - 2026-04-10 03:37:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:37:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:39:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-10 03:39:37 --> Email: sendWithSmtp throwed ErrorException: fsockopen(): SSL operation failed with code 1. OpenSSL Error messages:
+error:0A00010B:SSL routines::wrong version number in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1910
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'fsockopen(): SS...', 'C:\\Users\\earls\\...', 1910)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1910): fsockopen('ssl://smtp.gmai...', 587, NULL, NULL, 60)
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1823): CodeIgniter\Email\Email->SMTPConnect()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithSmtp()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Controllers\MagicLinkController.php(134): CodeIgniter\Email\Email->send(false)
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): CodeIgniter\Shield\Controllers\MagicLinkController->loginAction()
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(CodeIgniter\Shield\Controllers\MagicLinkController))
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#13 {main}
+ERROR - 2026-04-10 03:39:37 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-04-10 03:39:37 --> 
+ERROR - 2026-04-10 03:39:37 --> Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Fri, 10 Apr 2026 03:39:35 +0000
+From: &quot;Waves Water Sports&quot; &lt;your-email@gmail.com&gt;
+Return-Path: &lt;your-email@gmail.com&gt;
+To: earlsincombenido0@gmail.com
+Subject: =?UTF-8?Q?Your=20Login=20Link?=
+Reply-To: &lt;your-email@gmail.com&gt;
+User-Agent: CodeIgniter
+X-Sender: your-email@gmail.com
+X-Mailer: CodeIgniter
+X-Priority: 3 (Normal)
+Message-ID: &lt;69d870f74930b7.52489189@gmail.com&gt;
+Mime-Version: 1.0
+
+</pre>
+DEBUG - 2026-04-10 03:39:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:39:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:39:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:39:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:39:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:40:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:41:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:41:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:41:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:41:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:41:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:41:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:41:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:41:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:41:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:41:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:41:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:42:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:49:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:50:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:50:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:50:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:50:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:50:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:50:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:50:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:50:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:50:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:50:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 03:51:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:18:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:18:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:18:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:18:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:19:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:20:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:22:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:22:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:23:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:23:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:23:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:23:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:23:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:23:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:23:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:23:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:23:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-10 04:23:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

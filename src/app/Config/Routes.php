@@ -24,19 +24,22 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('user/activities',  'User::activities');
     $routes->get('user/safety',      'User::safety');
     $routes->get('user/reviews',     'User::reviews');
+    
+    // Review Submission
+    $routes->post('user/post-review', 'User::postReview'); // <--- ITO ANG DINAGDAG NATIN
 
     // Booking - Form & Submit
-    $routes->get('user/booking',              'User::booking');
-    $routes->post('user/booking/store',       'User::storeBooking');
+    $routes->get('user/booking',               'User::booking');
+    $routes->post('user/booking/store',        'User::storeBooking');
 
     // Booking - AJAX endpoints
-    $routes->get('user/booking/slots',        'User::bookingSlots');
-    $routes->get('user/booking/booked-dates', 'User::bookedDates');
+    $routes->get('user/booking/slots',         'User::bookingSlots');
+    $routes->get('user/booking/booked-dates',  'User::bookedDates');
 
     // My Bookings, Details & Cancel
-    $routes->get('user/my-bookings',              'User::my_bookings');
-    $routes->get('user/booking-details/(:num)',   'User::bookingDetails/$1');
-    $routes->post('user/booking/cancel/(:num)',   'User::cancelBooking/$1');
+    $routes->get('user/my-bookings',               'User::my_bookings');
+    $routes->get('user/booking-details/(:num)',    'User::bookingDetails/$1');
+    $routes->post('user/booking/cancel/(:num)',    'User::cancelBooking/$1');
 
     // --- ADMIN SIDE ROUTES ---
     $routes->group('admin', function($routes) {
@@ -48,7 +51,7 @@ $routes->group('', ['filter' => 'session'], function($routes) {
         $routes->post('bookings/update-status', 'Admin::updateBookingStatus');
 
         // User Management
-        $routes->get('users',          'Admin::users');
+        $routes->get('users',           'Admin::users');
 
         // MARISENSE / Sea Conditions
         $routes->get('sea-conditions', 'Admin::seaConditions');

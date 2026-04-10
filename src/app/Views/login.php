@@ -123,24 +123,53 @@
         border-color: var(--accent-cyan);
     }
 
-    .extra-options {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: -10px;
-        margin-bottom: 20px;
+    /* Pagsamahin ang style para sa link at sa label */
+    .extra-options a, 
+    .extra-options .form-check-label {
+        font-size: 0.8rem; /* Parehas na size */
+        color: var(--ocean-blue); /* Parehas na kulay */
+        text-decoration: none;
+        font-weight: 600; /* Parehas na kapal */
+        transition: all 0.3s ease;
+        cursor: pointer;
     }
 
+    /* Styling para sa "Remember Me" (Normal Text lang) */
+    .extra-options .form-check-label {
+        font-size: 0.8rem;
+        color: var(--ocean-blue);
+        font-weight: 600;
+        cursor: default; /* Hindi magmumulang clickable ang cursor */
+    }
+
+    /* Styling para sa "Forgot Password" (Link Style) */
     .extra-options a {
         font-size: 0.8rem;
         color: var(--ocean-blue);
         text-decoration: none;
         font-weight: 600;
-        transition: all 0.3s ease; /* Smooth transition */
+        transition: all 0.3s ease;
     }
 
+    /* Hover effect para sa "Forgot Password" LANG */
     .extra-options a:hover {
         color: var(--accent-cyan); 
-        text-shadow: 0 0 8px rgba(72, 202, 228, 0.6); /* Lighting effect */
+        text-shadow: 0 0 8px rgba(72, 202, 228, 0.6);
+    }
+
+    /* Layout Container */
+    .extra-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: -10px;
+        margin-bottom: 20px;
+    }
+
+    /* Custom color para sa checkbox button */
+    .form-check-input:checked {
+        background-color: var(--accent-cyan);
+        border-color: var(--accent-cyan);
     }
 
     /* Hover effect para sa Create Account link */
@@ -235,6 +264,12 @@
             </div>
 
             <div class="extra-options">
+                <div class="form-check d-flex align-items-center">
+                    <input class="form-check-input me-2" type="checkbox" id="rememberMe" style="cursor: pointer;">
+                    <label class="form-check-label" for="rememberMe">
+                        Remember Me
+                    </label>
+                </div>
                 <a href="<?= url_to('magic-link') ?>">Forgot Password?</a>
             </div>
 
@@ -333,6 +368,36 @@
             confirmButtonText: 'Great!'
         });
     <?php endif; ?>
+</script>
+<script>
+    const loginForm = document.querySelector('form');
+    const emailInput = document.getElementById('loginEmail');
+    const passwordInput = document.getElementById('loginPassword');
+    const rememberMeCheckbox = document.getElementById('rememberMe');
+
+    // 1. Pag-load: Check kung may nakasave na sa Local Storage
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedEmail = localStorage.getItem('waves_email');
+        const savedPass = localStorage.getItem('waves_pass');
+
+        if (savedEmail && savedPass) {
+            emailInput.value = savedEmail;
+            passwordInput.value = savedPass;
+            rememberMeCheckbox.checked = true;
+        }
+    });
+
+    // 2. Pag-save: Kapag clinick ang Login button
+    loginForm.addEventListener('submit', () => {
+        if (rememberMeCheckbox.checked) {
+            localStorage.setItem('waves_email', emailInput.value);
+            localStorage.setItem('waves_pass', passwordInput.value);
+        } else {
+            // Burahin kung hindi naka-check
+            localStorage.removeItem('waves_email');
+            localStorage.removeItem('waves_pass');
+        }
+    });
 </script>
 
 </body>

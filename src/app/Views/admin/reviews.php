@@ -123,58 +123,67 @@
 
     <!-- REVIEWS GRID -->
     <div class="reviews-grid" id="reviewsGrid">
-        <?php if (!empty($reviews)): ?>
-            <?php foreach ($reviews as $r): ?>
-                <?php
-                    $stars    = (int)($r['rating'] ?? 5);
-                    $initials = strtoupper(substr($r['username'] ?? 'U', 0, 2));
-                    $safeClass = match(strtolower($r['safe_feel'] ?? 'yes')) {
-                        'yes' => 'badge-safe',
-                        'no', 'moderate' => 'badge-moderate',
-                        default => 'badge-safe'
-                    };
-                ?>
-                <div class="review-card" data-activity="<?= strtolower($r['activity'] ?? '') ?>">
-                    <form method="POST" action="<?= base_url('admin/reviews/delete') ?>" style="display:inline;">
-                        <?= csrf_field() ?>
-                        <input type="hidden" name="id" value="<?= $r['id'] ?>">
-                        <button type="submit" class="btn-delete" onclick="return confirm('Delete this review?')">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </form>
+    <?php if (!empty($reviews)): ?>
+        <?php foreach ($reviews as $r): ?>
+            <?php
+                $stars    = (int)($r['rating'] ?? 5);
+                $initials = strtoupper(substr($r['username'] ?? 'U', 0, 2));
+                $safeClass = match(strtolower($r['safe_feel'] ?? 'yes')) {
+                    'yes' => 'badge-safe',
+                    'no', 'moderate' => 'badge-moderate',
+                    default => 'badge-safe'
+                };
+            ?>
+            <div class="review-card" data-activity="<?= strtolower($r['activity'] ?? '') ?>">
+                <form method="POST" action="<?= base_url('admin/reviews/delete') ?>" style="display:inline;">
+                    <?= csrf_field() ?>
+                    <input type="hidden" name="id" value="<?= $r['id'] ?>">
+                    <button type="submit" class="btn-delete" onclick="return confirm('Delete this review?')">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </form>
 
-                    <div class="d-flex align-items-center gap-3 mb-2">
-                        <div class="review-avatar"><?= $initials ?></div>
-                        <div>
-                            <div class="reviewer-name"><?= esc($r['username'] ?? 'Anonymous') ?></div>
-                            <div class="review-date"><?= isset($r['created_at']) ? date('M d, Y', strtotime($r['created_at'])) : '' ?></div>
-                        </div>
-                    </div>
-
-                    <div class="stars mb-2">
-                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                            <i class="fa-<?= $i <= $stars ? 'solid' : 'regular' ?> fa-star"></i>
-                        <?php endfor; ?>
-                    </div>
-
-                    <p class="review-text"><?= esc($r['review_text'] ?? '') ?></p>
-
-                    <div class="d-flex gap-2 flex-wrap">
-                        <span class="badge-activity"><?= esc($r['activity'] ?? 'N/A') ?></span>
-                        <span class="<?= $safeClass ?>">
-                            <i class="fa-solid fa-shield-halved me-1"></i>Felt: <?= esc($r['safe_feel'] ?? 'Safe') ?>
-                        </span>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <div class="review-avatar"><?= $initials ?></div>
+                    <div>
+                        <div class="reviewer-name"><?= esc($r['username'] ?? 'Anonymous') ?></div>
+                        <div class="review-date"><?= isset($r['created_at']) ? date('M d, Y', strtotime($r['created_at'])) : '' ?></div>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <div class="empty-state">
-                <i class="fa-solid fa-star-half-stroke"></i>
-                <p>No reviews yet.</p>
+
+                <div class="stars mb-2">
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <i class="fa-<?= $i <= $stars ? 'solid' : 'regular' ?> fa-star"></i>
+                    <?php endfor; ?>
+                </div>
+
+                <p class="review-text"><?= esc($r['review_text'] ?? '') ?></p>
+
+                <?php if (!empty($r['photo'])): ?>
+                    <div class="review-photo-container mb-3">
+                        <img src="<?= base_url('uploads/reviews/' . $r['photo']) ?>" 
+                             alt="Review Photo" 
+                             class="img-fluid rounded-3 shadow-sm"
+                             style="max-height: 150px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);"
+                             onclick="window.open(this.src)">
+                    </div>
+                <?php endif; ?>
+
+                <div class="d-flex gap-2 flex-wrap">
+                    <span class="badge-activity"><?= esc($r['activity'] ?? 'N/A') ?></span>
+                    <span class="<?= $safeClass ?>">
+                        <i class="fa-solid fa-shield-halved me-1"></i>Felt: <?= esc($r['safe_feel'] ?? 'Safe') ?>
+                    </span>
+                </div>
             </div>
-        <?php endif; ?>
-    </div>
-</main>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="empty-state">
+            <i class="fa-solid fa-star-half-stroke"></i>
+            <p>No reviews yet.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>

@@ -205,20 +205,21 @@ class Admin extends BaseController
             ->orderBy('r.created_at', 'DESC')
             ->get()->getResultArray();
 
-        // Count safe / moderate feelings
         $safeCount     = count(array_filter($reviews, fn($r) => strtolower($r['safe_feel'] ?? '') === 'yes'));
         $moderateCount = count(array_filter($reviews, fn($r) => strtolower($r['safe_feel'] ?? '') !== 'yes'));
 
-        // Average rating
-        $avgRating = count($reviews)
-            ? round(array_sum(array_column($reviews, 'rating')) / count($reviews), 1)
-            : 0;
+        // Fix para sa Avg Rating calculation
+        $avgRating = 0;
+        if (count($reviews) > 0) {
+            $totalStars = array_sum(array_column($reviews, 'rating'));
+            $avgRating = round($totalStars / count($reviews), 1);
+        }
 
         return view('admin/reviews', [
             'reviews'       => $reviews,
             'safeCount'     => $safeCount,
             'moderateCount' => $moderateCount,
-            'avgRating'     => $avgRating,
+            'avgRating'     => $avgRating, // I-pass ang computed rating
         ]);
     }
 
