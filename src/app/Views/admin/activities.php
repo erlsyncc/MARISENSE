@@ -185,7 +185,7 @@
                         </select>
                     </div>
                     <div>
-                        <label class="field-label">Upload Image</label>
+                        <label class="field-label">Upload Image/ 4 Images</label>
                         <input type="file" name="image" class="form-control-wave" accept="image/*" style="padding:9px 14px;">
                     </div>
                 </div>

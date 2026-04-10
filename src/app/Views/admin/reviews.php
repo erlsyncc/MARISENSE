@@ -109,7 +109,7 @@
         </div>
         <div class="mini-stat">
             <div class="ms-value" style="color:#ffc107;"><?= $moderateCount ?? 0 ?></div>
-            <div class="ms-label">Felt Moderate</div>
+            <div class="ms-label">Felt Unsafe</div>
         </div>
     </div>
 
@@ -180,7 +180,7 @@
             </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <div class="empty-state">
+        <div class="empty-state" style="color: white; opacity: 0.7;">
             <i class="fa-solid fa-star-half-stroke"></i>
             <p>No reviews yet.</p>
         </div>

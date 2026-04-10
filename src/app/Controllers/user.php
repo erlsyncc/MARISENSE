@@ -12,7 +12,28 @@ class User extends BaseController
 
     public function index()
     {
-        return view('user/home');
+        $db = \Config\Database::connect();
+
+        // Latest 3 approved reviews for home page
+        $reviews = $db->table('reviews')
+                      ->select('reviews.*, users.username')
+                      ->join('users', 'users.id = reviews.user_id', 'left')
+                      ->orderBy('reviews.created_at', 'DESC')
+                      ->limit(3)
+                      ->get()
+                      ->getResultArray();
+
+        // Latest sea condition
+        $seaCondition = $db->table('sea_conditions')
+                           ->orderBy('recorded_at', 'DESC')
+                           ->limit(1)
+                           ->get()
+                           ->getRowArray();
+
+        return view('user/home', [
+            'reviews'      => $reviews,
+            'seaCondition' => $seaCondition,
+        ]);
     }
 
     public function activities()
@@ -22,12 +43,36 @@ class User extends BaseController
 
     public function safety()
     {
-        return view('user/safety');
+        $db = \Config\Database::connect();
+
+        $seaCondition = $db->table('sea_conditions')
+                           ->orderBy('recorded_at', 'DESC')
+                           ->limit(1)
+                           ->get()
+                           ->getRowArray();
+
+        return view('user/safety', ['seaCondition' => $seaCondition]);
     }
 
     public function reviews()
     {
-        return view('user/reviews');
+        $db = \Config\Database::connect();
+
+        $reviews = $db->table('reviews')
+                      ->select('reviews.*, users.username')
+                      ->join('users', 'users.id = reviews.user_id', 'left')
+                      ->orderBy('reviews.created_at', 'DESC')
+                      ->get()
+                      ->getResultArray();
+
+        // Average rating
+        $avgResult = $db->table('reviews')->selectAvg('rating', 'avg_rating')->get()->getRowArray();
+        $avgRating = $avgResult ? round($avgResult['avg_rating'], 1) : 0;
+
+        return view('user/reviews', [
+            'reviews'   => $reviews,
+            'avgRating' => $avgRating,
+        ]);
     }
 
     // -----------------------------------------------------------------------
@@ -45,12 +90,20 @@ class User extends BaseController
             $activity = 'Jet Ski';
         }
 
+        $db = \Config\Database::connect();
+        $seaCondition = $db->table('sea_conditions')
+                           ->orderBy('recorded_at', 'DESC')
+                           ->limit(1)
+                           ->get()
+                           ->getRowArray();
+
         $data = [
             'selectedActivity' => $activity,
             'pricing'          => BookingModel::$pricing,
             'maxRiders'        => BookingModel::$maxRiders,
             'durations'        => BookingModel::$durations,
             'bookedDates'      => $bookingModel->getBookedDates($activity),
+            'seaCondition'     => $seaCondition,
         ];
 
         return view('user/booking', $data);
@@ -234,57 +287,57 @@ class User extends BaseController
 
         return $this->response->setJSON(['bookedDates' => $bookedDates]);
     }
+
     // -----------------------------------------------------------------------
     // POST REVIEW
     // -----------------------------------------------------------------------
 
     public function postReview()
-{
-    // 1. Validation Rules
-    $rules = [
-        'activity'  => 'required',
-        'stars'     => 'required|integer|greater_than[0]|less_than[6]',
-        'comment'   => 'required|min_length[5]',
-        'safe_feel' => 'required|in_list[Yes,No]',
-    ];
+    {
+        $rules = [
+            'activity'  => 'required',
+            'stars'     => 'required|integer|greater_than[0]|less_than[6]',
+            'comment'   => 'required|min_length[5]',
+            'safe_feel' => 'required|in_list[Yes,No]',
+        ];
 
-    if (!$this->validate($rules)) {
-        return redirect()->back()
-                         ->withInput()
-                         ->with('errors', $this->validator->getErrors());
+        if (!$this->validate($rules)) {
+            return redirect()->back()
+                             ->withInput()
+                             ->with('errors', $this->validator->getErrors());
+        }
+
+        $photoName = null;
+        $file = $this->request->getFile('review_photo');
+
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $photoName = $file->getRandomName();
+            $file->move(FCPATH . 'uploads/reviews', $photoName);
+        }
+
+        $db      = \Config\Database::connect();
+        $builder = $db->table('reviews');
+
+        $safeFeel = strtolower($this->request->getPost('safe_feel')); // 'yes' or 'no'
+
+        $data = [
+            'user_id'     => auth()->user()->id,
+            'activity'    => $this->request->getPost('activity'),
+            'rating'      => $this->request->getPost('stars'),
+            'review_text' => $this->request->getPost('comment'),
+            'safe_feel'   => $safeFeel,
+            'photo'       => $photoName,
+            'created_at'  => date('Y-m-d H:i:s'),
+            'updated_at'  => date('Y-m-d H:i:s'),
+        ];
+
+        if ($builder->insert($data)) {
+            return redirect()->to(base_url('user/reviews'))
+                             ->with('success', 'Thank you for sharing your adventure!');
+        } else {
+            return redirect()->back()
+                             ->withInput()
+                             ->with('error', 'Failed to post review.');
+        }
     }
-
-    // 2. Handle Photo Upload (Optional)
-    $photoName = null;
-    $file = $this->request->getFile('review_photo');
-
-    if ($file && $file->isValid() && !$file->hasMoved()) {
-        $photoName = $file->getRandomName();
-        $file->move(FCPATH . 'uploads/reviews', $photoName);
-    }
-
-    // 3. Prepare Data for Database (Tugma na sa columns mo)
-    $db = \Config\Database::connect();
-    $builder = $db->table('reviews'); 
-
-    $data = [
-        'user_id'      => auth()->user()->id,
-        'activity'     => $this->request->getPost('activity'),
-        'rating'       => $this->request->getPost('stars'),
-        'review_text'  => $this->request->getPost('comment'), // Binago ko to review_text para tugma sa DB mo
-        'safe_feel'    => $this->request->getPost('safe_feel'),
-        'photo'        => $photoName,
-        'created_at'   => date('Y-m-d H:i:s'),
-        'updated_at'   => date('Y-m-d H:i:s'),
-    ];
-
-    if ($builder->insert($data)) {
-        return redirect()->to(base_url('user/reviews'))
-                         ->with('success', 'Thank you for sharing your adventure!');
-    } else {
-        return redirect()->back()
-                         ->withInput()
-                         ->with('error', 'Failed to post review.');
-    }
-}
 }
