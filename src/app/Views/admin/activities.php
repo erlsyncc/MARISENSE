@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<?= base_url('bootstrap5/css/bootstrap.min.css') ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; --sidebar-width: 260px; }
         * { box-sizing: border-box; }
@@ -58,6 +59,9 @@
         .mb-field { margin-bottom: 16px; }
         .btn-save { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 700; border: none; border-radius: 12px; padding: 12px 32px; font-size: 0.9rem; cursor: pointer; transition: 0.3s; }
         .btn-save:hover { background: white; transform: translateY(-2px); }
+        /* Para consistent sa review delete button */
+        .btn-delete-activity { background: rgba(220, 53, 69, 0.1); color: #ff8888; border: 1px solid rgba(220, 53, 69, 0.25); border-radius: 8px; padding: 6px 10px; font-size: 0.85rem; cursor: pointer; transition: 0.2s; text-decoration: none;display: inline-flex;align-items: center;justify-content: center;}
+        .btn-delete-activity:hover { background: #dc3545; color: white; transform: translateY(-1px);box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);}
     </style>
 </head>
 <body>
@@ -99,33 +103,39 @@
 
         <!-- ACTIVITY LIST -->
         <div class="panel">
-            <div class="panel-title"><i class="fa-solid fa-list"></i> Current Activities</div>
-            <div class="activity-list">
-                <?php
-                    $defaultActivities = [
-                        ['name'=>'Jet Ski',       'price'=>'₱2,500', 'img'=>'jetski.jpg',      'status'=>'active'],
-                        ['name'=>'Banana Boat',   'price'=>'₱500',   'img'=>'bananaboats.jpg',  'status'=>'active'],
-                        ['name'=>'Kayaking',      'price'=>'₱300',   'img'=>'kayak.jpg',        'status'=>'active'],
-                        ['name'=>'Flying Saucer', 'price'=>'₱600',   'img'=>'flying.jpg',       'status'=>'active'],
-                    ];
-                    $actList = !empty($activities) ? $activities : $defaultActivities;
-                ?>
-                <?php foreach ($actList as $a): ?>
+        <div class="panel-title"><i class="fa-solid fa-list"></i> Current Activities</div>
+        <div class="activity-list">
+            <?php if (!empty($activities)): ?>
+                <?php foreach ($activities as $a): ?>
                     <div class="activity-row">
-                        <div class="act-img" style="background-image:url('<?= base_url('images/' . ($a['img'] ?? $a['image'] ?? 'jetski.jpg')) ?>');"></div>
+                        <div class="act-img" style="background-image:url('<?= base_url('images/' . ($a['image'] ?? $a['img'] ?? 'default.jpg')) ?>');"></div>
+                        
                         <div>
                             <div class="act-name"><?= esc($a['name']) ?></div>
-                            <div class="act-price"><?= esc($a['price'] ?? '—') ?> / session</div>
+                            <div class="act-price">₱<?= number_format((float)$a['price'], 0) ?> / session</div>
                         </div>
-                        <div class="act-status">
-                            <span class="status-<?= $a['status'] ?? 'active' ?>">
-                                <?= ucfirst($a['status'] ?? 'active') ?>
+
+                        <div class="act-status ms-auto d-flex align-items-center gap-3">
+                            <span class="status-<?= esc($a['status']) ?>">
+                                <?= ucfirst(esc($a['status'])) ?>
                             </span>
+
+                            <a href="<?= base_url('admin/activities/delete/' . $a['id']) ?>" 
+                            class="btn-delete-activity ms-auto delete-btn" 
+                            data-name="<?= esc($a['name']) ?>">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
                         </div>
                     </div>
                 <?php endforeach; ?>
-            </div>
+            <?php else: ?>
+                <div class="text-center py-4 text-white-50">
+                    <i class="fa-solid fa-cloud-sun fa-3x mb-3"></i>
+                    <p>No activities found in the database.</p>
+                </div>
+            <?php endif; ?>
         </div>
+    </div>
 
         <!-- ADD/EDIT FORM -->
         <div class="panel">
@@ -189,5 +199,71 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // 1. SUCCESS MESSAGE (Pagka-redirect galing sa Controller)
+    <?php if (session()->getFlashdata('success')) : ?>
+        Swal.fire({
+            title: 'Success!',
+            text: "<?= session()->getFlashdata('success') ?>",
+            icon: 'success',
+            iconColor: '#a5dc86',
+            confirmButtonText: 'Great!',
+            confirmButtonColor: '#0a5a73',
+            background: '#ffffff',
+            color: '#545454'
+        });
+    <?php endif; ?>
+
+    // 2. SAVE CONFIRMATION (Kapag clinick ang Save Activity)
+    const saveForm = document.querySelector('form[action$="activities/save"]');
+    if (saveForm) {
+        saveForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            Swal.fire({
+                title: 'Save Activity?',
+                text: "Do you want to apply these changes to the activity list?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#0a5a73',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, Save it!',
+                background: '#ffffff',
+                color: '#545454'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
+    }
+
+    // 3. DELETE CONFIRMATION (Gaya ng dati pero white theme na rin)
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const url = this.getAttribute('href');
+            const activityName = this.getAttribute('data-name');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `You are about to delete "${activityName}". This action cannot be undone!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete it!',
+                background: '#ffffff',
+                color: '#545454',
+                backdrop: `rgba(5,44,57,0.6)`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

@@ -42,9 +42,46 @@
         .user-avatar { width: 54px; height: 54px; border-radius: 50%; background: rgba(72,202,228,0.15); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; color: var(--accent-cyan); border: 2px solid rgba(72,202,228,0.25); flex-shrink: 0; }
         .user-name { font-size: 1rem; font-weight: 700; color: white; }
         .user-email { font-size: 0.78rem; color: rgba(255,255,255,0.45); }
-        .user-meta { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 10px; display: flex; gap: 14px; flex-wrap: wrap; }
-        .user-meta span { display: flex; align-items: center; gap: 5px; }
-        .user-meta i { color: var(--accent-cyan); font-size: 0.7rem; }
+        .user-meta {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+        }
+
+        .meta-item {
+            font-size: 0.82rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.03); /* Halos invisible na box */
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s ease;
+        }
+
+        /* Kulay para sa Joined Date */
+        .meta-item.joined {
+            color: #ffd166; /* Warm Gold */
+        }
+        .meta-item.joined i {
+            color: #ffd166;
+            margin-right: 5px;
+            filter: drop-shadow(0 0 5px rgba(255, 209, 102, 0.3));
+        }
+
+        /* Kulay para sa Booking Count */
+        .meta-item.bookings {
+            color: #5ddb8a;
+        }
+        .meta-item.bookings i {
+            color: #5ddb8a;
+            margin-right: 5px;
+            filter: drop-shadow(0 0 5px rgba(72, 202, 228, 0.3));
+        }
+
+        /* Hover Effect para hindi boring */
+        .meta-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
+        }
         .role-badge { padding: 3px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
         .role-admin { background: rgba(72,202,228,0.15); color: var(--accent-cyan); border: 1px solid rgba(72,202,228,0.4); }
         .role-user  { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.15); }
@@ -107,8 +144,12 @@
                         <span class="role-badge role-<?= $role ?>"><?= ucfirst($role) ?></span>
                     </div>
                     <div class="user-meta">
-                        <span><i class="fa-solid fa-calendar"></i> Joined <?= $joined ?></span>
-                        <span><i class="fa-solid fa-ticket"></i> <?= $bookingCount ?> booking<?= $bookingCount !== 1 ? 's' : '' ?></span>
+                        <span class="meta-item joined">
+                            <i class="fa-solid fa-calendar-check"></i> Joined <?= $joined ?>
+                        </span>
+                        <span class="meta-item bookings">
+                            <i class="fa-solid fa-ticket"></i> <?= $bookingCount ?> booking/<?= $bookingCount !== 1 ? 's' : '' ?>
+                        </span>
                     </div>
                 </div>
             <?php endforeach; ?>

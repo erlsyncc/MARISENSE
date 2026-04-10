@@ -50,7 +50,7 @@
         .status-unsafe   { background: rgba(220,53,69,0.12); border: 2px solid rgba(220,53,69,0.35); }
         .status-icon { font-size: 3rem; margin-bottom: 10px; }
         .status-label { font-size: 1.4rem; font-weight: 700; }
-        .status-desc { font-size: 0.85rem; opacity: 0.7; margin-top: 6px; }
+        .status-desc { font-size: 0.85rem; opacity: 0.7; margin-top: 6px; color: white; }
 
         /* Update form */
         .form-panel { background: rgba(255,255,255,0.07); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; padding: 30px; margin-bottom: 24px; }
@@ -209,25 +209,38 @@
         <div class="panel">
             <div class="panel-title"><i class="fa-solid fa-shield-halved"></i> Safety Thresholds</div>
             <div style="font-size:0.85rem;line-height:2.2;">
+                
                 <div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:10px;margin-bottom:10px;">
                     <span style="color:rgba(255,255,255,0.6);"><i class="fa-solid fa-wind me-2" style="color:var(--accent-cyan);"></i>Wind Speed</span>
-                    <span><span style="color:#5ddb8a;">≤ 15 kts</span> = Safe &nbsp;|&nbsp; <span style="color:#ff6b6b;">{'>'} 15 kts</span> = Unsafe</span>
+                    <span style="color:white;">
+                        ≤ 15 kts = <span style="color:#5ddb8a;">Safe </span>
+                        &nbsp;|&nbsp; 
+                        {'>'} 15 kts = <span style="color:#ff6b6b;">Unsafe</span>
+                    </span>
                 </div>
+
                 <div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:10px;margin-bottom:10px;">
                     <span style="color:rgba(255,255,255,0.6);"><i class="fa-solid fa-water me-2" style="color:var(--accent-cyan);"></i>Wave Height</span>
-                    <span><span style="color:#5ddb8a;">≤ 1.5 m</span> = Safe &nbsp;|&nbsp; <span style="color:#ff6b6b;">{'>'} 1.5 m</span> = Unsafe</span>
+                    <span style="color:white;">
+                        ≤ 1.5 m =<span style="color:#5ddb8a;"> Safe </span>
+                        &nbsp;|&nbsp; 
+                        {'>'} 1.5 m = <span style="color:#ff6b6b;">Unsafe</span>
+                    </span>
                 </div>
+
                 <div style="display:flex;justify-content:space-between;padding-bottom:10px;margin-bottom:10px;">
                     <span style="color:rgba(255,255,255,0.6);"><i class="fa-solid fa-stopwatch me-2" style="color:var(--accent-cyan);"></i>Wave Period</span>
-                    <span><span style="color:#5ddb8a;">≥ 4 s</span> = Acceptable</span>
+                    <span style="color:white;">
+                        ≥ 4 s = <span style="color:#5ddb8a;">Acceptable</span>
+                    </span>
                 </div>
-                <div style="background:rgba(255,193,7,0.08);border:1px dashed rgba(255,193,7,0.3);border-radius:12px;padding:14px;margin-top:14px;font-size:0.8rem;color:rgba(255,255,255,0.65);">
+
+                <div style="background:rgba(255,193,7,0.08);border:1px dashed rgba(255,193,7,0.3);border-radius:12px;padding:14px;margin-top:14px;font-size:0.8rem;color:white;">
                     <i class="fa-solid fa-circle-exclamation text-warning me-2"></i>
                     Operations are automatically flagged when thresholds are exceeded. Always use your judgment for final decisions.
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- HISTORY LOG -->
     <div class="panel">
@@ -271,8 +284,7 @@
                 </table>
             </div>
         <?php else: ?>
-            <p style="text-align:center;opacity:0.4;font-size:0.85rem;">No sea data history yet.</p>
-        <?php endif; ?>
+            <p style="text-align:center; color: white; opacity: 0.7; font-size: 0.85rem;">No sea data history yet.</p>        <?php endif; ?>
     </div>
 
 </main>

@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="<?= base_url('bootstrap5/css/bootstrap.min.css') ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; --sidebar-width: 260px; }
         * { box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 60%, var(--deep-blue) 100%);
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 60%, var(--deep-blue) 100%);}
         .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100vh; background: rgba(5,44,57,0.95); backdrop-filter: blur(20px); border-right: 1px solid rgba(255,255,255,0.1); z-index: 1000; display: flex; flex-direction: column; overflow-y: auto; }
         .sidebar-brand { padding: 28px 24px 22px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .sidebar-brand .brand-icon { font-size: 2rem; color: var(--accent-cyan); margin-bottom: 6px; }
@@ -135,10 +136,11 @@
                 };
             ?>
             <div class="review-card" data-activity="<?= strtolower($r['activity'] ?? '') ?>">
-                <form method="POST" action="<?= base_url('admin/reviews/delete') ?>" style="display:inline;">
+                <form method="POST" action="<?= base_url('admin/reviews/delete') ?>" class="delete-review-form" style="display:inline;">
                     <?= csrf_field() ?>
                     <input type="hidden" name="id" value="<?= $r['id'] ?>">
-                    <button type="submit" class="btn-delete" onclick="return confirm('Delete this review?')">
+                    
+                    <button type="submit" class="btn-delete">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </form>
@@ -194,6 +196,33 @@ function setFilter(activity, btn) {
         c.style.display = (activity === 'all' || c.dataset.activity.includes(activity)) ? '' : 'none';
     });
 }
+</script>
+<script>
+document.querySelectorAll('.delete-review-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Stop the form from submitting immediately
+        
+        const currentForm = this;
+
+        Swal.fire({
+            title: 'Delete Review?',
+            text: "This feedback will be permanently removed from the system.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete it!',
+            background: '#fff', // Dark theme para terno sa Waves Admin
+            color: '#0b0303',
+            backdrop: `rgba(5,44,57,0.6)`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, manually submit the form
+                currentForm.submit();
+            }
+        });
+    });
+});
 </script>
 </body>
 </html>
