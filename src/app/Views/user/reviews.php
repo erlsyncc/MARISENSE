@@ -130,6 +130,38 @@
         #scrollBtn i { font-size: 2.5rem; transition: transform 0.5s cubic-bezier(0.68,-0.55,0.27,1.55); margin: 0 auto; }
         .rotate-up { transform: rotate(180deg); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Tooltip Style */
+        .tooltip-btn {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tooltip-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%; /* Lalabas sa taas ng button */
+            left: 50%;
+            transform: translateX(-50%);
+            background: #052c39;
+            color: #48cae4;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+            border: 1px solid #48cae4;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .tooltip-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+            bottom: 115%; /* Slight animation */
+        }
     </style>
 </head>
 <body>
@@ -242,6 +274,11 @@ $displayAvg  = number_format($newAvg, 1);
 </div>
 
 <div class="reviews-grid-wrapper">
+    <div id="noReviewsMessage" class="empty-reviews" style="display: none;">
+        <i class="fa-solid fa-water" style="font-size: 3rem; margin-bottom: 10px;"></i>
+        <h3>No reviews found</h3>
+        <p>Try adjusting your filters to see more adventures.</p>
+    </div>
     <div class="reviews-grid" id="reviewContainer">
         <?php foreach ($displayReviews as $rev): 
             // ... (keep your existing foreach logic here) ...
@@ -366,7 +403,9 @@ $displayAvg  = number_format($newAvg, 1);
                         </div>
 
                         <div class="col-12 text-center mt-4">
-                            <button type="submit" class="btn-post shadow-lg">
+                            <button type="submit" 
+                                    class="btn-post shadow-lg tooltip-btn" 
+                                    data-tooltip="Share your experience with others!">
                                 <i class="fa-solid fa-paper-plane me-2"></i>Post Review
                             </button>
                         </div>
@@ -437,23 +476,35 @@ document.addEventListener('DOMContentLoaded', function () {
     const reviewCards    = document.querySelectorAll('.review-feed-card');
 
     function applyFilters() {
-        const actVal  = activityFilter.value;
-        const starVal = starFilter.value;
+    const actVal  = activityFilter.value;
+    const starVal = starFilter.value;
+    const reviewCards = document.querySelectorAll('.review-feed-card');
+    const noReviewsMsg = document.getElementById('noReviewsMessage');
+    
+    let visibleCount = 0;
 
-        reviewCards.forEach(card => {
-            const cardAct  = card.getAttribute('data-activity');
-            const cardStar = card.getAttribute('data-star');
-            const matchAct  = (actVal  === 'all' || actVal  === cardAct);
-            const matchStar = (starVal === 'all' || starVal === cardStar);
+    reviewCards.forEach(card => {
+        const cardAct  = card.getAttribute('data-activity');
+        const cardStar = card.getAttribute('data-star');
+        const matchAct  = (actVal === 'all' || actVal === cardAct);
+        const matchStar = (starVal === 'all' || starVal === cardStar);
 
-            if (matchAct && matchStar) {
-                card.style.display = 'flex';
-                card.style.animation = 'fadeIn 0.4s forwards';
-            } else {
-                card.style.display = 'none';
-            }
-        });
+        if (matchAct && matchStar) {
+            card.style.display = 'flex';
+            card.style.animation = 'fadeIn 0.4s forwards';
+            visibleCount++; // Bilangin kung ilan ang nakikita
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // Ipakita o itago ang "No Reviews" message base sa count
+    if (visibleCount === 0) {
+        noReviewsMsg.style.display = 'block';
+    } else {
+        noReviewsMsg.style.display = 'none';
     }
+}
     activityFilter.addEventListener('change', applyFilters);
     starFilter.addEventListener('change', applyFilters);
 

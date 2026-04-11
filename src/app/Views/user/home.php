@@ -46,7 +46,7 @@
 
         /* --- HERO --- */
         .welcome-hero {
-            background: linear-gradient(rgba(5,44,57,0.5), rgba(5,44,57,0.7)), url('<?= base_url('images/background.png') ?>');
+            background: linear-gradient(rgba(5,44,57,0.5), rgba(5,44,57,0.7)), url('<?= base_url('images/cover.png') ?>');
             background-size: cover; background-position: center; background-attachment: fixed;
             padding: 120px 40px; color: white; border-radius: 0 0 80px 80px; margin-bottom: 60px;
         }
@@ -154,6 +154,166 @@
         #scrollBtn i { font-size: 2.5rem; transition: transform 0.5s cubic-bezier(0.68,-0.55,0.27,1.55); margin: 0 auto; }
         .rotate-up { transform: rotate(180deg); }
         html { scroll-behavior: smooth; }
+        /* ===== FEATURES SECTION ===== */
+        .features {
+        padding:90px 0;
+        color: white;
+        text-align: center;
+        }
+
+        .features .row {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+        }
+
+        .features .col-md-4 {
+        flex: 1;
+        min-width: 280px;
+        max-width: 350px;
+        }
+
+        .feature-box {
+        background: rgba(255,255,255,0.95);
+        padding:20px;
+        border-radius:30px;
+        transition:0.3s;
+        box-shadow:0 10px 25px rgba(0,0,0,0.08);
+        color: #333;
+        height: 100%;
+        }
+
+        .feature-box:hover {
+        transform:translateY(-10px);
+        }
+
+        /* ABOUT SECTION - REFINED ALIGNMENT */
+        .about-section {
+        padding: 10px 0; 
+        color: #ffffff; 
+        display: flex;
+        justify-content: center; /* Centers the inner container */
+        }
+
+        /* Flex Container for side-by-side alignment */
+        .about-row {
+        display: flex;
+        align-items: center; /* Vertically centers the shorter side with the taller side */
+        justify-content: space-between;
+        gap: 80px; /* Wider gap for a cleaner, premium feel */
+        }
+
+        .about-section .container {
+        /* This creates the "Space on each side" by limiting max-width */
+        max-width: 1500px; 
+        padding: 0 40px;   /* Extra safety padding for smaller screens */
+        width: 100%;
+        }
+
+        .about-left {
+        flex: 1;
+        text-align: left;
+        }
+
+        .about-right {
+        flex: 1;
+        }
+
+        .about-section h2 {
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 25px;
+        font-size: 2.5rem;
+        }
+
+        .about-section h3 {
+        font-weight: 600;
+        color: #48cae4;
+        margin-bottom: 25px;
+        }
+
+        .about-section p {
+        line-height: 1.8;
+        opacity: 0.9;
+        font-size: 1.05rem;
+        }
+
+        /* Commitment Items styling */
+        .commitment-item {
+        padding: 18px 25px;
+        border-radius: 15px;
+        border-left: 4px solid #48cae4;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.03); /* Very subtle glass effect */
+        color: #ffffff;
+        }
+
+        .commitment-item:hover {
+        transform: translateX(10px);
+        background: rgba(72, 202, 228, 0.08);
+        }
+
+        .commitment-item strong {
+        color: #48cae4;
+        display: block; /* Moves the title above the text for better vertical alignment */
+        margin-bottom: 5px;
+        }
+
+        /* Responsive Fix */
+        @media (max-width: 991px) {
+        .about-row {
+            flex-direction: column;
+            gap: 40px;
+            text-align: center;
+        }
+        .about-left, .about-right {
+            text-align: center;
+        }
+        .commitment-item {
+            text-align: left;
+        }
+        }
+        /* Para sa left-aligned line */
+        .title-line-left {
+            height: 4px;
+            width: 60px;
+            background: var(--accent-cyan);
+            margin: 10px 0 25px 0; /* 0 ang margin sa gilid para sa kaliwa */
+            border-radius: 10px;
+        }
+        /* I-remove ang ::after sa .btn-view-details para hindi madamay ang iba */
+        /* Idagdag ang bagong class na ito: */
+        .tooltip-btn {
+            position: relative;
+        }
+
+        .tooltip-btn::after {
+            content: attr(data-tooltip); /* Kukunin ang text mula sa HTML attribute */
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--deep-blue);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+            pointer-events: none;
+            border: 1px solid var(--accent-cyan);
+            z-index: 1000;
+        }
+
+        .tooltip-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body>
@@ -188,18 +348,85 @@
             check real-time sea conditions powered by <span class="highlight-brand">MARISENSE</span>, and reserve with ease.
         </p>
         <div class="d-flex justify-content-center flex-wrap gap-3">
-            <a href="<?= base_url('user/activities') ?>#jet-ski" class="btn btn-primary btn-action shadow-lg text-white">
+            <a href="<?= base_url('user/activities') ?>#jet-ski" class="btn btn-primary btn-action tooltip-btn" data-tooltip="Click here to explore activities">
                 <i class="fa-solid fa-magnifying-glass me-2"></i> Explore Activities
             </a>
-            <a href="<?= base_url('user/safety') ?>#marisense-section" class="btn btn-primary btn-action shadow-lg text-white">
+            <a href="<?= base_url('user/safety') ?>#marisense-section" class="btn btn-primary btn-action tooltip-btn" data-tooltip="Click here to check sea conditions">
                 <i class="fa-solid fa-magnifying-glass me-2"></i> Check Sea Conditions
             </a>
-            <a href="<?= base_url('user/booking') ?>" class="btn btn-light btn-action shadow-lg">
+            <a href="<?= base_url('user/booking') ?>" class="btn btn-light btn-action tooltip-btn" data-tooltip="Click here to book your adventure">
                 <i class="fa-solid fa-calendar-check me-2"></i> Book Adventure
             </a>
         </div>
     </div>
 </header>
+
+<section class="about-section">
+  <div class="container">
+    <div class="about-row">
+      <div class="about-left">
+        <h2 style="margin-bottom: 10px;">About Us</h2>
+        <div class="title-line-left"></div><p><strong>Waves Water Sports</strong> is a premier leisure and adventure provider located in Matabungkay, Lian, Batangas. We specialize in safe, thrilling, and memorable water experiences for families, friends, and solo adventurers.</p>
+        <p>Our mission is to combine fun, safety, and convenience using smart technology to monitor water conditions in real-time while offering easy online booking. Whether you’re into jet skiing, banana boating, or kayaking, every visit is enjoyable and secure.</p>
+      </div>
+
+      <div class="about-right">
+        <h3>Our Commitments</h3>
+        <div class="commitment-item">
+          <strong>Safety First</strong>
+          Real-time monitoring to ensure guest safety.
+        </div>
+        <div class="commitment-item">
+          <strong>Customer Convenience</strong>
+          Hassle-free online booking.
+        </div>
+        <div class="commitment-item">
+          <strong>Memorable Experiences</strong>
+          Fun, unforgettable moments on the water.
+        </div>
+        <div class="commitment-item">
+          <strong>Sustainable Practices</strong>
+          Preserving Matabungkay Beach for future generations.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features text-center">
+  <div class="container">
+    <h1 class="mb-5 fw-bold text-uppercase" style="letter-spacing: 2px;">
+      Experience the Sea
+    </h1>
+    <div class="title-line"></div>
+
+    <!-- IMPORTANT: may row -->
+    <div class="row">
+
+      <div class="col-md-4">
+        <div class="feature-box">
+          <h3 class="fw-bold">Water Activities</h3>
+          <p>Jet Ski, Banana Boat, Kayaking and exciting ocean adventures.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-box">
+          <h3 class="fw-bold">Easy Online Booking</h3>
+          <p>Reserve your preferred schedule anytime with our smart system.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-box">
+          <h3 class="fw-bold">Safe & Monitored</h3>
+          <p>Real-time water condition monitoring for your safety.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <div class="container">
 
@@ -223,7 +450,11 @@
             <div class="p-4 text-center d-flex flex-column align-items-center justify-content-center">
                 <h2 class="fw-bold text-white mb-2"><?= $act[0] ?></h2>
                 <p class="small text-white-50 mb-3"><?= $act[1] ?></p>
-                <a href="<?= base_url('user/activities') ?>#<?= $act[3] ?>" class="btn-view-details">View Details</a>
+                <a href="<?= base_url('user/activities') ?>#<?= $act[3] ?>" 
+                class="btn-view-details tooltip-btn" 
+                data-tooltip="Click here to proceed to the activity (<?= $act[0] ?>)">
+                View Details
+                </a>
             </div>
         </div>
         <?php endforeach; ?>
@@ -274,7 +505,7 @@
                         <span class="data-value <?= $safetyColor ?>"><?= $safetyLabel ?></span>
                     </div>
                     <div class="text-center mt-5">
-                        <a href="<?= base_url('user/safety') ?>#marisense-section" class="btn-view-details">
+                        <a href="<?= base_url('user/safety') ?>#marisense-section" class="btn-view-details tooltip-btn" data-tooltip="Click here to see detailed report">
                             View Full Detailed Report <i class="fa-solid fa-chevron-right ms-2"></i>
                         </a>
                     </div>
@@ -386,7 +617,7 @@
     </div>
 
     <div class="reviews-cta">
-        <a href="<?= base_url('user/reviews') ?>" class="btn-view-details">
+        <a href="<?= base_url('user/reviews') ?>" class="btn-view-details tooltip-btn" data-tooltip="Click here to read all reviews">
             <i class="fa-solid fa-star me-2"></i> Read All Reviews
         </a>
     </div>
@@ -399,7 +630,7 @@
         <h2 class="fw-bold mb-3">Ready for your next water adventure?</h2>
         <p class="opacity-75 mb-4">The waves are waiting. Check availability and book your slot today!</p>
         <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <a href="<?= base_url('user/booking') ?>" class="btn btn-info text-white btn-action px-5 shadow">
+            <a href="<?= base_url('user/booking') ?>" class="btn btn-info text-white btn-action px-5 shadow tooltip-btn" data-tooltip="Click here to book now">
                 <i class="fa-solid fa-calendar-check me-2"></i> Book Now
             </a>
         </div>

@@ -41,6 +41,28 @@
         .btn-cancel-booking:hover { background: rgba(220,53,69,0.3); }
         .alert-wave-success { background: rgba(40,167,69,0.15); border: 1px solid rgba(40,167,69,0.4); color: #5ddb8a; border-radius: 14px; padding: 14px 18px; margin-bottom: 24px; font-size: 0.9rem; }
         footer { background: var(--deep-blue); padding: 60px 0 30px; color: rgba(255,255,255,0.6); text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
+        /* Tooltip para sa mga action buttons */
+        .tooltip-btn { position: relative; cursor: pointer; }
+        .tooltip-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 120%; left: 50%;
+            transform: translateX(-50%);
+            background: #052c39; color: #48cae4;
+            padding: 6px 12px; border-radius: 6px;
+            font-size: 0.75rem; font-weight: 600;
+            white-space: nowrap; opacity: 0; pointer-events: none;
+            transition: 0.3s; border: 1px solid #48cae4;
+        }
+        .tooltip-btn:hover::after { opacity: 1; }
+
+        /* Enhanced Buttons */
+        .btn-back, .btn-cancel-booking { 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex; align-items: center;
+        }
+        .btn-back:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
+        .btn-cancel-booking:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(220,53,69,0.3); }
     </style>
 </head>
 <body>
@@ -138,15 +160,19 @@
         </div>
 
         <div class="action-row">
-            <a href="<?= base_url('user/my-bookings') ?>" class="btn-back">
+            <a href="<?= base_url('user/my-bookings') ?>" 
+            class="btn-back tooltip-btn" 
+            data-tooltip="Return to booking list">
                 <i class="fa-solid fa-arrow-left me-2"></i> Back to My Bookings
             </a>
 
             <?php if ($canCancel): ?>
             <form action="<?= base_url('user/booking/cancel/' . $booking['id']) ?>" method="POST"
-                  onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                onsubmit="return confirm('Are you sure you want to cancel this booking?');">
                 <?= csrf_field() ?>
-                <button type="submit" class="btn-cancel-booking">
+                <button type="submit" 
+                        class="btn-cancel-booking tooltip-btn" 
+                        data-tooltip="Request cancellation">
                     <i class="fa-solid fa-xmark me-2"></i> Cancel Booking
                 </button>
             </form>

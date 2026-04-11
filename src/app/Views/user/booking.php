@@ -22,7 +22,7 @@
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255,107,107,0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
-        .welcome-hero { background: linear-gradient(rgba(5,44,57,0.5), rgba(5,44,57,0.7)), url('<?= base_url('images/bookings_bg.png') ?>'); background-size: cover; background-position: center; background-attachment: fixed; padding: 145px 40px; color: white; border-radius: 0 0 80px 80px; margin-bottom: 60px; }
+        .welcome-hero { background: linear-gradient(rgba(5,44,57,0.5), rgba(5,44,57,0.7)), url('<?= base_url('images/background.png') ?>'); background-size: cover; background-position: center; background-attachment: fixed; padding: 145px 40px; color: white; border-radius: 0 0 80px 80px; margin-bottom: 60px; }
         footer { background: var(--deep-blue); padding: 100px 0 40px 0; color: rgba(255,255,255,0.6) !important; border-top: 1px solid rgba(255,255,255,0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
         .social-icons i { color: rgba(255,255,255,0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
@@ -174,6 +174,38 @@
 
         @media (max-width: 992px) { .booking-layout { grid-template-columns: 1fr; } .summary-sidebar { position: static; } .form-row-2 { grid-template-columns: 1fr; } .activity-meta { grid-template-columns: 1fr; } .conditions-grid { grid-template-columns: 1fr; gap: 8px; } .activity-grid { grid-template-columns: 1fr; } }
         html { scroll-behavior: smooth; }
+        /* Tooltip styling - Consistency sa buong site */
+        .tooltip-btn {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tooltip-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%; 
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--deep-blue);
+            color: var(--soft-white);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+            pointer-events: none;
+            border: 1px solid var(--accent-cyan);
+            z-index: 2000; /* Mas mataas sa lahat */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .tooltip-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body>
@@ -413,9 +445,10 @@
                     I have read and agree to the safety guidelines and activity rules.
                 </label>
             </div>
-            <button type="submit" class="btn-confirm" id="confirm-btn" disabled>
-                <i class="fas fa-check-circle me-2"></i> Confirm Reservation
-            </button>
+            <button type="submit" class="btn-confirm tooltip-btn" id="confirm-btn" disabled 
+                data-tooltip="Click here to Confirm your Reservation">
+            <i class="fas fa-check-circle me-2"></i> Confirm Reservation
+        </button>
             <p class="form-hint text-center mt-2" id="confirm-hint">Please select a date and time to continue.</p>
         </div>
 

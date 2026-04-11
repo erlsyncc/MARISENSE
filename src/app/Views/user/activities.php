@@ -244,6 +244,37 @@
         html {
             scroll-behavior: smooth;
         }
+        /* Tooltip styling - Specific to tooltip-btn class */
+        .tooltip-btn {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tooltip-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 120%; /* Posisyon sa taas ng button */
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--deep-blue);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+            pointer-events: none;
+            border: 1px solid var(--accent-cyan);
+            z-index: 1050; /* Siguradong nasa itaas */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .tooltip-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body>
@@ -336,7 +367,9 @@ foreach($activities as $item): ?>
                         </div>
 
                         <div class="mt-4 border-top border-secondary pt-4 text-center">
-                            <a href="<?= base_url('user/booking?activity=' . urlencode($item['name'])) ?>" class="btn-book-now">
+                            <a href="<?= base_url('user/booking?activity=' . urlencode($item['name'])) ?>" 
+                            class="btn-book-now tooltip-btn" 
+                            data-tooltip="Click here to book <?= $item['name'] ?>">
                                 Book <?= $item['name'] ?>
                             </a>
                         </div>

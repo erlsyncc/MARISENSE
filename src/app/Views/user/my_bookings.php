@@ -27,7 +27,7 @@
         /* Unified Hero Section */
         .welcome-hero {
             background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), 
-                        url('<?= base_url('images/bookings_bg.png') ?>'); 
+                        url('<?= base_url('images/background.png') ?>'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -116,6 +116,37 @@
         }
         html {
             scroll-behavior: smooth;
+        }
+        /* Tooltip para sa table buttons */
+        .tooltip-btn { position: relative; }
+        .tooltip-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 120%; left: 50%;
+            transform: translateX(-50%);
+            background: #052c39; color: #48cae4;
+            padding: 5px 10px; border-radius: 6px;
+            font-size: 0.7rem; font-weight: 600;
+            white-space: nowrap; opacity: 0; pointer-events: none;
+            transition: 0.3s; border: 1px solid #48cae4;
+        }
+        .tooltip-btn:hover::after { opacity: 1; }
+
+        /* Enhanced View Button */
+        .btn-view-details { 
+            background: rgba(72, 202, 228, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            padding: 8px 20px; 
+            border-radius: 50px; 
+            transition: 0.3s;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .btn-view-details:hover { 
+            background: var(--accent-cyan); 
+            color: var(--deep-blue);
+            transform: translateY(-2px); 
         }
     </style>
 </head>
@@ -217,10 +248,11 @@
 
                         <td class="text-center">
                             <button 
-                                class="btn-view-details"
+                                class="btn-view-details tooltip-btn"
+                                data-tooltip="Open full details"
                                 onclick="viewDetails(<?= $booking['id'] ?>)"
                             >
-                                View Details
+                                <i class="fa-solid fa-eye me-1"></i> View Details
                             </button>
                         </td>
                     </tr>
