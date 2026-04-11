@@ -13,7 +13,7 @@
         
         .highlight-brand {
             font-weight: 700;
-            color: #48cae4; /* Matches your accent cyan */
+            color: #48cae4;
             text-shadow: 0 0 10px rgba(72, 202, 228, 0.4);
             letter-spacing: 1px;
         }
@@ -23,12 +23,117 @@
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
         .user-greeting { color: white; font-size: 1.2rem; font-weight: 400; flex: 1; }
         .nav-menu-center { display: flex; gap: 10px; justify-content: center; flex: 2; }
-        .logout-wrapper { flex: 1; display: flex; justify-content: flex-end; }
+        .logout-wrapper { flex: 1; display: flex; justify-content: flex-end; gap: 10px; align-items: center; }
         .nav-link-custom { color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 8px 16px; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
         .nav-link-custom:hover { color: var(--accent-cyan); background: rgba(255, 255, 255, 0.1); }
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
+
+        /* ============================================================
+           ADDED: HELP BUTTON STYLE
+           ============================================================ */
+        .btn-help-custom {
+            color: #48cae4;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 8px 18px;
+            border: 1px solid rgba(72,202,228,0.5);
+            border-radius: 50px;
+            background: rgba(72,202,228,0.08);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-help-custom:hover {
+            background: rgba(72,202,228,0.2);
+            border-color: var(--accent-cyan);
+        }
+        /* ============================================================
+           ADDED: HELP MODAL STYLES
+           ============================================================ */
+        #helpModal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(5,44,57,0.88);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeInModal 0.25s ease;
+        }
+        #helpModal.d-none { display: none !important; }
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.96); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+        .help-modal-box {
+            background: #0a3d52;
+            border: 1px solid rgba(72,202,228,0.35);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 780px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .help-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .help-modal-title {
+            color: #48cae4;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .btn-close-help {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            border-radius: 50px;
+            padding: 6px 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        .btn-close-help:hover { background: rgba(255,255,255,0.1); }
+        .help-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) { .help-grid { grid-template-columns: 1fr; } }
+        .help-item {
+            background: rgba(255,255,255,0.05);
+            border-left: 4px solid #48cae4;
+            border-radius: 14px;
+            padding: 18px 20px;
+            transition: 0.3s;
+        }
+        .help-item:hover { background: rgba(72,202,228,0.08); transform: translateX(4px); }
+        .help-item strong {
+            color: #48cae4;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.92rem;
+        }
+        .help-item p {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.85rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+        .help-modal-footer {
+            margin-top: 28px;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+        }
+        /* ============================================================ */
 
         .welcome-hero {
             background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), 
@@ -101,11 +206,11 @@
         .social-icons i { color: rgba(255, 255, 255, 0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
         .social-icons i:hover { color: var(--accent-cyan); transform: scale(1.2); }
 
-        /* Gallery setup - ginawang mas maliit ang rows */
+        /* Gallery setup */
         .vertical-gallery {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(2, 180px); /* Binabaan mula 220px para mas compact */
+            grid-template-rows: repeat(2, 180px);
             gap: 12px;
         }
 
@@ -113,7 +218,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 15px; /* Mas malinis na corner */
+            border-radius: 15px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             transition: 0.3s ease;
         }
@@ -124,9 +229,9 @@
             backdrop-filter: blur(15px); 
             border: 1px solid rgba(255, 255, 255, 0.1); 
             border-radius: 30px; 
-            padding: 30px; /* Binawasan ang padding para hindi masyadong malaki ang puting space */
-            margin-bottom: 60px; /* Binawasan ang layo ng bawat activity section */
-            max-width: 1100px; /* Nilimitahan ang lapad para maging "centered" focus */
+            padding: 30px;
+            margin-bottom: 60px;
+            max-width: 1100px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -135,18 +240,16 @@
         .info-panel {
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Pantay sa gitna ng pictures */
+            justify-content: center;
             height: 100%;
         }
 
-        /* Idagdag ito sa <style> section */
         .activities-wrapper {
-            padding-left: 10%;  /* Dynamic space sa left */
-            padding-right: 10%; /* Dynamic space sa right */
+            padding-left: 10%;
+            padding-right: 10%;
             margin-top: 50px;
         }
 
-        /* Para sa mas malalaking screen (Desktop), mas lalakihan natin ang space */
         @media (min-width: 1200px) {
             .activities-wrapper {
                 padding-left: 150px;
@@ -168,7 +271,7 @@
 
         .safety-wrapper {
             max-width: 1300px;
-            margin: 80px auto; /* Centered container */
+            margin: 80px auto;
             text-align: center;
             padding: 40px;
             border: 2px dashed #ffc107;
@@ -180,7 +283,7 @@
             height: 4px;
             width: 80px;
             background: #ffc107;
-            margin: 15px auto; /* Centered line */
+            margin: 15px auto;
             border-radius: 10px;
             position: relative;
             overflow: hidden;
@@ -202,49 +305,45 @@
             100% { left: 100%; }
         }
 
-        /* interactive Floating Scroll Button (Center Right) */
         #scrollBtn {
             position: fixed;
             right: 20px;
             top: 50%;
             transform: translateY(-50%);
             z-index: 1000;
-            width: 50px; /* Nilakihan nang konti para mas maluwag */
-            height: 150px; /* Mas mahaba para mas pill-shaped look */
-            background: rgba(10, 88, 114, 0.85); /* Bahagyang mas malinaw ang background */
-            backdrop-filter: blur(10px); /* Mas blurred ang background */
-            border: 3px solid var(--accent-cyan); /* Mas makapal na border */
-            border-radius: 60px; /* Mas rounded pill shape */
+            width: 50px;
+            height: 150px;
+            background: rgba(10, 88, 114, 0.85);
+            backdrop-filter: blur(10px);
+            border: 3px solid var(--accent-cyan);
+            border-radius: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--accent-cyan);
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* Mas malalim na anino */
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
         #scrollBtn:hover {
             background: var(--accent-cyan);
             color: var(--deep-blue);
-            right: 25px; /* Konting galaw pabalik pag ni-hover */
+            right: 25px;
         }
 
-        /* NILAKIHAN NATIN ITO: Ang arrow icon sa loob */
         #scrollBtn i {
-            font-size: 2.5rem; /* Mas malaking icon para mas kita */
+            font-size: 2.5rem;
             transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            margin: 0 auto; /* Naka-center vertical at horizontal */
+            margin: 0 auto;
         }
 
-        /* Rotation for Upward Arrow */
         .rotate-up {
             transform: rotate(180deg);
         }
         html {
             scroll-behavior: smooth;
         }
-        /* Tooltip styling - Specific to tooltip-btn class */
         .tooltip-btn {
             position: relative;
             cursor: pointer;
@@ -253,7 +352,7 @@
         .tooltip-btn::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 120%; /* Posisyon sa taas ng button */
+            bottom: 120%;
             left: 50%;
             transform: translateX(-50%);
             background: var(--deep-blue);
@@ -267,7 +366,7 @@
             transition: 0.3s ease;
             pointer-events: none;
             border: 1px solid var(--accent-cyan);
-            z-index: 1050; /* Siguradong nasa itaas */
+            z-index: 1050;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
@@ -290,7 +389,13 @@
             <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom">My Bookings</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
-        <div class="logout-wrapper"><a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a></div>
+        <!-- UPDATED: added Help button beside Logout -->
+        <div class="logout-wrapper">
+            <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
+                <i class="fa-solid fa-circle-question me-1"></i> Help
+            </button>
+            <a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a>
+        </div>
     </div>
 </nav>
 
@@ -305,7 +410,6 @@
 
 <div class="container">
     <?php 
-// 1. Siguraduhin na nandito itong array na ito sa itaas ng foreach
 $activities = [
     [
         'name' => 'Jet Ski',
@@ -333,7 +437,6 @@ $activities = [
     ]
 ];
 
-// 2. Ngayon, safe na itong i-loop
 foreach($activities as $item): ?>
     
     <div id="<?= strtolower(str_replace(' ', '-', $item['name'])) ?>" class="text-center w-100 mt-5">
@@ -413,18 +516,61 @@ foreach($activities as $item): ?>
     </div>
 </footer>
 
+<!-- ADDED: HELP MODAL -->
+<div id="helpModal" class="d-none">
+    <div class="help-modal-box">
+        <div class="help-modal-header">
+            <h5 class="help-modal-title">
+                <i class="fa-solid fa-circle-question me-2"></i> System Guide
+            </h5>
+            <button class="btn-close-help" onclick="document.getElementById('helpModal').classList.add('d-none')">
+                <i class="fa-solid fa-xmark me-1"></i> Close
+            </button>
+        </div>
+        <div class="help-grid">
+            <div class="help-item">
+                <strong><i class="fa-solid fa-house me-2"></i>Home</strong>
+                <p>Overview of the whole system — featured activities, live sea conditions powered by MARISENSE, and recent customer reviews at a glance.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-person-swimming me-2"></i>Activities</strong>
+                <p>Browse all available water sports — Jet Ski, Banana Boat, Kayaking, and Flying Saucer — with descriptions and pricing info.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-water me-2"></i>Safety & Sea Conditions</strong>
+                <p>View real-time MARISENSE data: wind speed, wave height, wave period, and whether activities are currently safe to proceed.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-calendar-check me-2"></i>Book & Reserve</strong>
+                <p>Select your preferred activity, pick a date and time slot, and confirm your reservation online before heading to the beach.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-list-check me-2"></i>My Bookings</strong>
+                <p>Track all your active and past reservations. View booking status, schedule, and activity details anytime.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-star me-2"></i>Reviews</strong>
+                <p>Read honest feedback from fellow adventurers, or leave your own review and rating after completing an activity.</p>
+            </div>
+        </div>
+        <div class="help-modal-footer">
+            <i class="fa-solid fa-shield-halved me-1"></i>
+            For further assistance, contact us via our social media pages.
+        </div>
+    </div>
+</div>
+<!-- END HELP MODAL -->
+
 <script src="<?= base_url('bootstrap5/js/bootstrap.bundle.min.js') ?>"></script>
 
 <script>
         function smartScroll() {
             const scrollIcon = document.getElementById("scrollIcon");
-            // Check kung malapit na sa dulo (200px buffer)
             const isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 200);
 
             if (isAtBottom || scrollIcon.classList.contains("rotate-up")) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                // Interactive jump: 600px pababa
                 window.scrollBy({ top: 600, left: 0, behavior: 'smooth' });
             }
         }
@@ -433,19 +579,24 @@ foreach($activities as $item): ?>
             const scrollIcon = document.getElementById("scrollIcon");
             const scrollBtn = document.getElementById("scrollBtn");
             
-            // Kalkulahin ang scroll percentage
             const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
             const scrollValue = window.scrollY / scrollTotal;
             
-            // Kapag lumampas sa 80% ng page, iikot ang arrow ↑
             if (scrollValue > 0.8) {
                 scrollIcon.classList.add("rotate-up");
-                scrollBtn.style.background = "#48cae4"; // Accent Cyan
-                scrollIcon.style.color = "#052c39";    // Deep Blue
+                scrollBtn.style.background = "#48cae4";
+                scrollIcon.style.color = "#052c39";
             } else {
                 scrollIcon.classList.remove("rotate-up");
                 scrollBtn.style.background = "rgba(10, 88, 114, 0.8)";
                 scrollIcon.style.color = "#48cae4";
+            }
+        });
+
+        /* ADDED: Close help modal when clicking outside the box */
+        document.getElementById('helpModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('d-none');
             }
         });
     </script>

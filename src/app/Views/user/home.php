@@ -37,12 +37,32 @@
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
         .user-greeting { color: white; font-size: 1.2rem; font-weight: 400; flex: 1; }
         .nav-menu-center { display: flex; gap: 10px; justify-content: center; flex: 2; }
-        .logout-wrapper { flex: 1; display: flex; justify-content: flex-end; }
+        .logout-wrapper { flex: 1; display: flex; justify-content: flex-end; gap: 10px; align-items: center; }
         .nav-link-custom { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 8px 16px; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
         .nav-link-custom:hover { color: var(--accent-cyan); background: rgba(255,255,255,0.1); }
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255,107,107,0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
+
+        /* ============================================================
+           NEW: HELP BUTTON STYLE
+           ============================================================ */
+        .btn-help-custom {
+            color: #48cae4;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 8px 18px;
+            border: 1px solid rgba(72,202,228,0.5);
+            border-radius: 50px;
+            background: rgba(72,202,228,0.08);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-help-custom:hover {
+            background: rgba(72,202,228,0.2);
+            border-color: var(--accent-cyan);
+        }
+        /* ============================================================ */
 
         /* --- HERO --- */
         .welcome-hero {
@@ -154,166 +174,118 @@
         #scrollBtn i { font-size: 2.5rem; transition: transform 0.5s cubic-bezier(0.68,-0.55,0.27,1.55); margin: 0 auto; }
         .rotate-up { transform: rotate(180deg); }
         html { scroll-behavior: smooth; }
+
         /* ===== FEATURES SECTION ===== */
-        .features {
-        padding:90px 0;
-        color: white;
-        text-align: center;
-        }
+        .features { padding:90px 0; color: white; text-align: center; }
+        .features .row { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 40px; }
+        .features .col-md-4 { flex: 1; min-width: 280px; max-width: 350px; }
+        .feature-box { background: rgba(255,255,255,0.95); padding:20px; border-radius:30px; transition:0.3s; box-shadow:0 10px 25px rgba(0,0,0,0.08); color: #333; height: 100%; }
+        .feature-box:hover { transform:translateY(-10px); }
 
-        .features .row {
-        display: flex;
-        justify-content: center;
-        gap: 40px;
-        flex-wrap: wrap;
-        margin-top: 40px;
-        }
+        /* ABOUT SECTION */
+        .about-section { padding: 10px 0; color: #ffffff; display: flex; justify-content: center; }
+        .about-row { display: flex; align-items: center; justify-content: space-between; gap: 80px; }
+        .about-section .container { max-width: 1500px; padding: 0 40px; width: 100%; }
+        .about-left { flex: 1; text-align: left; }
+        .about-right { flex: 1; }
+        .about-section h2 { font-weight: 700; color: #ffffff; margin-bottom: 25px; font-size: 2.5rem; }
+        .about-section h3 { font-weight: 600; color: #48cae4; margin-bottom: 25px; }
+        .about-section p { line-height: 1.8; opacity: 0.9; font-size: 1.05rem; }
+        .commitment-item { padding: 18px 25px; border-radius: 15px; border-left: 4px solid #48cae4; margin-bottom: 20px; transition: all 0.3s ease; background: rgba(255, 255, 255, 0.03); color: #ffffff; }
+        .commitment-item:hover { transform: translateX(10px); background: rgba(72, 202, 228, 0.08); }
+        .commitment-item strong { color: #48cae4; display: block; margin-bottom: 5px; }
+        @media (max-width: 991px) { .about-row { flex-direction: column; gap: 40px; text-align: center; } .about-left, .about-right { text-align: center; } .commitment-item { text-align: left; } }
+        .title-line-left { height: 4px; width: 60px; background: var(--accent-cyan); margin: 10px 0 25px 0; border-radius: 10px; }
+        .tooltip-btn { position: relative; }
+        .tooltip-btn::after { content: attr(data-tooltip); position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); background: var(--deep-blue); color: white; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; white-space: nowrap; opacity: 0; visibility: hidden; transition: 0.3s ease; pointer-events: none; border: 1px solid var(--accent-cyan); z-index: 1000; }
+        .tooltip-btn:hover::after { opacity: 1; visibility: visible; }
 
-        .features .col-md-4 {
-        flex: 1;
-        min-width: 280px;
-        max-width: 350px;
+        /* ============================================================
+           NEW: HELP MODAL STYLES
+           ============================================================ */
+        #helpModal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(5,44,57,0.88);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeInModal 0.25s ease;
         }
-
-        .feature-box {
-        background: rgba(255,255,255,0.95);
-        padding:20px;
-        border-radius:30px;
-        transition:0.3s;
-        box-shadow:0 10px 25px rgba(0,0,0,0.08);
-        color: #333;
-        height: 100%;
+        #helpModal.d-none { display: none !important; }
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.96); }
+            to   { opacity: 1; transform: scale(1); }
         }
-
-        .feature-box:hover {
-        transform:translateY(-10px);
+        .help-modal-box {
+            background: #0a3d52;
+            border: 1px solid rgba(72,202,228,0.35);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 780px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
-
-        /* ABOUT SECTION - REFINED ALIGNMENT */
-        .about-section {
-        padding: 10px 0; 
-        color: #ffffff; 
-        display: flex;
-        justify-content: center; /* Centers the inner container */
+        .help-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
         }
-
-        /* Flex Container for side-by-side alignment */
-        .about-row {
-        display: flex;
-        align-items: center; /* Vertically centers the shorter side with the taller side */
-        justify-content: space-between;
-        gap: 80px; /* Wider gap for a cleaner, premium feel */
+        .help-modal-title {
+            color: #48cae4;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
         }
-
-        .about-section .container {
-        /* This creates the "Space on each side" by limiting max-width */
-        max-width: 1500px; 
-        padding: 0 40px;   /* Extra safety padding for smaller screens */
-        width: 100%;
-        }
-
-        .about-left {
-        flex: 1;
-        text-align: left;
-        }
-
-        .about-right {
-        flex: 1;
-        }
-
-        .about-section h2 {
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 25px;
-        font-size: 2.5rem;
-        }
-
-        .about-section h3 {
-        font-weight: 600;
-        color: #48cae4;
-        margin-bottom: 25px;
-        }
-
-        .about-section p {
-        line-height: 1.8;
-        opacity: 0.9;
-        font-size: 1.05rem;
-        }
-
-        /* Commitment Items styling */
-        .commitment-item {
-        padding: 18px 25px;
-        border-radius: 15px;
-        border-left: 4px solid #48cae4;
-        margin-bottom: 20px;
-        transition: all 0.3s ease;
-        background: rgba(255, 255, 255, 0.03); /* Very subtle glass effect */
-        color: #ffffff;
-        }
-
-        .commitment-item:hover {
-        transform: translateX(10px);
-        background: rgba(72, 202, 228, 0.08);
-        }
-
-        .commitment-item strong {
-        color: #48cae4;
-        display: block; /* Moves the title above the text for better vertical alignment */
-        margin-bottom: 5px;
-        }
-
-        /* Responsive Fix */
-        @media (max-width: 991px) {
-        .about-row {
-            flex-direction: column;
-            gap: 40px;
-            text-align: center;
-        }
-        .about-left, .about-right {
-            text-align: center;
-        }
-        .commitment-item {
-            text-align: left;
-        }
-        }
-        /* Para sa left-aligned line */
-        .title-line-left {
-            height: 4px;
-            width: 60px;
-            background: var(--accent-cyan);
-            margin: 10px 0 25px 0; /* 0 ang margin sa gilid para sa kaliwa */
-            border-radius: 10px;
-        }
-        /* I-remove ang ::after sa .btn-view-details para hindi madamay ang iba */
-        /* Idagdag ang bagong class na ito: */
-        .tooltip-btn {
-            position: relative;
-        }
-
-        .tooltip-btn::after {
-            content: attr(data-tooltip); /* Kukunin ang text mula sa HTML attribute */
-            position: absolute;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--deep-blue);
+        .btn-close-help {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.25);
             color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.3s ease;
-            pointer-events: none;
-            border: 1px solid var(--accent-cyan);
-            z-index: 1000;
+            border-radius: 50px;
+            padding: 6px 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.3s;
         }
-
-        .tooltip-btn:hover::after {
-            opacity: 1;
-            visibility: visible;
+        .btn-close-help:hover { background: rgba(255,255,255,0.1); }
+        .help-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
         }
+        @media (max-width: 600px) { .help-grid { grid-template-columns: 1fr; } }
+        .help-item {
+            background: rgba(255,255,255,0.05);
+            border-left: 4px solid #48cae4;
+            border-radius: 14px;
+            padding: 18px 20px;
+            transition: 0.3s;
+        }
+        .help-item:hover { background: rgba(72,202,228,0.08); transform: translateX(4px); }
+        .help-item strong {
+            color: #48cae4;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.92rem;
+        }
+        .help-item p {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.85rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+        .help-modal-footer {
+            margin-top: 28px;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+        }
+        /* ============================================================ */
     </style>
 </head>
 <body>
@@ -332,7 +304,13 @@
             <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom">My Bookings</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
+
+        <!-- UPDATED: logout-wrapper now has gap and help button added -->
         <div class="logout-wrapper">
+            <!-- NEW: Help Button -->
+            <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
+                <i class="fa-solid fa-circle-question me-1"></i> Help
+            </button>
             <a href="<?= base_url('logout') ?>" class="btn-logout-custom">
                 <i class="fa-solid fa-power-off me-1"></i> Logout
             </a>
@@ -366,10 +344,10 @@
     <div class="about-row">
       <div class="about-left">
         <h2 style="margin-bottom: 10px;">About Us</h2>
-        <div class="title-line-left"></div><p><strong>Waves Water Sports</strong> is a premier leisure and adventure provider located in Matabungkay, Lian, Batangas. We specialize in safe, thrilling, and memorable water experiences for families, friends, and solo adventurers.</p>
-        <p>Our mission is to combine fun, safety, and convenience using smart technology to monitor water conditions in real-time while offering easy online booking. Whether you’re into jet skiing, banana boating, or kayaking, every visit is enjoyable and secure.</p>
+        <div class="title-line-left"></div>
+        <p><strong>Waves Water Sports</strong> is a premier leisure and adventure provider located in Matabungkay, Lian, Batangas. We specialize in safe, thrilling, and memorable water experiences for families, friends, and solo adventurers.</p>
+        <p>Our mission is to combine fun, safety, and convenience using smart technology to monitor water conditions in real-time while offering easy online booking. Whether you're into jet skiing, banana boating, or kayaking, every visit is enjoyable and secure.</p>
       </div>
-
       <div class="about-right">
         <h3>Our Commitments</h3>
         <div class="commitment-item">
@@ -395,42 +373,33 @@
 
 <section class="features text-center">
   <div class="container">
-    <h1 class="mb-5 fw-bold text-uppercase" style="letter-spacing: 2px;">
-      Experience the Sea
-    </h1>
+    <h1 class="mb-5 fw-bold text-uppercase" style="letter-spacing: 2px;">Experience the Sea</h1>
     <div class="title-line"></div>
-
-    <!-- IMPORTANT: may row -->
     <div class="row">
-
       <div class="col-md-4">
         <div class="feature-box">
           <h3 class="fw-bold">Water Activities</h3>
           <p>Jet Ski, Banana Boat, Kayaking and exciting ocean adventures.</p>
         </div>
       </div>
-
       <div class="col-md-4">
         <div class="feature-box">
           <h3 class="fw-bold">Easy Online Booking</h3>
           <p>Reserve your preferred schedule anytime with our smart system.</p>
         </div>
       </div>
-
       <div class="col-md-4">
         <div class="feature-box">
           <h3 class="fw-bold">Safe & Monitored</h3>
           <p>Real-time water condition monitoring for your safety.</p>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
 <div class="container">
 
-    <!-- FEATURED ACTIVITIES -->
     <div class="section-header">
         <h1 class="fw-bold text-white">Featured Activities</h1>
         <div class="title-line"></div>
@@ -452,7 +421,7 @@
                 <p class="small text-white-50 mb-3"><?= $act[1] ?></p>
                 <a href="<?= base_url('user/activities') ?>#<?= $act[3] ?>" 
                 class="btn-view-details tooltip-btn" 
-                data-tooltip="Click here to proceed to the activity (<?= $act[0] ?>)">
+                data-tooltip="Click here to see activity details (<?= $act[0] ?>)">
                 View Details
                 </a>
             </div>
@@ -460,7 +429,6 @@
         <?php endforeach; ?>
     </div>
 
-    <!-- SEA CONDITIONS -->
     <section class="py-5">
         <div class="container">
             <div class="section-header">
@@ -470,7 +438,6 @@
             <div class="centered-data-wrapper">
                 <div class="sea-data-container shadow-lg">
                     <?php
-                    // Use DB data if available, fallback to static values
                     $windSpeed  = isset($seaCondition['wind_speed'])  ? $seaCondition['wind_speed']  . ' knots' : '10 knots';
                     $waveHeight = isset($seaCondition['wave_height'])  ? $seaCondition['wave_height'] . ' meters' : '0.9 meters';
                     $wavePeriod = isset($seaCondition['wave_period'])  ? $seaCondition['wave_period'] . ' seconds' : '5 seconds';
@@ -514,11 +481,8 @@
         </div>
     </section>
 
-</div><!-- /container -->
+</div>
 
-<!-- =====================================================================
-     REVIEWS SECTION
-     ===================================================================== -->
 <section class="reviews-section">
     <div class="section-header">
         <h1 class="fw-bold text-white">What Our Adventurers Say</h1>
@@ -527,7 +491,6 @@
 
     <div class="review-cards-wrapper">
         <?php
-        // HARDCODED DISPLAY REVIEWS
         $staticReviews = [
             [
                 'username'    => 'Cardo Dalisay',
@@ -558,7 +521,6 @@
             ],
         ];
 
-        // Force use of static reviews for home page display
         $displayReviews = $staticReviews;
 
         foreach ($displayReviews as $rev):
@@ -569,28 +531,20 @@
             $safe  = strtolower($rev['safe_feel'] ?? 'yes');
             $date  = date('F d, Y', strtotime($rev['created_at']));
             $photo = $rev['photo_url'];
-
-            // Activity icon mapping
             $actIcon = match(strtolower($act)) {
-                'jet ski'       => 'fa-person-water-polo',
-                'banana boat'   => 'fa-ship',
-                'kayaking'      => 'fa-water',
-                default         => 'fa-water',
+                'jet ski'     => 'fa-person-water-polo',
+                'banana boat' => 'fa-ship',
+                'kayaking'    => 'fa-water',
+                default       => 'fa-water',
             };
         ?>
         <div class="home-review-card shadow">
-
-            <img src="<?= $photo ?>"
-                 alt="Review photo by <?= $name ?>"
-                 class="review-card-photo"
-                 style="object-fit: cover;">
-
+            <img src="<?= $photo ?>" alt="Review photo by <?= $name ?>" class="review-card-photo" style="object-fit: cover;">
             <div class="review-card-body">
                 <div class="review-card-header">
                     <div class="reviewer-info">
                         <img src="https://ui-avatars.com/api/?name=<?= urlencode($name) ?>&background=0a5872&color=fff&size=80"
-                             alt="<?= $name ?>"
-                             class="reviewer-avatar">
+                             alt="<?= $name ?>" class="reviewer-avatar">
                         <div>
                             <div class="reviewer-name"><?= $name ?></div>
                             <div class="review-date"><?= $date ?></div>
@@ -602,13 +556,9 @@
                         <?php endfor; ?>
                     </div>
                 </div>
-
                 <p class="review-text">"<?= $text ?>"</p>
-
                 <div class="review-badge-row">
-                    <span class="badge-activity-home">
-                        <i class="fa-solid <?= $actIcon ?> me-1"></i><?= $act ?>
-                    </span>
+                    <span class="badge-activity-home"><i class="fa-solid <?= $actIcon ?> me-1"></i><?= $act ?></span>
                     <span class="badge-safe-home"><i class="fa-solid fa-shield-halved me-1"></i> Felt Safe</span>
                 </div>
             </div>
@@ -622,8 +572,6 @@
         </a>
     </div>
 </section>
-<!-- END REVIEWS SECTION -->
-
 
 <div class="container">
     <div class="cta-box shadow-lg">
@@ -660,6 +608,55 @@
     </div>
 </footer>
 
+<!-- ============================================================
+     NEW: HELP MODAL
+     ============================================================ -->
+<div id="helpModal" class="d-none">
+    <div class="help-modal-box">
+        <div class="help-modal-header">
+            <h5 class="help-modal-title">
+                <i class="fa-solid fa-circle-question me-2"></i> System Guide
+            </h5>
+            <button class="btn-close-help" onclick="document.getElementById('helpModal').classList.add('d-none')">
+                <i class="fa-solid fa-xmark me-1"></i> Close
+            </button>
+        </div>
+
+        <div class="help-grid">
+            <div class="help-item">
+                <strong><i class="fa-solid fa-house me-2"></i>Home</strong>
+                <p>Overview of the whole system — featured activities, live sea conditions powered by MARISENSE, and recent customer reviews at a glance.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-person-swimming me-2"></i>Activities</strong>
+                <p>Browse all available water sports — Jet Ski, Banana Boat, Kayaking, and Flying Saucer — with descriptions and pricing info.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-water me-2"></i>Safety & Sea Conditions</strong>
+                <p>View real-time MARISENSE data: wind speed, wave height, wave period, and whether activities are currently safe to proceed.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-calendar-check me-2"></i>Book & Reserve</strong>
+                <p>Select your preferred activity, pick a date and time slot, and confirm your reservation online before heading to the beach.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-list-check me-2"></i>My Bookings</strong>
+                <p>Track all your active and past reservations. View booking status, schedule, and activity details anytime.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-star me-2"></i>Reviews</strong>
+                <p>Read honest feedback from fellow adventurers, or leave your own review and rating after completing an activity.</p>
+            </div>
+        </div>
+
+        <div class="help-modal-footer">
+            <i class="fa-solid fa-shield-halved me-1"></i>
+            For further assistance, contact us via our social media pages.
+        </div>
+    </div>
+</div>
+<!-- ============================================================ -->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function smartScroll() {
@@ -688,6 +685,16 @@
             scrollIcon.style.color = "#48cae4";
         }
     });
+
+    /* ============================================================
+       NEW: Close help modal when clicking outside the box
+       ============================================================ */
+    document.getElementById('helpModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.add('d-none');
+        }
+    });
+    /* ============================================================ */
 </script>
 
 <div id="scrollBtn" onclick="smartScroll()" title="Navigate Page">

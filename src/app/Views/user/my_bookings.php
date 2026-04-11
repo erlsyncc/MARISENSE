@@ -18,13 +18,118 @@
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
         .user-greeting { color: white; font-size: 1.2rem; font-weight: 400; flex: 1; }
         .nav-menu-center { display: flex; gap: 10px; justify-content: center; flex: 2; }
-        .logout-wrapper { flex: 1; display: flex; justify-content: flex-end; }
+        .logout-wrapper { flex: 1; display: flex; justify-content: flex-end; gap: 10px; align-items: center; }
         .nav-link-custom { color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 8px 16px; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
         .nav-link-custom:hover { color: var(--accent-cyan); background: rgba(255, 255, 255, 0.1); }
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
-        /* Unified Hero Section */
+
+        /* ============================================================
+           ADDED: HELP BUTTON STYLE
+           ============================================================ */
+        .btn-help-custom {
+            color: #48cae4;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 8px 18px;
+            border: 1px solid rgba(72,202,228,0.5);
+            border-radius: 50px;
+            background: rgba(72,202,228,0.08);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-help-custom:hover {
+            background: rgba(72,202,228,0.2);
+            border-color: var(--accent-cyan);
+        }
+        /* ============================================================
+           ADDED: HELP MODAL STYLES
+           ============================================================ */
+        #helpModal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(5,44,57,0.88);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeInModal 0.25s ease;
+        }
+        #helpModal.d-none { display: none !important; }
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.96); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+        .help-modal-box {
+            background: #0a3d52;
+            border: 1px solid rgba(72,202,228,0.35);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 780px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .help-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .help-modal-title {
+            color: #48cae4;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .btn-close-help {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            border-radius: 50px;
+            padding: 6px 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        .btn-close-help:hover { background: rgba(255,255,255,0.1); }
+        .help-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) { .help-grid { grid-template-columns: 1fr; } }
+        .help-item {
+            background: rgba(255,255,255,0.05);
+            border-left: 4px solid #48cae4;
+            border-radius: 14px;
+            padding: 18px 20px;
+            transition: 0.3s;
+        }
+        .help-item:hover { background: rgba(72,202,228,0.08); transform: translateX(4px); }
+        .help-item strong {
+            color: #48cae4;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.92rem;
+        }
+        .help-item p {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.85rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+        .help-modal-footer {
+            margin-top: 28px;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+        }
+        /* ============================================================ */
+
         .welcome-hero {
             background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), 
                         url('<?= base_url('images/background.png') ?>'); 
@@ -38,7 +143,6 @@
         }
         .activity-line { height: 5px; width: 80px; background: var(--accent-cyan); border-radius: 10px; margin: 15px auto 0 auto; }
 
-        /* Booking Table Container */
         .booking-main-container { 
             background: rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(15px); 
@@ -49,7 +153,6 @@
             overflow-x: auto;
         }
 
-        /* Table Styling */
         .custom-table { width: 100%; color: white; border-collapse: separate; border-spacing: 0 15px; }
         .custom-table thead th { border: none; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; opacity: 0.7; padding: 10px 20px; }
         .custom-table tbody tr { background: rgba(255, 255, 255, 0.05); transition: 0.3s; }
@@ -58,66 +161,59 @@
         .custom-table td:first-child { border-radius: 20px 0 0 20px; }
         .custom-table td:last-child { border-radius: 0 20px 20px 0; }
 
-        /* Status Badges */
         .badge-status { padding: 8px 16px; border-radius: 50px; font-weight: 600; font-size: 0.8rem; border: 1px solid transparent; }
         .status-pending { background: rgba(255, 193, 7, 0.1); color: #ffc107; border-color: #ffc107; }
         .status-confirmed { background: rgba(40, 167, 69, 0.1); color: #28a745; border-color: #28a745; }
         .status-completed { background: rgba(72, 202, 228, 0.1); color: #48cae4; border-color: #48cae4; }
         .status-cancelled { background: rgba(220, 53, 69, 0.1); color: #dc3545; border-color: #dc3545; }
 
-        /* Action Buttons */
         .btn-view-details { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 700; border: none; padding: 8px 20px; border-radius: 50px; transition: 0.3s; }
         .btn-view-details:hover { background: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(72, 202, 228, 0.4); }
 
-        /* Footer Styles */
         footer { background: var(--deep-blue); padding: 100px 0 40px 0; color: rgba(255, 255, 255, 0.6) !important; border-top: 1px solid rgba(255, 255, 255, 0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
         .social-icons i { color: rgba(255, 255, 255, 0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
         .social-icons i:hover { color: var(--accent-cyan); transform: scale(1.2); }
 
-        /* interactive Floating Scroll Button (Center Right) */
         #scrollBtn {
             position: fixed;
             right: 20px;
             top: 50%;
             transform: translateY(-50%);
             z-index: 1000;
-            width: 50px; /* Nilakihan nang konti para mas maluwag */
-            height: 150px; /* Mas mahaba para mas pill-shaped look */
-            background: rgba(10, 88, 114, 0.85); /* Bahagyang mas malinaw ang background */
-            backdrop-filter: blur(10px); /* Mas blurred ang background */
-            border: 3px solid var(--accent-cyan); /* Mas makapal na border */
-            border-radius: 60px; /* Mas rounded pill shape */
+            width: 50px;
+            height: 150px;
+            background: rgba(10, 88, 114, 0.85);
+            backdrop-filter: blur(10px);
+            border: 3px solid var(--accent-cyan);
+            border-radius: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--accent-cyan);
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* Mas malalim na anino */
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
         #scrollBtn:hover {
             background: var(--accent-cyan);
             color: var(--deep-blue);
-            right: 25px; /* Konting galaw pabalik pag ni-hover */
+            right: 25px;
         }
 
-        /* NILAKIHAN NATIN ITO: Ang arrow icon sa loob */
         #scrollBtn i {
-            font-size: 2.5rem; /* Mas malaking icon para mas kita */
+            font-size: 2.5rem;
             transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            margin: 0 auto; /* Naka-center vertical at horizontal */
+            margin: 0 auto;
         }
 
-        /* Rotation for Upward Arrow */
         .rotate-up {
             transform: rotate(180deg);
         }
         html {
             scroll-behavior: smooth;
         }
-        /* Tooltip para sa table buttons */
         .tooltip-btn { position: relative; }
         .tooltip-btn::after {
             content: attr(data-tooltip);
@@ -132,7 +228,6 @@
         }
         .tooltip-btn:hover::after { opacity: 1; }
 
-        /* Enhanced View Button */
         .btn-view-details { 
             background: rgba(72, 202, 228, 0.15);
             color: var(--accent-cyan);
@@ -163,7 +258,13 @@
             <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom active">My Bookings</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
-        <div class="logout-wrapper"><a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a></div>
+        <!-- UPDATED: added Help button beside Logout -->
+        <div class="logout-wrapper">
+            <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
+                <i class="fa-solid fa-circle-question me-1"></i> Help
+            </button>
+            <a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a>
+        </div>
     </div>
 </nav>
 
@@ -190,7 +291,6 @@
             <?php if (!empty($bookings)): ?>
                 <?php foreach ($bookings as $booking): ?>
                     <?php
-                        // Status Class
                         $statusClass = match(strtolower($booking['status'])) {
                             'pending' => 'status-pending',
                             'confirmed', 'approved' => 'status-confirmed',
@@ -199,12 +299,10 @@
                             default => ''
                         };
 
-                        // Payment Label
                         $paymentLabel = ($booking['payment_status'] == 'paid') 
                             ? '<span class="text-success fw-bold">Paid</span>' 
                             : '<span class="text-warning fw-bold">Unpaid</span>';
 
-                        // Icon based on activity (optional)
                         $icon = match(strtolower($booking['activity_name'])) {
                             'jetskiing' => 'fa-jet-ski text-info',
                             'banana boat riding' => 'fa-person-swimming text-warning',
@@ -290,16 +388,59 @@
     </div>
 </footer>
 
+<!-- ADDED: HELP MODAL -->
+<div id="helpModal" class="d-none">
+    <div class="help-modal-box">
+        <div class="help-modal-header">
+            <h5 class="help-modal-title">
+                <i class="fa-solid fa-circle-question me-2"></i> System Guide
+            </h5>
+            <button class="btn-close-help" onclick="document.getElementById('helpModal').classList.add('d-none')">
+                <i class="fa-solid fa-xmark me-1"></i> Close
+            </button>
+        </div>
+        <div class="help-grid">
+            <div class="help-item">
+                <strong><i class="fa-solid fa-house me-2"></i>Home</strong>
+                <p>Overview of the whole system — featured activities, live sea conditions powered by MARISENSE, and recent customer reviews at a glance.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-person-swimming me-2"></i>Activities</strong>
+                <p>Browse all available water sports — Jet Ski, Banana Boat, Kayaking, and Flying Saucer — with descriptions and pricing info.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-water me-2"></i>Safety & Sea Conditions</strong>
+                <p>View real-time MARISENSE data: wind speed, wave height, wave period, and whether activities are currently safe to proceed.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-calendar-check me-2"></i>Book & Reserve</strong>
+                <p>Select your preferred activity, pick a date and time slot, and confirm your reservation online before heading to the beach.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-list-check me-2"></i>My Bookings</strong>
+                <p>Track all your active and past reservations. View booking status, schedule, and activity details anytime.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-star me-2"></i>Reviews</strong>
+                <p>Read honest feedback from fellow adventurers, or leave your own review and rating after completing an activity.</p>
+            </div>
+        </div>
+        <div class="help-modal-footer">
+            <i class="fa-solid fa-shield-halved me-1"></i>
+            For further assistance, contact us via our social media pages.
+        </div>
+    </div>
+</div>
+<!-- END HELP MODAL -->
+
 <script>
         function smartScroll() {
             const scrollIcon = document.getElementById("scrollIcon");
-            // Check kung malapit na sa dulo (200px buffer)
             const isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 200);
 
             if (isAtBottom || scrollIcon.classList.contains("rotate-up")) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                // Interactive jump: 600px pababa
                 window.scrollBy({ top: 600, left: 0, behavior: 'smooth' });
             }
         }
@@ -308,15 +449,13 @@
             const scrollIcon = document.getElementById("scrollIcon");
             const scrollBtn = document.getElementById("scrollBtn");
             
-            // Kalkulahin ang scroll percentage
             const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
             const scrollValue = window.scrollY / scrollTotal;
             
-            // Kapag lumampas sa 80% ng page, iikot ang arrow ↑
             if (scrollValue > 0.8) {
                 scrollIcon.classList.add("rotate-up");
-                scrollBtn.style.background = "#48cae4"; // Accent Cyan
-                scrollIcon.style.color = "#052c39";    // Deep Blue
+                scrollBtn.style.background = "#48cae4";
+                scrollIcon.style.color = "#052c39";
             } else {
                 scrollIcon.classList.remove("rotate-up");
                 scrollBtn.style.background = "rgba(10, 88, 114, 0.8)";
@@ -327,6 +466,13 @@
         function viewDetails(id) {
             window.location.href = "<?= base_url('user/booking-details/') ?>" + id;
         }
+
+        /* ADDED: Close help modal when clicking outside the box */
+        document.getElementById('helpModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('d-none');
+            }
+        });
     </script>
 
     <div id="scrollBtn" onclick="smartScroll()" title="Navigate Page">

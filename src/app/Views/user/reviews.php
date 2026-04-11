@@ -18,12 +18,117 @@
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
         .user-greeting { color: white; font-size: 1.2rem; font-weight: 400; flex: 1; }
         .nav-menu-center { display: flex; gap: 10px; justify-content: center; flex: 2; }
-        .logout-wrapper { flex: 1; display: flex; justify-content: flex-end; }
+        .logout-wrapper { flex: 1; display: flex; justify-content: flex-end; gap: 10px; align-items: center; }
         .nav-link-custom { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 8px 16px; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
         .nav-link-custom:hover { color: var(--accent-cyan); background: rgba(255,255,255,0.1); }
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255,107,107,0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
+
+        /* ============================================================
+           ADDED: HELP BUTTON STYLE
+           ============================================================ */
+        .btn-help-custom {
+            color: #48cae4;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 8px 18px;
+            border: 1px solid rgba(72,202,228,0.5);
+            border-radius: 50px;
+            background: rgba(72,202,228,0.08);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-help-custom:hover {
+            background: rgba(72,202,228,0.2);
+            border-color: var(--accent-cyan);
+        }
+        /* ============================================================
+           ADDED: HELP MODAL STYLES
+           ============================================================ */
+        #helpModal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(5,44,57,0.88);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeInModal 0.25s ease;
+        }
+        #helpModal.d-none { display: none !important; }
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.96); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+        .help-modal-box {
+            background: #0a3d52;
+            border: 1px solid rgba(72,202,228,0.35);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 780px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .help-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .help-modal-title {
+            color: #48cae4;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .btn-close-help {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            border-radius: 50px;
+            padding: 6px 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        .btn-close-help:hover { background: rgba(255,255,255,0.1); }
+        .help-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) { .help-grid { grid-template-columns: 1fr; } }
+        .help-item {
+            background: rgba(255,255,255,0.05);
+            border-left: 4px solid #48cae4;
+            border-radius: 14px;
+            padding: 18px 20px;
+            transition: 0.3s;
+        }
+        .help-item:hover { background: rgba(72,202,228,0.08); transform: translateX(4px); }
+        .help-item strong {
+            color: #48cae4;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.92rem;
+        }
+        .help-item p {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.85rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+        .help-modal-footer {
+            margin-top: 28px;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+        }
+        /* ============================================================ */
         
         /* Hero */
         .welcome-hero {
@@ -49,7 +154,6 @@
         @media (max-width: 992px) { .reviews-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 600px) { .reviews-grid { grid-template-columns: 1fr; } }
 
-        /* Review Card (full DB card) */
         .review-feed-card {
             background: white;
             color: var(--deep-blue);
@@ -62,7 +166,6 @@
         }
         .review-feed-card:hover { transform: translateY(-7px); box-shadow: 0 18px 45px rgba(0,0,0,0.3); }
 
-        /* Card photo */
         .card-review-photo {
             width: 100%;
             height: 190px;
@@ -93,18 +196,14 @@
         .badge-safety { background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 50px; font-size: 0.73rem; font-weight: 600; }
         .badge-unsafe-feel { background: #fdecea; color: #c62828; padding: 4px 12px; border-radius: 50px; font-size: 0.73rem; font-weight: 600; }
 
-        /* Empty state */
         .empty-reviews { text-align: center; padding: 60px 20px; opacity: 0.6; }
 
-        /* Stars */
         .stars-outer { position: relative; display: inline-block; font-size: 1.5rem; color: rgba(255,255,255,0.2); }
         .stars-inner { position: absolute; top: 0; left: 0; white-space: nowrap; overflow: hidden; width: 98%; color: #ffc107; }
 
-        /* Filter */
         .filter-select { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 8px 20px; cursor: pointer; outline: none; }
         .filter-select option { background: var(--ocean-blue); color: white; }
 
-        /* Share form */
         .feedback-card { background: rgba(5,44,57,0.4); border: 2px dashed var(--accent-cyan); border-radius: 40px; padding: 50px; margin: 80px clamp(20px, 10vw, 192px); }
         .sub-rating-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 15px; margin-bottom: 10px; }
         .star-input { color: #ffc107; cursor: pointer; font-size: 1.5rem; margin-right: 5px; }
@@ -113,24 +212,20 @@
         .btn-post { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 700; border-radius: 50px; padding: 15px 50px; border: none; transition: 0.3s; font-size: 1.1rem; }
         .btn-post:hover { background: white; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-        /* Image preview */
         .image-preview-wrapper { margin-top: 15px; display: none; position: relative; width: 100%; max-width: 200px; }
         .image-preview-wrapper img { width: 100%; border-radius: 15px; border: 2px solid var(--accent-cyan); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .remove-preview { position: absolute; top: -10px; right: -10px; background: #ff6b6b; color: white; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.8rem; }
 
-        /* Footer */
         footer { background: var(--deep-blue); padding: 100px 0 40px 0; color: rgba(255,255,255,0.6) !important; border-top: 1px solid rgba(255,255,255,0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
         .social-icons i { color: rgba(255,255,255,0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
         .social-icons i:hover { color: var(--accent-cyan); transform: scale(1.2); }
 
-        /* Scroll btn */
         #scrollBtn { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 1000; width: 50px; height: 150px; background: rgba(10,88,114,0.85); backdrop-filter: blur(10px); border: 3px solid var(--accent-cyan); border-radius: 60px; display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); cursor: pointer; transition: 0.3s; box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
         #scrollBtn:hover { background: var(--accent-cyan); color: var(--deep-blue); right: 25px; }
         #scrollBtn i { font-size: 2.5rem; transition: transform 0.5s cubic-bezier(0.68,-0.55,0.27,1.55); margin: 0 auto; }
         .rotate-up { transform: rotate(180deg); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        /* Tooltip Style */
         .tooltip-btn {
             position: relative;
             cursor: pointer;
@@ -139,7 +234,7 @@
         .tooltip-btn::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 125%; /* Lalabas sa taas ng button */
+            bottom: 125%;
             left: 50%;
             transform: translateX(-50%);
             background: #052c39;
@@ -160,7 +255,7 @@
         .tooltip-btn:hover::after {
             opacity: 1;
             visibility: visible;
-            bottom: 115%; /* Slight animation */
+            bottom: 115%;
         }
     </style>
 </head>
@@ -177,7 +272,13 @@
             <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom">My Bookings</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom active">Reviews</a>
         </div>
-        <div class="logout-wrapper"><a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a></div>
+        <!-- UPDATED: added Help button beside Logout -->
+        <div class="logout-wrapper">
+            <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
+                <i class="fa-solid fa-circle-question me-1"></i> Help
+            </button>
+            <a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a>
+        </div>
     </div>
 </nav>
 
@@ -189,7 +290,6 @@
 </header>
 
 <?php
-// 1. I-define ang hardcoded reviews
 $staticReviews = [
     [
         'username'    => 'Cardo Dalisay',
@@ -220,10 +320,8 @@ $staticReviews = [
     ],
 ];
 
-// 2. Merge agad ang static at dynamic reviews
 $displayReviews = array_merge($staticReviews, ($reviews ?? []));
 
-// 3. Re-calculate Summary stats based sa combined reviews
 $totalReviews = count($displayReviews);
 $sumRating = 0;
 foreach ($displayReviews as $r) {
@@ -281,7 +379,6 @@ $displayAvg  = number_format($newAvg, 1);
     </div>
     <div class="reviews-grid" id="reviewContainer">
         <?php foreach ($displayReviews as $rev): 
-            // ... (keep your existing foreach logic here) ...
             $stars   = (int)($rev['rating'] ?? 5);
             $name    = esc($rev['username'] ?? 'Guest');
             $act     = esc($rev['activity'] ?? '');
@@ -340,9 +437,6 @@ $displayAvg  = number_format($newAvg, 1);
 </div>
 
 
-<!-- =====================================================================
-     SHARE YOUR ADVENTURE FORM
-     ===================================================================== -->
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -428,12 +522,56 @@ $displayAvg  = number_format($newAvg, 1);
     </div>
 </footer>
 
+<!-- ADDED: HELP MODAL -->
+<div id="helpModal" class="d-none">
+    <div class="help-modal-box">
+        <div class="help-modal-header">
+            <h5 class="help-modal-title">
+                <i class="fa-solid fa-circle-question me-2"></i> System Guide
+            </h5>
+            <button class="btn-close-help" onclick="document.getElementById('helpModal').classList.add('d-none')">
+                <i class="fa-solid fa-xmark me-1"></i> Close
+            </button>
+        </div>
+        <div class="help-grid">
+            <div class="help-item">
+                <strong><i class="fa-solid fa-house me-2"></i>Home</strong>
+                <p>Overview of the whole system — featured activities, live sea conditions powered by MARISENSE, and recent customer reviews at a glance.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-person-swimming me-2"></i>Activities</strong>
+                <p>Browse all available water sports — Jet Ski, Banana Boat, Kayaking, and Flying Saucer — with descriptions and pricing info.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-water me-2"></i>Safety & Sea Conditions</strong>
+                <p>View real-time MARISENSE data: wind speed, wave height, wave period, and whether activities are currently safe to proceed.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-calendar-check me-2"></i>Book & Reserve</strong>
+                <p>Select your preferred activity, pick a date and time slot, and confirm your reservation online before heading to the beach.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-list-check me-2"></i>My Bookings</strong>
+                <p>Track all your active and past reservations. View booking status, schedule, and activity details anytime.</p>
+            </div>
+            <div class="help-item">
+                <strong><i class="fa-solid fa-star me-2"></i>Reviews</strong>
+                <p>Read honest feedback from fellow adventurers, or leave your own review and rating after completing an activity.</p>
+            </div>
+        </div>
+        <div class="help-modal-footer">
+            <i class="fa-solid fa-shield-halved me-1"></i>
+            For further assistance, contact us via our social media pages.
+        </div>
+    </div>
+</div>
+<!-- END HELP MODAL -->
+
 <div id="scrollBtn" onclick="smartScroll()"><i class="fa-solid fa-arrow-down" id="scrollIcon"></i></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    // === SUCCESS POPUP ===
     <?php if (session()->getFlashdata('success')): ?>
     Swal.fire({
         title: 'Review Posted!',
@@ -453,7 +591,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     <?php endif; ?>
 
-    // === IMAGE PREVIEW ===
     const photoInput    = document.getElementById('reviewPhotoInput');
     const previewWrapper = document.getElementById('previewWrapper');
     const imagePreview  = document.getElementById('imagePreview');
@@ -470,7 +607,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // === FILTER LOGIC ===
     const activityFilter = document.getElementById('activityFilter');
     const starFilter     = document.getElementById('starFilter');
     const reviewCards    = document.querySelectorAll('.review-feed-card');
@@ -492,13 +628,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (matchAct && matchStar) {
             card.style.display = 'flex';
             card.style.animation = 'fadeIn 0.4s forwards';
-            visibleCount++; // Bilangin kung ilan ang nakikita
+            visibleCount++;
         } else {
             card.style.display = 'none';
         }
     });
 
-    // Ipakita o itago ang "No Reviews" message base sa count
     if (visibleCount === 0) {
         noReviewsMsg.style.display = 'block';
     } else {
@@ -508,7 +643,6 @@ document.addEventListener('DOMContentLoaded', function () {
     activityFilter.addEventListener('change', applyFilters);
     starFilter.addEventListener('change', applyFilters);
 
-    // === STAR RATING INPUT ===
     const stars     = document.querySelectorAll('.star-input');
     const starInput = document.getElementById('selectedStars');
     const starText  = document.getElementById('starCount');
@@ -524,6 +658,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 s.classList.toggle('fa-regular', sv > val);
             });
         });
+    });
+
+    /* ADDED: Close help modal when clicking outside the box */
+    document.getElementById('helpModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.add('d-none');
+        }
     });
 });
 
