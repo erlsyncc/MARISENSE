@@ -1,0 +1,326 @@
+DEBUG - 2026-04-12 13:10:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:10:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:10:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:11:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:11:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:11:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:11:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:11:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:11:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:11:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:12:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:12:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:12:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:12:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:12:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:13:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:13:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-12 13:13:43 --> [DEPRECATED] round(): Passing null to parameter #1 ($num) of type int|float is deprecated in APPPATH\Controllers\user.php on line 70.
+ 1 APPPATH\Controllers\user.php(70): round(null, 1)
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->reviews()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:13:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-12 13:13:44 --> [DEPRECATED] round(): Passing null to parameter #1 ($num) of type int|float is deprecated in APPPATH\Controllers\user.php on line 70.
+ 1 APPPATH\Controllers\user.php(70): round(null, 1)
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->reviews()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:14:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:15:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:15:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:23:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:23:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:23:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:25:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:27:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-12 13:27:14 --> [DEPRECATED] round(): Passing null to parameter #1 ($num) of type int|float is deprecated in APPPATH\Controllers\user.php on line 70.
+ 1 APPPATH\Controllers\user.php(70): round(null, 1)
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->reviews()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:27:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-12 13:27:15 --> [DEPRECATED] round(): Passing null to parameter #1 ($num) of type int|float is deprecated in APPPATH\Controllers\user.php on line 70.
+ 1 APPPATH\Controllers\user.php(70): round(null, 1)
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->reviews()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:27:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:27:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:27:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:27:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:28:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:34:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:34:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:34:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:34:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:37:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:37:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:37:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:37:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:37:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:37:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:37:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:37:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:37:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:39:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:39:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:39:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:40:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:40:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:40:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:40:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:40:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:40:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-12 13:40:43 --> [DEPRECATED] round(): Passing null to parameter #1 ($num) of type int|float is deprecated in APPPATH\Controllers\user.php on line 70.
+ 1 APPPATH\Controllers\user.php(70): round(null, 1)
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->reviews()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:40:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-12 13:40:43 --> [DEPRECATED] round(): Passing null to parameter #1 ($num) of type int|float is deprecated in APPPATH\Controllers\user.php on line 70.
+ 1 APPPATH\Controllers\user.php(70): round(null, 1)
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->reviews()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:43:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:43:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:43:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:45:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:45:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:45:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:45:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:45:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:45:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-12 13:46:26 --> Duplicate entry 'email_password-earlsincombenido0@gmail.com' for key 'type_secret'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (11, \'email_password\', \'earlsincombenido0@gmail.com\', \'$2y$12$CeJ1XK/TP6ABZ.HHUHKSvufrWJuAQL7EV1qqVXj2ADFIf0xzcNF0K\', \'2026-04-12 13:46:26\', \'2026-04-12 13:46:26\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (11, \'email_password\', \'earlsincombenido0@gmail.com\', \'$2y$12$CeJ1XK/TP6ABZ.HHUHKSvufrWJuAQL7EV1qqVXj2ADFIf0xzcNF0K\', \'2026-04-12 13:46:26\', \'2026-04-12 13:46:26\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (11, \'email_password\', \'earlsincombenido0@gmail.com\', \'$2y$12$CeJ1XK/TP6ABZ.HHUHKSvufrWJuAQL7EV1qqVXj2ADFIf0xzcNF0K\', \'2026-04-12 13:46:26\', \'2026-04-12 13:46:26\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (:user_id:, :type:, :secret:, :secret2:, :created_at:, :updated_at:)', [...], false)
+ 5 SYSTEMPATH\Model.php(356): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(898): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(665): CodeIgniter\BaseModel->insert([...], true)
+ 8 VENDORPATH\codeigniter4\shield\src\Models\UserIdentityModel.php(86): CodeIgniter\Model->insert([...])
+ 9 VENDORPATH\codeigniter4\shield\src\Entities\User.php(146): CodeIgniter\Shield\Models\UserIdentityModel->createEmailIdentity(Object(CodeIgniter\Shield\Entities\User), [...])
+10 VENDORPATH\codeigniter4\shield\src\Entities\User.php(176): CodeIgniter\Shield\Entities\User->createEmailIdentity([...])
+11 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(508): CodeIgniter\Shield\Entities\User->saveEmailIdentity()
+12 SYSTEMPATH\BaseModel.php(1720): CodeIgniter\Shield\Models\UserModel->saveEmailIdentity([...])
+13 SYSTEMPATH\BaseModel.php(908): CodeIgniter\BaseModel->trigger('afterInsert', [...])
+14 SYSTEMPATH\Model.php(665): CodeIgniter\BaseModel->insert([...], false)
+15 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(415): CodeIgniter\Model->insert(Object(CodeIgniter\Shield\Entities\User), false)
+16 SYSTEMPATH\BaseModel.php(751): CodeIgniter\Shield\Models\UserModel->insert(Object(CodeIgniter\Shield\Entities\User), false)
+17 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(477): CodeIgniter\BaseModel->save(Object(CodeIgniter\Shield\Entities\User))
+18 APPPATH\Controllers\Auth.php(112): CodeIgniter\Shield\Models\UserModel->save(Object(CodeIgniter\Shield\Entities\User))
+19 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Auth->registerAuth()
+20 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+21 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+22 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+23 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+24 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+25 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-12 13:46:26 --> CodeIgniter\Database\Exceptions\DatabaseException: Duplicate entry 'email_password-earlsincombenido0@gmail.com' for key 'type_secret'
+[Method: POST, Route: registerAuth]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (:user_id:, :type:, :secret:, :secret2:, :created_at:, :updated_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(356): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(898): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(665): CodeIgniter\BaseModel->insert([...], true)
+ 5 VENDORPATH\codeigniter4\shield\src\Models\UserIdentityModel.php(86): CodeIgniter\Model->insert([...])
+ 6 VENDORPATH\codeigniter4\shield\src\Entities\User.php(146): CodeIgniter\Shield\Models\UserIdentityModel->createEmailIdentity(Object(CodeIgniter\Shield\Entities\User), [...])
+ 7 VENDORPATH\codeigniter4\shield\src\Entities\User.php(176): CodeIgniter\Shield\Entities\User->createEmailIdentity([...])
+ 8 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(508): CodeIgniter\Shield\Entities\User->saveEmailIdentity()
+ 9 SYSTEMPATH\BaseModel.php(1720): CodeIgniter\Shield\Models\UserModel->saveEmailIdentity([...])
+10 SYSTEMPATH\BaseModel.php(908): CodeIgniter\BaseModel->trigger('afterInsert', [...])
+11 SYSTEMPATH\Model.php(665): CodeIgniter\BaseModel->insert([...], false)
+12 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(415): CodeIgniter\Model->insert(Object(CodeIgniter\Shield\Entities\User), false)
+13 SYSTEMPATH\BaseModel.php(751): CodeIgniter\Shield\Models\UserModel->insert(Object(CodeIgniter\Shield\Entities\User), false)
+14 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(477): CodeIgniter\BaseModel->save(Object(CodeIgniter\Shield\Entities\User))
+15 APPPATH\Controllers\Auth.php(112): CodeIgniter\Shield\Models\UserModel->save(Object(CodeIgniter\Shield\Entities\User))
+16 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Auth->registerAuth()
+17 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+18 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+19 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+20 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+21 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+22 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-12 13:46:26 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Duplicate entry 'email_password-earlsincombenido0@gmail.com' for key 'type_secret'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (11, \'email_password\', \'earlsincombenido0@gmail.com\', \'$2y$12$CeJ1XK/TP6ABZ.HHUHKSvufrWJuAQL7EV1qqVXj2ADFIf0xzcNF0K\', \'2026-04-12 13:46:26\', \'2026-04-12 13:46:26\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (11, \'email_password\', \'earlsincombenido0@gmail.com\', \'$2y$12$CeJ1XK/TP6ABZ.HHUHKSvufrWJuAQL7EV1qqVXj2ADFIf0xzcNF0K\', \'2026-04-12 13:46:26\', \'2026-04-12 13:46:26\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (:user_id:, :type:, :secret:, :secret2:, :created_at:, :updated_at:)', [...], false)
+ 4 SYSTEMPATH\Model.php(356): CodeIgniter\Database\BaseBuilder->insert()
+ 5 SYSTEMPATH\BaseModel.php(898): CodeIgniter\Model->doInsert([...])
+ 6 SYSTEMPATH\Model.php(665): CodeIgniter\BaseModel->insert([...], true)
+ 7 VENDORPATH\codeigniter4\shield\src\Models\UserIdentityModel.php(86): CodeIgniter\Model->insert([...])
+ 8 VENDORPATH\codeigniter4\shield\src\Entities\User.php(146): CodeIgniter\Shield\Models\UserIdentityModel->createEmailIdentity(Object(CodeIgniter\Shield\Entities\User), [...])
+ 9 VENDORPATH\codeigniter4\shield\src\Entities\User.php(176): CodeIgniter\Shield\Entities\User->createEmailIdentity([...])
+10 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(508): CodeIgniter\Shield\Entities\User->saveEmailIdentity()
+11 SYSTEMPATH\BaseModel.php(1720): CodeIgniter\Shield\Models\UserModel->saveEmailIdentity([...])
+12 SYSTEMPATH\BaseModel.php(908): CodeIgniter\BaseModel->trigger('afterInsert', [...])
+13 SYSTEMPATH\Model.php(665): CodeIgniter\BaseModel->insert([...], false)
+14 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(415): CodeIgniter\Model->insert(Object(CodeIgniter\Shield\Entities\User), false)
+15 SYSTEMPATH\BaseModel.php(751): CodeIgniter\Shield\Models\UserModel->insert(Object(CodeIgniter\Shield\Entities\User), false)
+16 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(477): CodeIgniter\BaseModel->save(Object(CodeIgniter\Shield\Entities\User))
+17 APPPATH\Controllers\Auth.php(112): CodeIgniter\Shield\Models\UserModel->save(Object(CodeIgniter\Shield\Entities\User))
+18 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Auth->registerAuth()
+19 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+20 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+21 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+22 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+23 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+24 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-12 13:46:26 --> [Caused by] mysqli_sql_exception: Duplicate entry 'email_password-earlsincombenido0@gmail.com' for key 'type_secret'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (11, \'email_password\', \'earlsincombenido0@gmail.com\', \'$2y$12$CeJ1XK/TP6ABZ.HHUHKSvufrWJuAQL7EV1qqVXj2ADFIf0xzcNF0K\', \'2026-04-12 13:46:26\', \'2026-04-12 13:46:26\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (11, \'email_password\', \'earlsincombenido0@gmail.com\', \'$2y$12$CeJ1XK/TP6ABZ.HHUHKSvufrWJuAQL7EV1qqVXj2ADFIf0xzcNF0K\', \'2026-04-12 13:46:26\', \'2026-04-12 13:46:26\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (11, \'email_password\', \'earlsincombenido0@gmail.com\', \'$2y$12$CeJ1XK/TP6ABZ.HHUHKSvufrWJuAQL7EV1qqVXj2ADFIf0xzcNF0K\', \'2026-04-12 13:46:26\', \'2026-04-12 13:46:26\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2345): CodeIgniter\Database\BaseConnection->query('INSERT INTO `auth_identities` (`user_id`, `type`, `secret`, `secret2`, `created_at`, `updated_at`) VALUES (:user_id:, :type:, :secret:, :secret2:, :created_at:, :updated_at:)', [...], false)
+ 5 SYSTEMPATH\Model.php(356): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH\BaseModel.php(898): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH\Model.php(665): CodeIgniter\BaseModel->insert([...], true)
+ 8 VENDORPATH\codeigniter4\shield\src\Models\UserIdentityModel.php(86): CodeIgniter\Model->insert([...])
+ 9 VENDORPATH\codeigniter4\shield\src\Entities\User.php(146): CodeIgniter\Shield\Models\UserIdentityModel->createEmailIdentity(Object(CodeIgniter\Shield\Entities\User), [...])
+10 VENDORPATH\codeigniter4\shield\src\Entities\User.php(176): CodeIgniter\Shield\Entities\User->createEmailIdentity([...])
+11 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(508): CodeIgniter\Shield\Entities\User->saveEmailIdentity()
+12 SYSTEMPATH\BaseModel.php(1720): CodeIgniter\Shield\Models\UserModel->saveEmailIdentity([...])
+13 SYSTEMPATH\BaseModel.php(908): CodeIgniter\BaseModel->trigger('afterInsert', [...])
+14 SYSTEMPATH\Model.php(665): CodeIgniter\BaseModel->insert([...], false)
+15 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(415): CodeIgniter\Model->insert(Object(CodeIgniter\Shield\Entities\User), false)
+16 SYSTEMPATH\BaseModel.php(751): CodeIgniter\Shield\Models\UserModel->insert(Object(CodeIgniter\Shield\Entities\User), false)
+17 VENDORPATH\codeigniter4\shield\src\Models\UserModel.php(477): CodeIgniter\BaseModel->save(Object(CodeIgniter\Shield\Entities\User))
+18 APPPATH\Controllers\Auth.php(112): CodeIgniter\Shield\Models\UserModel->save(Object(CodeIgniter\Shield\Entities\User))
+19 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Auth->registerAuth()
+20 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+21 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+22 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+23 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+24 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+25 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:46:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:46:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:46:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:46:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:47:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:47:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:47:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:47:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:47:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-12 13:47:48 --> [DEPRECATED] round(): Passing null to parameter #1 ($num) of type int|float is deprecated in APPPATH\Controllers\user.php on line 70.
+ 1 APPPATH\Controllers\user.php(70): round(null, 1)
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->reviews()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:47:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-12 13:47:49 --> [DEPRECATED] round(): Passing null to parameter #1 ($num) of type int|float is deprecated in APPPATH\Controllers\user.php on line 70.
+ 1 APPPATH\Controllers\user.php(70): round(null, 1)
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->reviews()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:47:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:47:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-04-12 13:47:52 --> ErrorException: Undefined variable $activities
+[Method: GET, Route: user/booking]
+in APPPATH\Views\user\booking.php on line 213.
+ 1 APPPATH\Views\user\booking.php(213): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $activities', 'C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\app\\Views\\user\\booking.php', 213)
+ 2 SYSTEMPATH\View\View.php(238): include('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\app\\Views\\user\\booking.php')
+ 3 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('user/booking', [], true)
+ 5 APPPATH\Controllers\user.php(109): view('user/booking', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+ 7 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 8 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:48:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:48:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:49:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:49:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:49:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:49:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:49:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:50:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:50:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:50:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:50:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:50:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:51:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:51:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:51:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:51:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:53:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:53:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:53:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:54:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:54:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:54:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:54:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:54:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:54:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:54:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:54:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:55:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:55:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:55:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:55:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:55:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-12 13:55:43 --> [DEPRECATED] round(): Passing null to parameter #1 ($num) of type int|float is deprecated in APPPATH\Controllers\user.php on line 70.
+ 1 APPPATH\Controllers\user.php(70): round(null, 1)
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->reviews()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:55:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-12 13:55:43 --> [DEPRECATED] round(): Passing null to parameter #1 ($num) of type int|float is deprecated in APPPATH\Controllers\user.php on line 70.
+ 1 APPPATH\Controllers\user.php(70): round(null, 1)
+ 2 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->reviews()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 4 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-12 13:55:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:59:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:59:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:59:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:59:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:59:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-12 13:59:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

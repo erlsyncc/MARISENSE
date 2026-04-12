@@ -266,7 +266,9 @@
             <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
                 <i class="fa-solid fa-circle-question me-1"></i> Help
             </button>
-            <a href="<?= base_url('logout') ?>" class="btn-logout-custom">Logout</a>
+            <a href="<?= base_url('logout') ?>" class="btn-logout-custom">
+                <i class="fa-solid fa-power-off me-1"></i> Logout
+            </a>
         </div>
     </div>
 </nav>
