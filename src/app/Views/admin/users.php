@@ -87,13 +87,16 @@
         .role-user  { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.15); }
         .empty-state { text-align: center; padding: 60px 20px; opacity: 0.5; grid-column: 1/-1; }
         .empty-state i { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+        @keyframes wave-motion {0% { transform: translateY(0); }50% { transform: translateY(-3px); }100% { transform: translateY(0); }}
+        .brand-icon i { animation: wave-motion 3s ease-in-out infinite;display: inline-block;}
     </style>
 </head>
 <body>
 
 <aside class="sidebar">
     <div class="sidebar-brand">
-        <div class="brand-icon"><i class="fa-solid fa-anchor"></i></div>
+        <div class="brand-icon">
+            <i class="fa-solid fa-water"></i> </div>
         <div class="brand-title">Waves Admin</div>
         <div class="brand-sub">Control Panel</div>
     </div>
@@ -106,6 +109,7 @@
     <a href="<?= base_url('admin/reviews') ?>" class="nav-item"><i class="fa-solid fa-star"></i> Reviews</a>
     <div class="sidebar-section-label">System</div>
     <a href="<?= base_url('admin/activities') ?>" class="nav-item"><i class="fa-solid fa-person-swimming"></i> Activities</a>
+    <a href="<?= base_url('admin/sales') ?>" class="nav-item"><i class="fa-solid fa-peso-sign"></i> Sales</a>
     <div class="sidebar-footer">
         <a href="<?= base_url('logout') ?>" class="logout-btn"><i class="fa-solid fa-power-off"></i> Logout</a>
     </div>

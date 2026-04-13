@@ -312,5 +312,10 @@ class Admin extends BaseController
 
         return redirect()->to(base_url('admin/activities'))
                          ->with('success', $msg);
-    }
+         }
+            public function sales()
+        {
+            if ($r = $this->requireAdmin()) return $r;
+            return view('admin/sales');
+        }
 }

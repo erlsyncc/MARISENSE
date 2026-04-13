@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; }
-        body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--ocean-blue) 40%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; }
-
-        .highlight-brand { font-weight: 700; color: #48cae4; text-shadow: 0 0 10px rgba(72, 202, 228, 0.4); }
-
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--ocean-blue) 40%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; min-height: 100vh; }
         /* Navbar Styles */
         .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
@@ -128,121 +125,51 @@
             color: rgba(255,255,255,0.4);
             font-size: 0.8rem;
         }
-        /* ============================================================ */
-
-        .welcome-hero {
-            background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), 
-                        url('<?= base_url('images/background.png') ?>'); 
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            padding: 150px 40px;
-            color: white;
-            border-radius: 0 0 80px 80px;
-            margin-bottom: 60px;
-        }
-        .activity-line { height: 5px; width: 80px; background: var(--accent-cyan); border-radius: 10px; margin: 15px auto 0 auto; }
-
-        .booking-main-container { 
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 30px; 
-            padding: 40px; 
-            margin-bottom: 100px;
-            overflow-x: auto;
-        }
-
-        .custom-table { width: 100%; color: white; border-collapse: separate; border-spacing: 0 15px; }
-        .custom-table thead th { border: none; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; opacity: 0.7; padding: 10px 20px; }
-        .custom-table tbody tr { background: rgba(255, 255, 255, 0.05); transition: 0.3s; }
-        .custom-table tbody tr:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.01); }
-        .custom-table td { padding: 20px; vertical-align: middle; border: none; }
-        .custom-table td:first-child { border-radius: 20px 0 0 20px; }
-        .custom-table td:last-child { border-radius: 0 20px 20px 0; }
-
-        .badge-status { padding: 8px 16px; border-radius: 50px; font-weight: 600; font-size: 0.8rem; border: 1px solid transparent; }
-        .status-pending { background: rgba(255, 193, 7, 0.1); color: #ffc107; border-color: #ffc107; }
-        .status-confirmed { background: rgba(40, 167, 69, 0.1); color: #28a745; border-color: #28a745; }
-        .status-completed { background: rgba(72, 202, 228, 0.1); color: #48cae4; border-color: #48cae4; }
-        .status-cancelled { background: rgba(220, 53, 69, 0.1); color: #dc3545; border-color: #dc3545; }
-
-        .btn-view-details { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 700; border: none; padding: 8px 20px; border-radius: 50px; transition: 0.3s; }
-        .btn-view-details:hover { background: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(72, 202, 228, 0.4); }
-
+        .welcome-hero {background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), url('<?= base_url('images/background.png') ?>'); background-size: cover; background-position: center;background-attachment: fixed;padding: 145px 40px;color: white;border-radius: 0 0 80px 80px;margin-bottom: 60px;}
+        .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
+        .page-container { max-width: 1100px; margin: 0 auto 80px; padding: 0 24px; }
+        /* Stats */
+        .stats-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 28px; }
+        .stat-box { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; padding: 18px; text-align: center; }
+        .stat-value { font-size: 1.7rem; font-weight: 700; color: var(--accent-cyan); }
+        .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+        /* Tabs */
+        .history-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); padding: 8px 20px; border-radius: 50px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .tab-btn:hover, .tab-btn.active { background: var(--accent-cyan); color: var(--deep-blue); border-color: var(--accent-cyan); }
+        /* Main container */
+        .bookings-panel { background: rgba(255,255,255,0.06); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 32px; overflow-x: auto; }
+        .custom-table { width: 100%; color: white; border-collapse: separate; border-spacing: 0 12px; }
+        .custom-table thead th { border: none; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 1px; opacity: 0.6; padding: 8px 18px; white-space: nowrap; }
+        .custom-table tbody tr { background: rgba(255,255,255,0.05); transition: 0.2s; }
+        .custom-table tbody tr:hover { background: rgba(255,255,255,0.09); transform: translateX(2px); }
+        .custom-table td { padding: 16px 18px; vertical-align: middle; border: none; }
+        .custom-table td:first-child { border-radius: 16px 0 0 16px; }
+        .custom-table td:last-child { border-radius: 0 16px 16px 0; }
+        .badge-status { padding: 6px 14px; border-radius: 50px; font-weight: 600; font-size: 0.75rem; border: 1px solid transparent; white-space: nowrap; }
+        .status-pending   { background: rgba(255,193,7,0.1); color: #ffc107; border-color: #ffc107; }
+        .status-confirmed { background: rgba(40,167,69,0.1); color: #28a745; border-color: #28a745; }
+        .status-completed { background: rgba(72,202,228,0.1); color: #48cae4; border-color: #48cae4; }
+        .status-cancelled { background: rgba(220,53,69,0.1); color: #dc3545; border-color: #dc3545; }
+        .payment-badge { padding: 4px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
+        .pay-paid   { background: rgba(40,167,69,0.15); color: #5ddb8a; border: 1px solid rgba(40,167,69,0.4); }
+        .pay-half   { background: rgba(255,193,7,0.15); color: #ffc107; border: 1px solid rgba(255,193,7,0.4); }
+        .pay-unpaid { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.15); }
+        .btn-view-details { background: rgba(72,202,228,0.15); color: var(--accent-cyan); border: 1px solid rgba(72,202,228,0.4); padding: 7px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .btn-view-details:hover { background: var(--accent-cyan); color: var(--deep-blue); transform: translateY(-1px); }
+        .activity-icon-wrap { width: 38px; height: 38px; border-radius: 10px; background: rgba(72,202,228,0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .empty-state { text-align: center; padding: 50px 20px; }
+        .empty-state i { font-size: 2.5rem; opacity: 0.4; display: block; margin-bottom: 12px; }
+        .empty-state p { opacity: 0.5; margin: 0; }
+        .search-bar { display: flex; gap: 10px; margin-bottom: 18px; }
+        .search-input { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 50px; color: white; padding: 9px 20px; font-size: 0.82rem; outline: none; min-width: 260px; }
+        .search-input::placeholder { color: rgba(255,255,255,0.35); }
+        .search-input:focus { border-color: var(--accent-cyan); }
+        /* Footer Styles */
         footer { background: var(--deep-blue); padding: 100px 0 40px 0; color: rgba(255, 255, 255, 0.6) !important; border-top: 1px solid rgba(255, 255, 255, 0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
         .social-icons i { color: rgba(255, 255, 255, 0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
         .social-icons i:hover { color: var(--accent-cyan); transform: scale(1.2); }
-
-        #scrollBtn {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1000;
-            width: 50px;
-            height: 150px;
-            background: rgba(10, 88, 114, 0.85);
-            backdrop-filter: blur(10px);
-            border: 3px solid var(--accent-cyan);
-            border-radius: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-cyan);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-        }
-
-        #scrollBtn:hover {
-            background: var(--accent-cyan);
-            color: var(--deep-blue);
-            right: 25px;
-        }
-
-        #scrollBtn i {
-            font-size: 2.5rem;
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            margin: 0 auto;
-        }
-
-        .rotate-up {
-            transform: rotate(180deg);
-        }
-        html {
-            scroll-behavior: smooth;
-        }
-        .tooltip-btn { position: relative; }
-        .tooltip-btn::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 120%; left: 50%;
-            transform: translateX(-50%);
-            background: #052c39; color: #48cae4;
-            padding: 5px 10px; border-radius: 6px;
-            font-size: 0.7rem; font-weight: 600;
-            white-space: nowrap; opacity: 0; pointer-events: none;
-            transition: 0.3s; border: 1px solid #48cae4;
-        }
-        .tooltip-btn:hover::after { opacity: 1; }
-
-        .btn-view-details { 
-            background: rgba(72, 202, 228, 0.15);
-            color: var(--accent-cyan);
-            border: 1px solid var(--accent-cyan);
-            padding: 8px 20px; 
-            border-radius: 50px; 
-            transition: 0.3s;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
-        .btn-view-details:hover { 
-            background: var(--accent-cyan); 
-            color: var(--deep-blue);
-            transform: translateY(-2px); 
-        }
     </style>
 </head>
 <body>
@@ -258,118 +185,174 @@
             <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom active">My Bookings</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
-        <!-- UPDATED: added Help button beside Logout -->
         <div class="logout-wrapper">
-            <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
-                <i class="fa-solid fa-circle-question me-1"></i> Help
-            </button>
-            <a href="<?= base_url('logout') ?>" class="btn-logout-custom">
-                <i class="fa-solid fa-power-off me-1"></i> Logout
-            </a>
+            <a href="<?= base_url('logout') ?>" class="btn-logout-custom"><i class="fa-solid fa-power-off me-1"></i> Logout</a>
         </div>
     </div>
 </nav>
 
 <header class="welcome-hero">
     <div class="container">
-        <h1 class="display-4 fw-bold mb-2">Manage Your Bookings</h1>
-        <p class="lead mb-0 opacity-90 mx-auto" style="max-width: 800px;">View and track your reserved activities. Stay updated on your schedules, booking status, and upcoming water adventures at Waves Water Sports.</p>
+        <h1 class="display-5 fw-bold mb-2">My Bookings</h1>
+        <p class="lead mb-5 opacity-90 mx-auto" style="max-width: 800px;">
+            View all your current and past reservations in one place easily and quickly.
+            Track details, payment status, and manage your schedule anytime with full convenience.
+        </p>
     </div>
 </header>
 
-<div class="container">
-    <div class="booking-main-container shadow-lg">
-        <table class="custom-table">
+<div class="page-container">
+
+    <?php if (session()->getFlashdata('success')): ?>
+    <div class="alert alert-success rounded-4 mb-4"><?= session()->getFlashdata('success') ?></div>
+    <?php endif; ?>
+    <?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger rounded-4 mb-4"><?= session()->getFlashdata('error') ?></div>
+    <?php endif; ?>
+
+    <?php
+        $all       = $bookings ?? [];
+        $active    = array_filter($all, fn($b) => in_array($b['status'], ['pending','confirmed']));
+        $completed = array_filter($all, fn($b) => $b['status'] === 'completed');
+        $cancelled = array_filter($all, fn($b) => $b['status'] === 'cancelled');
+        $totalSpent = array_sum(array_column(array_filter($all, fn($b) => $b['status'] !== 'cancelled'), 'total_amount'));
+    ?>
+
+    <!-- STATS STRIP -->
+    <div class="stats-strip">
+        <div class="stat-box">
+            <div class="stat-value"><?= count($all) ?></div>
+            <div class="stat-label">Total Bookings</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value" style="color:#ffc107;"><?= count($active) ?></div>
+            <div class="stat-label">Active</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value" style="color:#5ddb8a;"><?= count($completed) ?></div>
+            <div class="stat-label">Completed</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-value" style="font-size:1.2rem;">₱<?= number_format($totalSpent, 0) ?></div>
+            <div class="stat-label">Total Spent</div>
+        </div>
+    </div>
+
+    <!-- SEARCH + TABS -->
+    <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="🔍  Search by activity or booking code…" oninput="filterRows()">
+    </div>
+
+    <div class="history-tabs">
+        <button class="tab-btn active" onclick="filterTab('all',this)">All <span style="opacity:0.6;">(<?= count($all) ?>)</span></button>
+        <button class="tab-btn" onclick="filterTab('active',this)">Active <span style="opacity:0.6;">(<?= count($active) ?>)</span></button>
+        <button class="tab-btn" onclick="filterTab('completed',this)">Completed <span style="opacity:0.6;">(<?= count($completed) ?>)</span></button>
+        <button class="tab-btn" onclick="filterTab('cancelled',this)">Cancelled <span style="opacity:0.6;">(<?= count($cancelled) ?>)</span></button>
+    </div>
+
+    <div class="bookings-panel shadow-lg">
+        <?php if (!empty($all)): ?>
+        <table class="custom-table" id="bookingsTable">
             <thead>
                 <tr>
-                    <th>Activity Details</th>
+                    <th>Activity</th>
                     <th>Date & Time</th>
-                    <th>Booking Status</th>
+                    <th>Participants</th>
+                    <th>Contact</th>
+                    <th>Total</th>
+                    <th>Status</th>
                     <th>Payment</th>
                     <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
-            <?php if (!empty($bookings)): ?>
-                <?php foreach ($bookings as $booking): ?>
-                    <?php
-                        $statusClass = match(strtolower($booking['status'])) {
-                            'pending' => 'status-pending',
-                            'confirmed', 'approved' => 'status-confirmed',
-                            'completed' => 'status-completed',
-                            'cancelled' => 'status-cancelled',
-                            default => ''
-                        };
+            <?php foreach ($all as $booking): ?>
+                <?php
+                    $statusClass = match(strtolower($booking['status'])) {
+                        'pending'              => 'status-pending',
+                        'confirmed','approved' => 'status-confirmed',
+                        'completed'            => 'status-completed',
+                        'cancelled'            => 'status-cancelled',
+                        default                => '',
+                    };
+                    $tabGroup = match(strtolower($booking['status'])) {
+                        'pending','confirmed' => 'active',
+                        'completed'           => 'completed',
+                        'cancelled'           => 'cancelled',
+                        default               => 'all',
+                    };
+                    $payClass = 'pay-unpaid'; $payText = 'Unpaid';
+                    if ($booking['payment_status'] === 'paid') { $payClass = 'pay-paid'; $payText = 'Paid'; }
+                    elseif (($booking['down_payment_status'] ?? '') === 'paid') { $payClass = 'pay-half'; $payText = '50% GCash'; }
 
-                        $paymentLabel = ($booking['payment_status'] == 'paid') 
-                            ? '<span class="text-success fw-bold">Paid</span>' 
-                            : '<span class="text-warning fw-bold">Unpaid</span>';
+                    $actIcon = match(strtolower($booking['activity_name'])) {
+                        'jet ski'       => 'fa-water',
+                        'banana boat'   => 'fa-ship',
+                        'kayaking'      => 'fa-sailboat',
+                        'flying saucer' => 'fa-circle-radiation',
+                        default         => 'fa-person-swimming',
+                    };
+                ?>
+                <tr data-tab="<?= $tabGroup ?>"
+                    data-search="<?= strtolower($booking['activity_name'].' '.$booking['booking_code']) ?>">
 
-                        $icon = match(strtolower($booking['activity_name'])) {
-                            'jetskiing' => 'fa-jet-ski text-info',
-                            'banana boat riding' => 'fa-person-swimming text-warning',
-                            'kayaking' => 'fa-umbrella-beach text-light',
-                            default => 'fa-water text-info'
-                        };
-                    ?>
-
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div class="me-3 p-3 bg-info bg-opacity-10 rounded-circle">
-                                    <i class="fa-solid <?= $icon ?> fa-lg"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0 fw-bold"><?= esc($booking['activity_name']) ?></h6>
-                                    <small class="opacity-50">Booking ID: #<?= esc($booking['booking_code']) ?></small>
-                                </div>
+                    <td>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="activity-icon-wrap"><i class="fa-solid <?= $actIcon ?> text-info"></i></div>
+                            <div>
+                                <div class="fw-bold" style="font-size:0.9rem;"><?= esc($booking['activity_name']) ?></div>
+                                <small style="opacity:0.5;font-size:0.72rem;">#<?= esc($booking['booking_code']) ?></small>
                             </div>
-                        </td>
+                        </div>
+                    </td>
 
-                        <td>
-                            <div class="fw-bold">
-                                <?= date('F d, Y', strtotime($booking['date'])) ?>
-                            </div>
-                            <small class="opacity-70 text-info">
-                                <?= date('h:i A', strtotime($booking['time'])) ?>
-                            </small>
-                        </td>
+                    <td>
+                        <div class="fw-bold" style="font-size:0.85rem;"><?= date('M d, Y', strtotime($booking['date'])) ?></div>
+                        <small style="color:var(--accent-cyan);font-size:0.75rem;"><?= date('h:i A', strtotime($booking['time'])) ?></small>
+                    </td>
 
-                        <td>
-                            <span class="badge-status <?= $statusClass ?>">
-                                <i class="fa-solid fa-circle-check me-1"></i>
-                                <?= ucfirst($booking['status']) ?>
-                            </span>
-                        </td>
+                    <td style="font-size:0.88rem;"><?= esc($booking['participants']) ?> person<?= $booking['participants']>1?'s':'' ?></td>
 
-                        <td>
-                            <?= $paymentLabel ?>
-                        </td>
+                    <td style="font-size:0.82rem;opacity:0.8;"><?= esc($booking['contact_number'] ?? '—') ?></td>
 
-                        <td class="text-center">
-                            <button 
-                                class="btn-view-details tooltip-btn"
-                                data-tooltip="Open full details"
-                                onclick="viewDetails(<?= $booking['id'] ?>)"
-                            >
-                                <i class="fa-solid fa-eye me-1"></i> View Details
-                            </button>
-                        </td>
-                    </tr>
+                    <td>
+                        <div class="fw-bold" style="color:var(--accent-cyan);font-size:0.9rem;">₱<?= number_format($booking['total_amount'],2) ?></div>
+                        <?php if (!empty($booking['down_payment']) && $booking['down_payment'] > 0): ?>
+                        <small style="opacity:0.5;font-size:0.7rem;">Down: ₱<?= number_format($booking['down_payment'],2) ?></small>
+                        <?php endif; ?>
+                    </td>
 
-                <?php endforeach; ?>
+                    <td>
+                        <span class="badge-status <?= $statusClass ?>">
+                            <?= ucfirst($booking['status']) ?>
+                        </span>
+                    </td>
 
-<?php else: ?>
-    <tr>
-        <td colspan="5" class="text-center py-5">
-            <i class="fa-solid fa-calendar-xmark fa-2x mb-3 opacity-50"></i>
-            <p class="mb-0">No bookings found.</p>
-        </td>
-    </tr>
-<?php endif; ?>
-</tbody>
+                    <td>
+                        <span class="payment-badge <?= $payClass ?>"><?= $payText ?></span>
+                    </td>
+
+                    <td class="text-center">
+                        <button class="btn-view-details" onclick="window.location.href='<?= base_url('user/booking-details/'.$booking['id']) ?>'">
+                            <i class="fa-solid fa-eye me-1"></i> View
+                        </button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
         </table>
+        <div id="empty-filter" style="display:none;" class="empty-state">
+            <i class="fa-solid fa-filter-circle-xmark"></i>
+            <p>No bookings match your filter.</p>
+        </div>
+        <?php else: ?>
+        <div class="empty-state">
+            <i class="fa-solid fa-calendar-xmark"></i>
+            <p>You have no bookings yet. <a href="<?= base_url('user/booking') ?>" style="color:var(--accent-cyan);">Book an activity now!</a></p>
+        </div>
+        <?php endif; ?>
     </div>
+
 </div>
 
 <footer class="text-center">
@@ -389,7 +372,6 @@
         <div class="copyright-text opacity-50">&copy; 2026 Waves Water Sports | Tech by <span class="text-info fw-bold">MARISENSE</span></div>
     </div>
 </footer>
-
 <!-- ADDED: HELP MODAL -->
 <div id="helpModal" class="d-none">
     <div class="help-modal-box">
@@ -436,50 +418,28 @@
 <!-- END HELP MODAL -->
 
 <script>
-        function smartScroll() {
-            const scrollIcon = document.getElementById("scrollIcon");
-            const isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 200);
+    let currentTab = 'all';
 
-            if (isAtBottom || scrollIcon.classList.contains("rotate-up")) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                window.scrollBy({ top: 600, left: 0, behavior: 'smooth' });
-            }
-        }
+    function filterTab(tab, btn) {
+        currentTab = tab;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterRows();
+    }
 
-        window.addEventListener('scroll', function() {
-            const scrollIcon = document.getElementById("scrollIcon");
-            const scrollBtn = document.getElementById("scrollBtn");
-            
-            const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollValue = window.scrollY / scrollTotal;
-            
-            if (scrollValue > 0.8) {
-                scrollIcon.classList.add("rotate-up");
-                scrollBtn.style.background = "#48cae4";
-                scrollIcon.style.color = "#052c39";
-            } else {
-                scrollIcon.classList.remove("rotate-up");
-                scrollBtn.style.background = "rgba(10, 88, 114, 0.8)";
-                scrollIcon.style.color = "#48cae4";
-            }
+    function filterRows() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('#bookingsTable tbody tr');
+        let visible = 0;
+        rows.forEach(row => {
+            const matchTab = currentTab === 'all' || row.dataset.tab === currentTab;
+            const matchSearch = !q || row.dataset.search.includes(q);
+            const show = matchTab && matchSearch;
+            row.style.display = show ? '' : 'none';
+            if (show) visible++;
         });
-
-        function viewDetails(id) {
-            window.location.href = "<?= base_url('user/booking-details/') ?>" + id;
-        }
-
-        /* ADDED: Close help modal when clicking outside the box */
-        document.getElementById('helpModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.add('d-none');
-            }
-        });
-    </script>
-
-    <div id="scrollBtn" onclick="smartScroll()" title="Navigate Page">
-        <i class="fa-solid fa-arrow-down" id="scrollIcon"></i>
-    </div>
-
+        document.getElementById('empty-filter').style.display = visible === 0 ? 'block' : 'none';
+    }
+</script>
 </body>
 </html>
