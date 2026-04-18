@@ -22,7 +22,7 @@
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
 
-        /* ============================================================
+         /* ============================================================
            ADDED: HELP BUTTON STYLE
            ============================================================ */
         .btn-help-custom {
@@ -125,6 +125,7 @@
             color: rgba(255,255,255,0.4);
             font-size: 0.8rem;
         }
+        /* ============================================================ */
         .welcome-hero {background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), url('<?= base_url('images/background.png') ?>'); background-size: cover; background-position: center;background-attachment: fixed;padding: 145px 40px;color: white;border-radius: 0 0 80px 80px;margin-bottom: 60px;}
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
         .page-container { max-width: 1100px; margin: 0 auto 80px; padding: 0 24px; }
@@ -157,6 +158,30 @@
         .pay-unpaid { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.15); }
         .btn-view-details { background: rgba(72,202,228,0.15); color: var(--accent-cyan); border: 1px solid rgba(72,202,228,0.4); padding: 7px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; white-space: nowrap; }
         .btn-view-details:hover { background: var(--accent-cyan); color: var(--deep-blue); transform: translateY(-1px); }
+        .btn-pay-now { background: rgba(40,167,69,0.15); color: #5ddb8a; border: 1px solid rgba(40,167,69,0.4); padding: 7px 14px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .btn-pay-now:hover { background: rgba(40,167,69,0.35); transform: translateY(-1px); }
+        /* Payment Modal */
+        #payModal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5,44,57,0.92); backdrop-filter:blur(10px); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px; animation:fadeInModal 0.25s ease; }
+        #payModal.d-none { display:none !important; }
+        .pay-modal-box { background:#0a3d52; border:1px solid rgba(72,202,228,0.35); border-radius:28px; padding:36px; max-width:500px; width:100%; box-shadow:0 30px 60px rgba(0,0,0,0.5); }
+        .pay-modal-title { color:#48cae4; font-size:1.2rem; font-weight:700; margin-bottom:4px; }
+        .pay-modal-subtitle { color:rgba(255,255,255,0.5); font-size:0.82rem; margin-bottom:24px; }
+        .pay-opt-row { display:flex; gap:10px; margin-bottom:18px; }
+        .pay-opt { flex:1; border:1px solid rgba(255,255,255,0.15); border-radius:14px; padding:14px; text-align:center; cursor:pointer; transition:0.2s; font-size:0.85rem; font-weight:600; color:rgba(255,255,255,0.6); background:rgba(255,255,255,0.04); }
+        .pay-opt:hover { border-color:var(--accent-cyan); }
+        .pay-opt.selected { background:rgba(72,202,228,0.15); color:#48cae4; border-color:var(--accent-cyan); }
+        .pay-amount-box { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px 18px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; }
+        .pay-amount-label { font-size:0.75rem; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:1px; }
+        .pay-amount-value { font-size:1.4rem; font-weight:900; color:#48cae4; }
+        .gcash-info-box { background:rgba(72,202,228,0.06); border:1px solid rgba(72,202,228,0.2); border-radius:12px; padding:14px; margin-bottom:14px; text-align:center; }
+        .gcash-num { font-size:1.05rem; font-weight:700; color:#0077B6; letter-spacing:1px; }
+        .pay-field-label { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:#48cae4; margin-bottom:6px; display:block; }
+        .pay-file-input { width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:white; padding:9px 12px; font-size:0.82rem; font-family:'Poppins',sans-serif; }
+        .pay-note { font-size:0.73rem; color:rgba(255,255,255,0.4); margin-top:4px; }
+        .btn-confirm-pay { display:block; width:100%; padding:13px; background:linear-gradient(135deg,#0a5872,#052c39); color:white; border:none; border-radius:12px; font-size:0.92rem; font-weight:700; cursor:pointer; transition:0.3s; margin-top:18px; }
+        .btn-confirm-pay:hover { background:linear-gradient(135deg,#48cae4,#0a5872); color:var(--deep-blue); }
+        .btn-close-pay { background:none; border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.6); border-radius:50px; padding:6px 18px; cursor:pointer; font-size:0.82rem; float:right; transition:0.3s; }
+        .btn-close-pay:hover { background:rgba(255,255,255,0.1); color:white; }
         .activity-icon-wrap { width: 38px; height: 38px; border-radius: 10px; background: rgba(72,202,228,0.12); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .empty-state { text-align: center; padding: 50px 20px; }
         .empty-state i { font-size: 2.5rem; opacity: 0.4; display: block; margin-bottom: 12px; }
@@ -185,9 +210,16 @@
             <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom active">My Bookings</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
+        <!-- UPDATED: added Help button beside Logout -->
         <div class="logout-wrapper">
-            <a href="<?= base_url('logout') ?>" class="btn-logout-custom"><i class="fa-solid fa-power-off me-1"></i> Logout</a>
+            <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
+                <i class="fa-solid fa-circle-question me-1"></i> Help
+            </button>
+            <a href="<?= base_url('logout') ?>" class="btn-logout-custom">
+                <i class="fa-solid fa-power-off me-1"></i> Logout
+            </a>
         </div>
+        
     </div>
 </nav>
 
@@ -308,7 +340,12 @@
 
                     <td>
                         <div class="fw-bold" style="font-size:0.85rem;"><?= date('M d, Y', strtotime($booking['date'])) ?></div>
-                        <small style="color:var(--accent-cyan);font-size:0.75rem;"><?= date('h:i A', strtotime($booking['time'])) ?></small>
+                        <small style="color:var(--accent-cyan);font-size:0.75rem;">
+                            <?php
+                                $ts = strtotime($booking['time']);
+                                echo date('h:i A', $ts) . ' – ' . date('h:i A', $ts + 3600);
+                            ?>
+                        </small>
                     </td>
 
                     <td style="font-size:0.88rem;"><?= esc($booking['participants']) ?> person<?= $booking['participants']>1?'s':'' ?></td>
@@ -332,10 +369,16 @@
                         <span class="payment-badge <?= $payClass ?>"><?= $payText ?></span>
                     </td>
 
-                    <td class="text-center">
+                    <td class="text-center" style="white-space:nowrap;">
                         <button class="btn-view-details" onclick="window.location.href='<?= base_url('user/booking-details/'.$booking['id']) ?>'">
                             <i class="fa-solid fa-eye me-1"></i> View
                         </button>
+                        <?php if (in_array($booking['status'], ['pending','confirmed']) && $booking['payment_status'] !== 'paid'): ?>
+                        <button class="btn-pay-now ms-1" 
+                            onclick="openPayModal(<?= $booking['id'] ?>, '<?= esc($booking['activity_name']) ?>', <?= $booking['total_amount'] ?>, '<?= $booking['down_payment_status'] ?>')">
+                            <i class="fa-solid fa-peso-sign me-1"></i> Pay
+                        </button>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -372,6 +415,72 @@
         <div class="copyright-text opacity-50">&copy; 2026 Waves Water Sports | Tech by <span class="text-info fw-bold">MARISENSE</span></div>
     </div>
 </footer>
+<!-- PAYMENT MODAL -->
+<div id="payModal" class="d-none">
+    <div class="pay-modal-box">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+            <div>
+                <div class="pay-modal-title"><i class="fa-solid fa-peso-sign me-2"></i>Pay for Booking</div>
+                <div class="pay-modal-subtitle" id="pay-modal-activity">—</div>
+            </div>
+            <button class="btn-close-pay" onclick="closePayModal()"><i class="fa-solid fa-xmark me-1"></i> Close</button>
+        </div>
+
+        <div class="pay-opt-row">
+            <div class="pay-opt selected" id="payopt-half" onclick="selectPayOpt('half')">
+                <i class="fa-brands fa-google-pay me-1" style="color:#1a73e8;"></i><br>
+                50% Down<br><span style="font-size:0.68rem;font-weight:400;">Secure your date</span>
+            </div>
+            <div class="pay-opt" id="payopt-full" onclick="selectPayOpt('full')">
+                <i class="fa-solid fa-money-bill-wave me-1"></i><br>
+                Full Payment<br><span style="font-size:0.68rem;font-weight:400;">Pay everything now</span>
+            </div>
+        </div>
+
+        <div class="pay-amount-box">
+            <div>
+                <div class="pay-amount-label" id="pay-amount-label">Down Payment (50%)</div>
+                <div class="pay-amount-value" id="pay-amount-display">—</div>
+            </div>
+            <div style="font-size:0.72rem;color:rgba(255,255,255,0.4);text-align:right;">
+                Total: <span id="pay-total-display" style="color:rgba(255,255,255,0.7);font-weight:700;">—</span>
+            </div>
+        </div>
+
+        <div class="gcash-info-box">
+            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.4);margin-bottom:4px;">GCash Number</div>
+            <div class="gcash-num"><i class="fa-brands fa-google-pay" style="color:#1a73e8;"></i> 0917-XXX-XXXX</div>
+            <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:2px;">Waves Water Sports</div>
+            <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:8px;">
+                1. Open GCash → Send Money &nbsp;|&nbsp; 2. Enter number &amp; amount &nbsp;|&nbsp; 3. Screenshot receipt &nbsp;|&nbsp; 4. Upload below
+            </div>
+        </div>
+
+        <form action="<?= base_url('user/booking/pay') ?>" method="POST" enctype="multipart/form-data">
+            <?= csrf_field() ?>
+            <input type="hidden" name="booking_id" id="pay-booking-id" value="">
+            <input type="hidden" name="payment_type" id="pay-type-hidden" value="half">
+
+            <div style="margin-bottom:12px;">
+                <label class="pay-field-label">Upload GCash Receipt <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:0.6;">(required)</span></label>
+                <input type="file" name="gcash_receipt" accept="image/*" class="pay-file-input" required>
+                <p class="pay-note">Attach a screenshot of your GCash transaction. Accepted: JPG, PNG.</p>
+            </div>
+
+            <div style="margin-bottom:12px;">
+                <label class="pay-field-label">GCash Reference No. <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:0.6;">(optional)</span></label>
+                <input type="text" name="gcash_ref" placeholder="e.g. 1234567890" 
+                    style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:10px;color:white;padding:9px 12px;font-size:0.82rem;font-family:'Poppins',sans-serif;outline:none;">
+            </div>
+
+            <button type="submit" class="btn-confirm-pay">
+                <i class="fa-solid fa-check-circle me-2"></i> Submit Payment
+            </button>
+        </form>
+    </div>
+</div>
+<!-- END PAYMENT MODAL -->
+
 <!-- ADDED: HELP MODAL -->
 <div id="helpModal" class="d-none">
     <div class="help-modal-box">
@@ -419,6 +528,43 @@
 
 <script>
     let currentTab = 'all';
+    let payTotalAmount = 0;
+
+    function openPayModal(bookingId, activityName, total, downPayStatus) {
+        payTotalAmount = parseFloat(total);
+        document.getElementById('pay-booking-id').value = bookingId;
+        document.getElementById('pay-modal-activity').textContent = activityName + ' — Booking #' + bookingId;
+        document.getElementById('pay-total-display').textContent = '₱' + payTotalAmount.toLocaleString('en-PH', {minimumFractionDigits:2});
+
+        // If down payment already paid, default to full; otherwise half
+        var defaultOpt = (downPayStatus === 'paid') ? 'full' : 'half';
+        selectPayOpt(defaultOpt);
+
+        document.getElementById('payModal').classList.remove('d-none');
+    }
+
+    function closePayModal() {
+        document.getElementById('payModal').classList.add('d-none');
+    }
+
+    function selectPayOpt(type) {
+        document.getElementById('pay-type-hidden').value = type;
+        document.getElementById('payopt-half').classList.toggle('selected', type === 'half');
+        document.getElementById('payopt-full').classList.toggle('selected', type === 'full');
+        var half = Math.ceil(payTotalAmount / 2);
+        if (type === 'half') {
+            document.getElementById('pay-amount-label').textContent = 'Down Payment (50%)';
+            document.getElementById('pay-amount-display').textContent = '₱' + half.toLocaleString('en-PH', {minimumFractionDigits:2});
+        } else {
+            document.getElementById('pay-amount-label').textContent = 'Full Payment';
+            document.getElementById('pay-amount-display').textContent = '₱' + payTotalAmount.toLocaleString('en-PH', {minimumFractionDigits:2});
+        }
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('payModal').addEventListener('click', function(e) {
+        if (e.target === this) closePayModal();
+    });
 
     function filterTab(tab, btn) {
         currentTab = tab;

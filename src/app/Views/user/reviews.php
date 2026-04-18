@@ -200,8 +200,14 @@
             <a href="<?= base_url('user/my-bookings') ?>" class="nav-link-custom">My Bookings</a>
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom active">Reviews</a>
         </div>
+        <!-- UPDATED: added Help button beside Logout -->
         <div class="logout-wrapper">
-            <a href="<?= base_url('logout') ?>" class="btn-logout-custom"><i class="fa-solid fa-power-off me-1"></i> Logout</a>
+            <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
+                <i class="fa-solid fa-circle-question me-1"></i> Help
+            </button>
+            <a href="<?= base_url('logout') ?>" class="btn-logout-custom">
+                <i class="fa-solid fa-power-off me-1"></i> Logout
+            </a>
         </div>
     </div>
 </nav>

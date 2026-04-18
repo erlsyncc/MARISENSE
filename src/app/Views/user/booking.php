@@ -496,42 +496,10 @@
                 </div>
             </div>
 
-            <!-- Payment Option -->
-            <div style="margin-bottom:10px;">
-                <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(5,44,57,0.5);margin-bottom:8px;">Payment Option</div>
-                <div class="payment-toggle">
-                    <div class="payment-opt selected" id="opt-full" onclick="selectPayment('full')">
-                        <i class="fa-solid fa-money-bill-wave me-1"></i> Full Payment<br>
-                        <span style="font-size:0.68rem;font-weight:400;">Pay on-site</span>
-                    </div>
-                    <div class="payment-opt" id="opt-half" onclick="selectPayment('half')">
-                        <i class="fa-brands fa-google-pay me-1" style="color:#1a73e8;"></i> Half via GCash<br>
-                        <span style="font-size:0.68rem;font-weight:400;">Secure now</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- GCash section (shown when half selected) -->
-            <div class="gcash-qr-section" id="gcash-section">
-                <div class="half-payment-box">
-                    <div class="half-label"><i class="fa-solid fa-mobile-screen-button me-1"></i> Down Payment (50%)</div>
-                    <div class="half-amount" id="summary-downpayment">—</div>
-                    <div class="half-note">Pay via GCash to secure your booking. Balance on arrival.</div>
-                </div>
-                <div class="gcash-box">
-                    <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:rgba(5,44,57,0.5);margin-bottom:6px;">GCash Number</div>
-                    <div class="gcash-number"><i class="fa-brands fa-google-pay" style="color:#1a73e8;"></i> 0917-XXX-XXXX</div>
-                    <div class="gcash-name">Waves Water Sports</div>
-                </div>
-                <div style="font-size:0.78rem;color:rgba(5,44,57,0.6);font-weight:700;margin-bottom:8px;">How to pay:</div>
-                <div class="gcash-step"><div class="gcash-step-num">1</div>Open GCash → Send Money</div>
-                <div class="gcash-step"><div class="gcash-step-num">2</div>Enter number above &amp; the down payment amount</div>
-                <div class="gcash-step"><div class="gcash-step-num">3</div>Screenshot the receipt</div>
-                <div class="gcash-step"><div class="gcash-step-num">4</div>Upload receipt below or show on arrival</div>
-                <div class="field-group mt-2">
-                    <label class="field-label" style="color:rgba(5,44,57,0.6);">Upload GCash Receipt <span style="font-weight:400;text-transform:none;">(optional)</span></label>
-                    <input type="file" name="gcash_receipt" accept="image/*" class="form-control form-control-sm">
-                </div>
+            <!-- Payment note -->
+            <div style="background:rgba(72,202,228,0.08);border:1px solid rgba(72,202,228,0.25);border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:0.78rem;color:rgba(5,44,57,0.65);">
+                <i class="fa-solid fa-circle-info me-1" style="color:var(--ocean-blue);"></i>
+                Payment can be made after booking — visit <strong>My Bookings</strong> to pay half or full via GCash.
             </div>
 
             <div class="form-check mb-3">
@@ -797,8 +765,6 @@ function recalcTotal() {
         total += PER_PERSON_ACTIVITIES.includes(act) ? price * count : price;
     });
     document.getElementById('summary-total').textContent = total ? '₱' + total.toLocaleString() : '—';
-    var half = Math.ceil(total / 2);
-    document.getElementById('summary-downpayment').textContent = total ? '₱' + half.toLocaleString() : '—';
     return total;
 }
 
@@ -832,22 +798,11 @@ function renderSummaryActivities() {
             </div>`;
         });
         document.getElementById('summary-total').textContent = '₱' + total.toLocaleString();
-        var half = Math.ceil(total / 2);
-        document.getElementById('summary-downpayment').textContent = '₱' + half.toLocaleString();
     } else {
         document.getElementById('summary-total').textContent = '—';
-        document.getElementById('summary-downpayment').textContent = '—';
     }
     document.getElementById('summary-base-price').innerHTML = html;
     updateSummaryParticipants();
-}
-
-// Payment options
-function selectPayment(type) {
-    document.getElementById('f_payment_option').value = type;
-    document.getElementById('opt-full').classList.toggle('selected', type === 'full');
-    document.getElementById('opt-half').classList.toggle('selected', type === 'half');
-    document.getElementById('gcash-section').classList.toggle('show', type === 'half');
 }
 
 // ============================================================
@@ -879,9 +834,16 @@ function renderCalendar() {
         const isToday = dateStr === todayStr;
         const isPast  = dateStr < todayStr;
 
-        if (isPast) {
+        // For today, check if the last available slot (16:00) has already passed
+        const isTodayAllSlotsPast = isToday && (() => {
+            const lastSlotHour = 16; // last slot starts at 16:00
+            const now = new Date();
+            return now.getHours() >= lastSlotHour + 1; // all slots done after 17:00
+        })();
+
+        if (isPast || isTodayAllSlotsPast) {
             d.classList.add('past');
-            d.title = 'Past date';
+            d.title = isPast ? 'Past date' : 'No more slots available today';
         } else if (bookedDates.includes(dateStr)) {
             d.classList.add('booked');
             d.title = 'Fully booked';

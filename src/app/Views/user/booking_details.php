@@ -123,12 +123,23 @@
 
         <div class="detail-row">
             <span class="detail-label"><i class="fa-regular fa-clock me-2 text-info"></i> Time</span>
-            <span class="detail-value"><?= date('h:i A', strtotime($booking['time'])) ?></span>
+            <span class="detail-value">
+                <?php
+                    $startTime = strtotime($booking['time']);
+                    $endTime   = $startTime + 3600; // 1-hour session
+                    echo date('h:i A', $startTime) . ' – ' . date('h:i A', $endTime);
+                ?>
+            </span>
         </div>
 
         <div class="detail-row">
             <span class="detail-label"><i class="fa-solid fa-users me-2 text-info"></i> Participants</span>
             <span class="detail-value"><?= esc($booking['participants']) ?> person<?= $booking['participants'] > 1 ? 's' : '' ?></span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label"><i class="fa-solid fa-phone me-2 text-info"></i> Contact Number</span>
+            <span class="detail-value"><?= !empty($booking['contact_number']) ? esc($booking['contact_number']) : '<span style="opacity:0.5;">—</span>' ?></span>
         </div>
 
         <?php if (!empty($booking['special_requests'])): ?>

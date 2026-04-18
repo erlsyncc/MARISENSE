@@ -9,28 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            --deep-blue: #052c39;
-            --ocean-blue: #0a5872;
-            --accent-cyan: #48cae4;
-            --soft-white: #f4f9fc;
-            --safe-green: #2ecc71;
-        }
-
-        .highlight-brand {
-            font-weight: 700;
-            color: #48cae4;
-            text-shadow: 0 0 10px rgba(72, 202, 228, 0.4);
-            letter-spacing: 1px;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--ocean-blue) 40%, var(--deep-blue) 100%);
-            background-attachment: fixed;
-            color: var(--soft-white);
-            margin: 0;
-        }
+        :root {--deep-blue: #052c39;--ocean-blue: #0a5872;--accent-cyan: #48cae4;--soft-white: #f4f9fc;--safe-green: #2ecc71;}
+        .highlight-brand {font-weight: 700;color: #48cae4;text-shadow: 0 0 10px rgba(72, 202, 228, 0.4);letter-spacing: 1px;}
+        body {font-family: 'Poppins', sans-serif;background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--ocean-blue) 40%, var(--deep-blue) 100%);background-attachment: fixed;color: var(--soft-white);margin: 0;}
 
         /* --- NAVBAR --- */
         .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }

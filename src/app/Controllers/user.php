@@ -14,7 +14,6 @@ class User extends BaseController
     {
         $db = \Config\Database::connect();
 
-        // Latest 3 approved reviews for home page
         $reviews = $db->table('reviews')
                       ->select('reviews.*, users.username')
                       ->join('users', 'users.id = reviews.user_id', 'left')
@@ -23,7 +22,6 @@ class User extends BaseController
                       ->get()
                       ->getResultArray();
 
-        // Latest sea condition
         $seaCondition = $db->table('sea_conditions')
                            ->orderBy('recorded_at', 'DESC')
                            ->limit(1)
@@ -65,7 +63,6 @@ class User extends BaseController
                       ->get()
                       ->getResultArray();
 
-        // Average rating
         $avgResult = $db->table('reviews')->selectAvg('rating', 'avg_rating')->get()->getRowArray();
         $avgRating = $avgResult ? round($avgResult['avg_rating'], 1) : 0;
 
@@ -118,11 +115,12 @@ class User extends BaseController
         $bookingModel = new BookingModel();
 
         $rules = [
-            'activity'     => 'required|in_list[Jet Ski,Banana Boat,Kayaking,Flying Saucer]',
-            'date'         => 'required|valid_date[Y-m-d]',
-            'time'         => 'required',
-            'participants' => 'required|integer|greater_than[0]',
-            'guidelines'   => 'required',
+            'activity'       => 'required|in_list[Jet Ski,Banana Boat,Kayaking,Flying Saucer]',
+            'date'           => 'required|valid_date[Y-m-d]',
+            'time'           => 'required',
+            'participants'   => 'required|integer|greater_than[0]',
+            'contact_number' => 'required',
+            'guidelines'     => 'required',
         ];
 
         if (!$this->validate($rules)) {
@@ -131,26 +129,50 @@ class User extends BaseController
                              ->with('errors', $this->validator->getErrors());
         }
 
-        $activity     = $this->request->getPost('activity');
-        $date         = $this->request->getPost('date');
-        $time         = $this->request->getPost('time');
-        $participants = (int) $this->request->getPost('participants');
-        $special      = $this->request->getPost('special_requests') ?? '';
+        $activity      = $this->request->getPost('activity');
+        $date          = $this->request->getPost('date');
+        $time          = $this->request->getPost('time');
+        $participants  = (int) $this->request->getPost('participants');
+        $special       = $this->request->getPost('special_requests') ?? '';
+        $contactNumber = $this->request->getPost('contact_number') ?? '';
 
-        // Must be a future date
-        if (strtotime($date) < strtotime(date('Y-m-d'))) {
+        // Must be a future date (not today either — handled by time check below)
+        $today = date('Y-m-d');
+        if ($date < $today) {
             return redirect()->back()
                              ->withInput()
                              ->with('error', 'Please select a future date.');
         }
 
-        // Check max riders
-        $maxRiders = BookingModel::$maxRiders[$activity] ?? 1;
-        if ($participants > $maxRiders) {
-            return redirect()->back()
-                             ->withInput()
-                             ->with('error', "Maximum {$maxRiders} riders allowed for {$activity}.");
+        // If booking is today, ensure the selected time hasn't already passed
+        if ($date === $today) {
+            $selectedTimestamp = strtotime($date . ' ' . $time);
+            if ($selectedTimestamp <= time()) {
+                return redirect()->back()
+                                 ->withInput()
+                                 ->with('error', 'The selected time has already passed. Please choose a future time slot.');
+            }
         }
+
+        // Check max riders per activity — validate each activity's participant count separately
+        // The form posts a comma-separated list of all activities via 'all_activities'
+        $allActivitiesRaw = $this->request->getPost('all_activities') ?? $activity;
+        $allActivities    = array_filter(array_map('trim', explode(',', $allActivitiesRaw)));
+        if (empty($allActivities)) {
+            $allActivities = [$activity];
+        }
+        // For multi-activity bookings, the participants field holds the SUM.
+        // We need per-activity counts; if only one activity, the whole count belongs to it.
+        if (count($allActivities) === 1) {
+            $maxRiders = BookingModel::$maxRiders[$activity] ?? 1;
+            if ($participants > $maxRiders) {
+                return redirect()->back()
+                                 ->withInput()
+                                 ->with('error', "Maximum {$maxRiders} rider(s) allowed for {$activity}.");
+            }
+        }
+        // If multiple activities were selected, we trust the JS-enforced per-dropdown limits
+        // (each dropdown already caps at maxRiders per activity), so no extra check needed.
 
         // Check if time slot is already taken
         $normalizedTime = date('H:i:s', strtotime($time));
@@ -172,6 +194,7 @@ class User extends BaseController
             'date'             => $date,
             'time'             => $normalizedTime,
             'participants'     => $participants,
+            'contact_number'   => $contactNumber,   // ← FIXED: now saved
             'special_requests' => $special,
             'total_amount'     => $total,
             'status'           => 'pending',
@@ -264,11 +287,24 @@ class User extends BaseController
 
         $bookedSlots = $bookingModel->getBookedSlots($activity, $date);
 
-        $result = array_map(function ($slot) use ($bookedSlots) {
+        // For today, also mark past slots as unavailable
+        $now   = time();
+        $today = date('Y-m-d');
+
+        $result = array_map(function ($slot) use ($bookedSlots, $date, $today, $now) {
+            $isBooked = in_array($slot, $bookedSlots);
+
+            // If the date is today, check if the slot time has already passed
+            $isPast = false;
+            if ($date === $today) {
+                $slotTimestamp = strtotime($date . ' ' . $slot);
+                $isPast = $slotTimestamp <= $now;
+            }
+
             return [
                 'time'      => date('h:i A', strtotime($slot)),
                 'value'     => $slot,
-                'available' => !in_array($slot, $bookedSlots),
+                'available' => !$isBooked && !$isPast,
             ];
         }, $allSlots);
 
@@ -318,7 +354,7 @@ class User extends BaseController
         $db      = \Config\Database::connect();
         $builder = $db->table('reviews');
 
-        $safeFeel = strtolower($this->request->getPost('safe_feel')); // 'yes' or 'no'
+        $safeFeel = strtolower($this->request->getPost('safe_feel'));
 
         $data = [
             'user_id'     => auth()->user()->id,
