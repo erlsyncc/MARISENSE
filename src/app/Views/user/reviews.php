@@ -145,7 +145,7 @@
         .review-text { font-size: 0.83rem; color: rgba(255,255,255,0.75); line-height: 1.65; margin: 10px 0; }
         .badge-activity { background: rgba(10,88,114,0.6); color: var(--accent-cyan); border: 1px solid rgba(72,202,228,0.25); padding: 3px 11px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; }
         .badge-safe { background: rgba(40,167,69,0.12); color: #5ddb8a; border: 1px solid rgba(40,167,69,0.3); padding: 3px 11px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; }
-        .badge-unsafe { background: rgba(255,193,7,0.12); color: #ffc107; border: 1px solid rgba(255,193,7,0.3); padding: 3px 11px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; }
+        .badge-unsafe { background: rgba(220,53,69,0.12); color: #ff6b6b; border: 1px solid rgba(220,53,69,0.3); padding: 3px 11px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; }
         /* Write review form */
         .review-form-card { background: rgba(255,255,255,0.08); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; padding: 28px; position: sticky; top: 82px; }
         .form-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
@@ -291,7 +291,7 @@
                             <?php endif; ?>
                             <div class="d-flex gap-2 flex-wrap">
                                 <span class="badge-activity"><?= esc($r['activity'] ?? 'N/A') ?></span>
-                                <span class="<?= $safeClass ?>"><i class="fa-solid fa-shield-halved me-1"></i>Felt <?= ucfirst(esc($r['safe_feel'] ?? 'Safe')) ?></span>
+                                <span class="<?= $safeClass ?>"><i class="fa-solid fa-shield-halved me-1"></i>Felt: <?= strtolower($r['safe_feel'] ?? 'yes') === 'yes' ? 'Safe' : 'Unsafe' ?></span>
                             </div>
                         </div>
                     <?php endforeach; ?>

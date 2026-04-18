@@ -138,7 +138,7 @@
         .reviews-cta { text-align: center; margin-top: 36px; }
 
         /* --- CTA BOX --- */
-        .cta-box { background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); border-radius: 40px; padding: 60px 40px; text-align: center; margin-top: 100px; margin-bottom: -50px; position: relative; z-index: 5; color: white; }
+        .cta-box { background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); border-radius: 40px; padding: 60px 40px; text-align: center; margin-top: 30px; margin-bottom: -50px; position: relative; z-index: 5; color: white; }
 
         /* --- FOOTER --- */
         footer { background: var(--deep-blue); padding: 100px 0 40px 0; color: rgba(255,255,255,0.6) !important; border-top: 1px solid rgba(255,255,255,0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
@@ -266,7 +266,12 @@
             color: rgba(255,255,255,0.4);
             font-size: 0.8rem;
         }
-        /* ============================================================ */
+        .map-btn-wrapper{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin-top:25px;
+        }
     </style>
 </head>
 <body>
@@ -565,6 +570,36 @@
         </div>
     </div>
 </div>
+
+<!-- GOOGLE MAPS SECTION -->
+<section style="padding: 80px 0 60px;">
+    <div class="container">
+        <div class="section-header">
+            <h1 class="fw-bold text-white">Find Us Here</h1>
+            <div class="title-line"></div>
+            <p class="opacity-75 mt-2">Matabungkay Beach, Lian, Batangas, Philippines</p>
+        </div>
+        <div style="border-radius: 30px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.0521!2d120.63170!3d13.95670!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd052f43e38a5d%3A0x4ee4d0726e25a8c4!2sMatabungkay%20Beach%2C%20Lian%2C%20Batangas!5e0!3m2!1sen!2sph!4v1700000000000!5m2!1sen!2sph"
+                width="100%"
+                height="450"
+                style="border:0; display:block;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+        <div class="map-btn-wrapper">
+            <a href="https://maps.google.com/?q=Matabungkay+Beach+Lian+Batangas" target="_blank"
+               class="btn-view-details tooltip-btn"
+               data-tooltip="Open in Google Maps">
+                <i class="fa-solid fa-location-dot me-2"></i> Open in Google Maps
+            </a>
+        </div>
+    </div>
+</section>
+<!-- END GOOGLE MAPS SECTION -->
 
 <footer class="text-center">
     <div class="container d-flex flex-column align-items-center">

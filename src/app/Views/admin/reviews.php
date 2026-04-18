@@ -51,7 +51,7 @@
         .review-text { font-size: 0.85rem; color: rgba(255,255,255,0.75); line-height: 1.65; margin: 12px 0; }
         .badge-activity { background: rgba(10,88,114,0.6); color: var(--accent-cyan); border: 1px solid rgba(72,202,228,0.25); padding: 3px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 600; }
         .badge-safe { background: rgba(40,167,69,0.12); color: #5ddb8a; border: 1px solid rgba(40,167,69,0.3); padding: 3px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 600; }
-        .badge-moderate { background: rgba(255,193,7,0.12); color: #ffc107; border: 1px solid rgba(255,193,7,0.3); padding: 3px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 600; }
+        .badge-unsafe { background: rgba(220,53,69,0.12); color: #ff6b6b; border: 1px solid rgba(220,53,69,0.3); padding: 3px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 600; }
         .btn-delete { position: absolute; top: 18px; right: 18px; background: rgba(220,53,69,0.1); color: #ff8888; border: 1px solid rgba(220,53,69,0.25); border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; cursor: pointer; transition: 0.2s; }
         .btn-delete:hover { background: #dc3545; color: white; }
         .empty-state { text-align: center; padding: 60px 20px; opacity: 0.5; grid-column: 1/-1; }
@@ -112,7 +112,7 @@
             <div class="ms-label">Felt Safe</div>
         </div>
         <div class="mini-stat">
-            <div class="ms-value" style="color:#ffc107;"><?= $moderateCount ?? 0 ?></div>
+            <div class="ms-value" style="color:#ff6b6b;"><?= $moderateCount ?? 0 ?></div>
             <div class="ms-label">Felt Unsafe</div>
         </div>
     </div>
@@ -133,17 +133,14 @@
             <?php
                 $stars    = (int)($r['rating'] ?? 5);
                 $initials = strtoupper(substr($r['username'] ?? 'U', 0, 2));
-                $safeClass = match(strtolower($r['safe_feel'] ?? 'yes')) {
-                    'yes' => 'badge-safe',
-                    'no', 'moderate' => 'badge-moderate',
-                    default => 'badge-safe'
-                };
+                $isSafe   = strtolower($r['safe_feel'] ?? 'yes') === 'yes';
+                $safeClass = $isSafe ? 'badge-safe' : 'badge-unsafe';
+                $safeLabel = $isSafe ? 'Safe' : 'Unsafe';
             ?>
             <div class="review-card" data-activity="<?= strtolower($r['activity'] ?? '') ?>">
                 <form method="POST" action="<?= base_url('admin/reviews/delete') ?>" class="delete-review-form" style="display:inline;">
                     <?= csrf_field() ?>
                     <input type="hidden" name="id" value="<?= $r['id'] ?>">
-                    
                     <button type="submit" class="btn-delete">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
@@ -178,7 +175,7 @@
                 <div class="d-flex gap-2 flex-wrap">
                     <span class="badge-activity"><?= esc($r['activity'] ?? 'N/A') ?></span>
                     <span class="<?= $safeClass ?>">
-                        <i class="fa-solid fa-shield-halved me-1"></i>Felt: <?= esc($r['safe_feel'] ?? 'Safe') ?>
+                        <i class="fa-solid fa-shield-halved me-1"></i>Felt: <?= $safeLabel ?>
                     </span>
                 </div>
             </div>
@@ -204,10 +201,8 @@ function setFilter(activity, btn) {
 <script>
 document.querySelectorAll('.delete-review-form').forEach(form => {
     form.addEventListener('submit', function(e) {
-        e.preventDefault(); // Stop the form from submitting immediately
-        
+        e.preventDefault();
         const currentForm = this;
-
         Swal.fire({
             title: 'Delete Review?',
             text: "This feedback will be permanently removed from the system.",
@@ -216,12 +211,11 @@ document.querySelectorAll('.delete-review-form').forEach(form => {
             confirmButtonColor: '#dc3545',
             cancelButtonColor: '#6c757d',
             confirmButtonText: 'Yes, delete it!',
-            background: '#fff', // Dark theme para terno sa Waves Admin
+            background: '#fff',
             color: '#0b0303',
             backdrop: `rgba(5,44,57,0.6)`
         }).then((result) => {
             if (result.isConfirmed) {
-                // If confirmed, manually submit the form
                 currentForm.submit();
             }
         });
