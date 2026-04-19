@@ -270,19 +270,24 @@ class Admin extends BaseController
 
         if (! $this->validate($rules)) {
             return redirect()->back()
-                             ->withInput()
-                             ->with('error', implode(' ', $this->validator->getErrors()));
-        }
-
-        // Handle image upload
-        $imgName = null;
-        $imgFile = $this->request->getFile('image');
-        if ($imgFile && $imgFile->isValid() && ! $imgFile->hasMoved()) {
-            $imgName = $imgFile->getRandomName();
-            $imgFile->move(ROOTPATH . 'public/images', $imgName);
+                            ->withInput()
+                            ->with('error', implode(' ', $this->validator->getErrors()));
         }
 
         $activityId = (int) $this->request->getPost('activity_id');
+
+        // Handle multiple image uploads (up to 4)
+        $uploadedImages = [];
+        $files = $this->request->getFiles();
+        $imageFiles = $files['images'] ?? [];
+
+        foreach ($imageFiles as $imgFile) {
+            if ($imgFile && $imgFile->isValid() && ! $imgFile->hasMoved()) {
+                $newName = $imgFile->getRandomName();
+                $imgFile->move(ROOTPATH . 'public/images', $newName);
+                $uploadedImages[] = $newName;
+            }
+        }
 
         $data = [
             'name'        => $this->request->getPost('name'),
@@ -291,31 +296,49 @@ class Admin extends BaseController
             'duration'    => $this->request->getPost('duration') ?: null,
             'max_riders'  => $this->request->getPost('max_riders') ?: null,
             'difficulty'  => $this->request->getPost('difficulty') ?: 'Moderate',
+            'gear' => $this->request->getPost('gear') ?: null,
             'status'      => $this->request->getPost('status') ?: 'active',
+            'price_type'  => $this->request->getPost('price_type') ?: 'flat',
+            'updated_at'  => date('Y-m-d H:i:s'),
         ];
-
-        if ($imgName) {
-            $data['image'] = $imgName;
-        }
 
         $db = \Config\Database::connect();
 
         if ($activityId) {
-            // UPDATE existing
+            // UPDATE — only replace images if new ones were uploaded
+            if (! empty($uploadedImages)) {
+                $data['image']  = $uploadedImages[0]; // first = cover
+                $data['images'] = json_encode(array_slice($uploadedImages, 1)); // rest stored as JSON
+            }
             $db->table('activities')->where('id', $activityId)->update($data);
             $msg = 'Activity updated successfully.';
         } else {
-            // INSERT new
+            // INSERT
+            $data['created_at'] = date('Y-m-d H:i:s');
+            if (! empty($uploadedImages)) {
+                $data['image']  = $uploadedImages[0];
+                $data['images'] = json_encode(array_slice($uploadedImages, 1));
+            }
             $db->table('activities')->insert($data);
             $msg = 'Activity added successfully.';
         }
 
         return redirect()->to(base_url('admin/activities'))
-                         ->with('success', $msg);
-         }
-            public function sales()
-        {
-            if ($r = $this->requireAdmin()) return $r;
-            return view('admin/sales');
+                        ->with('success', $msg);
+    }
+
+    public function deleteActivity()
+    {
+        if ($r = $this->requireAdmin()) return $r;
+
+        $id = (int) $this->request->getPost('activity_id');
+        if (! $id) {
+            return redirect()->back()->with('error', 'Invalid activity.');
         }
+
+        \Config\Database::connect()->table('activities')->where('id', $id)->delete();
+
+        return redirect()->to(base_url('admin/activities'))
+                        ->with('success', 'Activity deleted successfully.');
+    }
 }

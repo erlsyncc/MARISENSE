@@ -411,78 +411,87 @@
 </header>
 
 <div class="container">
-    <?php 
-$activities = [
-    [
-        'name' => 'Jet Ski',
-        'desc' => 'Ride across the open sea on a powerful jet ski. Perfect for thrill-seekers who enjoy speed and ocean adventure.',
-        'details' => [' Duration: 15 minutes', ' Max Riders: 1–3 persons', ' Gear: Life vest', ' Difficulty: Moderate'],
-        'images' => ['jetski.jpg', 'jetski1.jpg', 'jetski2.jpg', 'jetski3.jpg']
-    ],
-    [
-        'name' => 'Banana Boat',
-        'desc' => 'A fun group ride on an inflatable banana-shaped boat pulled by a speedboat. Expect splashes and laughter.',
-        'details' => [' Duration: 10 minutes', ' Max Riders: 12 persons', ' Difficulty: Easy', ' Best For: Groups'],
-        'images' => ['bananaboats.jpg', 'banana1.jpg', 'banana2.jpg', 'banana3.jpg']
-    ],
-    [
-        'name' => 'Kayaking',
-        'desc' => 'Paddle along the calm waters and enjoy the scenic view of Matabungkay Beach.',
-        'details' => [' Duration: 30 minutes', ' Max Riders: 1–2 persons', ' Difficulty: Easy'],
-        'images' => ['kayak.jpg', 'kayak1.jpg', 'kayak2.jpg', 'kayak3.jpg']
-    ],
-    [
-        'name' => 'Flying Saucer',
-        'desc' => 'An exciting inflatable ride that spins and glides across the waves.',
-        'details' => [' Duration: 10 minutes', ' Max Riders: 4-10 persons', ' Difficulty: Moderate'],
-        'images' => ['flying.jpg', 'flying1.jpg', 'flying2.jpg', 'flying3.jpg']
-    ]
-];
+    <?php foreach($activities as $item):
+    // Build images array: cover first, then extra images from DB
+    $coverImg   = $item['image'] ?? null;
+    $extraImgs  = ! empty($item['images']) ? json_decode($item['images'], true) : [];
+    $allImages  = array_filter(array_merge(
+        $coverImg ? [$coverImg] : [],
+        is_array($extraImgs) ? $extraImgs : []
+    ));
+    // Pad to 4 slots with cover image if fewer uploaded
+    while (count($allImages) < 4 && $coverImg) {
+        $allImages[] = $coverImg;
+    }
+    $allImages = array_slice($allImages, 0, 4);
 
-foreach($activities as $item): ?>
-    
+    // Format price display
+    $priceLabel = number_format((float)$item['price'], 2);
+    if (($item['price_type'] ?? 'flat') === 'per_person') {
+        $priceLabel .= ' / person';
+    } else {
+        $priceLabel .= ' / session';
+    }
+
+    // Build details array from DB fields
+    $details = [];
+    if (! empty($item['duration']))   $details[] = 'Duration: ' . $item['duration'] . ' mins';
+    if (! empty($item['max_riders'])) $details[] = 'Max Riders: ' . $item['max_riders'];
+    if (! empty($item['gear']))       $details[] = 'Gear: ' . $item['gear'];
+    if (! empty($item['difficulty'])) $details[] = 'Difficulty: ' . $item['difficulty'];
+?>
+
     <div id="<?= strtolower(str_replace(' ', '-', $item['name'])) ?>" class="text-center w-100 mt-5">
-        <h1 class="activity-title"><?= $item['name'] ?></h1>
+        <h1 class="activity-title"><?= esc($item['name']) ?></h1>
         <div class="activity-line"></div>
     </div>
 
     <div class="container px-md-5">
         <div class="activity-container shadow-lg">
             <div class="row align-items-center">
-                
+
                 <div class="col-lg-7 mb-4 mb-lg-0">
                     <div class="vertical-gallery">
-                        <?php foreach($item['images'] as $img): ?>
-                            <img src="<?= base_url('images/' . $img) ?>" alt="<?= $item['name'] ?>">
+                        <?php foreach($allImages as $img): ?>
+                            <img src="<?= base_url('images/' . esc($img)) ?>" alt="<?= esc($item['name']) ?>">
                         <?php endforeach; ?>
                     </div>
                 </div>
 
                 <div class="col-lg-5">
                     <div class="info-panel p-lg-4">
-                        <h2 class="fw-bold text-info mb-4">About the Activity: </h2>
-                        <p class="lead opacity-80 mb-4" style="font-size: 1.1rem;"><?= $item['desc'] ?></p>
-                        
+                        <h2 class="fw-bold text-info mb-4">About the Activity:</h2>
+                        <p class="lead opacity-80 mb-4" style="font-size: 1.1rem;">
+                            <?= esc($item['description'] ?? 'No description available.') ?>
+                        </p>
+
+                        <!-- Price Badge -->
+                        <div class="mb-3">
+                            <span class="detail-badge" style="font-size:1rem; font-weight:700;">
+                                <i class="fa-solid fa-peso-sign me-1"></i><?= $priceLabel ?>
+                            </span>
+                        </div>
+
                         <div class="details-grid mb-4">
-                            <?php foreach($item['details'] as $detail): ?>
+                            <?php foreach($details as $detail): ?>
                                 <span class="detail-badge">
-                                    <i class="fa-solid fa-check-circle me-2"></i><?= $detail ?>
+                                    <i class="fa-solid fa-check-circle me-2"></i><?= esc($detail) ?>
                                 </span>
                             <?php endforeach; ?>
                         </div>
 
                         <div class="mt-4 border-top border-secondary pt-4 text-center">
-                            <a href="<?= base_url('user/booking?activity=' . urlencode($item['name'])) ?>" 
-                            class="btn-book-now tooltip-btn" 
-                            data-tooltip="Click here to book <?= $item['name'] ?>">
-                                Book <?= $item['name'] ?>
+                            <a href="<?= base_url('user/booking?activity=' . urlencode($item['name'])) ?>"
+                               class="btn-book-now tooltip-btn"
+                               data-tooltip="Click here to book <?= esc($item['name']) ?>">
+                                Book <?= esc($item['name']) ?>
                             </a>
                         </div>
                     </div>
                 </div>
 
-            </div> 
-        </div> 
+            </div>
+        </div>
     </div>
 
 <?php endforeach; ?>

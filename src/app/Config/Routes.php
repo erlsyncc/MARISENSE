@@ -64,6 +64,7 @@ $routes->group('', ['filter' => 'session'], function($routes) {
         // Activities Management
         $routes->get('activities',     'Admin::activitiesPage');
         $routes->post('activities/save', 'Admin::saveActivity');
+        $routes->post('activities/delete', 'Admin::deleteActivity');
 
         $routes->get('sales', 'Admin::sales');
     });

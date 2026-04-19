@@ -16,12 +16,19 @@ class BookingModel extends Model
     protected $allowedFields = [
         'user_id',
         'booking_code',
+        'activity_id',
         'activity_name',
+        'all_activities',
         'date',
         'time',
         'participants',
+        'contact_number',
         'special_requests',
+        'booking_type',
         'total_amount',
+        'down_payment',
+        'down_payment_status',
+        'down_payment_paid_at',
         'status',
         'payment_status',
     ];
@@ -30,33 +37,66 @@ class BookingModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
-    // Activity pricing
-    public static array $pricing = [
-        'Jet Ski'       => 2500,
-        'Banana Boat'   => 500,
-        'Kayaking'      => 300,
-        'Flying Saucer' => 600,
-    ];
+    // ----------------------------------------------------------------
+    // Static arrays kept for backward-compatibility with any code that
+    // still references BookingModel::$pricing directly.
+    // These are populated lazily via loadFromDB().
+    // ----------------------------------------------------------------
+    public static array $pricing   = [];
+    public static array $maxRiders = [];
+    public static array $durations = [];
 
-    // Activity max riders
-    public static array $maxRiders = [
-        'Jet Ski'       => 2,
-        'Banana Boat'   => 12,
-        'Kayaking'      => 2,
-        'Flying Saucer' => 10,
-    ];
+    /** Call once to fill the static arrays from the activities table. */
+    public static function loadFromDB(): void
+    {
+        // Already loaded — skip
+        if (! empty(self::$pricing)) {
+            return;
+        }
 
-    // Activity durations (minutes)
-    public static array $durations = [
-        'Jet Ski'       => 15,
-        'Banana Boat'   => 10,
-        'Kayaking'      => 30,
-        'Flying Saucer' => 10,
-    ];
+        $db         = \Config\Database::connect();
+        $activities = $db->table('activities')
+                         ->where('status', 'active')
+                         ->orderBy('name', 'ASC')
+                         ->get()
+                         ->getResultArray();
 
-    /**
-     * Generate a unique booking code
-     */
+        foreach ($activities as $act) {
+            $name = $act['name'];
+
+            self::$pricing[$name]   = (float) $act['price'];
+            self::$durations[$name] = (int)   ($act['duration'] ?? 0);
+
+            // Extract numeric max from strings like "1–2 persons", "Up to 12", "12"
+            preg_match('/(\d+)\s*(?:persons?)?$/u', $act['max_riders'] ?? '', $m);
+            self::$maxRiders[$name] = isset($m[1]) ? (int) $m[1] : 1;
+        }
+    }
+
+    // ----------------------------------------------------------------
+    // Helpers that guarantee the arrays are loaded
+    // ----------------------------------------------------------------
+    public static function getPricing(): array
+    {
+        self::loadFromDB();
+        return self::$pricing;
+    }
+
+    public static function getMaxRiders(): array
+    {
+        self::loadFromDB();
+        return self::$maxRiders;
+    }
+
+    public static function getDurations(): array
+    {
+        self::loadFromDB();
+        return self::$durations;
+    }
+
+    // ----------------------------------------------------------------
+    // Generate a unique booking code
+    // ----------------------------------------------------------------
     public function generateBookingCode(): string
     {
         do {
@@ -66,9 +106,9 @@ class BookingModel extends Model
         return $code;
     }
 
-    /**
-     * Get all bookings for a specific user
-     */
+    // ----------------------------------------------------------------
+    // Get all bookings for a specific user
+    // ----------------------------------------------------------------
     public function getByUser(int $userId): array
     {
         return $this->where('user_id', $userId)
@@ -77,9 +117,9 @@ class BookingModel extends Model
                     ->findAll();
     }
 
-    /**
-     * Get a single booking by ID and ensure it belongs to the user
-     */
+    // ----------------------------------------------------------------
+    // Get a single booking by ID and ensure it belongs to the user
+    // ----------------------------------------------------------------
     public function getByIdAndUser(int $id, int $userId): ?array
     {
         return $this->where('id', $id)
@@ -87,24 +127,26 @@ class BookingModel extends Model
                     ->first();
     }
 
-    /**
-     * Get booked dates for a specific activity (fully booked = 5+ bookings that day)
-     */
+    // ----------------------------------------------------------------
+    // Get booked dates for a specific activity
+    // A date is "fully booked" when 6+ active bookings exist that day
+    // (matches the 6-slot setup in bookingSlots())
+    // ----------------------------------------------------------------
     public function getBookedDates(string $activity): array
     {
         $results = $this->select('date, COUNT(*) as booking_count')
                         ->where('activity_name', $activity)
                         ->whereNotIn('status', ['cancelled'])
                         ->groupBy('date')
-                        ->having('booking_count >=', 5)
+                        ->having('booking_count >=', 6)
                         ->findAll();
 
         return array_column($results, 'date');
     }
 
-    /**
-     * Get booked time slots for a specific activity and date
-     */
+    // ----------------------------------------------------------------
+    // Get booked time slots for a specific activity and date
+    // ----------------------------------------------------------------
     public function getBookedSlots(string $activity, string $date): array
     {
         $results = $this->select('time')
@@ -116,17 +158,22 @@ class BookingModel extends Model
         return array_column($results, 'time');
     }
 
-    /**
-     * Calculate total amount based on activity and participants
-     */
+    // ----------------------------------------------------------------
+    // Calculate total amount based on activity and participants
+    // Falls back to static arrays if DB hasn't been loaded yet
+    // ----------------------------------------------------------------
     public static function calculateTotal(string $activity, int $participants): float
     {
+        self::loadFromDB();
+
         $basePrice = self::$pricing[$activity] ?? 0;
+
         // Per-person activities
         $perPerson = ['Banana Boat', 'Flying Saucer'];
         if (in_array($activity, $perPerson)) {
             return $basePrice * $participants;
         }
-        return $basePrice; // flat rate for Jet Ski, Kayaking
+
+        return $basePrice; // flat rate for Jet Ski, Kayaking, etc.
     }
 }

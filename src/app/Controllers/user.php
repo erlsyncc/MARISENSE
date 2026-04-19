@@ -7,7 +7,7 @@ use App\Models\BookingModel;
 class User extends BaseController
 {
     // -----------------------------------------------------------------------
-    // PAGES
+    // HOME
     // -----------------------------------------------------------------------
 
     public function index()
@@ -34,10 +34,25 @@ class User extends BaseController
         ]);
     }
 
+    // -----------------------------------------------------------------------
+    // ACTIVITIES — now reads from DB (only active ones)
+    // -----------------------------------------------------------------------
+
     public function activities()
     {
-        return view('user/activities');
+        $db         = \Config\Database::connect();
+        $activities = $db->table('activities')
+                         ->where('status', 'active')
+                         ->orderBy('name', 'ASC')
+                         ->get()
+                         ->getResultArray();
+
+        return view('user/activities', ['activities' => $activities]);
     }
+
+    // -----------------------------------------------------------------------
+    // SAFETY
+    // -----------------------------------------------------------------------
 
     public function safety()
     {
@@ -51,6 +66,10 @@ class User extends BaseController
 
         return view('user/safety', ['seaCondition' => $seaCondition]);
     }
+
+    // -----------------------------------------------------------------------
+    // REVIEWS
+    // -----------------------------------------------------------------------
 
     public function reviews()
     {
@@ -73,37 +92,50 @@ class User extends BaseController
     }
 
     // -----------------------------------------------------------------------
-    // BOOKING FORM
+    // BOOKING FORM — pricing/maxRiders/durations now come from DB
     // -----------------------------------------------------------------------
 
     public function booking()
     {
         $bookingModel = new BookingModel();
 
-        $activity = $this->request->getGet('activity') ?? 'Jet Ski';
+        // Load dynamic data from DB into static arrays
+        BookingModel::loadFromDB();
 
-        $validActivities = array_keys(BookingModel::$pricing);
-        if (!in_array($activity, $validActivities)) {
-            $activity = 'Jet Ski';
+        $pricing   = BookingModel::getPricing();
+        $maxRiders = BookingModel::getMaxRiders();
+        $durations = BookingModel::getDurations();
+
+        // Also pass the full activity rows so the picker can be rendered dynamically
+        $db         = \Config\Database::connect();
+        $activities = $db->table('activities')
+                         ->where('status', 'active')
+                         ->orderBy('name', 'ASC')
+                         ->get()
+                         ->getResultArray();
+
+        // Validate selected activity against what's actually in the DB
+        $activity = $this->request->getGet('activity') ?? '';
+        if (empty($activity) || ! array_key_exists($activity, $pricing)) {
+            // Fall back to first active activity (or empty string if none)
+            $activity = ! empty($activities) ? $activities[0]['name'] : '';
         }
 
-        $db = \Config\Database::connect();
         $seaCondition = $db->table('sea_conditions')
                            ->orderBy('recorded_at', 'DESC')
                            ->limit(1)
                            ->get()
                            ->getRowArray();
 
-        $data = [
+        return view('user/booking', [
             'selectedActivity' => $activity,
-            'pricing'          => BookingModel::$pricing,
-            'maxRiders'        => BookingModel::$maxRiders,
-            'durations'        => BookingModel::$durations,
-            'bookedDates'      => $bookingModel->getBookedDates($activity),
+            'pricing'          => $pricing,
+            'maxRiders'        => $maxRiders,
+            'durations'        => $durations,
+            'activities'       => $activities,   // for dynamic activity picker
+            'bookedDates'      => $activity ? $bookingModel->getBookedDates($activity) : [],
             'seaCondition'     => $seaCondition,
-        ];
-
-        return view('user/booking', $data);
+        ]);
     }
 
     // -----------------------------------------------------------------------
@@ -113,9 +145,21 @@ class User extends BaseController
     public function storeBooking()
     {
         $bookingModel = new BookingModel();
+        BookingModel::loadFromDB();
+
+        $pricing   = BookingModel::getPricing();
+        $maxRiders = BookingModel::getMaxRiders();
+
+        $activity = $this->request->getPost('activity') ?? '';
+
+        // Validate activity exists in DB
+        if (empty($activity) || ! array_key_exists($activity, $pricing)) {
+            return redirect()->back()
+                             ->withInput()
+                             ->with('error', 'Invalid activity selected.');
+        }
 
         $rules = [
-            'activity'       => 'required|in_list[Jet Ski,Banana Boat,Kayaking,Flying Saucer]',
             'date'           => 'required|valid_date[Y-m-d]',
             'time'           => 'required',
             'participants'   => 'required|integer|greater_than[0]',
@@ -123,20 +167,20 @@ class User extends BaseController
             'guidelines'     => 'required',
         ];
 
-        if (!$this->validate($rules)) {
+        if (! $this->validate($rules)) {
             return redirect()->back()
                              ->withInput()
                              ->with('errors', $this->validator->getErrors());
         }
 
-        $activity      = $this->request->getPost('activity');
         $date          = $this->request->getPost('date');
         $time          = $this->request->getPost('time');
         $participants  = (int) $this->request->getPost('participants');
         $special       = $this->request->getPost('special_requests') ?? '';
         $contactNumber = $this->request->getPost('contact_number') ?? '';
+        $allActivitiesRaw = $this->request->getPost('all_activities') ?? $activity;
 
-        // Must be a future date (not today either — handled by time check below)
+        // Date validation
         $today = date('Y-m-d');
         if ($date < $today) {
             return redirect()->back()
@@ -144,7 +188,6 @@ class User extends BaseController
                              ->with('error', 'Please select a future date.');
         }
 
-        // If booking is today, ensure the selected time hasn't already passed
         if ($date === $today) {
             $selectedTimestamp = strtotime($date . ' ' . $time);
             if ($selectedTimestamp <= time()) {
@@ -154,27 +197,22 @@ class User extends BaseController
             }
         }
 
-        // Check max riders per activity — validate each activity's participant count separately
-        // The form posts a comma-separated list of all activities via 'all_activities'
-        $allActivitiesRaw = $this->request->getPost('all_activities') ?? $activity;
-        $allActivities    = array_filter(array_map('trim', explode(',', $allActivitiesRaw)));
+        // Participants cap (single-activity bookings)
+        $allActivities = array_filter(array_map('trim', explode(',', $allActivitiesRaw)));
         if (empty($allActivities)) {
             $allActivities = [$activity];
         }
-        // For multi-activity bookings, the participants field holds the SUM.
-        // We need per-activity counts; if only one activity, the whole count belongs to it.
+
         if (count($allActivities) === 1) {
-            $maxRiders = BookingModel::$maxRiders[$activity] ?? 1;
-            if ($participants > $maxRiders) {
+            $max = $maxRiders[$activity] ?? 1;
+            if ($participants > $max) {
                 return redirect()->back()
                                  ->withInput()
-                                 ->with('error', "Maximum {$maxRiders} rider(s) allowed for {$activity}.");
+                                 ->with('error', "Maximum {$max} rider(s) allowed for {$activity}.");
             }
         }
-        // If multiple activities were selected, we trust the JS-enforced per-dropdown limits
-        // (each dropdown already caps at maxRiders per activity), so no extra check needed.
 
-        // Check if time slot is already taken
+        // Time slot conflict check
         $normalizedTime = date('H:i:s', strtotime($time));
         $bookedSlots    = $bookingModel->getBookedSlots($activity, $date);
         if (in_array($normalizedTime, $bookedSlots)) {
@@ -183,6 +221,11 @@ class User extends BaseController
                              ->with('error', 'That time slot is already taken. Please choose another.');
         }
 
+        // Resolve activity_id
+        $db      = \Config\Database::connect();
+        $actRow  = $db->table('activities')->where('name', $activity)->get()->getRowArray();
+        $actId   = $actRow['id'] ?? null;
+
         $userId      = auth()->user()->id;
         $bookingCode = $bookingModel->generateBookingCode();
         $total       = BookingModel::calculateTotal($activity, $participants);
@@ -190,18 +233,22 @@ class User extends BaseController
         $saved = $bookingModel->insert([
             'user_id'          => $userId,
             'booking_code'     => $bookingCode,
+            'activity_id'      => $actId,
             'activity_name'    => $activity,
+            'all_activities'   => implode(',', $allActivities),
             'date'             => $date,
             'time'             => $normalizedTime,
             'participants'     => $participants,
-            'contact_number'   => $contactNumber,   // ← FIXED: now saved
+            'contact_number'   => $contactNumber,
             'special_requests' => $special,
+            'booking_type'     => 'booking',
             'total_amount'     => $total,
+            'down_payment'     => 0,
             'status'           => 'pending',
             'payment_status'   => 'unpaid',
         ]);
 
-        if (!$saved) {
+        if (! $saved) {
             return redirect()->back()
                              ->withInput()
                              ->with('error', 'Booking failed. Please try again.');
@@ -234,9 +281,9 @@ class User extends BaseController
     {
         $bookingModel = new BookingModel();
         $userId       = auth()->user()->id;
-        $booking      = $bookingModel->getByIdAndUser((int)$id, $userId);
+        $booking      = $bookingModel->getByIdAndUser((int) $id, $userId);
 
-        if (!$booking) {
+        if (! $booking) {
             return redirect()->to(base_url('user/my-bookings'))
                              ->with('error', 'Booking not found.');
         }
@@ -252,19 +299,19 @@ class User extends BaseController
     {
         $bookingModel = new BookingModel();
         $userId       = auth()->user()->id;
-        $booking      = $bookingModel->getByIdAndUser((int)$id, $userId);
+        $booking      = $bookingModel->getByIdAndUser((int) $id, $userId);
 
-        if (!$booking) {
+        if (! $booking) {
             return redirect()->to(base_url('user/my-bookings'))
                              ->with('error', 'Booking not found.');
         }
 
-        if (!in_array($booking['status'], ['pending', 'confirmed'])) {
+        if (! in_array($booking['status'], ['pending', 'confirmed'])) {
             return redirect()->to(base_url('user/my-bookings'))
                              ->with('error', 'This booking cannot be cancelled.');
         }
 
-        $bookingModel->update((int)$id, ['status' => 'cancelled']);
+        $bookingModel->update((int) $id, ['status' => 'cancelled']);
 
         return redirect()->to(base_url('user/my-bookings'))
                          ->with('success', 'Booking cancelled successfully.');
@@ -277,34 +324,32 @@ class User extends BaseController
     public function bookingSlots()
     {
         $bookingModel = new BookingModel();
-        $activity     = $this->request->getGet('activity') ?? 'Jet Ski';
-        $date         = $this->request->getGet('date') ?? date('Y-m-d');
+        $activity     = $this->request->getGet('activity') ?? '';
+        $date         = $this->request->getGet('date')     ?? date('Y-m-d');
 
         $allSlots = [
-            '09:00:00', '10:00:00', '11:00:00',
-            '13:00:00', '14:00:00', '15:00:00',
+            '07:00:00', '08:00:00', '09:00:00', '10:00:00',
+            '11:00:00', '12:00:00', '13:00:00', '14:00:00',
+            '15:00:00', '16:00:00',
         ];
 
         $bookedSlots = $bookingModel->getBookedSlots($activity, $date);
 
-        // For today, also mark past slots as unavailable
         $now   = time();
         $today = date('Y-m-d');
 
         $result = array_map(function ($slot) use ($bookedSlots, $date, $today, $now) {
             $isBooked = in_array($slot, $bookedSlots);
+            $isPast   = false;
 
-            // If the date is today, check if the slot time has already passed
-            $isPast = false;
             if ($date === $today) {
-                $slotTimestamp = strtotime($date . ' ' . $slot);
-                $isPast = $slotTimestamp <= $now;
+                $isPast = strtotime($date . ' ' . $slot) <= $now;
             }
 
             return [
                 'time'      => date('h:i A', strtotime($slot)),
                 'value'     => $slot,
-                'available' => !$isBooked && !$isPast,
+                'available' => ! $isBooked && ! $isPast,
             ];
         }, $allSlots);
 
@@ -318,8 +363,8 @@ class User extends BaseController
     public function bookedDates()
     {
         $bookingModel = new BookingModel();
-        $activity     = $this->request->getGet('activity') ?? 'Jet Ski';
-        $bookedDates  = $bookingModel->getBookedDates($activity);
+        $activity     = $this->request->getGet('activity') ?? '';
+        $bookedDates  = $activity ? $bookingModel->getBookedDates($activity) : [];
 
         return $this->response->setJSON(['bookedDates' => $bookedDates]);
     }
@@ -337,7 +382,7 @@ class User extends BaseController
             'safe_feel' => 'required|in_list[Yes,No]',
         ];
 
-        if (!$this->validate($rules)) {
+        if (! $this->validate($rules)) {
             return redirect()->back()
                              ->withInput()
                              ->with('errors', $this->validator->getErrors());
@@ -346,7 +391,7 @@ class User extends BaseController
         $photoName = null;
         $file = $this->request->getFile('review_photo');
 
-        if ($file && $file->isValid() && !$file->hasMoved()) {
+        if ($file && $file->isValid() && ! $file->hasMoved()) {
             $photoName = $file->getRandomName();
             $file->move(FCPATH . 'uploads/reviews', $photoName);
         }
@@ -354,14 +399,12 @@ class User extends BaseController
         $db      = \Config\Database::connect();
         $builder = $db->table('reviews');
 
-        $safeFeel = strtolower($this->request->getPost('safe_feel'));
-
         $data = [
             'user_id'     => auth()->user()->id,
             'activity'    => $this->request->getPost('activity'),
             'rating'      => $this->request->getPost('stars'),
             'review_text' => $this->request->getPost('comment'),
-            'safe_feel'   => $safeFeel,
+            'safe_feel'   => strtolower($this->request->getPost('safe_feel')),
             'photo'       => $photoName,
             'created_at'  => date('Y-m-d H:i:s'),
             'updated_at'  => date('Y-m-d H:i:s'),
@@ -370,10 +413,10 @@ class User extends BaseController
         if ($builder->insert($data)) {
             return redirect()->to(base_url('user/reviews'))
                              ->with('success', 'Thank you for sharing your adventure!');
-        } else {
-            return redirect()->back()
-                             ->withInput()
-                             ->with('error', 'Failed to post review.');
         }
+
+        return redirect()->back()
+                         ->withInput()
+                         ->with('error', 'Failed to post review.');
     }
 }

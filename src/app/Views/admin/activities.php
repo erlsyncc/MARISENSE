@@ -73,34 +73,34 @@
         /* Image preview */
         .img-preview { width: 80px; height: 60px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(255,255,255,0.15); display: none; }
         .img-preview.show { display: block; }
-        /* Multi-image upload hints */
         .img-note { font-size: 0.72rem; color: rgba(255,255,255,0.4); margin-top: 4px; }
         .empty-state { text-align: center; padding: 40px 20px; opacity: 0.5; }
         .empty-state i { font-size: 2.2rem; display: block; margin-bottom: 10px; }
-        /* Animation para sa alon icon */
-        @keyframes wave-motion {0% { transform: translateY(0); }50% { transform: translateY(-3px); }100% { transform: translateY(0); }}
-        .brand-icon i { animation: wave-motion 3s ease-in-out infinite;display: inline-block;}
+        /* Price-type badge shown in the list card */
+        .badge-flat     { background: rgba(72,202,228,0.1);  color: var(--accent-cyan); border: 1px solid rgba(72,202,228,0.3); padding: 2px 8px; border-radius: 50px; font-size: 0.62rem; font-weight: 700; }
+        .badge-perperson{ background: rgba(255,193,7,0.1);   color: #ffc107;            border: 1px solid rgba(255,193,7,0.3);  padding: 2px 8px; border-radius: 50px; font-size: 0.62rem; font-weight: 700; }
+        @keyframes wave-motion { 0%{transform:translateY(0)} 50%{transform:translateY(-3px)} 100%{transform:translateY(0)} }
+        .brand-icon i { animation: wave-motion 3s ease-in-out infinite; display: inline-block; }
     </style>
 </head>
 <body>
 
 <aside class="sidebar">
     <div class="sidebar-brand">
-        <div class="brand-icon">
-            <i class="fa-solid fa-water"></i> </div>
+        <div class="brand-icon"><i class="fa-solid fa-water"></i></div>
         <div class="brand-title">Waves Admin</div>
         <div class="brand-sub">Control Panel</div>
     </div>
     <div class="sidebar-section-label">Main</div>
     <a href="<?= base_url('admin/dashboard') ?>" class="nav-item"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
-    <a href="<?= base_url('admin/bookings') ?>" class="nav-item"><i class="fa-solid fa-calendar-check"></i> Bookings</a>
-    <a href="<?= base_url('admin/users') ?>" class="nav-item"><i class="fa-solid fa-users"></i> Users</a>
+    <a href="<?= base_url('admin/bookings') ?>"  class="nav-item"><i class="fa-solid fa-calendar-check"></i> Bookings</a>
+    <a href="<?= base_url('admin/users') ?>"     class="nav-item"><i class="fa-solid fa-users"></i> Users</a>
     <div class="sidebar-section-label">Operations</div>
     <a href="<?= base_url('admin/sea-conditions') ?>" class="nav-item"><i class="fa-solid fa-tower-broadcast"></i> Sea Conditions</a>
-    <a href="<?= base_url('admin/reviews') ?>" class="nav-item"><i class="fa-solid fa-star"></i> Reviews</a>
+    <a href="<?= base_url('admin/reviews') ?>"         class="nav-item"><i class="fa-solid fa-star"></i> Reviews</a>
     <div class="sidebar-section-label">System</div>
     <a href="<?= base_url('admin/activities') ?>" class="nav-item active"><i class="fa-solid fa-person-swimming"></i> Activities</a>
-    <a href="<?= base_url('admin/sales') ?>" class="nav-item"><i class="fa-solid fa-peso-sign"></i> Sales</a>
+    <a href="<?= base_url('admin/sales') ?>"      class="nav-item"><i class="fa-solid fa-peso-sign"></i> Sales</a>
     <div class="sidebar-footer">
         <a href="<?= base_url('logout') ?>" class="logout-btn"><i class="fa-solid fa-power-off"></i> Logout</a>
     </div>
@@ -124,32 +124,60 @@
 
     <div class="layout-row">
 
-        <!-- LEFT: Activity List -->
+        <!-- ═══════════════════════════════════════
+             LEFT: Activity List (DB-driven)
+        ═══════════════════════════════════════ -->
         <div class="panel">
-            <div class="panel-title"><i class="fa-solid fa-list"></i> Current Activities (<?= count($activities ?? []) ?>)</div>
+            <div class="panel-title">
+                <i class="fa-solid fa-list"></i>
+                Current Activities (<?= count($activities ?? []) ?>)
+            </div>
             <div class="act-list">
                 <?php if (!empty($activities)): ?>
                     <?php foreach ($activities as $act): ?>
                         <div class="act-row">
+                            <!-- Thumbnail -->
                             <div class="act-img">
                                 <?php if (!empty($act['image'])): ?>
-                                    <img src="<?= base_url('images/'.$act['image']) ?>" alt="<?= esc($act['name']) ?>" onerror="this.style.display='none'">
+                                    <img src="<?= base_url('images/' . $act['image']) ?>"
+                                         alt="<?= esc($act['name']) ?>"
+                                         onerror="this.style.display='none';this.parentNode.innerHTML='<i class=\'fa-solid fa-person-swimming\'></i>'">
                                 <?php else: ?>
                                     <i class="fa-solid fa-person-swimming"></i>
                                 <?php endif; ?>
                             </div>
+
+                            <!-- Info -->
                             <div class="act-info">
                                 <div class="act-name"><?= esc($act['name']) ?></div>
-                                <div class="act-price">₱<?= number_format($act['price'], 2) ?></div>
-                                <div class="act-meta"><?= esc($act['duration'] ?? '—') ?> mins · <?= esc($act['max_riders'] ?? '—') ?> · <?= esc($act['difficulty']) ?></div>
+                                <div class="act-price">
+                                    ₱<?= number_format((float)$act['price'], 2) ?>
+                                    <span class="<?= (!empty($act['price_type']) && $act['price_type'] === 'per_person') ? 'badge-perperson' : 'badge-flat' ?>" style="margin-left:4px;">
+                                        <?= (!empty($act['price_type']) && $act['price_type'] === 'per_person') ? 'per person' : 'flat' ?>
+                                    </span>
+                                </div>
+                                <div class="act-meta">
+                                    <?= esc($act['duration'] ?? '—') ?> mins ·
+                                    <?= esc($act['max_riders'] ?? '—') ?> ·
+                                    <?= esc($act['difficulty']) ?>
+                                </div>
                             </div>
+
+                            <!-- Status + actions -->
                             <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
-                                <span class="<?= $act['status'] === 'active' ? 'status-active' : 'status-paused' ?>"><?= ucfirst($act['status']) ?></span>
+                                <span class="<?= $act['status'] === 'active' ? 'status-active' : 'status-paused' ?>">
+                                    <?= ucfirst($act['status']) ?>
+                                </span>
                                 <div class="act-actions">
-                                    <button class="btn-edit" onclick="editActivity(<?= htmlspecialchars(json_encode($act), ENT_QUOTES) ?>)">
+                                    <button class="btn-edit"
+                                            onclick="editActivity(<?= htmlspecialchars(json_encode($act), ENT_QUOTES) ?>)"
+                                            title="Edit">
                                         <i class="fa-solid fa-pen"></i>
                                     </button>
-                                    <button class="btn-del delete-act-btn" data-id="<?= $act['id'] ?>" data-name="<?= esc($act['name']) ?>">
+                                    <button class="btn-del delete-act-btn"
+                                            data-id="<?= $act['id'] ?>"
+                                            data-name="<?= esc($act['name']) ?>"
+                                            title="Delete">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </div>
@@ -165,44 +193,66 @@
             </div>
         </div>
 
-        <!-- RIGHT: Add/Edit Form -->
+        <!-- ═══════════════════════════════════════
+             RIGHT: Add / Edit Form
+        ═══════════════════════════════════════ -->
         <div class="panel">
-            <div class="panel-title"><i class="fa-solid fa-plus-circle"></i> <span id="form-panel-title">Add New Activity</span></div>
-
-            <div class="editing-banner" id="editing-banner">
-                <i class="fa-solid fa-pen"></i> <span id="editing-name">Editing…</span>
-                <button type="button" onclick="resetForm()" style="margin-left:auto;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;border-radius:50px;padding:3px 12px;font-size:0.72rem;cursor:pointer;">✕ Cancel Edit</button>
+            <div class="panel-title">
+                <i class="fa-solid fa-plus-circle"></i>
+                <span id="form-panel-title">Add New Activity</span>
             </div>
 
-            <form action="<?= base_url('admin/activities/save') ?>" method="POST" enctype="multipart/form-data" id="activityForm">
+            <div class="editing-banner" id="editing-banner">
+                <i class="fa-solid fa-pen"></i>
+                <span id="editing-name">Editing…</span>
+                <button type="button" onclick="resetForm()"
+                        style="margin-left:auto;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+                               color:white;border-radius:50px;padding:3px 12px;font-size:0.72rem;cursor:pointer;">
+                    ✕ Cancel Edit
+                </button>
+            </div>
+
+            <form action="<?= base_url('admin/activities/save') ?>"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  id="activityForm">
                 <?= csrf_field() ?>
                 <input type="hidden" name="activity_id" id="activity_id" value="">
 
+                <!-- Name -->
                 <div class="mb-field">
                     <label class="field-label">Activity Name</label>
-                    <input type="text" name="name" id="f_name" class="form-control-wave" placeholder="e.g. Jet Ski" required maxlength="100">
+                    <input type="text" name="name" id="f_name" class="form-control-wave"
+                           placeholder="e.g. Jet Ski" required maxlength="100">
                 </div>
 
+                <!-- Description -->
                 <div class="mb-field">
                     <label class="field-label">Description</label>
-                    <textarea name="description" id="f_description" class="form-control-wave" placeholder="Describe the activity — what to expect, who it's for…"></textarea>
+                    <textarea name="description" id="f_description" class="form-control-wave"
+                              placeholder="Describe the activity — what to expect, who it's for…"></textarea>
                 </div>
 
+                <!-- Price / Duration -->
                 <div class="form-row-2">
                     <div class="mb-field">
                         <label class="field-label">Price (₱)</label>
-                        <input type="number" name="price" id="f_price" class="form-control-wave" placeholder="e.g. 2500" required min="0" step="0.01">
+                        <input type="number" name="price" id="f_price" class="form-control-wave"
+                               placeholder="e.g. 2500" required min="0" step="0.01">
                     </div>
                     <div class="mb-field">
                         <label class="field-label">Duration (minutes)</label>
-                        <input type="number" name="duration" id="f_duration" class="form-control-wave" placeholder="e.g. 15">
+                        <input type="number" name="duration" id="f_duration" class="form-control-wave"
+                               placeholder="e.g. 15">
                     </div>
                 </div>
 
+                <!-- Max Riders / Difficulty -->
                 <div class="form-row-2">
                     <div class="mb-field">
                         <label class="field-label">Max Riders</label>
-                        <input type="text" name="max_riders" id="f_max_riders" class="form-control-wave" placeholder="e.g. 1-2 persons">
+                        <input type="text" name="max_riders" id="f_max_riders" class="form-control-wave"
+                               placeholder="e.g. 1-2 persons">
                     </div>
                     <div class="mb-field">
                         <label class="field-label">Difficulty</label>
@@ -213,7 +263,18 @@
                         </select>
                     </div>
                 </div>
+                <!-- Gear -->
+                <div class="mb-field">
+                    <label class="field-label">Gear / Equipment</label>
+                    <input type="text" name="gear" id="f_gear" class="form-control-wave"
+                        placeholder="e.g. Life vest">
+                    <p class="img-note" style="margin-top:5px;">
+                        <i class="fa-solid fa-circle-info me-1" style="color:rgba(72,202,228,0.7);"></i>
+                        This will appear as a detail badge on the user Activities page.
+                    </p>
+                </div>
 
+                <!-- Status / Price Type -->
                 <div class="form-row-2">
                     <div class="mb-field">
                         <label class="field-label">Status</label>
@@ -231,17 +292,33 @@
                     </div>
                 </div>
 
+                <!-- Image upload -->
                 <div class="mb-field">
-                    <label class="field-label">Activity Images <span style="font-weight:400;text-transform:none;opacity:0.6;">(up to 4 photos)</span></label>
-                    <input type="file" name="images[]" id="f_images" accept="image/*" multiple class="form-control form-control-sm" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:white;border-radius:12px;padding:10px;" onchange="previewImages(this)">
-                    <p class="img-note">Images will appear in the user Activities page as a gallery. Upload up to 4 images.</p>
+                    <label class="field-label">
+                        Activity Images
+                        <span style="font-weight:400;text-transform:none;opacity:0.6;">(up to 4 photos)</span>
+                    </label>
+                    <input type="file" name="images[]" id="f_images" accept="image/*" multiple
+                           class="form-control form-control-sm"
+                           style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);
+                                  color:white;border-radius:12px;padding:10px;"
+                           onchange="previewImages(this)">
+                    <p class="img-note">
+                        Images appear in the user Activities page. Upload up to 4 photos.<br>
+                        <span style="color:rgba(255,193,7,0.7);">
+                            <i class="fa-solid fa-circle-info me-1"></i>
+                            Leave blank when editing to keep the existing image.
+                        </span>
+                    </p>
                     <div id="img-preview-row" style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;"></div>
                     <img id="current-img" class="img-preview" src="" alt="Current Image">
                 </div>
 
+                <!-- Submit -->
                 <div style="display:flex;align-items:center;">
                     <button type="submit" class="btn-save">
-                        <i class="fa-solid fa-floppy-disk me-2"></i> <span id="save-btn-text">Save Activity</span>
+                        <i class="fa-solid fa-floppy-disk me-2"></i>
+                        <span id="save-btn-text">Save Activity</span>
                     </button>
                     <button type="button" class="btn-reset" onclick="resetForm()">
                         <i class="fa-solid fa-rotate-left me-1"></i> Reset
@@ -249,67 +326,81 @@
                 </div>
             </form>
         </div>
-    </div>
 
-    <!-- Delete forms (hidden) -->
+    </div><!-- /layout-row -->
+
+    <!-- Hidden delete forms (one per activity) -->
     <?php if (!empty($activities)): ?>
         <?php foreach ($activities as $act): ?>
-        <form id="del-form-<?= $act['id'] ?>" action="<?= base_url('admin/activities/delete') ?>" method="POST" style="display:none;">
-            <?= csrf_field() ?>
-            <input type="hidden" name="activity_id" value="<?= $act['id'] ?>">
-        </form>
+            <form id="del-form-<?= $act['id'] ?>"
+                  action="<?= base_url('admin/activities/delete') ?>"
+                  method="POST" style="display:none;">
+                <?= csrf_field() ?>
+                <input type="hidden" name="activity_id" value="<?= $act['id'] ?>">
+            </form>
         <?php endforeach; ?>
     <?php endif; ?>
 
 </main>
 
 <script>
+// ─────────────────────────────────────────────────────────────
+//  Edit: populate all form fields from the clicked row's data
+// ─────────────────────────────────────────────────────────────
 function editActivity(act) {
-    document.getElementById('activity_id').value = act.id;
-    document.getElementById('f_name').value        = act.name || '';
-    document.getElementById('f_description').value = act.description || '';
-    document.getElementById('f_price').value        = act.price || '';
-    document.getElementById('f_duration').value     = act.duration || '';
-    document.getElementById('f_max_riders').value   = act.max_riders || '';
-    document.getElementById('f_difficulty').value   = act.difficulty || 'Moderate';
-    document.getElementById('f_status').value       = act.status || 'active';
+    document.getElementById('activity_id').value       = act.id;
+    document.getElementById('f_name').value            = act.name        || '';
+    document.getElementById('f_description').value     = act.description || '';
+    document.getElementById('f_price').value           = act.price       || '';
+    document.getElementById('f_duration').value        = act.duration    || '';
+    document.getElementById('f_max_riders').value      = act.max_riders  || '';
+    document.getElementById('f_difficulty').value      = act.difficulty  || 'Moderate';
+    document.getElementById('f_gear').value            = act.gear        || '';
+    document.getElementById('f_status').value          = act.status      || 'active';
+    document.getElementById('f_price_type').value      = act.price_type  || 'flat';   // ← FIXED
 
-    // Show current image if exists
+    // Show existing image thumbnail
     var imgEl = document.getElementById('current-img');
     if (act.image) {
         imgEl.src = '<?= base_url('images/') ?>' + act.image;
         imgEl.classList.add('show');
     } else {
         imgEl.classList.remove('show');
+        imgEl.src = '';
     }
 
-    document.getElementById('form-panel-title').textContent = 'Edit Activity';
-    document.getElementById('save-btn-text').textContent = 'Update Activity';
-    var banner = document.getElementById('editing-banner');
-    document.getElementById('editing-name').textContent = 'Editing: ' + act.name;
-    banner.classList.add('show');
+    document.getElementById('form-panel-title').textContent  = 'Edit Activity';
+    document.getElementById('save-btn-text').textContent     = 'Update Activity';
+    document.getElementById('editing-name').textContent      = 'Editing: ' + act.name;
+    document.getElementById('editing-banner').classList.add('show');
 
-    // Scroll to form
     document.querySelector('.layout-row').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+// ─────────────────────────────────────────────────────────────
+//  Reset form back to "Add" mode
+// ─────────────────────────────────────────────────────────────
 function resetForm() {
     document.getElementById('activityForm').reset();
-    document.getElementById('activity_id').value = '';
-    document.getElementById('form-panel-title').textContent = 'Add New Activity';
-    document.getElementById('save-btn-text').textContent = 'Save Activity';
+    document.getElementById('activity_id').value               = '';
+    document.getElementById('form-panel-title').textContent    = 'Add New Activity';
+    document.getElementById('save-btn-text').textContent       = 'Save Activity';
     document.getElementById('editing-banner').classList.remove('show');
-    document.getElementById('current-img').classList.remove('show');
+    var imgEl = document.getElementById('current-img');
+    imgEl.classList.remove('show');
+    imgEl.src = '';
     document.getElementById('img-preview-row').innerHTML = '';
 }
 
+// ─────────────────────────────────────────────────────────────
+//  Live image preview before upload
+// ─────────────────────────────────────────────────────────────
 function previewImages(input) {
     var row = document.getElementById('img-preview-row');
     row.innerHTML = '';
-    var files = Array.from(input.files).slice(0, 4);
-    files.forEach(function(file) {
+    Array.from(input.files).slice(0, 4).forEach(function (file) {
         var reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             var img = document.createElement('img');
             img.src = e.target.result;
             img.style.cssText = 'width:70px;height:55px;border-radius:10px;object-fit:cover;border:1px solid rgba(255,255,255,0.15);';
@@ -319,14 +410,16 @@ function previewImages(input) {
     });
 }
 
-// Delete with SweetAlert
-document.querySelectorAll('.delete-act-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
+// ─────────────────────────────────────────────────────────────
+//  Delete confirmation via SweetAlert2
+// ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.delete-act-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
         var id   = this.dataset.id;
         var name = this.dataset.name;
         Swal.fire({
             title: 'Delete "' + name + '"?',
-            text: 'This activity will be removed from the user-facing activities page.',
+            text: 'This activity will be permanently removed from the user-facing activities page and booking form.',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#dc3545',
@@ -335,7 +428,7 @@ document.querySelectorAll('.delete-act-btn').forEach(function(btn) {
             background: '#fff',
             color: '#052c39',
             backdrop: 'rgba(5,44,57,0.6)',
-        }).then(function(result) {
+        }).then(function (result) {
             if (result.isConfirmed) {
                 document.getElementById('del-form-' + id).submit();
             }
