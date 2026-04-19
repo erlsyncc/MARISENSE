@@ -89,6 +89,24 @@
         .empty-state i { font-size: 2.5rem; margin-bottom: 12px; display: block; }
         @keyframes wave-motion {0% { transform: translateY(0); }50% { transform: translateY(-3px); }100% { transform: translateY(0); }}
         .brand-icon i { animation: wave-motion 3s ease-in-out infinite;display: inline-block;}
+        /* Help Button & Modal */
+        .help-btn { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-radius: 12px; color: var(--accent-cyan); text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(72,202,228,0.25); transition: 0.25s; cursor: pointer; background: none; width: 100%; margin-top: 8px; }
+        .help-btn:hover { background: rgba(72,202,228,0.15); color: white; }
+        .help-overlay { display: none; position: fixed; inset: 0; background: rgba(5,44,57,0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; }
+        .help-overlay.open { display: flex; }
+        .help-modal { background: linear-gradient(145deg, #0a3d52, #052c39); border: 1px solid rgba(72,202,228,0.25); border-radius: 28px; padding: 36px; max-width: 560px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative; }
+        .help-modal-title { font-size: 1.3rem; font-weight: 700; color: white; margin-bottom: 4px; }
+        .help-modal-sub { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-bottom: 24px; }
+        .help-close { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.08); border: none; color: rgba(255,255,255,0.6); border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 1rem; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .help-close:hover { background: rgba(220,53,69,0.3); color: #ff6b6b; }
+        .help-section { margin-bottom: 20px; }
+        .help-section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-cyan); margin-bottom: 10px; font-weight: 700; }
+        .help-item { display: flex; align-items: flex-start; gap: 14px; padding: 12px 14px; background: rgba(255,255,255,0.05); border-radius: 14px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.06); }
+        .help-item-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(72,202,228,0.12); display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); font-size: 0.85rem; flex-shrink: 0; }
+        .help-item-title { font-size: 0.85rem; font-weight: 700; color: white; margin-bottom: 2px; }
+        .help-item-desc { font-size: 0.76rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+        .help-tip { background: rgba(72,202,228,0.07); border: 1px solid rgba(72,202,228,0.2); border-radius: 12px; padding: 12px 16px; font-size: 0.78rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+        .help-tip strong { color: var(--accent-cyan); }
     </style>
 </head>
 <body>
@@ -111,8 +129,14 @@
     <a href="<?= base_url('admin/activities') ?>" class="nav-item"><i class="fa-solid fa-person-swimming"></i> Activities</a>
     <a href="<?= base_url('admin/sales') ?>" class="nav-item"><i class="fa-solid fa-peso-sign"></i> Sales</a>
     <div class="sidebar-footer">
-        <a href="<?= base_url('logout') ?>" class="logout-btn"><i class="fa-solid fa-power-off"></i> Logout</a>
-    </div>
+    <button class="help-btn" onclick="document.getElementById('helpOverlay').classList.add('open')">
+        <i class="fa-solid fa-circle-question"></i> Help & Guide
+    </button>
+    
+    <a href="<?= base_url('logout') ?>" class="logout-btn">
+        <i class="fa-solid fa-power-off"></i> Logout
+    </a>
+</div>
 </aside>
 
 <main class="main-content">
@@ -175,5 +199,80 @@ function searchUsers() {
     });
 }
 </script>
+<!-- HELP MODAL -->
+<div class="help-overlay" id="helpOverlay" onclick="if(event.target===this) this.classList.remove('open')">
+    <div class="help-modal">
+        <button class="help-close" onclick="document.getElementById('helpOverlay').classList.remove('open')">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="help-modal-title"><i class="fa-solid fa-circle-question me-2" style="color:var(--accent-cyan)"></i>Admin Help Guide</div>
+        <div class="help-modal-sub">Everything you need to manage the Waves platform.</div>
+
+        <div class="help-section">
+            <div class="help-section-title">📋 Main</div>
+            <div class="help-item">
+                <div class="help-item-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <div>
+                    <div class="help-item-title">Dashboard</div>
+                    <div class="help-item-desc">Overview of total bookings, revenue, and platform activity at a glance.</div>
+                </div>
+            </div>
+            <div class="help-item">
+                <div class="help-item-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                <div>
+                    <div class="help-item-title">Bookings</div>
+                    <div class="help-item-desc">View and manage all customer reservations. Update statuses, track schedules, and cancel bookings here.</div>
+                </div>
+            </div>
+            <div class="help-item">
+                <div class="help-item-icon"><i class="fa-solid fa-users"></i></div>
+                <div>
+                    <div class="help-item-title">Users</div>
+                    <div class="help-item-desc">Browse all registered accounts, check booking counts, and identify roles (Admin vs User).</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <div class="help-section-title">⚙️ Operations</div>
+            <div class="help-item">
+                <div class="help-item-icon"><i class="fa-solid fa-tower-broadcast"></i></div>
+                <div>
+                    <div class="help-item-title">Sea Conditions</div>
+                    <div class="help-item-desc">Post live sea condition updates (wave height, wind speed, safety status) visible to customers before booking.</div>
+                </div>
+            </div>
+            <div class="help-item">
+                <div class="help-item-icon"><i class="fa-solid fa-star"></i></div>
+                <div>
+                    <div class="help-item-title">Reviews</div>
+                    <div class="help-item-desc">Monitor guest feedback. Filter by activity and remove inappropriate reviews using the delete button on each card.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <div class="help-section-title">🛠 System</div>
+            <div class="help-item">
+                <div class="help-item-icon"><i class="fa-solid fa-person-swimming"></i></div>
+                <div>
+                    <div class="help-item-title">Activities</div>
+                    <div class="help-item-desc">Add, edit, or remove available water activities (Jet Ski, Kayaking, etc.) and manage their pricing.</div>
+                </div>
+            </div>
+            <div class="help-item">
+                <div class="help-item-icon"><i class="fa-solid fa-peso-sign"></i></div>
+                <div>
+                    <div class="help-item-title">Sales</div>
+                    <div class="help-item-desc">Track revenue reports, view earnings per activity, and monitor payment trends over time.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="help-tip">
+            <strong>💡 Tip:</strong> Sea conditions you post are shown to customers on the booking page — always keep them updated before opening hours to help guests make informed decisions.
+        </div>
+    </div>
+</div>
 </body>
 </html>

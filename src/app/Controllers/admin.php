@@ -341,4 +341,27 @@ class Admin extends BaseController
         return redirect()->to(base_url('admin/activities'))
                         ->with('success', 'Activity deleted successfully.');
     }
+    // =========================================================
+    //  SALES
+    // =========================================================
+    public function sales()
+    {
+        if ($r = $this->requireAdmin()) return $r;
+
+        $db = \Config\Database::connect();
+
+        $sales = $db->table('bookings b')
+            ->select('b.*, u.username')
+            ->join('users u', 'u.id = b.user_id', 'left')
+            ->whereIn('b.status', ['confirmed', 'completed'])
+            ->orderBy('b.created_at', 'DESC')
+            ->get()->getResultArray();
+
+        $totalRevenue = array_sum(array_column($sales, 'total_price'));
+
+        return view('admin/sales', [
+            'sales'        => $sales,
+            'totalRevenue' => $totalRevenue,
+        ]);
+    }
 }
