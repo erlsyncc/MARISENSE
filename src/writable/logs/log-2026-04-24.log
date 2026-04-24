@@ -1,0 +1,504 @@
+DEBUG - 2026-04-24 11:34:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:34:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:35:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:35:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-24 11:35:08 --> Table 'marisense_vrbms.bookings' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`', [], false)
+ 5 APPPATH/Controllers/Admin.php(30): CodeIgniter\Database\BaseBuilder->countAllResults()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->index()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 11:35:08 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_vrbms.bookings' doesn't exist
+[Method: GET, Route: admin/dashboard]
+in SYSTEMPATH/Database/BaseConnection.php on line 724.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`', [], false)
+ 2 APPPATH/Controllers/Admin.php(30): CodeIgniter\Database\BaseBuilder->countAllResults()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->index()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 11:35:08 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_vrbms.bookings' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
+ 1 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`')
+ 2 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`')
+ 3 SYSTEMPATH/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`', [], false)
+ 4 APPPATH/Controllers/Admin.php(30): CodeIgniter\Database\BaseBuilder->countAllResults()
+ 5 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->index()
+ 6 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 7 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 11:35:08 --> [Caused by] mysqli_sql_exception: Table 'marisense_vrbms.bookings' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT COUNT(*) AS `numrows`
+FROM `bookings`')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS `numrows`
+FROM `bookings`')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS `numrows`
+FROM `bookings`', [], false)
+ 5 APPPATH/Controllers/Admin.php(30): CodeIgniter\Database\BaseBuilder->countAllResults()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->index()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-04-24 11:58:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:58:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:58:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:58:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:58:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:58:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-24 11:58:32 --> Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 5 APPPATH/Controllers/Admin.php(125): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 11:58:32 --> CodeIgniter\Database\Exceptions\DatabaseException: Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+[Method: GET, Route: admin/users]
+in SYSTEMPATH/Database/BaseConnection.php on line 724.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 2 APPPATH/Controllers/Admin.php(125): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 11:58:32 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
+ 1 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 2 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 3 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 4 APPPATH/Controllers/Admin.php(125): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 6 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 7 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 11:58:32 --> [Caused by] mysqli_sql_exception: Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 5 APPPATH/Controllers/Admin.php(125): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-04-24 11:58:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:58:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:58:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:58:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 11:58:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-24 11:58:51 --> Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 5 APPPATH/Controllers/Admin.php(125): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 11:58:51 --> CodeIgniter\Database\Exceptions\DatabaseException: Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+[Method: GET, Route: admin/users]
+in SYSTEMPATH/Database/BaseConnection.php on line 724.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 2 APPPATH/Controllers/Admin.php(125): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 11:58:51 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
+ 1 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 2 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 3 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 4 APPPATH/Controllers/Admin.php(125): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 6 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 7 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 11:58:51 --> [Caused by] mysqli_sql_exception: Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 5 APPPATH/Controllers/Admin.php(125): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-04-24 12:00:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-24 12:15:34 --> Error connecting to the database: ErrorException: mysqli::real_connect(): php_network_getaddresses: getaddrinfo for marisense-db failed: nodename nor servname provided, or not known in /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'mysqli::real_co...', '/Users/magnaye....', 201)
+#1 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/MySQLi/Connection.php(201): mysqli->real_connect('marisense-db', 'docker-user', Object(SensitiveParameterValue), 'marisense_vrbms', 3306, '', 0)
+#2 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#3 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(654): CodeIgniter\Database\BaseConnection->initialize()
+#4 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(1565): CodeIgniter\Database\BaseConnection->query('SHOW TABLES FRO...')
+#5 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(1585): CodeIgniter\Database\BaseConnection->listTables()
+#6 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/MigrationRunner.php(821): CodeIgniter\Database\BaseConnection->tableExists('migrations')
+#7 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/MigrationRunner.php(173): CodeIgniter\Database\MigrationRunner->ensureTable()
+#8 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Commands/Database/Migrate.php(89): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#9 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/CLI/SignalTrait.php(245): CodeIgniter\Commands\Database\Migrate::{closure:CodeIgniter\Commands\Database\Migrate::run():88}()
+#10 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Commands/Database/Migrate.php(88): CodeIgniter\Commands\Database\Migrate->withSignalsBlocked(Object(Closure))
+#11 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/CLI/Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#12 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/CLI/Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#13 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Boot.php(442): CodeIgniter\CLI\Console->run()
+#14 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Boot.php(166): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#15 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#16 {main}
+
+Next mysqli_sql_exception: php_network_getaddresses: getaddrinfo for marisense-db failed: nodename nor servname provided, or not known in /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/MySQLi/Connection.php:201
+Stack trace:
+#0 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/MySQLi/Connection.php(201): mysqli->real_connect('marisense-db', 'docker-user', Object(SensitiveParameterValue), 'marisense_vrbms', 3306, '', 0)
+#1 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(654): CodeIgniter\Database\BaseConnection->initialize()
+#3 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(1565): CodeIgniter\Database\BaseConnection->query('SHOW TABLES FRO...')
+#4 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(1585): CodeIgniter\Database\BaseConnection->listTables()
+#5 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/MigrationRunner.php(821): CodeIgniter\Database\BaseConnection->tableExists('migrations')
+#6 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/MigrationRunner.php(173): CodeIgniter\Database\MigrationRunner->ensureTable()
+#7 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Commands/Database/Migrate.php(89): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/CLI/SignalTrait.php(245): CodeIgniter\Commands\Database\Migrate::{closure:CodeIgniter\Commands\Database\Migrate::run():88}()
+#9 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Commands/Database/Migrate.php(88): CodeIgniter\Commands\Database\Migrate->withSignalsBlocked(Object(Closure))
+#10 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/CLI/Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#11 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/CLI/Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#12 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Boot.php(442): CodeIgniter\CLI\Console->run()
+#13 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Boot.php(166): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#14 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#15 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: php_network_getaddresses: getaddrinfo for marisense-db failed: nodename nor servname provided, or not known in /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/MySQLi/Connection.php:231
+Stack trace:
+#0 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(654): CodeIgniter\Database\BaseConnection->initialize()
+#2 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(1565): CodeIgniter\Database\BaseConnection->query('SHOW TABLES FRO...')
+#3 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/BaseConnection.php(1585): CodeIgniter\Database\BaseConnection->listTables()
+#4 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/MigrationRunner.php(821): CodeIgniter\Database\BaseConnection->tableExists('migrations')
+#5 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Database/MigrationRunner.php(173): CodeIgniter\Database\MigrationRunner->ensureTable()
+#6 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Commands/Database/Migrate.php(89): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/CLI/SignalTrait.php(245): CodeIgniter\Commands\Database\Migrate::{closure:CodeIgniter\Commands\Database\Migrate::run():88}()
+#8 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Commands/Database/Migrate.php(88): CodeIgniter\Commands\Database\Migrate->withSignalsBlocked(Object(Closure))
+#9 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/CLI/Commands.php(74): CodeIgniter\Commands\Database\Migrate->run(Array)
+#10 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/CLI/Console.php(47): CodeIgniter\CLI\Commands->run('migrate', Array)
+#11 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Boot.php(442): CodeIgniter\CLI\Console->run()
+#12 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/vendor/codeigniter4/framework/system/Boot.php(166): CodeIgniter\Boot::runCommand(Object(CodeIgniter\CLI\Console))
+#13 /Users/magnaye.rp/Documents/GitHub/MARISENSE/src/spark(87): CodeIgniter\Boot::bootSpark(Object(Config\Paths))
+#14 {main}
+DEBUG - 2026-04-24 12:21:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 12:21:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 12:21:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-24 12:21:15 --> Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 5 APPPATH/Controllers/Admin.php(131): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 12:21:15 --> CodeIgniter\Database\Exceptions\DatabaseException: Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+[Method: GET, Route: admin/users]
+in SYSTEMPATH/Database/BaseConnection.php on line 724.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 2 APPPATH/Controllers/Admin.php(131): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 12:21:15 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
+ 1 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 2 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 3 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 4 APPPATH/Controllers/Admin.php(131): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 6 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 7 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-04-24 12:21:15 --> [Caused by] mysqli_sql_exception: Expression #5 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'marisense_vrbms.ai.secret' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `u`.`id`, `u`.`username`, `u`.`created_at`, `u`.`last_active`, `ai`.`secret` AS `email`, `ag`.`group` AS `role`, COUNT(b.id) AS booking_count
+FROM `users` `u`
+LEFT JOIN `auth_identities` `ai` ON `ai`.`user_id` = `u`.`id` AND `ai`.`type` = "email_password"
+LEFT JOIN `auth_groups_users` `ag` ON `ag`.`user_id` = `u`.`id`
+LEFT JOIN `bookings` `b` ON `b`.`user_id`  = `u`.`id`
+GROUP BY `u`.`id`
+ORDER BY `u`.`created_at` ASC', [], false)
+ 5 APPPATH/Controllers/Admin.php(131): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->users()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-04-24 12:21:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 12:21:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 12:21:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 12:21:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-24 12:21:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

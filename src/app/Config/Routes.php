@@ -16,6 +16,13 @@ $routes->get('logout', 'Auth::logout');
 $routes->get('register', 'Auth::register'); 
 $routes->post('registerAuth', 'Auth::registerAuth');
 
+// API Routes (PUBLIC — no auth required for receiving data)
+$routes->group('api', function($routes) {
+    $routes->post('buoy-data', 'Api::buoyData');
+    $routes->get('buoy-data/latest', 'Api::getLatestBuoyData');
+    $routes->get('buoy-data/recent/(:num)', 'Api::getRecentBuoyData/$1');
+});
+
 // 2. PROTECTED ROUTES (Kailangan ng Login)
 $routes->group('', ['filter' => 'session'], function($routes) {
     

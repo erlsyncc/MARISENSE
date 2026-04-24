@@ -467,6 +467,17 @@
         </div>
     </section>
 
+    <!-- BUOY LIVE DATA SECTION -->
+    <section style="padding: 80px 40px;">
+        <div class="section-header">
+            <h1 class="fw-bold">🌊 Live Buoy Monitoring</h1>
+            <div class="title-line"></div>
+        </div>
+        <div class="centered-data-wrapper">
+            <?php echo view('components/buoy_widget', ['buoyData' => $buoyData ?? null]); ?>
+        </div>
+    </section>
+
 </div>
 
 <section class="reviews-section">

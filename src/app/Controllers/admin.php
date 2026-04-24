@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\BookingModel;
+use App\Models\BuoyDataModel;
 use CodeIgniter\HTTP\RedirectResponse;
 
 class Admin extends BaseController
@@ -45,12 +46,17 @@ class Admin extends BaseController
             ->limit(1)
             ->get()->getRowArray();
 
+        // Latest buoy data
+        $buoyModel = new BuoyDataModel();
+        $buoyData = $buoyModel->getLatestReading();
+
         return view('admin/dashboard', [
             'totalBookings'   => $totalBookings,
             'pendingBookings' => $pendingBookings,
             'totalUsers'      => $totalUsers,
             'recentBookings'  => $recentBookings,
             'latestSea'       => $latestSea,
+            'buoyData'        => $buoyData,
         ]);
     }
 

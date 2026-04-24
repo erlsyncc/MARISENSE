@@ -234,6 +234,36 @@ INSERT INTO `users` (`id`, `username`, `status`, `status_message`, `active`, `la
 (7, 'adminacc', NULL, NULL, 0, NULL, '2026-03-06 10:10:39', '2026-03-06 10:10:39', NULL);
 
 --
+-- Table structure for table `buoy_data`
+--
+
+CREATE TABLE `buoy_data` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `pitch` float NOT NULL,
+  `roll` float NOT NULL,
+  `hall` int(11) NOT NULL,
+  `packet_id` int(11) NOT NULL,
+  `rssi` int(11) NOT NULL,
+  `recorded_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Indexes for table `buoy_data`
+--
+
+ALTER TABLE `buoy_data`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_recorded_at` (`recorded_at`);
+
+--
+-- AUTO_INCREMENT for table `buoy_data`
+--
+
+ALTER TABLE `buoy_data`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- Indexes for dumped tables
 --
 

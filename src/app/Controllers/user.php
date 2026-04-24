@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\BookingModel;
+use App\Models\BuoyDataModel;
 
 class User extends BaseController
 {
@@ -28,9 +29,14 @@ class User extends BaseController
                            ->get()
                            ->getRowArray();
 
+        // Get latest buoy data
+        $buoyModel = new BuoyDataModel();
+        $buoyData = $buoyModel->getLatestReading();
+
         return view('user/home', [
             'reviews'      => $reviews,
             'seaCondition' => $seaCondition,
+            'buoyData'     => $buoyData,
         ]);
     }
 
