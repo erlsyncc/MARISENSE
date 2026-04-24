@@ -119,14 +119,14 @@ class Admin extends BaseController
                 u.username,
                 u.created_at,
                 u.last_active,
-                ai.secret   AS email,
-                ag.group    AS role,
+                MAX(ai.secret) AS email,
+                MAX(ag.group)  AS role,
                 COUNT(b.id) AS booking_count
             ')
             ->join('auth_identities ai',    'ai.user_id = u.id AND ai.type = "email_password"', 'left')
             ->join('auth_groups_users ag',  'ag.user_id = u.id', 'left')
             ->join('bookings b',            'b.user_id  = u.id', 'left')
-            ->groupBy('u.id')
+            ->groupBy(['u.id', 'u.username', 'u.created_at', 'u.last_active'])
             ->orderBy('u.created_at', 'ASC')
             ->get()->getResultArray();
 
