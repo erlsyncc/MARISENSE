@@ -116,12 +116,21 @@ class Auth extends BaseController
                       ->get()
                       ->getRowArray();
 
-        if (!$identity || !$identity['extra']) {
-            return false;
+        if (!$identity) {
+            return true;
+        }
+
+        if (!$identity['extra']) {
+            return true;
         }
 
         $extra = json_decode($identity['extra'], true) ?? [];
-        return ($extra['email_verified'] ?? false) === true;
+        
+        if (!isset($extra['email_verified'])) {
+            return true;
+        }
+        
+        return $extra['email_verified'] === true;
     }
 
     private function sendVerificationEmail($user)
