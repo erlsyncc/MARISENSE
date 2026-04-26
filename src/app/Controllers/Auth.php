@@ -116,11 +116,7 @@ class Auth extends BaseController
                       ->get()
                       ->getRowArray();
 
-        if (!$identity) {
-            return true;
-        }
-
-        if (!$identity['extra']) {
+        if (!$identity || !$identity['extra']) {
             return true;
         }
 
