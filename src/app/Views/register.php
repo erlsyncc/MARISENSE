@@ -198,7 +198,7 @@
 
     <div class="register-form-area">
         <h3 class="fw-bold mb-1">Create Account</h3>
-        <p class="text-muted small mb-3">Sign up to start booking your activities.</p>
+        <p class="text-muted small mb-3">Sign up to start booking your activities. We'll send you a verification email.</p>
 
         <?php if (session('errors')) : ?>
             <div class="alert alert-danger py-2 small mb-3">

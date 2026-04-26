@@ -16,6 +16,11 @@ $routes->get('logout', 'Auth::logout');
 $routes->get('register', 'Auth::register'); 
 $routes->post('registerAuth', 'Auth::registerAuth');
 
+// Email Verification Routes
+$routes->get('verify-email-pending', 'Auth::verifyEmailPending');
+$routes->get('auth/verify-email/(:any)', 'Auth::verifyEmail/$1');
+$routes->post('auth/resend-verification', 'Auth::resendVerificationEmail');
+
 // API Routes (PUBLIC — no auth required for receiving data)
 $routes->group('api', function($routes) {
     $routes->post('buoy-data', 'Api::buoyData');

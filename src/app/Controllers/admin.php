@@ -112,7 +112,7 @@ class Admin extends BaseController
         $db = \Config\Database::connect();
 
         // Combine users + their email (from auth_identities) + role (from auth_groups_users)
-        // + booking count
+        // + booking count + email verification status
         $users = $db->table('users u')
             ->select('
                 u.id,
@@ -120,6 +120,7 @@ class Admin extends BaseController
                 u.created_at,
                 u.last_active,
                 MAX(ai.secret) AS email,
+                MAX(ai.extra) AS auth_extra,
                 MAX(ag.group)  AS role,
                 COUNT(b.id) AS booking_count
             ')
@@ -129,6 +130,12 @@ class Admin extends BaseController
             ->groupBy(['u.id', 'u.username', 'u.created_at', 'u.last_active'])
             ->orderBy('u.created_at', 'ASC')
             ->get()->getResultArray();
+
+        // Parse email verification status from JSON
+        foreach ($users as &$user) {
+            $extra = json_decode($user['auth_extra'] ?? '{}', true);
+            $user['email_verified'] = $extra['email_verified'] ?? false;
+        }
 
         return view('admin/users', ['users' => $users]);
     }

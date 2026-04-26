@@ -161,6 +161,7 @@
                     $role     = $u['role'] ?? 'user';
                     $joined   = isset($u['created_at']) ? date('M Y', strtotime($u['created_at'])) : 'Unknown';
                     $bookingCount = $u['booking_count'] ?? 0;
+                    $emailVerified = $u['email_verified'] ?? false;
                 ?>
                 <div class="user-card" data-search="<?= strtolower($u['username'] . ' ' . $email) ?>">
                     <div class="d-flex align-items-center gap-3 mb-3">
@@ -168,6 +169,11 @@
                         <div style="flex:1;min-width:0;">
                             <div class="user-name"><?= esc($u['username']) ?></div>
                             <div class="user-email"><?= esc($email) ?></div>
+                            <?php if (!$emailVerified): ?>
+                                <span style="font-size: 0.75rem; color: #ff6b6b; font-weight: 600;">
+                                    <i class="fa-solid fa-exclamation-circle"></i> Unverified
+                                </span>
+                            <?php endif; ?>
                         </div>
                         <span class="role-badge role-<?= $role ?>"><?= ucfirst($role) ?></span>
                     </div>
