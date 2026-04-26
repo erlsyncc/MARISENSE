@@ -107,6 +107,8 @@ class Auth extends BaseController
 
     private function isEmailVerified($user)
     {
+        // Require explicit email_verified === true for all accounts.
+        // This enforces verification for all users (legacy accounts without the flag will be blocked).
         if (!$user) return false;
 
         $db = \Config\Database::connect();
@@ -116,17 +118,15 @@ class Auth extends BaseController
                       ->get()
                       ->getRowArray();
 
+        // If there's no identity or no extra metadata, treat as unverified
         if (!$identity || !$identity['extra']) {
-            return true;
+            return false;
         }
 
         $extra = json_decode($identity['extra'], true) ?? [];
-        
-        if (!isset($extra['email_verified'])) {
-            return true;
-        }
-        
-        return $extra['email_verified'] === true;
+
+        // Only explicitly true passes
+        return isset($extra['email_verified']) && $extra['email_verified'] === true;
     }
 
     private function sendVerificationEmail($user)
