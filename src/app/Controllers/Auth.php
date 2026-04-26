@@ -2,8 +2,9 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Shield\Models\UserModel;
+use App\Controllers\BaseController;
 use CodeIgniter\Shield\Entities\User;
+use CodeIgniter\Shield\Models\UserModel;
 
 class Auth extends BaseController
 {
@@ -164,8 +165,22 @@ class Auth extends BaseController
         $email->setTo($identity['secret'])
               ->setFrom(env('MAIL_FROM_ADDRESS', 'noreply@marisense.local'), 'Waves Water Sports')
               ->setSubject('Verify Your Email Address')
-              ->setMessage($message)
-              ->send();
+              ->setMessage($message);
+
+        $sent = false;
+        try {
+            $sent = $email->send();
+        } catch (\Exception $e) {
+            // Log exception
+            log_message('error', 'Email send exception: ' . $e->getMessage());
+        }
+
+        if (! $sent) {
+            // Log debugger information for diagnosis
+            $debug = $email->printDebugger(['headers', 'subject', 'body']);
+            log_message('error', "Verification email failed to send to {$identity['secret']}: " . json_encode($debug));
+            return false;
+        }
 
         return true;
     }

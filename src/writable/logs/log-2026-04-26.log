@@ -1,29 +1,119 @@
-DEBUG - 2026-04-26 09:09:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:09:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:10:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:10:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:10:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:10:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:10:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:10:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:10:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:11:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:11:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:11:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:11:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:11:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:13:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:13:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:23:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:23:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:23:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:23:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:23:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:23:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:24:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:24:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:24:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:25:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:25:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:25:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
-DEBUG - 2026-04-26 09:25:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:39:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:39:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:39:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:39:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:39:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-26 09:40:25 --> Email: sendWithSmtp throwed ErrorException: fsockopen(): php_network_getaddresses: getaddrinfo for Marisense failed: Name or service not known in /var/www/html/vendor/codeigniter4/framework/system/Email/Email.php:1910
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'fsockopen(): ph...', '/var/www/html/v...', 1910)
+#1 /var/www/html/vendor/codeigniter4/framework/system/Email/Email.php(1910): fsockopen('Marisense', 25, NULL, NULL, 5)
+#2 /var/www/html/vendor/codeigniter4/framework/system/Email/Email.php(1823): CodeIgniter\Email\Email->SMTPConnect()
+#3 /var/www/html/vendor/codeigniter4/framework/system/Email/Email.php(1708): CodeIgniter\Email\Email->sendWithSmtp()
+#4 /var/www/html/vendor/codeigniter4/framework/system/Email/Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#5 /var/www/html/app/Controllers/Auth.php(172): CodeIgniter\Email\Email->send()
+#6 /var/www/html/app/Controllers/Auth.php(255): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+#7 /var/www/html/vendor/codeigniter4/framework/system/CodeIgniter.php(951): App\Controllers\Auth->resendVerificationEmail()
+#8 /var/www/html/vendor/codeigniter4/framework/system/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 /var/www/html/vendor/codeigniter4/framework/system/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/vendor/codeigniter4/framework/system/Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 /var/www/html/vendor/codeigniter4/framework/system/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 /var/www/html/public/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+ERROR - 2026-04-26 09:40:25 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-04-26 09:40:25 --> 
+ERROR - 2026-04-26 09:40:25 --> Verification email failed to send to magnaye.rp@gmail.com: "Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Sun, 26 Apr 2026 09:40:25 +0000\r\nTo: magnaye.rp@gmail.com\r\nFrom: &quot;Waves Water Sports&quot; &lt;noreply@marisense.local&gt;\r\nReturn-Path: &lt;noreply@marisense.local&gt;\r\nSubject: =?UTF-8?Q?Verify=20Your=20Email=20Address?=\r\nReply-To: &lt;noreply@marisense.local&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@marisense.local\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69eddd89b8de41.31098052@marisense.local&gt;\r\nMime-Version: 1.0\r\n\n\nContent-Type: multipart\/alternative; boundary=&quot;B_ALT_69eddd89b8def1.95693254&quot;\r\n\r\nThis is a multi-part message in MIME format.\r\nYour email application may not support this format.\r\n\r\n--B_ALT_69eddd89b8def1.95693254\r\nContent-Type: text\/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n\ud83c\udf0a Waves\r\n Water Sports Adventures\r\n\r\n\r\n\r\n\r\n Hi magnaye-rp,\r\n\r\n\r\n\r\n Welcome to Waves Water Sports! We&#039;re excited to have you join our\r\ncommunity.\r\n To get started, please verify your email address by clicking the button\r\nbelow:\r\n\r\n\r\n\r\n\r\n Verify Email Address\r\n\r\n\r\n\r\n\r\n Or copy and paste this link in your browser:\r\n http:\/\/localhost:8080\/auth\/verify-email\/cfb12524c453d5c7534308c7061ded66a4cb26a86b8de2094df1f6859a99aa58\r\n\r\n\r\n\r\n \u23f1\ufe0f This link expires in 24 hours. If you don&#039;t verify within this time,\r\n you&#039;ll need to request a new verification email.\r\n\r\n\r\n\r\n If you didn&#039;t create this account, please ignore this email.\r\n\r\n\r\n\r\n\r\n \u00a9 2026 Waves Water Sports. All rights reserved.\r\n If you have questions, contact us at support@marisense.local\r\n\r\n\r\n--B_ALT_69eddd89b8def1.95693254\r\nContent-Type: text\/html; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n&lt;!-- DEBUG-VIEW START 1 APPPATH\/Views\/emails\/verify_email.php --&gt;=0A&lt;!DOCTY=\r\nPE html&gt;=0A&lt;html lang=3D&quot;en&quot;&gt;=0A&lt;head&gt;=0A    &lt;meta charset=3D&quot;UTF-8&quot;&gt;=0A   =\r\n &lt;meta name=3D&quot;viewport&quot; content=3D&quot;width=3Ddevice-width, initial-scale=3D1=\r\n.0&quot;&gt;=0A    &lt;style&gt;=0A        body {=0A            font-family: &#039;Poppins&#039;, -=\r\napple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, sans-serif;=0A            lin=\r\ne-height: 1.6;=0A            color: #333;=0A        }=0A        .email-cont=\r\nainer {=0A            max-width: 600px;=0A            margin: 0 auto;=0A   =\r\n         background: linear-gradient(135deg, #0a5872, #052c39);=0A         =\r\n   padding: 0;=0A            border-radius: 12px;=0A            overflow: h=\r\nidden;=0A            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);=0A        }=\r\n=0A        .header {=0A            background: linear-gradient(135deg, #0a5=\r\n872, #052c39);=0A            color: white;=0A            padding: 32px 24px=\r\n;=0A            text-align: center;=0A        }=0A        .header h1 {=0A  =\r\n          margin: 0;=0A            font-size: 2rem;=0A            font-weig=\r\nht: 700;=0A            letter-spacing: 1px;=0A        }=0A        .header p=\r\n {=0A            margin: 8px 0 0;=0A            opacity: 0.9;=0A           =\r\n font-size: 0.9rem;=0A        }=0A        .content {=0A            padding:=\r\n 32px 24px;=0A            background: white;=0A        }=0A        .greetin=\r\ng {=0A            margin-bottom: 24px;=0A            font-size: 1.1rem;=0A =\r\n           font-weight: 600;=0A            color: #052c39;=0A        }=0A  =\r\n      .message {=0A            margin-bottom: 28px;=0A            line-heig=\r\nht: 1.8;=0A            color: #555;=0A        }=0A        .verify-button-wr=\r\napper {=0A            text-align: center;=0A            margin: 32px 0;=0A =\r\n       }=0A        .verify-button {=0A            display: inline-block;=0A=\r\n            background: linear-gradient(45deg, #48cae4, #0077b6);=0A       =\r\n     color: white;=0A            padding: 14px 40px;=0A            border-r=\r\nadius: 50px;=0A            text-decoration: none;=0A            font-weight=\r\n: 700;=0A            transition: transform 0.3s, box-shadow 0.3s;=0A       =\r\n     box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);=0A        }=0A        .=\r\nverify-button:hover {=0A            transform: translateY(-2px);=0A        =\r\n    box-shadow: 0 6px 16px rgba(0, 119, 182, 0.3);=0A        }=0A        .l=\r\nink-text {=0A            margin-top: 20px;=0A            padding-top: 20px;=\r\n=0A            border-top: 1px solid #e9ecef;=0A            font-size: 0.85=\r\nrem;=0A            color: #999;=0A            word-break: break-all;=0A    =\r\n    }=0A        .link-text strong {=0A            color: #555;=0A        }=\r\n=0A        .footer {=0A            background: #f8f9fa;=0A            paddi=\r\nng: 24px;=0A            text-align: center;=0A            color: #999;=0A  =\r\n          font-size: 0.85rem;=0A            border-top: 1px solid #e9ecef;=\r\n=0A        }=0A        .footer p {=0A            margin: 8px 0;=0A        }=\r\n=0A        .warning {=0A            background: #fff3cd;=0A            bord=\r\ner-left: 4px solid #ffc107;=0A            padding: 16px;=0A            marg=\r\nin: 24px 0;=0A            border-radius: 4px;=0A            font-size: 0.9r=\r\nem;=0A            color: #856404;=0A        }=0A    &lt;\/style&gt;=0A&lt;\/head&gt;=0A&lt;b=\r\nody&gt;=0A=0A&lt;div class=3D&quot;email-container&quot;&gt;=0A    &lt;div class=3D&quot;header&quot;&gt;=0A  =\r\n      &lt;h1&gt;&lt;i style=3D&quot;font-size: 1.8rem;&quot;&gt;=F0=9F=8C=8A&lt;\/i&gt; Waves&lt;\/h1&gt;=0A   =\r\n     &lt;p&gt;Water Sports Adventures&lt;\/p&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;con=\r\ntent&quot;&gt;=0A        &lt;div class=3D&quot;greeting&quot;&gt;=0A            Hi magnaye-rp,=0A  =\r\n      &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;message&quot;&gt;=0A            Welcome to =\r\nWaves Water Sports! We&#039;re excited to have you join our community. =0A      =\r\n      To get started, please verify your email address by clicking the butt=\r\non below:=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;verify-button-wrapper=\r\n&quot;&gt;=0A            &lt;a href=3D&quot;http:\/\/localhost:8080\/auth\/verify-email\/cfb1252=\r\n4c453d5c7534308c7061ded66a4cb26a86b8de2094df1f6859a99aa58&quot; class=3D&quot;verify-=\r\nbutton&quot;&gt;=0A                Verify Email Address=0A            &lt;\/a&gt;=0A      =\r\n  &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;link-text&quot;&gt;=0A            Or copy and p=\r\naste this link in your browser:&lt;br&gt;=0A            &lt;strong&gt;http:\/\/localhost:=\r\n8080\/auth\/verify-email\/cfb12524c453d5c7534308c7061ded66a4cb26a86b8de2094df1=\r\nf6859a99aa58&lt;\/strong&gt;=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;warning&quot;&gt;=\r\n=0A            &lt;strong&gt;=E2=8F=B1=EF=B8=8F This link expires in 24 hours.&lt;\/s=\r\ntrong&gt; If you don&#039;t verify within this time, =0A            you&#039;ll need to =\r\nrequest a new verification email.=0A        &lt;\/div&gt;=0A=0A        &lt;div class=\r\n=3D&quot;message&quot;&gt;=0A            If you didn&#039;t create this account, please ignor=\r\ne this email.=0A        &lt;\/div&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;footer&quot;&gt;=\r\n=0A        &lt;p&gt;=C2=A9 2026 Waves Water Sports. All rights reserved.&lt;\/p&gt;=0A  =\r\n      &lt;p&gt;If you have questions, contact us at support@marisense.local&lt;\/p&gt;=\r\n=0A    &lt;\/div&gt;=0A&lt;\/div&gt;=0A=0A&lt;\/body&gt;=0A&lt;\/html&gt;=0A=0A&lt;!-- DEBUG-VIEW ENDED 1 =\r\nAPPPATH\/Views\/emails\/verify_email.php --&gt;\r\n\r\n--B_ALT_69eddd89b8def1.95693254--<\/pre>"
+DEBUG - 2026-04-26 09:40:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:40:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:40:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:46:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:46:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:48:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:49:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:49:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:49:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:49:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:49:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-26 09:49:31 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH/Controllers/Auth.php on line 207.
+ 1 APPPATH/Controllers/Auth.php(207): json_decode(null, true)
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->verifyEmail('eb893c6c951c1a32051040320f01f93ef9ddc153dea1bd149409f110ab877eb0')
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2026-04-26 09:49:31 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH/Controllers/Auth.php on line 207.
+ 1 APPPATH/Controllers/Auth.php(207): json_decode(null, true)
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->verifyEmail('eb893c6c951c1a32051040320f01f93ef9ddc153dea1bd149409f110ab877eb0')
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2026-04-26 09:49:31 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH/Controllers/Auth.php on line 207.
+ 1 APPPATH/Controllers/Auth.php(207): json_decode(null, true)
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->verifyEmail('eb893c6c951c1a32051040320f01f93ef9ddc153dea1bd149409f110ab877eb0')
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2026-04-26 09:49:31 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH/Controllers/Auth.php on line 207.
+ 1 APPPATH/Controllers/Auth.php(207): json_decode(null, true)
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->verifyEmail('eb893c6c951c1a32051040320f01f93ef9ddc153dea1bd149409f110ab877eb0')
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2026-04-26 09:49:31 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH/Controllers/Auth.php on line 207.
+ 1 APPPATH/Controllers/Auth.php(207): json_decode(null, true)
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->verifyEmail('eb893c6c951c1a32051040320f01f93ef9ddc153dea1bd149409f110ab877eb0')
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2026-04-26 09:49:31 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH/Controllers/Auth.php on line 207.
+ 1 APPPATH/Controllers/Auth.php(207): json_decode(null, true)
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->verifyEmail('eb893c6c951c1a32051040320f01f93ef9ddc153dea1bd149409f110ab877eb0')
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2026-04-26 09:49:31 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH/Controllers/Auth.php on line 207.
+ 1 APPPATH/Controllers/Auth.php(207): json_decode(null, true)
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->verifyEmail('eb893c6c951c1a32051040320f01f93ef9ddc153dea1bd149409f110ab877eb0')
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2026-04-26 09:49:31 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH/Controllers/Auth.php on line 207.
+ 1 APPPATH/Controllers/Auth.php(207): json_decode(null, true)
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->verifyEmail('eb893c6c951c1a32051040320f01f93ef9ddc153dea1bd149409f110ab877eb0')
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2026-04-26 09:49:31 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH/Controllers/Auth.php on line 207.
+ 1 APPPATH/Controllers/Auth.php(207): json_decode(null, true)
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->verifyEmail('eb893c6c951c1a32051040320f01f93ef9ddc153dea1bd149409f110ab877eb0')
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2026-04-26 09:49:31 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH/Controllers/Auth.php on line 207.
+ 1 APPPATH/Controllers/Auth.php(207): json_decode(null, true)
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->verifyEmail('eb893c6c951c1a32051040320f01f93ef9ddc153dea1bd149409f110ab877eb0')
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-04-26 09:49:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:49:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:49:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-26 09:49:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
