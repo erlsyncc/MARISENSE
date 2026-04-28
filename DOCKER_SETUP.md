@@ -57,5 +57,3 @@ Get-Content ..\marisense_db.sql | docker exec -i marisense-db mysql -uroot -proo
 - Default DB credentials (from compose): user `root` with password `root`, DB name `marisense_vrbms`.
 - The import uses the provided `marisense_db.sql` which contains schema and dummy data — no migrations are required.
 - If Docker asks for permissions, accept them. On Windows prefer WSL or Git Bash for best compatibility.
-
-If you want the same file placed elsewhere or named differently, tell me the path or filename.
