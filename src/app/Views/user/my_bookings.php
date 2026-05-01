@@ -9,9 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; }
-        body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--ocean-blue) 40%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; min-height: 100vh; }
+        body {font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; min-height: 100vh}
 
-        /* Navbar */
         .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
         .user-greeting { color: white; font-size: 1.2rem; font-weight: 400; flex: 1; }
@@ -26,9 +25,8 @@
         .btn-help-custom:hover { background: rgba(72,202,228,0.2); border-color: var(--accent-cyan); }
 
         /* Help Modal */
-        #helpModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,44,57,0.88); backdrop-filter: blur(8px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeInModal 0.25s ease; }
+        #helpModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,44,57,0.88); backdrop-filter: blur(8px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
         #helpModal.d-none { display: none !important; }
-        @keyframes fadeInModal { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
         .help-modal-box { background: #0a3d52; border: 1px solid rgba(72,202,228,0.35); border-radius: 30px; padding: 40px; max-width: 780px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
         .help-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
         .help-modal-title { color: #48cae4; font-size: 1.3rem; font-weight: 700; margin: 0; }
@@ -42,10 +40,7 @@
         .help-item p { color: rgba(255,255,255,0.75); font-size: 0.85rem; margin: 0; line-height: 1.6; }
         .help-modal-footer { margin-top: 28px; text-align: center; color: rgba(255,255,255,0.4); font-size: 0.8rem; }
 
-        /* Hero */
         .welcome-hero { background: linear-gradient(rgba(5,44,57,0.5), rgba(5,44,57,0.7)), url('<?= base_url('images/background.png') ?>'); background-size: cover; background-position: center; background-attachment: fixed; padding: 145px 40px; color: white; border-radius: 0 0 80px 80px; margin-bottom: 60px; }
-
-        /* Page container */
         .page-container { max-width: 1150px; margin: 0 auto 80px; padding: 0 24px; }
 
         /* Stats */
@@ -66,7 +61,6 @@
         .search-input::placeholder { color: rgba(255,255,255,0.35); }
         .search-input:focus { border-color: var(--accent-cyan); }
 
-        /* Bookings panel — card style instead of table on small screens */
         .bookings-panel { background: rgba(255,255,255,0.06); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 28px; }
 
         /* Booking card */
@@ -80,14 +74,29 @@
         .bc-code { font-size: 0.72rem; color: var(--accent-cyan); font-weight: 600; letter-spacing: 1px; opacity: 0.8; }
         .bc-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
-        /* Info grid inside card */
-        .bc-info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; background: rgba(255,255,255,0.03); border-radius: 14px; padding: 14px 18px; margin-bottom: 14px; }
-        @media (max-width: 768px) { .bc-info-grid { grid-template-columns: repeat(2,1fr); } }
-        .bc-info-item .info-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); font-weight: 700; margin-bottom: 3px; }
-        .bc-info-item .info-val { font-size: 0.85rem; font-weight: 600; color: white; }
-        .bc-info-item .info-val.cyan { color: var(--accent-cyan); }
+        /* Booking meta strip */
+        .bc-meta-strip { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; padding: 10px 14px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); }
+        .bc-meta-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+        .bc-meta-item i { color: var(--accent-cyan); font-size: 0.7rem; }
+        .bc-meta-item span { color: rgba(255,255,255,0.8); font-weight: 600; }
 
-        /* Activities list inside card */
+        /* Per-activity cost breakdown table */
+        .bc-pax-table { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+        .bc-pax-header { padding: 7px 14px; background: rgba(72,202,228,0.07); font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-cyan); border-bottom: 1px solid rgba(72,202,228,0.12); }
+        .bc-pax-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.8rem; }
+        .bc-pax-row:last-child { border-bottom: none; }
+        .bc-pax-row .pax-act { display: flex; align-items: center; gap: 7px; color: rgba(255,255,255,0.75); font-weight: 500; }
+        .bc-pax-row .pax-act i { color: var(--accent-cyan); font-size: 0.72rem; width: 14px; }
+        .bc-pax-row .pax-formula { font-size: 0.72rem; color: rgba(255,255,255,0.38); margin-left: 6px; font-style: italic; }
+        .bc-pax-row .pax-line-total { font-weight: 700; color: var(--accent-cyan); white-space: nowrap; }
+        .bc-pax-total { display: flex; justify-content: space-between; align-items: center; padding: 9px 14px; background: rgba(72,202,228,0.08); border-top: 2px solid rgba(72,202,228,0.2); font-size: 0.82rem; font-weight: 700; color: var(--accent-cyan); }
+
+        /* Contact / special row */
+        .bc-info-row { display: flex; gap: 16px; flex-wrap: wrap; background: rgba(255,255,255,0.03); border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.06); }
+        .bc-info-item .info-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); font-weight: 700; margin-bottom: 2px; }
+        .bc-info-item .info-val { font-size: 0.82rem; font-weight: 600; color: white; }
+
+        /* Activity pills */
         .bc-activities { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
         .bc-act-pill { background: rgba(10,88,114,0.3); border: 1px solid rgba(72,202,228,0.2); border-radius: 50px; padding: 5px 14px; font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 6px; }
         .bc-act-pill i { color: var(--accent-cyan); font-size: 0.75rem; }
@@ -106,17 +115,23 @@
         .status-completed { background: rgba(72,202,228,0.12); color: #48cae4; border: 1px solid rgba(72,202,228,0.4); }
         .status-cancelled { background: rgba(220,53,69,0.12);  color: #ff9999; border: 1px solid rgba(220,53,69,0.4); }
         .payment-badge { padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
-        .pay-paid   { background: rgba(40,167,69,0.15);    color: #5ddb8a; border: 1px solid rgba(40,167,69,0.4); }
-        .pay-half   { background: rgba(255,193,7,0.12);    color: #ffc107; border: 1px solid rgba(255,193,7,0.4); }
-        .pay-unpaid { background: rgba(255,255,255,0.06);  color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.12); }
+        .pay-paid   { background: rgba(40,167,69,0.15);   color: #5ddb8a; border: 1px solid rgba(40,167,69,0.4); }
+        .pay-half   { background: rgba(255,193,7,0.12);   color: #ffc107; border: 1px solid rgba(255,193,7,0.4); }
+        .pay-unpaid { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.12); }
 
         /* Empty state */
         .empty-state { text-align: center; padding: 50px 20px; }
         .empty-state i { font-size: 2.5rem; opacity: 0.35; display: block; margin-bottom: 14px; }
         .empty-state p { opacity: 0.5; margin: 0; }
 
+        /* Toast */
+        #toast-notification { position: fixed; top: 100px; left: 50%; transform: translateX(-50%) translateY(-20px); background: linear-gradient(135deg, #0a4d28, #0a5872); border: 1px solid rgba(93,219,138,0.5); border-radius: 50px; padding: 14px 28px; display: flex; align-items: center; gap: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.4); z-index: 99999; opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: none; white-space: nowrap; }
+        #toast-notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        #toast-notification i { color: #5ddb8a; font-size: 1.1rem; }
+        #toast-notification span { color: white; font-size: 0.88rem; font-weight: 600; font-family: 'Poppins', sans-serif; }
+
         /* Payment Modal */
-        #payModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,44,57,0.92); backdrop-filter: blur(10px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeInModal 0.25s ease; }
+        #payModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,44,57,0.92); backdrop-filter: blur(10px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
         #payModal.d-none { display: none !important; }
         .pay-modal-box { background: #0a3d52; border: 1px solid rgba(72,202,228,0.35); border-radius: 28px; padding: 36px; max-width: 520px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
         .pay-modal-title { color: #48cae4; font-size: 1.2rem; font-weight: 700; margin-bottom: 2px; }
@@ -137,6 +152,7 @@
         .pay-note { font-size: 0.72rem; color: rgba(255,255,255,0.4); margin-top: 4px; }
         .btn-confirm-pay { display: block; width: 100%; padding: 13px; background: linear-gradient(135deg,#0a5872,#052c39); color: white; border: none; border-radius: 12px; font-size: 0.92rem; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 18px; }
         .btn-confirm-pay:hover { background: linear-gradient(135deg,#48cae4,#0a5872); color: var(--deep-blue); }
+        .btn-confirm-pay.loading { opacity: 0.7; pointer-events: none; }
         .btn-close-pay { background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); border-radius: 50px; padding: 6px 18px; cursor: pointer; font-size: 0.82rem; transition: 0.3s; }
         .btn-close-pay:hover { background: rgba(255,255,255,0.1); color: white; }
 
@@ -147,6 +163,12 @@
     </style>
 </head>
 <body>
+
+<!-- Toast -->
+<div id="toast-notification">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toast-msg">Payment submitted successfully!</span>
+</div>
 
 <nav class="waves-navbar">
     <div class="container header-container">
@@ -182,19 +204,30 @@
 
 <div class="page-container">
 
-    <?php if (session()->getFlashdata('success')): ?>
-    <div class="alert alert-success rounded-4 mb-4"><?= session()->getFlashdata('success') ?></div>
-    <?php endif; ?>
     <?php if (session()->getFlashdata('error')): ?>
     <div class="alert alert-danger rounded-4 mb-4"><?= session()->getFlashdata('error') ?></div>
     <?php endif; ?>
 
     <?php
-    $all       = $bookings ?? [];
-    $active    = array_filter($all, fn($b) => in_array($b['status'], ['pending','confirmed']));
-    $completed = array_filter($all, fn($b) => $b['status'] === 'completed');
-    $cancelled = array_filter($all, fn($b) => $b['status'] === 'cancelled');
-    $totalSpent= array_sum(array_column(array_filter($all, fn($b) => $b['status'] !== 'cancelled'), 'total_amount'));
+    /* ── helpers ── */
+    $db = \Config\Database::connect();
+
+    /**
+     * Computes line total for one activity given its DB row and pax count.
+     * per_person  → price × pax
+     * flat        → price (regardless of pax)
+     */
+    function mbCalcLine(array $actRow, int $pax): array {
+        $price     = (float)($actRow['price'] ?? 0);
+        $priceType = $actRow['price_type'] ?? 'flat';
+        $lineTotal = ($priceType === 'per_person') ? $price * $pax : $price;
+        return [
+            'price'      => $price,
+            'price_type' => $priceType,
+            'pax'        => $pax,
+            'line_total' => $lineTotal,
+        ];
+    }
 
     $iconMap = [
         'jet ski'       => 'fa-water',
@@ -202,6 +235,14 @@
         'kayaking'      => 'fa-sailboat',
         'flying saucer' => 'fa-circle-radiation',
     ];
+
+    $all       = $bookings ?? [];
+    $active    = array_filter($all, fn($b) => in_array($b['status'], ['pending','confirmed']));
+    $completed = array_filter($all, fn($b) => $b['status'] === 'completed');
+    $cancelled = array_filter($all, fn($b) => $b['status'] === 'cancelled');
+    $totalSpent= array_sum(array_column(array_filter($all, fn($b) => $b['status'] !== 'cancelled'), 'total_amount'));
+
+    $successMsg = session()->getFlashdata('success');
     ?>
 
     <!-- Stats -->
@@ -245,33 +286,85 @@
         <div id="bookings-list">
         <?php foreach ($all as $booking):
             $status      = strtolower($booking['status']);
-            $statusClass = match($status) { 'pending'=>'status-pending','confirmed','approved'=>'status-confirmed','completed'=>'status-completed','cancelled'=>'status-cancelled',default=>'' };
+            $statusClass = match($status) { 'pending'=>'status-pending','confirmed'=>'status-confirmed','completed'=>'status-completed','cancelled'=>'status-cancelled',default=>'' };
             $statusIcon  = match($status) { 'pending'=>'fa-hourglass-half','confirmed'=>'fa-circle-check','completed'=>'fa-trophy','cancelled'=>'fa-ban',default=>'fa-circle' };
             $tabGroup    = match($status) { 'pending','confirmed'=>'active','completed'=>'completed','cancelled'=>'cancelled',default=>'all' };
 
             $payClass = 'pay-unpaid'; $payText = 'Unpaid'; $payIcon = 'fa-hourglass';
-            if ($booking['payment_status'] === 'paid') { $payClass = 'pay-paid'; $payText = 'Paid'; $payIcon = 'fa-check'; }
-            elseif (($booking['down_payment_status'] ?? '') === 'paid') { $payClass = 'pay-half'; $payText = '50% Paid'; $payIcon = 'fa-circle-half-stroke'; }
+            if ($booking['payment_status'] === 'paid')                        { $payClass = 'pay-paid';   $payText = 'Paid';     $payIcon = 'fa-check'; }
+            elseif (($booking['down_payment_status'] ?? '') === 'paid')       { $payClass = 'pay-half';   $payText = '50% Paid'; $payIcon = 'fa-circle-half-stroke'; }
 
-            /* parse all_activities */
-            $allActNames = array_filter(array_map('trim', explode(',', $booking['all_activities'] ?? $booking['activity_name'])));
+            /* ── Activities ── */
+            $allActNames = array_values(array_filter(array_map('trim', explode(',', $booking['all_activities'] ?? $booking['activity_name']))));
             if (empty($allActNames)) $allActNames = [$booking['activity_name']];
             $multiActivity = count($allActNames) > 1;
 
-            /* primary icon */
-            $primaryAct  = strtolower(trim($allActNames[array_key_first($allActNames)]));
-            $primaryIcon = $iconMap[$primaryAct] ?? 'fa-person-swimming';
-
-            /* display title */
+            $primaryAct   = strtolower($allActNames[0]);
+            $primaryIcon  = $iconMap[$primaryAct] ?? 'fa-person-swimming';
             $displayTitle = $multiActivity ? implode(' + ', $allActNames) : $booking['activity_name'];
             $searchStr    = strtolower($displayTitle . ' ' . $booking['booking_code'] . ' ' . implode(' ', $allActNames));
 
-            /* time */
+            /* ── Participants per activity ── */
+            $ppaMap = [];
+            if (!empty($booking['participants_per_activity'])) {
+                $decoded = json_decode($booking['participants_per_activity'], true);
+                if (is_array($decoded)) $ppaMap = $decoded;
+            }
+            if (empty($ppaMap)) {
+                $totalPax  = (int)$booking['participants'];
+                $perAct    = (int)floor($totalPax / max(count($allActNames), 1));
+                $remainder = $totalPax % max(count($allActNames), 1);
+                foreach ($allActNames as $idx => $an) {
+                    $ppaMap[trim($an)] = $perAct + ($idx === 0 ? $remainder : 0);
+                }
+            }
+
+            /* ── Fetch activity rows from DB for pricing ── */
+            $actRowCache = [];
+            foreach ($allActNames as $an) {
+                $an = trim($an);
+                $row = $db->table('activities')->where('name', $an)->get()->getRowArray();
+                if ($row) $actRowCache[$an] = $row;
+            }
+
+            /* ── Compute per-activity line totals & grand total ──────────────
+             * Sum ALL activity line totals. Do NOT use $booking['total_amount']
+             * here because it may only reflect a single activity if the booking
+             * was saved incorrectly. The computed sum is always correct.
+             * ──────────────────────────────────────────────────────────────── */
+            $lineItems     = [];
+            $computedTotal = 0.0;
+            foreach ($allActNames as $an) {
+                $an  = trim($an);
+                $pax = (int)($ppaMap[$an] ?? 0);
+                if (isset($actRowCache[$an])) {
+                    $line = mbCalcLine($actRowCache[$an], $pax);
+                } else {
+                    $line = ['price' => 0, 'price_type' => 'flat', 'pax' => $pax, 'line_total' => 0];
+                }
+                $lineItems[$an]  = $line;
+                $computedTotal  += $line['line_total'];
+            }
+
+            /*
+             * Use $computedTotal as the authoritative display total.
+             * Fall back to $booking['total_amount'] only if we couldn't
+             * resolve any prices from the DB (e.g. activity deleted).
+             */
+            $displayTotal = ($computedTotal > 0) ? $computedTotal : (float)$booking['total_amount'];
+
+            /* ── Time display ── */
             $ts          = strtotime($booking['time']);
             $timeDisplay = date('h:i A', $ts) . ' – ' . date('h:i A', $ts + 3600);
 
-            /* remaining balance */
-            $remaining = $booking['total_amount'] - ($booking['down_payment'] ?? 0);
+            /* ── Dates ── */
+            $bookedOn = date('M d, Y', strtotime($booking['created_at']));
+            $actDate  = date('M d, Y', strtotime($booking['date']));
+
+            /* ── Remaining balance (use displayTotal for accuracy) ── */
+            $remaining = $displayTotal - (float)($booking['down_payment'] ?? 0);
+
+            $totalParticipants = array_sum($ppaMap);
         ?>
         <div class="booking-card"
              data-tab="<?= $tabGroup ?>"
@@ -280,9 +373,7 @@
             <!-- Card header -->
             <div class="booking-card-header">
                 <div class="bc-left">
-                    <div class="bc-icon">
-                        <i class="fa-solid <?= $primaryIcon ?>"></i>
-                    </div>
+                    <div class="bc-icon"><i class="fa-solid <?= $primaryIcon ?>"></i></div>
                     <div>
                         <div class="bc-title"><?= esc($displayTitle) ?></div>
                         <div class="bc-code"><i class="fa-solid fa-barcode me-1"></i><?= esc($booking['booking_code']) ?></div>
@@ -303,7 +394,23 @@
                 </div>
             </div>
 
-            <!-- Activity pills for multi-activity bookings -->
+            <!-- Meta strip -->
+            <div class="bc-meta-strip">
+                <div class="bc-meta-item">
+                    <i class="fa-regular fa-clock"></i>
+                    Booked on: <span><?= $bookedOn ?></span>
+                </div>
+                <div class="bc-meta-item">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    Activity date: <span><?= $actDate ?></span>
+                </div>
+                <div class="bc-meta-item">
+                    <i class="fa-regular fa-clock"></i>
+                    Time: <span><?= $timeDisplay ?></span>
+                </div>
+            </div>
+
+            <!-- Activity pills (multi only) -->
             <?php if ($multiActivity): ?>
             <div class="bc-activities">
                 <?php foreach ($allActNames as $an):
@@ -317,29 +424,56 @@
             </div>
             <?php endif; ?>
 
-            <!-- Info grid -->
-            <div class="bc-info-grid">
-                <div class="bc-info-item">
-                    <div class="info-label"><i class="fa-regular fa-calendar me-1"></i> Date</div>
-                    <div class="info-val"><?= date('M d, Y', strtotime($booking['date'])) ?></div>
+            <!-- ── Cost Breakdown ── -->
+            <div class="bc-pax-table">
+                <div class="bc-pax-header">
+                    <i class="fa-solid fa-calculator me-1"></i> Cost Breakdown
                 </div>
-                <div class="bc-info-item">
-                    <div class="info-label"><i class="fa-regular fa-clock me-1"></i> Time</div>
-                    <div class="info-val cyan" style="font-size:0.78rem;"><?= $timeDisplay ?></div>
+                <?php foreach ($allActNames as $an):
+                    $an   = trim($an);
+                    $aKey = strtolower($an);
+                    $icon = $iconMap[$aKey] ?? 'fa-person-swimming';
+                    $line = $lineItems[$an] ?? ['price' => 0, 'price_type' => 'flat', 'pax' => 0, 'line_total' => 0];
+                ?>
+                <div class="bc-pax-row">
+                    <div class="pax-act">
+                        <i class="fa-solid <?= $icon ?>"></i>
+                        <?= esc($an) ?>
+                        <?php if ($line['price_type'] === 'per_person' && $line['price'] > 0): ?>
+                            <span class="pax-formula">
+                                ₱<?= number_format($line['price'], 0) ?> &times; <?= $line['pax'] ?> person<?= $line['pax'] != 1 ? 's' : '' ?>
+                            </span>
+                        <?php elseif ($line['price'] > 0): ?>
+                            <span class="pax-formula">
+                                flat rate &middot; <?= $line['pax'] ?> person<?= $line['pax'] != 1 ? 's' : '' ?>
+                            </span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="pax-line-total">₱<?= number_format($line['line_total'], 2) ?></div>
                 </div>
-                <div class="bc-info-item">
-                    <div class="info-label"><i class="fa-solid fa-users me-1"></i> Participants</div>
-                    <div class="info-val"><?= esc($booking['participants']) ?> person<?= $booking['participants'] > 1 ? 's' : '' ?></div>
+                <?php endforeach; ?>
+                <!-- ✅ Grand total = sum of ALL activity line totals -->
+                <div class="bc-pax-total">
+                    <span>
+                        <i class="fa-solid fa-equals me-1"></i> Total Amount
+                        <span style="font-size:0.7rem;font-weight:400;opacity:0.55;margin-left:6px;">
+                            <?= count($allActNames) ?> activit<?= count($allActNames) > 1 ? 'ies' : 'y' ?>
+                            &middot; <?= $totalParticipants ?> participant<?= $totalParticipants != 1 ? 's' : '' ?>
+                        </span>
+                    </span>
+                    <span>₱<?= number_format($displayTotal, 2) ?></span>
                 </div>
+            </div>
+
+            <!-- Contact / down payment / special requests -->
+            <div class="bc-info-row">
+                <?php if (!empty($booking['contact_number'])): ?>
                 <div class="bc-info-item">
                     <div class="info-label"><i class="fa-solid fa-phone me-1"></i> Contact</div>
-                    <div class="info-val" style="font-size:0.78rem;"><?= esc($booking['contact_number'] ?? '—') ?></div>
+                    <div class="info-val"><?= esc($booking['contact_number']) ?></div>
                 </div>
-                <div class="bc-info-item">
-                    <div class="info-label"><i class="fa-solid fa-peso-sign me-1"></i> Total</div>
-                    <div class="info-val cyan">₱<?= number_format($booking['total_amount'], 2) ?></div>
-                </div>
-                <?php if (($booking['down_payment'] ?? 0) > 0): ?>
+                <?php endif; ?>
+                <?php if ((float)($booking['down_payment'] ?? 0) > 0): ?>
                 <div class="bc-info-item">
                     <div class="info-label"><i class="fa-solid fa-circle-half-stroke me-1"></i> Down Paid</div>
                     <div class="info-val" style="color:#ffc107;">₱<?= number_format($booking['down_payment'], 2) ?></div>
@@ -350,7 +484,7 @@
                 </div>
                 <?php endif; ?>
                 <?php if (!empty($booking['special_requests'])): ?>
-                <div class="bc-info-item" style="grid-column: span 2;">
+                <div class="bc-info-item" style="flex-basis:100%;">
                     <div class="info-label"><i class="fa-solid fa-note-sticky me-1"></i> Special Request</div>
                     <div class="info-val" style="font-size:0.78rem;opacity:0.85;font-style:italic;"><?= esc($booking['special_requests']) ?></div>
                 </div>
@@ -360,14 +494,14 @@
             <!-- Action buttons -->
             <div class="bc-actions">
                 <a href="<?= base_url('user/booking-details/' . $booking['id']) ?>" class="btn-view-details">
-                    <i class="fa-solid fa-eye"></i> View Details
+                    <i class="fa-solid fa-eye"></i> View Status
                 </a>
                 <?php if (in_array($status, ['pending','confirmed']) && $booking['payment_status'] !== 'paid'): ?>
                 <button class="btn-pay-now"
                     onclick="openPayModal(
                         <?= $booking['id'] ?>,
                         '<?= esc(addslashes($displayTitle)) ?>',
-                        <?= $booking['total_amount'] ?>,
+                        <?= $displayTotal ?>,
                         '<?= $booking['down_payment_status'] ?>'
                     )">
                     <i class="fa-solid fa-peso-sign"></i>
@@ -449,14 +583,14 @@
             </div>
         </div>
 
-        <form action="<?= base_url('user/booking/pay') ?>" method="POST" enctype="multipart/form-data">
+        <form action="<?= base_url('user/booking/pay') ?>" method="POST" enctype="multipart/form-data" id="payForm">
             <?= csrf_field() ?>
             <input type="hidden" name="booking_id"   id="pay-booking-id" value="">
             <input type="hidden" name="payment_type" id="pay-type-hidden" value="half">
 
             <div style="margin-bottom:12px;">
                 <label class="pay-field-label">GCash Receipt Screenshot <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:0.6;">(required)</span></label>
-                <input type="file" name="gcash_receipt" accept="image/*" class="pay-file-input" required>
+                <input type="file" name="gcash_receipt" id="gcash-file-input" accept="image/*" class="pay-file-input" required>
                 <p class="pay-note">Attach a screenshot of your GCash transaction. Accepted: JPG, PNG.</p>
             </div>
 
@@ -465,7 +599,7 @@
                 <input type="text" name="gcash_ref" placeholder="e.g. 1234567890" class="pay-text-input">
             </div>
 
-            <button type="submit" class="btn-confirm-pay">
+            <button type="submit" class="btn-confirm-pay" id="pay-submit-btn">
                 <i class="fa-solid fa-check-circle me-2"></i> Submit Payment
             </button>
         </form>
@@ -495,10 +629,22 @@
     let currentTab     = 'all';
     let payTotalAmount = 0;
 
-    /* ── Payment Modal ── */
+    <?php if ($successMsg): ?>
+    window.addEventListener('DOMContentLoaded', function () {
+        showToast(<?= json_encode($successMsg) ?>);
+    });
+    <?php endif; ?>
+
+    function showToast(msg) {
+        var toast = document.getElementById('toast-notification');
+        document.getElementById('toast-msg').textContent = msg;
+        toast.classList.add('show');
+        setTimeout(function () { toast.classList.remove('show'); }, 4500);
+    }
+
     function openPayModal(bookingId, activityName, total, downPayStatus) {
         payTotalAmount = parseFloat(total);
-        document.getElementById('pay-booking-id').value = bookingId;
+        document.getElementById('pay-booking-id').value           = bookingId;
         document.getElementById('pay-modal-activity').textContent = activityName + ' · Booking #' + bookingId;
         document.getElementById('pay-total-display').textContent  = '₱' + payTotalAmount.toLocaleString('en-PH', {minimumFractionDigits:2});
         selectPayOpt(downPayStatus === 'paid' ? 'full' : 'half');
@@ -523,11 +669,22 @@
         }
     }
 
+    document.getElementById('payForm').addEventListener('submit', function(e) {
+        var fileInput = document.getElementById('gcash-file-input');
+        if (!fileInput.files || fileInput.files.length === 0) {
+            e.preventDefault();
+            alert('Please attach your GCash receipt screenshot before submitting.');
+            return;
+        }
+        var btn = document.getElementById('pay-submit-btn');
+        btn.classList.add('loading');
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Uploading…';
+    });
+
     document.getElementById('payModal').addEventListener('click', function(e) {
         if (e.target === this) closePayModal();
     });
 
-    /* ── Filtering ── */
     function filterTab(tab, btn) {
         currentTab = tab;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -536,14 +693,14 @@
     }
 
     function filterBookings() {
-        const q    = document.getElementById('searchInput').value.toLowerCase().trim();
-        const cards= document.querySelectorAll('.booking-card');
-        let visible= 0;
+        const q     = document.getElementById('searchInput').value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.booking-card');
+        let visible = 0;
         cards.forEach(card => {
             const matchTab    = currentTab === 'all' || card.dataset.tab === currentTab;
             const matchSearch = !q || card.dataset.search.includes(q);
             const show        = matchTab && matchSearch;
-            card.style.display= show ? '' : 'none';
+            card.style.display = show ? '' : 'none';
             if (show) visible++;
         });
         document.getElementById('empty-filter').style.display = visible === 0 ? 'block' : 'none';

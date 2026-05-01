@@ -11,8 +11,7 @@
     <style>
         :root {--deep-blue: #052c39;--ocean-blue: #0a5872;--accent-cyan: #48cae4;--soft-white: #f4f9fc;--safe-green: #2ecc71;}
         .highlight-brand {font-weight: 700;color: #48cae4;text-shadow: 0 0 10px rgba(72, 202, 228, 0.4);letter-spacing: 1px;}
-        body {font-family: 'Poppins', sans-serif;background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--ocean-blue) 40%, var(--deep-blue) 100%);background-attachment: fixed;color: var(--soft-white);margin: 0;}
-
+        body {font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; min-height: 100vh}
         /* --- NAVBAR --- */
         .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
@@ -495,7 +494,7 @@
                 'rating'      => 5,
                 'review_text' => 'Napakasaya! Safe kahit may konting alon. Very accommodating din ang mga staff at sulit na sulit ang bayad.',
                 'safe_feel'   => 'yes',
-                'photo_url'   => 'https://scontent.fmnl22-1.fna.fbcdn.net/v/t39.30808-6/572804802_846688217920118_7400127582885222591_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHKUGolkrfTOLUVbTEI50luSvb9aHED1nxK9v1ocQPWfFSxku6bpuccFk_bE-sSC8GFXXhnFMNh14G5WxlY2D0F&_nc_ohc=nAwP4c6fMgUQ7kNvwEC54xu&_nc_oc=AdprUKxGOs74ueZyPgTUIm72zCsdht6izEtKANUD_265_ry7DOR84fdkxurSUfegWWM&_nc_zt=23&_nc_ht=scontent.fmnl22-1.fna&_nc_gid=DfvNZaRjqHWOoycpNdB48A&_nc_ss=7a3a8&oh=00_Af0rvTUbxUqtcs1Fm49kEEJrhqxMww0nedzbBE7wTWKsnA&oe=69DE6595',
+                'photo_url'   => 'https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1295,h_864/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/as9pscfadijjbfrohsby/BananaBoatRideinBoracay.jpg',
                 'created_at'  => '2026-03-15 10:00:00',
             ],
             [
@@ -504,7 +503,7 @@
                 'rating'      => 5,
                 'review_text' => 'Maganda ang experience! Buti na lang real-time ang sea monitoring ng MARISENSE kaya alam naming safe bago sumabak.',
                 'safe_feel'   => 'yes',
-                'photo_url'   => 'https://scontent.fmnl22-1.fna.fbcdn.net/v/t39.30808-6/659754567_975447061710899_134557125449451855_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=106&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHtn0-hlActf50cJ7FmpU3BWqrzzn6PbvhaqvPOfo9u-KlSTjI2PqxS_EPsv6a3pR_j1fXTa-bF4z02t1QKeZoS&_nc_ohc=ROWDwym0XcMQ7kNvwHoVnRI&_nc_oc=AdocTCzQ_YKfwHooVJbm5LStGk2L2DAivbIPkl8Ez5EEnJRxc5aAabuBWoUDwNdgMWs&_nc_zt=23&_nc_ht=scontent.fmnl22-1.fna&_nc_gid=mmvMr5qY7mD2TjXsvL5Gjg&_nc_ss=7a3a8&oh=00_Af0cx45jRYNg8zDz7YUi57R_S2m0iasDs64mLptr__ZAUg&oe=69DE6B40',
+                'photo_url'   => 'https://tse2.mm.bing.net/th/id/OIP.dvHIJ625Dubtmzsph_RF_wHaFj?rs=1&pid=ImgDetMain&o=7&rm=3',
                 'created_at'  => '2026-03-12 14:30:00',
             ],
             [

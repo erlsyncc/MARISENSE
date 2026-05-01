@@ -38,7 +38,7 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('user/reviews',     'User::reviews');
     
     // Review Submission
-    $routes->post('user/post-review', 'User::postReview'); // <--- ITO ANG DINAGDAG NATIN
+    $routes->post('user/post-review', 'User::postReview');
 
     // Booking - Form & Submit
     $routes->get('user/booking',               'User::booking');
@@ -48,10 +48,11 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('user/booking/slots',         'User::bookingSlots');
     $routes->get('user/booking/booked-dates',  'User::bookedDates');
 
-    // My Bookings, Details & Cancel
+    // My Bookings, Details, Cancel & Pay
     $routes->get('user/my-bookings',               'User::my_bookings');
     $routes->get('user/booking-details/(:num)',    'User::bookingDetails/$1');
     $routes->post('user/booking/cancel/(:num)',    'User::cancelBooking/$1');
+    $routes->post('user/booking/pay',             'User::payBooking');   // ← ADDED
 
     // --- ADMIN SIDE ROUTES ---
     $routes->group('admin', function($routes) {

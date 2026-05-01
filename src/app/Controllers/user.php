@@ -29,9 +29,8 @@ class User extends BaseController
                            ->get()
                            ->getRowArray();
 
-        // Get latest buoy data
         $buoyModel = new BuoyDataModel();
-        $buoyData = $buoyModel->getLatestReading();
+        $buoyData  = $buoyModel->getLatestReading();
 
         return view('user/home', [
             'reviews'      => $reviews,
@@ -41,7 +40,7 @@ class User extends BaseController
     }
 
     // -----------------------------------------------------------------------
-    // ACTIVITIES — now reads from DB (only active ones)
+    // ACTIVITIES
     // -----------------------------------------------------------------------
 
     public function activities()
@@ -98,21 +97,18 @@ class User extends BaseController
     }
 
     // -----------------------------------------------------------------------
-    // BOOKING FORM — pricing/maxRiders/durations now come from DB
+    // BOOKING FORM
     // -----------------------------------------------------------------------
 
     public function booking()
     {
         $bookingModel = new BookingModel();
-
-        // Load dynamic data from DB into static arrays
         BookingModel::loadFromDB();
 
         $pricing   = BookingModel::getPricing();
         $maxRiders = BookingModel::getMaxRiders();
         $durations = BookingModel::getDurations();
 
-        // Also pass the full activity rows so the picker can be rendered dynamically
         $db         = \Config\Database::connect();
         $activities = $db->table('activities')
                          ->where('status', 'active')
@@ -120,10 +116,8 @@ class User extends BaseController
                          ->get()
                          ->getResultArray();
 
-        // Validate selected activity against what's actually in the DB
         $activity = $this->request->getGet('activity') ?? '';
         if (empty($activity) || ! array_key_exists($activity, $pricing)) {
-            // Fall back to first active activity (or empty string if none)
             $activity = ! empty($activities) ? $activities[0]['name'] : '';
         }
 
@@ -138,7 +132,7 @@ class User extends BaseController
             'pricing'          => $pricing,
             'maxRiders'        => $maxRiders,
             'durations'        => $durations,
-            'activities'       => $activities,   // for dynamic activity picker
+            'activities'       => $activities,
             'bookedDates'      => $activity ? $bookingModel->getBookedDates($activity) : [],
             'seaCondition'     => $seaCondition,
         ]);
@@ -153,16 +147,19 @@ class User extends BaseController
         $bookingModel = new BookingModel();
         BookingModel::loadFromDB();
 
-        $pricing   = BookingModel::getPricing();
         $maxRiders = BookingModel::getMaxRiders();
 
         $activity = $this->request->getPost('activity') ?? '';
 
-        // Validate activity exists in DB
-        if (empty($activity) || ! array_key_exists($activity, $pricing)) {
-            return redirect()->back()
-                             ->withInput()
-                             ->with('error', 'Invalid activity selected.');
+        $db         = \Config\Database::connect();
+        $activities = $db->table('activities')
+                         ->where('status', 'active')
+                         ->get()
+                         ->getResultArray();
+        $activityNames = array_column($activities, 'name');
+
+        if (empty($activity) || ! in_array($activity, $activityNames)) {
+            return redirect()->back()->withInput()->with('error', 'Invalid activity selected.');
         }
 
         $rules = [
@@ -174,9 +171,7 @@ class User extends BaseController
         ];
 
         if (! $this->validate($rules)) {
-            return redirect()->back()
-                             ->withInput()
-                             ->with('errors', $this->validator->getErrors());
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $date          = $this->request->getPost('date');
@@ -189,22 +184,17 @@ class User extends BaseController
         // Date validation
         $today = date('Y-m-d');
         if ($date < $today) {
-            return redirect()->back()
-                             ->withInput()
-                             ->with('error', 'Please select a future date.');
+            return redirect()->back()->withInput()->with('error', 'Please select a future date.');
         }
 
         if ($date === $today) {
             $selectedTimestamp = strtotime($date . ' ' . $time);
             if ($selectedTimestamp <= time()) {
-                return redirect()->back()
-                                 ->withInput()
-                                 ->with('error', 'The selected time has already passed. Please choose a future time slot.');
+                return redirect()->back()->withInput()->with('error', 'The selected time has already passed. Please choose a future time slot.');
             }
         }
 
-        // Participants cap (single-activity bookings)
-        $allActivities = array_filter(array_map('trim', explode(',', $allActivitiesRaw)));
+        $allActivities = array_values(array_filter(array_map('trim', explode(',', $allActivitiesRaw))));
         if (empty($allActivities)) {
             $allActivities = [$activity];
         }
@@ -212,9 +202,21 @@ class User extends BaseController
         if (count($allActivities) === 1) {
             $max = $maxRiders[$activity] ?? 1;
             if ($participants > $max) {
-                return redirect()->back()
-                                 ->withInput()
-                                 ->with('error', "Maximum {$max} rider(s) allowed for {$activity}.");
+                return redirect()->back()->withInput()->with('error', "Maximum {$max} rider(s) allowed for {$activity}.");
+            }
+        }
+
+        // Build per-activity participants from POST
+        $participantsPerActivity = [];
+        $rawPpa = $this->request->getPost('participants_per_activity') ?? [];
+        if (is_array($rawPpa) && ! empty($rawPpa)) {
+            foreach ($allActivities as $actName) {
+                $actName = trim($actName);
+                $participantsPerActivity[$actName] = (int)($rawPpa[$actName] ?? $participants);
+            }
+        } else {
+            foreach ($allActivities as $actName) {
+                $participantsPerActivity[trim($actName)] = $participants;
             }
         }
 
@@ -222,42 +224,57 @@ class User extends BaseController
         $normalizedTime = date('H:i:s', strtotime($time));
         $bookedSlots    = $bookingModel->getBookedSlots($activity, $date);
         if (in_array($normalizedTime, $bookedSlots)) {
-            return redirect()->back()
-                             ->withInput()
-                             ->with('error', 'That time slot is already taken. Please choose another.');
+            return redirect()->back()->withInput()->with('error', 'That time slot is already taken. Please choose another.');
         }
 
-        // Resolve activity_id
-        $db      = \Config\Database::connect();
-        $actRow  = $db->table('activities')->where('name', $activity)->get()->getRowArray();
-        $actId   = $actRow['id'] ?? null;
+        // ── CORRECT TOTAL: sum price × pax per activity ──────────────────
+        $total   = 0.0;
+        $actId   = null;
+
+        foreach ($allActivities as $actName) {
+            $actName = trim($actName);
+            $actRow  = $db->table('activities')->where('name', $actName)->get()->getRowArray();
+            if (! $actRow) {
+                continue;
+            }
+
+            // Capture the ID of the primary (first) activity
+            if ($actId === null) {
+                $actId = $actRow['id'];
+            }
+
+            $price     = (float)($actRow['price'] ?? 0);
+            $priceType = $actRow['price_type'] ?? 'flat';
+            $pax       = $participantsPerActivity[$actName] ?? $participants;
+
+            $total += ($priceType === 'per_person') ? $price * $pax : $price;
+        }
+        // ─────────────────────────────────────────────────────────────────
 
         $userId      = auth()->user()->id;
         $bookingCode = $bookingModel->generateBookingCode();
-        $total       = BookingModel::calculateTotal($activity, $participants);
 
         $saved = $bookingModel->insert([
-            'user_id'          => $userId,
-            'booking_code'     => $bookingCode,
-            'activity_id'      => $actId,
-            'activity_name'    => $activity,
-            'all_activities'   => implode(',', $allActivities),
-            'date'             => $date,
-            'time'             => $normalizedTime,
-            'participants'     => $participants,
-            'contact_number'   => $contactNumber,
-            'special_requests' => $special,
-            'booking_type'     => 'booking',
-            'total_amount'     => $total,
-            'down_payment'     => 0,
-            'status'           => 'pending',
-            'payment_status'   => 'unpaid',
+            'user_id'                   => $userId,
+            'booking_code'              => $bookingCode,
+            'activity_id'               => $actId,
+            'activity_name'             => $activity,
+            'all_activities'            => implode(',', $allActivities),
+            'participants_per_activity' => json_encode($participantsPerActivity),
+            'date'                      => $date,
+            'time'                      => $normalizedTime,
+            'participants'              => $participants,
+            'contact_number'            => $contactNumber,
+            'special_requests'          => $special,
+            'booking_type'              => 'booking',
+            'total_amount'              => $total,
+            'down_payment'              => 0,
+            'status'                    => 'pending',
+            'payment_status'            => 'unpaid',
         ]);
 
         if (! $saved) {
-            return redirect()->back()
-                             ->withInput()
-                             ->with('error', 'Booking failed. Please try again.');
+            return redirect()->back()->withInput()->with('error', 'Booking failed. Please try again.');
         }
 
         $newId = $bookingModel->getInsertID();
@@ -267,14 +284,16 @@ class User extends BaseController
     }
 
     // -----------------------------------------------------------------------
-    // MY BOOKINGS
+    // MY BOOKINGS — latest booked first
     // -----------------------------------------------------------------------
 
     public function my_bookings()
     {
         $bookingModel = new BookingModel();
         $userId       = auth()->user()->id;
-        $bookings     = $bookingModel->getByUser($userId);
+        $bookings     = $bookingModel->where('user_id', $userId)
+                                     ->orderBy('created_at', 'DESC')
+                                     ->findAll();
 
         return view('user/my_bookings', ['bookings' => $bookings]);
     }
@@ -290,8 +309,7 @@ class User extends BaseController
         $booking      = $bookingModel->getByIdAndUser((int) $id, $userId);
 
         if (! $booking) {
-            return redirect()->to(base_url('user/my-bookings'))
-                             ->with('error', 'Booking not found.');
+            return redirect()->to(base_url('user/my-bookings'))->with('error', 'Booking not found.');
         }
 
         return view('user/booking_details', ['booking' => $booking]);
@@ -308,19 +326,97 @@ class User extends BaseController
         $booking      = $bookingModel->getByIdAndUser((int) $id, $userId);
 
         if (! $booking) {
-            return redirect()->to(base_url('user/my-bookings'))
-                             ->with('error', 'Booking not found.');
+            return redirect()->to(base_url('user/my-bookings'))->with('error', 'Booking not found.');
         }
 
         if (! in_array($booking['status'], ['pending', 'confirmed'])) {
-            return redirect()->to(base_url('user/my-bookings'))
-                             ->with('error', 'This booking cannot be cancelled.');
+            return redirect()->to(base_url('user/my-bookings'))->with('error', 'This booking cannot be cancelled.');
         }
 
         $bookingModel->update((int) $id, ['status' => 'cancelled']);
 
+        return redirect()->to(base_url('user/my-bookings'))->with('success', 'Booking cancelled successfully.');
+    }
+
+    // -----------------------------------------------------------------------
+    // PAY BOOKING (POST) — GCash upload
+    // -----------------------------------------------------------------------
+
+    public function payBooking()
+    {
+        $bookingId   = (int) $this->request->getPost('booking_id');
+        $paymentType = $this->request->getPost('payment_type'); // 'half' or 'full'
+        $gcashRef    = $this->request->getPost('gcash_ref') ?? '';
+
+        if (! $bookingId || ! in_array($paymentType, ['half', 'full'])) {
+            return redirect()->to(base_url('user/my-bookings'))->with('error', 'Invalid payment request.');
+        }
+
+        $bookingModel = new BookingModel();
+        $userId       = auth()->user()->id;
+        $booking      = $bookingModel->getByIdAndUser($bookingId, $userId);
+
+        if (! $booking) {
+            return redirect()->to(base_url('user/my-bookings'))->with('error', 'Booking not found.');
+        }
+
+        if ($booking['payment_status'] === 'paid') {
+            return redirect()->to(base_url('user/my-bookings'))->with('error', 'This booking is already fully paid.');
+        }
+
+        // Handle file upload
+        $file = $this->request->getFile('gcash_receipt');
+        if (! $file || ! $file->isValid() || $file->hasMoved()) {
+            return redirect()->back()->withInput()->with('error', 'Please upload your GCash receipt screenshot.');
+        }
+
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (! in_array($file->getMimeType(), $allowedTypes)) {
+            return redirect()->back()->withInput()->with('error', 'Invalid file type. Please upload a JPG or PNG image.');
+        }
+
+        $receiptName = $file->getRandomName();
+        $file->move(FCPATH . 'uploads/gcash_receipts', $receiptName);
+
+        $totalAmount = (float) $booking['total_amount'];
+        $halfAmount  = round($totalAmount / 2, 2);
+
+        $amountPaid = ($paymentType === 'full') ? $totalAmount : $halfAmount;
+        $payTypeKey = ($paymentType === 'full') ? 'full_payment' : 'down_payment';
+
+        $db = \Config\Database::connect();
+
+        // Insert into payment_history
+        $db->table('payment_history')->insert([
+            'booking_id'     => $bookingId,
+            'user_id'        => $userId,
+            'amount'         => $amountPaid,
+            'payment_type'   => $payTypeKey,
+            'payment_method' => 'gcash',
+            'gcash_receipt'  => $receiptName,
+            'gcash_ref'      => $gcashRef ?: null,
+            'is_verified'    => 0,
+            'notes'          => 'Pending admin verification',
+            'created_at'     => date('Y-m-d H:i:s'),
+        ]);
+
+        // Update booking payment fields
+        if ($paymentType === 'full') {
+            $bookingModel->update($bookingId, [
+                'payment_status' => 'paid',
+                'updated_at'     => date('Y-m-d H:i:s'),
+            ]);
+        } else {
+            $bookingModel->update($bookingId, [
+                'down_payment'         => $halfAmount,
+                'down_payment_status'  => 'paid',
+                'down_payment_paid_at' => date('Y-m-d H:i:s'),
+                'updated_at'           => date('Y-m-d H:i:s'),
+            ]);
+        }
+
         return redirect()->to(base_url('user/my-bookings'))
-                         ->with('success', 'Booking cancelled successfully.');
+                         ->with('success', 'Payment submitted! Please wait for admin verification.');
     }
 
     // -----------------------------------------------------------------------
@@ -334,9 +430,8 @@ class User extends BaseController
         $date         = $this->request->getGet('date')     ?? date('Y-m-d');
 
         $allSlots = [
-            '07:00:00', '08:00:00', '09:00:00', '10:00:00',
-            '11:00:00', '12:00:00', '13:00:00', '14:00:00',
-            '15:00:00', '16:00:00',
+            '07:00:00','08:00:00','09:00:00','10:00:00',
+            '11:00:00','12:00:00','13:00:00','14:00:00','15:00:00','16:00:00',
         ];
 
         $bookedSlots = $bookingModel->getBookedSlots($activity, $date);
@@ -346,12 +441,7 @@ class User extends BaseController
 
         $result = array_map(function ($slot) use ($bookedSlots, $date, $today, $now) {
             $isBooked = in_array($slot, $bookedSlots);
-            $isPast   = false;
-
-            if ($date === $today) {
-                $isPast = strtotime($date . ' ' . $slot) <= $now;
-            }
-
+            $isPast   = ($date === $today) && strtotime($date . ' ' . $slot) <= $now;
             return [
                 'time'      => date('h:i A', strtotime($slot)),
                 'value'     => $slot,
@@ -363,7 +453,7 @@ class User extends BaseController
     }
 
     // -----------------------------------------------------------------------
-    // AJAX — Booked Dates (for calendar)
+    // AJAX — Booked Dates
     // -----------------------------------------------------------------------
 
     public function bookedDates()
@@ -389,9 +479,7 @@ class User extends BaseController
         ];
 
         if (! $this->validate($rules)) {
-            return redirect()->back()
-                             ->withInput()
-                             ->with('errors', $this->validator->getErrors());
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $photoName = null;
@@ -417,12 +505,9 @@ class User extends BaseController
         ];
 
         if ($builder->insert($data)) {
-            return redirect()->to(base_url('user/reviews'))
-                             ->with('success', 'Thank you for sharing your adventure!');
+            return redirect()->to(base_url('user/reviews'))->with('success', 'Thank you for sharing your adventure!');
         }
 
-        return redirect()->back()
-                         ->withInput()
-                         ->with('error', 'Failed to post review.');
+        return redirect()->back()->withInput()->with('error', 'Failed to post review.');
     }
 }

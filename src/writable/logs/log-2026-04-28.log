@@ -1,0 +1,876 @@
+DEBUG - 2026-04-28 06:43:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:43:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:44:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:44:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-28 06:44:20 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH\Controllers\Auth.php on line 147.
+ 1 APPPATH\Controllers\Auth.php(147): json_decode(null, true)
+ 2 APPPATH\Controllers\Auth.php(255): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+ 3 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Auth->resendVerificationEmail()
+ 4 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 5 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 9 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+ERROR - 2026-04-28 06:44:23 --> Email: sendWithSmtp throwed ErrorException: fsockopen(): SSL operation failed with code 1. OpenSSL Error messages:
+error:0A00010B:SSL routines::wrong version number in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1910
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'fsockopen(): SS...', 'C:\\Users\\earls\\...', 1910)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1910): fsockopen('ssl://smtp.gmai...', 587, NULL, NULL, 30)
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1823): CodeIgniter\Email\Email->SMTPConnect()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithSmtp()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(172): CodeIgniter\Email\Email->send()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(255): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): App\Controllers\Auth->resendVerificationEmail()
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#14 {main}
+ERROR - 2026-04-28 06:44:23 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-04-28 06:44:23 --> 
+ERROR - 2026-04-28 06:44:23 --> Verification email failed to send to earlsincombenido0@gmail.com: "Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Tue, 28 Apr 2026 06:44:20 +0000\r\nTo: earlsincombenido0@gmail.com\r\nFrom: &quot;Waves Water Sports&quot; &lt;noreply@marisense.local&gt;\r\nReturn-Path: &lt;noreply@marisense.local&gt;\r\nSubject: =?UTF-8?Q?Verify=20Your=20Email=20Address?=\r\nReply-To: &lt;noreply@marisense.local&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@marisense.local\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69f05744cd8281.25277019@marisense.local&gt;\r\nMime-Version: 1.0\r\n\n\nContent-Type: multipart\/alternative; boundary=&quot;B_ALT_69f05744cd8590.83426310&quot;\r\n\r\nThis is a multi-part message in MIME format.\r\nYour email application may not support this format.\r\n\r\n--B_ALT_69f05744cd8590.83426310\r\nContent-Type: text\/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n\ud83c\udf0a Waves\r\n Water Sports Adventures\r\n\r\n\r\n\r\n\r\n Hi earl,\r\n\r\n\r\n\r\n Welcome to Waves Water Sports! We&#039;re excited to have you join our\r\ncommunity.\r\n To get started, please verify your email address by clicking the button\r\nbelow:\r\n\r\n\r\n\r\n\r\n Verify Email Address\r\n\r\n\r\n\r\n\r\n Or copy and paste this link in your browser:\r\n http:\/\/localhost:8080\/auth\/verify-email\/43e577f4e3bac5f449d3a60181540122e632c1f4352b996034470e6e56df02e6\r\n\r\n\r\n\r\n \u23f1\ufe0f This link expires in 24 hours. If you don&#039;t verify within this time,\r\n you&#039;ll need to request a new verification email.\r\n\r\n\r\n\r\n If you didn&#039;t create this account, please ignore this email.\r\n\r\n\r\n\r\n\r\n \u00a9 2026 Waves Water Sports. All rights reserved.\r\n If you have questions, contact us at support@marisense.local\r\n\r\n\r\n--B_ALT_69f05744cd8590.83426310\r\nContent-Type: text\/html; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n&lt;!-- DEBUG-VIEW START 1 APPPATH\\Views\\emails\\verify_email.php --&gt;=0A&lt;!DOCTY=\r\nPE html&gt;=0A&lt;html lang=3D&quot;en&quot;&gt;=0A&lt;head&gt;=0A    &lt;meta charset=3D&quot;UTF-8&quot;&gt;=0A   =\r\n &lt;meta name=3D&quot;viewport&quot; content=3D&quot;width=3Ddevice-width, initial-scale=3D1=\r\n.0&quot;&gt;=0A    &lt;style&gt;=0A        body {=0A            font-family: &#039;Poppins&#039;, -=\r\napple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, sans-serif;=0A            lin=\r\ne-height: 1.6;=0A            color: #333;=0A        }=0A        .email-cont=\r\nainer {=0A            max-width: 600px;=0A            margin: 0 auto;=0A   =\r\n         background: linear-gradient(135deg, #0a5872, #052c39);=0A         =\r\n   padding: 0;=0A            border-radius: 12px;=0A            overflow: h=\r\nidden;=0A            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);=0A        }=\r\n=0A        .header {=0A            background: linear-gradient(135deg, #0a5=\r\n872, #052c39);=0A            color: white;=0A            padding: 32px 24px=\r\n;=0A            text-align: center;=0A        }=0A        .header h1 {=0A  =\r\n          margin: 0;=0A            font-size: 2rem;=0A            font-weig=\r\nht: 700;=0A            letter-spacing: 1px;=0A        }=0A        .header p=\r\n {=0A            margin: 8px 0 0;=0A            opacity: 0.9;=0A           =\r\n font-size: 0.9rem;=0A        }=0A        .content {=0A            padding:=\r\n 32px 24px;=0A            background: white;=0A        }=0A        .greetin=\r\ng {=0A            margin-bottom: 24px;=0A            font-size: 1.1rem;=0A =\r\n           font-weight: 600;=0A            color: #052c39;=0A        }=0A  =\r\n      .message {=0A            margin-bottom: 28px;=0A            line-heig=\r\nht: 1.8;=0A            color: #555;=0A        }=0A        .verify-button-wr=\r\napper {=0A            text-align: center;=0A            margin: 32px 0;=0A =\r\n       }=0A        .verify-button {=0A            display: inline-block;=0A=\r\n            background: linear-gradient(45deg, #48cae4, #0077b6);=0A       =\r\n     color: white;=0A            padding: 14px 40px;=0A            border-r=\r\nadius: 50px;=0A            text-decoration: none;=0A            font-weight=\r\n: 700;=0A            transition: transform 0.3s, box-shadow 0.3s;=0A       =\r\n     box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);=0A        }=0A        .=\r\nverify-button:hover {=0A            transform: translateY(-2px);=0A        =\r\n    box-shadow: 0 6px 16px rgba(0, 119, 182, 0.3);=0A        }=0A        .l=\r\nink-text {=0A            margin-top: 20px;=0A            padding-top: 20px;=\r\n=0A            border-top: 1px solid #e9ecef;=0A            font-size: 0.85=\r\nrem;=0A            color: #999;=0A            word-break: break-all;=0A    =\r\n    }=0A        .link-text strong {=0A            color: #555;=0A        }=\r\n=0A        .footer {=0A            background: #f8f9fa;=0A            paddi=\r\nng: 24px;=0A            text-align: center;=0A            color: #999;=0A  =\r\n          font-size: 0.85rem;=0A            border-top: 1px solid #e9ecef;=\r\n=0A        }=0A        .footer p {=0A            margin: 8px 0;=0A        }=\r\n=0A        .warning {=0A            background: #fff3cd;=0A            bord=\r\ner-left: 4px solid #ffc107;=0A            padding: 16px;=0A            marg=\r\nin: 24px 0;=0A            border-radius: 4px;=0A            font-size: 0.9r=\r\nem;=0A            color: #856404;=0A        }=0A    &lt;\/style&gt;=0A&lt;\/head&gt;=0A&lt;b=\r\nody&gt;=0A=0A&lt;div class=3D&quot;email-container&quot;&gt;=0A    &lt;div class=3D&quot;header&quot;&gt;=0A  =\r\n      &lt;h1&gt;&lt;i style=3D&quot;font-size: 1.8rem;&quot;&gt;=F0=9F=8C=8A&lt;\/i&gt; Waves&lt;\/h1&gt;=0A   =\r\n     &lt;p&gt;Water Sports Adventures&lt;\/p&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;con=\r\ntent&quot;&gt;=0A        &lt;div class=3D&quot;greeting&quot;&gt;=0A            Hi earl,=0A        =\r\n&lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;message&quot;&gt;=0A            Welcome to Waves =\r\nWater Sports! We&#039;re excited to have you join our community. =0A            =\r\nTo get started, please verify your email address by clicking the button bel=\r\now:=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;verify-button-wrapper&quot;&gt;=0A =\r\n           &lt;a href=3D&quot;http:\/\/localhost:8080\/auth\/verify-email\/43e577f4e3bac=\r\n5f449d3a60181540122e632c1f4352b996034470e6e56df02e6&quot; class=3D&quot;verify-button=\r\n&quot;&gt;=0A                Verify Email Address=0A            &lt;\/a&gt;=0A        &lt;\/di=\r\nv&gt;=0A=0A        &lt;div class=3D&quot;link-text&quot;&gt;=0A            Or copy and paste t=\r\nhis link in your browser:&lt;br&gt;=0A            &lt;strong&gt;http:\/\/localhost:8080\/a=\r\nuth\/verify-email\/43e577f4e3bac5f449d3a60181540122e632c1f4352b996034470e6e56=\r\ndf02e6&lt;\/strong&gt;=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;warning&quot;&gt;=0A   =\r\n         &lt;strong&gt;=E2=8F=B1=EF=B8=8F This link expires in 24 hours.&lt;\/strong&gt;=\r\n If you don&#039;t verify within this time, =0A            you&#039;ll need to reques=\r\nt a new verification email.=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;mes=\r\nsage&quot;&gt;=0A            If you didn&#039;t create this account, please ignore this =\r\nemail.=0A        &lt;\/div&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;footer&quot;&gt;=0A    =\r\n    &lt;p&gt;=C2=A9 2026 Waves Water Sports. All rights reserved.&lt;\/p&gt;=0A        &lt;=\r\np&gt;If you have questions, contact us at support@marisense.local&lt;\/p&gt;=0A    &lt;\/=\r\ndiv&gt;=0A&lt;\/div&gt;=0A=0A&lt;\/body&gt;=0A&lt;\/html&gt;=0A=0A&lt;!-- DEBUG-VIEW ENDED 1 APPPATH\\V=\r\niews\\emails\\verify_email.php --&gt;\r\n\r\n--B_ALT_69f05744cd8590.83426310--<\/pre>"
+DEBUG - 2026-04-28 06:44:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:44:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 06:45:23 --> Email: sendWithSmtp throwed ErrorException: fsockopen(): SSL operation failed with code 1. OpenSSL Error messages:
+error:0A00010B:SSL routines::wrong version number in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1910
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'fsockopen(): SS...', 'C:\\Users\\earls\\...', 1910)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1910): fsockopen('ssl://smtp.gmai...', 587, NULL, NULL, 30)
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1823): CodeIgniter\Email\Email->SMTPConnect()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithSmtp()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(172): CodeIgniter\Email\Email->send()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(255): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): App\Controllers\Auth->resendVerificationEmail()
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#14 {main}
+ERROR - 2026-04-28 06:45:23 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-04-28 06:45:23 --> 
+ERROR - 2026-04-28 06:45:23 --> Verification email failed to send to earlsincombenido0@gmail.com: "Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Tue, 28 Apr 2026 06:45:21 +0000\r\nTo: earlsincombenido0@gmail.com\r\nFrom: &quot;Waves Water Sports&quot; &lt;noreply@marisense.local&gt;\r\nReturn-Path: &lt;noreply@marisense.local&gt;\r\nSubject: =?UTF-8?Q?Verify=20Your=20Email=20Address?=\r\nReply-To: &lt;noreply@marisense.local&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@marisense.local\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69f05781346632.99802685@marisense.local&gt;\r\nMime-Version: 1.0\r\n\n\nContent-Type: multipart\/alternative; boundary=&quot;B_ALT_69f05781346889.79018091&quot;\r\n\r\nThis is a multi-part message in MIME format.\r\nYour email application may not support this format.\r\n\r\n--B_ALT_69f05781346889.79018091\r\nContent-Type: text\/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n\ud83c\udf0a Waves\r\n Water Sports Adventures\r\n\r\n\r\n\r\n\r\n Hi earl,\r\n\r\n\r\n\r\n Welcome to Waves Water Sports! We&#039;re excited to have you join our\r\ncommunity.\r\n To get started, please verify your email address by clicking the button\r\nbelow:\r\n\r\n\r\n\r\n\r\n Verify Email Address\r\n\r\n\r\n\r\n\r\n Or copy and paste this link in your browser:\r\n http:\/\/localhost:8080\/auth\/verify-email\/395b1ae382c6ff9aeb3e2e987770bc11baf0ef02af420006f03f4f7d920d0d0e\r\n\r\n\r\n\r\n \u23f1\ufe0f This link expires in 24 hours. If you don&#039;t verify within this time,\r\n you&#039;ll need to request a new verification email.\r\n\r\n\r\n\r\n If you didn&#039;t create this account, please ignore this email.\r\n\r\n\r\n\r\n\r\n \u00a9 2026 Waves Water Sports. All rights reserved.\r\n If you have questions, contact us at support@marisense.local\r\n\r\n\r\n--B_ALT_69f05781346889.79018091\r\nContent-Type: text\/html; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n&lt;!-- DEBUG-VIEW START 1 APPPATH\\Views\\emails\\verify_email.php --&gt;=0A&lt;!DOCTY=\r\nPE html&gt;=0A&lt;html lang=3D&quot;en&quot;&gt;=0A&lt;head&gt;=0A    &lt;meta charset=3D&quot;UTF-8&quot;&gt;=0A   =\r\n &lt;meta name=3D&quot;viewport&quot; content=3D&quot;width=3Ddevice-width, initial-scale=3D1=\r\n.0&quot;&gt;=0A    &lt;style&gt;=0A        body {=0A            font-family: &#039;Poppins&#039;, -=\r\napple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, sans-serif;=0A            lin=\r\ne-height: 1.6;=0A            color: #333;=0A        }=0A        .email-cont=\r\nainer {=0A            max-width: 600px;=0A            margin: 0 auto;=0A   =\r\n         background: linear-gradient(135deg, #0a5872, #052c39);=0A         =\r\n   padding: 0;=0A            border-radius: 12px;=0A            overflow: h=\r\nidden;=0A            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);=0A        }=\r\n=0A        .header {=0A            background: linear-gradient(135deg, #0a5=\r\n872, #052c39);=0A            color: white;=0A            padding: 32px 24px=\r\n;=0A            text-align: center;=0A        }=0A        .header h1 {=0A  =\r\n          margin: 0;=0A            font-size: 2rem;=0A            font-weig=\r\nht: 700;=0A            letter-spacing: 1px;=0A        }=0A        .header p=\r\n {=0A            margin: 8px 0 0;=0A            opacity: 0.9;=0A           =\r\n font-size: 0.9rem;=0A        }=0A        .content {=0A            padding:=\r\n 32px 24px;=0A            background: white;=0A        }=0A        .greetin=\r\ng {=0A            margin-bottom: 24px;=0A            font-size: 1.1rem;=0A =\r\n           font-weight: 600;=0A            color: #052c39;=0A        }=0A  =\r\n      .message {=0A            margin-bottom: 28px;=0A            line-heig=\r\nht: 1.8;=0A            color: #555;=0A        }=0A        .verify-button-wr=\r\napper {=0A            text-align: center;=0A            margin: 32px 0;=0A =\r\n       }=0A        .verify-button {=0A            display: inline-block;=0A=\r\n            background: linear-gradient(45deg, #48cae4, #0077b6);=0A       =\r\n     color: white;=0A            padding: 14px 40px;=0A            border-r=\r\nadius: 50px;=0A            text-decoration: none;=0A            font-weight=\r\n: 700;=0A            transition: transform 0.3s, box-shadow 0.3s;=0A       =\r\n     box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);=0A        }=0A        .=\r\nverify-button:hover {=0A            transform: translateY(-2px);=0A        =\r\n    box-shadow: 0 6px 16px rgba(0, 119, 182, 0.3);=0A        }=0A        .l=\r\nink-text {=0A            margin-top: 20px;=0A            padding-top: 20px;=\r\n=0A            border-top: 1px solid #e9ecef;=0A            font-size: 0.85=\r\nrem;=0A            color: #999;=0A            word-break: break-all;=0A    =\r\n    }=0A        .link-text strong {=0A            color: #555;=0A        }=\r\n=0A        .footer {=0A            background: #f8f9fa;=0A            paddi=\r\nng: 24px;=0A            text-align: center;=0A            color: #999;=0A  =\r\n          font-size: 0.85rem;=0A            border-top: 1px solid #e9ecef;=\r\n=0A        }=0A        .footer p {=0A            margin: 8px 0;=0A        }=\r\n=0A        .warning {=0A            background: #fff3cd;=0A            bord=\r\ner-left: 4px solid #ffc107;=0A            padding: 16px;=0A            marg=\r\nin: 24px 0;=0A            border-radius: 4px;=0A            font-size: 0.9r=\r\nem;=0A            color: #856404;=0A        }=0A    &lt;\/style&gt;=0A&lt;\/head&gt;=0A&lt;b=\r\nody&gt;=0A=0A&lt;div class=3D&quot;email-container&quot;&gt;=0A    &lt;div class=3D&quot;header&quot;&gt;=0A  =\r\n      &lt;h1&gt;&lt;i style=3D&quot;font-size: 1.8rem;&quot;&gt;=F0=9F=8C=8A&lt;\/i&gt; Waves&lt;\/h1&gt;=0A   =\r\n     &lt;p&gt;Water Sports Adventures&lt;\/p&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;con=\r\ntent&quot;&gt;=0A        &lt;div class=3D&quot;greeting&quot;&gt;=0A            Hi earl,=0A        =\r\n&lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;message&quot;&gt;=0A            Welcome to Waves =\r\nWater Sports! We&#039;re excited to have you join our community. =0A            =\r\nTo get started, please verify your email address by clicking the button bel=\r\now:=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;verify-button-wrapper&quot;&gt;=0A =\r\n           &lt;a href=3D&quot;http:\/\/localhost:8080\/auth\/verify-email\/395b1ae382c6f=\r\nf9aeb3e2e987770bc11baf0ef02af420006f03f4f7d920d0d0e&quot; class=3D&quot;verify-button=\r\n&quot;&gt;=0A                Verify Email Address=0A            &lt;\/a&gt;=0A        &lt;\/di=\r\nv&gt;=0A=0A        &lt;div class=3D&quot;link-text&quot;&gt;=0A            Or copy and paste t=\r\nhis link in your browser:&lt;br&gt;=0A            &lt;strong&gt;http:\/\/localhost:8080\/a=\r\nuth\/verify-email\/395b1ae382c6ff9aeb3e2e987770bc11baf0ef02af420006f03f4f7d92=\r\n0d0d0e&lt;\/strong&gt;=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;warning&quot;&gt;=0A   =\r\n         &lt;strong&gt;=E2=8F=B1=EF=B8=8F This link expires in 24 hours.&lt;\/strong&gt;=\r\n If you don&#039;t verify within this time, =0A            you&#039;ll need to reques=\r\nt a new verification email.=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;mes=\r\nsage&quot;&gt;=0A            If you didn&#039;t create this account, please ignore this =\r\nemail.=0A        &lt;\/div&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;footer&quot;&gt;=0A    =\r\n    &lt;p&gt;=C2=A9 2026 Waves Water Sports. All rights reserved.&lt;\/p&gt;=0A        &lt;=\r\np&gt;If you have questions, contact us at support@marisense.local&lt;\/p&gt;=0A    &lt;\/=\r\ndiv&gt;=0A&lt;\/div&gt;=0A=0A&lt;\/body&gt;=0A&lt;\/html&gt;=0A=0A&lt;!-- DEBUG-VIEW ENDED 1 APPPATH\\V=\r\niews\\emails\\verify_email.php --&gt;\r\n\r\n--B_ALT_69f05781346889.79018091--<\/pre>"
+DEBUG - 2026-04-28 06:45:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:45:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:45:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:46:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:46:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:46:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:47:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:48:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:48:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:48:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:48:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:52:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:55:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:55:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 06:55:37 --> Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:55:37 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+[Method: GET, Route: user/home]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 5 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 6 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 7 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 8 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:55:37 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 4 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 6 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 7 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 8 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 9 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+10 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:55:37 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-28 06:55:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:55:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 06:55:43 --> Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:55:43 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+[Method: GET, Route: user/home]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 5 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 6 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 7 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 8 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:55:43 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 4 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 6 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 7 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 8 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 9 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+10 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:55:43 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-28 06:55:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:55:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:55:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 06:55:47 --> Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:55:47 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+[Method: GET, Route: user/home]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 5 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 6 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 7 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 8 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:55:47 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 4 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 6 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 7 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 8 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 9 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+10 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:55:47 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-28 06:56:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:56:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 06:56:05 --> Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:56:05 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+[Method: GET, Route: user/home]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 5 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 6 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 7 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 8 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:56:05 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 4 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 6 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 7 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 8 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 9 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+10 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:56:05 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-28 06:56:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:59:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 06:59:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 06:59:06 --> Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:59:06 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+[Method: GET, Route: user/home]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 5 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 6 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 7 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 8 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:59:06 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 4 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 6 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 7 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 8 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 9 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+10 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 06:59:06 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-28 07:00:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:00:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:00:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 07:00:26 --> Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 07:00:26 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+[Method: GET, Route: user/home]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 5 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 6 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 7 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 8 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 07:00:26 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 4 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 6 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 7 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 8 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+ 9 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+10 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-04-28 07:00:26 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.buoy_data' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `buoy_data`
+ORDER BY `recorded_at` DESC
+ LIMIT 1', [], false)
+ 5 SYSTEMPATH\Model.php(296): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(713): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\BuoyDataModel.php(25): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Controllers\user.php(34): App\Models\BuoyDataModel->getLatestReading()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->index()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-04-28 07:04:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:05:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:05:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:07:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:07:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:07:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:07:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-04-28 07:08:22 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH\Controllers\Auth.php on line 147.
+ 1 APPPATH\Controllers\Auth.php(147): json_decode(null, true)
+ 2 APPPATH\Controllers\Auth.php(255): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+ 3 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Auth->resendVerificationEmail()
+ 4 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 5 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 9 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+ERROR - 2026-04-28 07:08:24 --> Email: sendWithSmtp throwed ErrorException: fsockopen(): SSL operation failed with code 1. OpenSSL Error messages:
+error:0A00010B:SSL routines::wrong version number in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1910
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'fsockopen(): SS...', 'C:\\Users\\earls\\...', 1910)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1910): fsockopen('ssl://smtp.gmai...', 587, NULL, NULL, 30)
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1823): CodeIgniter\Email\Email->SMTPConnect()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithSmtp()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(172): CodeIgniter\Email\Email->send()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(255): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): App\Controllers\Auth->resendVerificationEmail()
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#14 {main}
+ERROR - 2026-04-28 07:08:24 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-04-28 07:08:24 --> 
+ERROR - 2026-04-28 07:08:24 --> Verification email failed to send to abbbyygarcia@gmail.com: "Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Tue, 28 Apr 2026 07:08:22 +0000\r\nTo: abbbyygarcia@gmail.com\r\nFrom: &quot;Waves Water Sports&quot; &lt;noreply@marisense.local&gt;\r\nReturn-Path: &lt;noreply@marisense.local&gt;\r\nSubject: =?UTF-8?Q?Verify=20Your=20Email=20Address?=\r\nReply-To: &lt;noreply@marisense.local&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@marisense.local\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69f05ce630c5d4.11263000@marisense.local&gt;\r\nMime-Version: 1.0\r\n\n\nContent-Type: multipart\/alternative; boundary=&quot;B_ALT_69f05ce630c8d4.47087051&quot;\r\n\r\nThis is a multi-part message in MIME format.\r\nYour email application may not support this format.\r\n\r\n--B_ALT_69f05ce630c8d4.47087051\r\nContent-Type: text\/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n\ud83c\udf0a Waves\r\n Water Sports Adventures\r\n\r\n\r\n\r\n\r\n Hi Abby Garcia,\r\n\r\n\r\n\r\n Welcome to Waves Water Sports! We&#039;re excited to have you join our\r\ncommunity.\r\n To get started, please verify your email address by clicking the button\r\nbelow:\r\n\r\n\r\n\r\n\r\n Verify Email Address\r\n\r\n\r\n\r\n\r\n Or copy and paste this link in your browser:\r\n http:\/\/localhost:8080\/auth\/verify-email\/5b1009163004cb276f354fe6b46a3e169218c2c3affb7c61263470c890f4f6d8\r\n\r\n\r\n\r\n \u23f1\ufe0f This link expires in 24 hours. If you don&#039;t verify within this time,\r\n you&#039;ll need to request a new verification email.\r\n\r\n\r\n\r\n If you didn&#039;t create this account, please ignore this email.\r\n\r\n\r\n\r\n\r\n \u00a9 2026 Waves Water Sports. All rights reserved.\r\n If you have questions, contact us at support@marisense.local\r\n\r\n\r\n--B_ALT_69f05ce630c8d4.47087051\r\nContent-Type: text\/html; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n&lt;!-- DEBUG-VIEW START 1 APPPATH\\Views\\emails\\verify_email.php --&gt;=0A&lt;!DOCTY=\r\nPE html&gt;=0A&lt;html lang=3D&quot;en&quot;&gt;=0A&lt;head&gt;=0A    &lt;meta charset=3D&quot;UTF-8&quot;&gt;=0A   =\r\n &lt;meta name=3D&quot;viewport&quot; content=3D&quot;width=3Ddevice-width, initial-scale=3D1=\r\n.0&quot;&gt;=0A    &lt;style&gt;=0A        body {=0A            font-family: &#039;Poppins&#039;, -=\r\napple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, sans-serif;=0A            lin=\r\ne-height: 1.6;=0A            color: #333;=0A        }=0A        .email-cont=\r\nainer {=0A            max-width: 600px;=0A            margin: 0 auto;=0A   =\r\n         background: linear-gradient(135deg, #0a5872, #052c39);=0A         =\r\n   padding: 0;=0A            border-radius: 12px;=0A            overflow: h=\r\nidden;=0A            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);=0A        }=\r\n=0A        .header {=0A            background: linear-gradient(135deg, #0a5=\r\n872, #052c39);=0A            color: white;=0A            padding: 32px 24px=\r\n;=0A            text-align: center;=0A        }=0A        .header h1 {=0A  =\r\n          margin: 0;=0A            font-size: 2rem;=0A            font-weig=\r\nht: 700;=0A            letter-spacing: 1px;=0A        }=0A        .header p=\r\n {=0A            margin: 8px 0 0;=0A            opacity: 0.9;=0A           =\r\n font-size: 0.9rem;=0A        }=0A        .content {=0A            padding:=\r\n 32px 24px;=0A            background: white;=0A        }=0A        .greetin=\r\ng {=0A            margin-bottom: 24px;=0A            font-size: 1.1rem;=0A =\r\n           font-weight: 600;=0A            color: #052c39;=0A        }=0A  =\r\n      .message {=0A            margin-bottom: 28px;=0A            line-heig=\r\nht: 1.8;=0A            color: #555;=0A        }=0A        .verify-button-wr=\r\napper {=0A            text-align: center;=0A            margin: 32px 0;=0A =\r\n       }=0A        .verify-button {=0A            display: inline-block;=0A=\r\n            background: linear-gradient(45deg, #48cae4, #0077b6);=0A       =\r\n     color: white;=0A            padding: 14px 40px;=0A            border-r=\r\nadius: 50px;=0A            text-decoration: none;=0A            font-weight=\r\n: 700;=0A            transition: transform 0.3s, box-shadow 0.3s;=0A       =\r\n     box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);=0A        }=0A        .=\r\nverify-button:hover {=0A            transform: translateY(-2px);=0A        =\r\n    box-shadow: 0 6px 16px rgba(0, 119, 182, 0.3);=0A        }=0A        .l=\r\nink-text {=0A            margin-top: 20px;=0A            padding-top: 20px;=\r\n=0A            border-top: 1px solid #e9ecef;=0A            font-size: 0.85=\r\nrem;=0A            color: #999;=0A            word-break: break-all;=0A    =\r\n    }=0A        .link-text strong {=0A            color: #555;=0A        }=\r\n=0A        .footer {=0A            background: #f8f9fa;=0A            paddi=\r\nng: 24px;=0A            text-align: center;=0A            color: #999;=0A  =\r\n          font-size: 0.85rem;=0A            border-top: 1px solid #e9ecef;=\r\n=0A        }=0A        .footer p {=0A            margin: 8px 0;=0A        }=\r\n=0A        .warning {=0A            background: #fff3cd;=0A            bord=\r\ner-left: 4px solid #ffc107;=0A            padding: 16px;=0A            marg=\r\nin: 24px 0;=0A            border-radius: 4px;=0A            font-size: 0.9r=\r\nem;=0A            color: #856404;=0A        }=0A    &lt;\/style&gt;=0A&lt;\/head&gt;=0A&lt;b=\r\nody&gt;=0A=0A&lt;div class=3D&quot;email-container&quot;&gt;=0A    &lt;div class=3D&quot;header&quot;&gt;=0A  =\r\n      &lt;h1&gt;&lt;i style=3D&quot;font-size: 1.8rem;&quot;&gt;=F0=9F=8C=8A&lt;\/i&gt; Waves&lt;\/h1&gt;=0A   =\r\n     &lt;p&gt;Water Sports Adventures&lt;\/p&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;con=\r\ntent&quot;&gt;=0A        &lt;div class=3D&quot;greeting&quot;&gt;=0A            Hi Abby Garcia,=0A =\r\n       &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;message&quot;&gt;=0A            Welcome to=\r\n Waves Water Sports! We&#039;re excited to have you join our community. =0A     =\r\n       To get started, please verify your email address by clicking the but=\r\nton below:=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;verify-button-wrappe=\r\nr&quot;&gt;=0A            &lt;a href=3D&quot;http:\/\/localhost:8080\/auth\/verify-email\/5b1009=\r\n163004cb276f354fe6b46a3e169218c2c3affb7c61263470c890f4f6d8&quot; class=3D&quot;verify=\r\n-button&quot;&gt;=0A                Verify Email Address=0A            &lt;\/a&gt;=0A     =\r\n   &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;link-text&quot;&gt;=0A            Or copy and =\r\npaste this link in your browser:&lt;br&gt;=0A            &lt;strong&gt;http:\/\/localhost=\r\n:8080\/auth\/verify-email\/5b1009163004cb276f354fe6b46a3e169218c2c3affb7c61263=\r\n470c890f4f6d8&lt;\/strong&gt;=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;warning&quot;=\r\n&gt;=0A            &lt;strong&gt;=E2=8F=B1=EF=B8=8F This link expires in 24 hours.&lt;\/=\r\nstrong&gt; If you don&#039;t verify within this time, =0A            you&#039;ll need to=\r\n request a new verification email.=0A        &lt;\/div&gt;=0A=0A        &lt;div class=\r\n=3D&quot;message&quot;&gt;=0A            If you didn&#039;t create this account, please ignor=\r\ne this email.=0A        &lt;\/div&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;footer&quot;&gt;=\r\n=0A        &lt;p&gt;=C2=A9 2026 Waves Water Sports. All rights reserved.&lt;\/p&gt;=0A  =\r\n      &lt;p&gt;If you have questions, contact us at support@marisense.local&lt;\/p&gt;=\r\n=0A    &lt;\/div&gt;=0A&lt;\/div&gt;=0A=0A&lt;\/body&gt;=0A&lt;\/html&gt;=0A=0A&lt;!-- DEBUG-VIEW ENDED 1 =\r\nAPPPATH\\Views\\emails\\verify_email.php --&gt;\r\n\r\n--B_ALT_69f05ce630c8d4.47087051--<\/pre>"
+DEBUG - 2026-04-28 07:08:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 07:08:30 --> Email: sendWithSmtp throwed ErrorException: fsockopen(): SSL operation failed with code 1. OpenSSL Error messages:
+error:0A00010B:SSL routines::wrong version number in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1910
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'fsockopen(): SS...', 'C:\\Users\\earls\\...', 1910)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1910): fsockopen('ssl://smtp.gmai...', 587, NULL, NULL, 30)
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1823): CodeIgniter\Email\Email->SMTPConnect()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithSmtp()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(172): CodeIgniter\Email\Email->send()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(255): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): App\Controllers\Auth->resendVerificationEmail()
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#14 {main}
+ERROR - 2026-04-28 07:08:30 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-04-28 07:08:30 --> 
+ERROR - 2026-04-28 07:08:30 --> Verification email failed to send to abbbyygarcia@gmail.com: "Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Tue, 28 Apr 2026 07:08:27 +0000\r\nTo: abbbyygarcia@gmail.com\r\nFrom: &quot;Waves Water Sports&quot; &lt;noreply@marisense.local&gt;\r\nReturn-Path: &lt;noreply@marisense.local&gt;\r\nSubject: =?UTF-8?Q?Verify=20Your=20Email=20Address?=\r\nReply-To: &lt;noreply@marisense.local&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@marisense.local\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69f05cebbbb064.66893449@marisense.local&gt;\r\nMime-Version: 1.0\r\n\n\nContent-Type: multipart\/alternative; boundary=&quot;B_ALT_69f05cebbbb2e6.62056289&quot;\r\n\r\nThis is a multi-part message in MIME format.\r\nYour email application may not support this format.\r\n\r\n--B_ALT_69f05cebbbb2e6.62056289\r\nContent-Type: text\/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n\ud83c\udf0a Waves\r\n Water Sports Adventures\r\n\r\n\r\n\r\n\r\n Hi Abby Garcia,\r\n\r\n\r\n\r\n Welcome to Waves Water Sports! We&#039;re excited to have you join our\r\ncommunity.\r\n To get started, please verify your email address by clicking the button\r\nbelow:\r\n\r\n\r\n\r\n\r\n Verify Email Address\r\n\r\n\r\n\r\n\r\n Or copy and paste this link in your browser:\r\n http:\/\/localhost:8080\/auth\/verify-email\/9212ef71712fcdb3fceb705f4b59761909972bbe8e4d466fb860ea125e5baf7d\r\n\r\n\r\n\r\n \u23f1\ufe0f This link expires in 24 hours. If you don&#039;t verify within this time,\r\n you&#039;ll need to request a new verification email.\r\n\r\n\r\n\r\n If you didn&#039;t create this account, please ignore this email.\r\n\r\n\r\n\r\n\r\n \u00a9 2026 Waves Water Sports. All rights reserved.\r\n If you have questions, contact us at support@marisense.local\r\n\r\n\r\n--B_ALT_69f05cebbbb2e6.62056289\r\nContent-Type: text\/html; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n&lt;!-- DEBUG-VIEW START 1 APPPATH\\Views\\emails\\verify_email.php --&gt;=0A&lt;!DOCTY=\r\nPE html&gt;=0A&lt;html lang=3D&quot;en&quot;&gt;=0A&lt;head&gt;=0A    &lt;meta charset=3D&quot;UTF-8&quot;&gt;=0A   =\r\n &lt;meta name=3D&quot;viewport&quot; content=3D&quot;width=3Ddevice-width, initial-scale=3D1=\r\n.0&quot;&gt;=0A    &lt;style&gt;=0A        body {=0A            font-family: &#039;Poppins&#039;, -=\r\napple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, sans-serif;=0A            lin=\r\ne-height: 1.6;=0A            color: #333;=0A        }=0A        .email-cont=\r\nainer {=0A            max-width: 600px;=0A            margin: 0 auto;=0A   =\r\n         background: linear-gradient(135deg, #0a5872, #052c39);=0A         =\r\n   padding: 0;=0A            border-radius: 12px;=0A            overflow: h=\r\nidden;=0A            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);=0A        }=\r\n=0A        .header {=0A            background: linear-gradient(135deg, #0a5=\r\n872, #052c39);=0A            color: white;=0A            padding: 32px 24px=\r\n;=0A            text-align: center;=0A        }=0A        .header h1 {=0A  =\r\n          margin: 0;=0A            font-size: 2rem;=0A            font-weig=\r\nht: 700;=0A            letter-spacing: 1px;=0A        }=0A        .header p=\r\n {=0A            margin: 8px 0 0;=0A            opacity: 0.9;=0A           =\r\n font-size: 0.9rem;=0A        }=0A        .content {=0A            padding:=\r\n 32px 24px;=0A            background: white;=0A        }=0A        .greetin=\r\ng {=0A            margin-bottom: 24px;=0A            font-size: 1.1rem;=0A =\r\n           font-weight: 600;=0A            color: #052c39;=0A        }=0A  =\r\n      .message {=0A            margin-bottom: 28px;=0A            line-heig=\r\nht: 1.8;=0A            color: #555;=0A        }=0A        .verify-button-wr=\r\napper {=0A            text-align: center;=0A            margin: 32px 0;=0A =\r\n       }=0A        .verify-button {=0A            display: inline-block;=0A=\r\n            background: linear-gradient(45deg, #48cae4, #0077b6);=0A       =\r\n     color: white;=0A            padding: 14px 40px;=0A            border-r=\r\nadius: 50px;=0A            text-decoration: none;=0A            font-weight=\r\n: 700;=0A            transition: transform 0.3s, box-shadow 0.3s;=0A       =\r\n     box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);=0A        }=0A        .=\r\nverify-button:hover {=0A            transform: translateY(-2px);=0A        =\r\n    box-shadow: 0 6px 16px rgba(0, 119, 182, 0.3);=0A        }=0A        .l=\r\nink-text {=0A            margin-top: 20px;=0A            padding-top: 20px;=\r\n=0A            border-top: 1px solid #e9ecef;=0A            font-size: 0.85=\r\nrem;=0A            color: #999;=0A            word-break: break-all;=0A    =\r\n    }=0A        .link-text strong {=0A            color: #555;=0A        }=\r\n=0A        .footer {=0A            background: #f8f9fa;=0A            paddi=\r\nng: 24px;=0A            text-align: center;=0A            color: #999;=0A  =\r\n          font-size: 0.85rem;=0A            border-top: 1px solid #e9ecef;=\r\n=0A        }=0A        .footer p {=0A            margin: 8px 0;=0A        }=\r\n=0A        .warning {=0A            background: #fff3cd;=0A            bord=\r\ner-left: 4px solid #ffc107;=0A            padding: 16px;=0A            marg=\r\nin: 24px 0;=0A            border-radius: 4px;=0A            font-size: 0.9r=\r\nem;=0A            color: #856404;=0A        }=0A    &lt;\/style&gt;=0A&lt;\/head&gt;=0A&lt;b=\r\nody&gt;=0A=0A&lt;div class=3D&quot;email-container&quot;&gt;=0A    &lt;div class=3D&quot;header&quot;&gt;=0A  =\r\n      &lt;h1&gt;&lt;i style=3D&quot;font-size: 1.8rem;&quot;&gt;=F0=9F=8C=8A&lt;\/i&gt; Waves&lt;\/h1&gt;=0A   =\r\n     &lt;p&gt;Water Sports Adventures&lt;\/p&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;con=\r\ntent&quot;&gt;=0A        &lt;div class=3D&quot;greeting&quot;&gt;=0A            Hi Abby Garcia,=0A =\r\n       &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;message&quot;&gt;=0A            Welcome to=\r\n Waves Water Sports! We&#039;re excited to have you join our community. =0A     =\r\n       To get started, please verify your email address by clicking the but=\r\nton below:=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;verify-button-wrappe=\r\nr&quot;&gt;=0A            &lt;a href=3D&quot;http:\/\/localhost:8080\/auth\/verify-email\/9212ef=\r\n71712fcdb3fceb705f4b59761909972bbe8e4d466fb860ea125e5baf7d&quot; class=3D&quot;verify=\r\n-button&quot;&gt;=0A                Verify Email Address=0A            &lt;\/a&gt;=0A     =\r\n   &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;link-text&quot;&gt;=0A            Or copy and =\r\npaste this link in your browser:&lt;br&gt;=0A            &lt;strong&gt;http:\/\/localhost=\r\n:8080\/auth\/verify-email\/9212ef71712fcdb3fceb705f4b59761909972bbe8e4d466fb86=\r\n0ea125e5baf7d&lt;\/strong&gt;=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;warning&quot;=\r\n&gt;=0A            &lt;strong&gt;=E2=8F=B1=EF=B8=8F This link expires in 24 hours.&lt;\/=\r\nstrong&gt; If you don&#039;t verify within this time, =0A            you&#039;ll need to=\r\n request a new verification email.=0A        &lt;\/div&gt;=0A=0A        &lt;div class=\r\n=3D&quot;message&quot;&gt;=0A            If you didn&#039;t create this account, please ignor=\r\ne this email.=0A        &lt;\/div&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;footer&quot;&gt;=\r\n=0A        &lt;p&gt;=C2=A9 2026 Waves Water Sports. All rights reserved.&lt;\/p&gt;=0A  =\r\n      &lt;p&gt;If you have questions, contact us at support@marisense.local&lt;\/p&gt;=\r\n=0A    &lt;\/div&gt;=0A&lt;\/div&gt;=0A=0A&lt;\/body&gt;=0A&lt;\/html&gt;=0A=0A&lt;!-- DEBUG-VIEW ENDED 1 =\r\nAPPPATH\\Views\\emails\\verify_email.php --&gt;\r\n\r\n--B_ALT_69f05cebbbb2e6.62056289--<\/pre>"
+DEBUG - 2026-04-28 07:08:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:08:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:16:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:16:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 07:16:26 --> Email: sendWithSmtp throwed ErrorException: fsockopen(): SSL operation failed with code 1. OpenSSL Error messages:
+error:0A00010B:SSL routines::wrong version number in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1910
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'fsockopen(): SS...', 'C:\\Users\\earls\\...', 1910)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1910): fsockopen('ssl://smtp.gmai...', 587, NULL, NULL, 30)
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1823): CodeIgniter\Email\Email->SMTPConnect()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithSmtp()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(172): CodeIgniter\Email\Email->send()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(255): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): App\Controllers\Auth->resendVerificationEmail()
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#14 {main}
+ERROR - 2026-04-28 07:16:26 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-04-28 07:16:26 --> 
+ERROR - 2026-04-28 07:16:26 --> Verification email failed to send to earlsincombenido0@gmail.com: "Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Tue, 28 Apr 2026 07:16:24 +0000\r\nTo: earlsincombenido0@gmail.com\r\nFrom: &quot;Waves Water Sports&quot; &lt;noreply@marisense.local&gt;\r\nReturn-Path: &lt;noreply@marisense.local&gt;\r\nSubject: =?UTF-8?Q?Verify=20Your=20Email=20Address?=\r\nReply-To: &lt;noreply@marisense.local&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@marisense.local\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69f05ec80e0722.71222941@marisense.local&gt;\r\nMime-Version: 1.0\r\n\n\nContent-Type: multipart\/alternative; boundary=&quot;B_ALT_69f05ec80e08a8.32222684&quot;\r\n\r\nThis is a multi-part message in MIME format.\r\nYour email application may not support this format.\r\n\r\n--B_ALT_69f05ec80e08a8.32222684\r\nContent-Type: text\/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n\ud83c\udf0a Waves\r\n Water Sports Adventures\r\n\r\n\r\n\r\n\r\n Hi earl,\r\n\r\n\r\n\r\n Welcome to Waves Water Sports! We&#039;re excited to have you join our\r\ncommunity.\r\n To get started, please verify your email address by clicking the button\r\nbelow:\r\n\r\n\r\n\r\n\r\n Verify Email Address\r\n\r\n\r\n\r\n\r\n Or copy and paste this link in your browser:\r\n http:\/\/localhost:8080\/auth\/verify-email\/f3c797bb5612f46fa59dc48dfc041a76179ade50cf2ec9d5f8570adf1720bef6\r\n\r\n\r\n\r\n \u23f1\ufe0f This link expires in 24 hours. If you don&#039;t verify within this time,\r\n you&#039;ll need to request a new verification email.\r\n\r\n\r\n\r\n If you didn&#039;t create this account, please ignore this email.\r\n\r\n\r\n\r\n\r\n \u00a9 2026 Waves Water Sports. All rights reserved.\r\n If you have questions, contact us at support@marisense.local\r\n\r\n\r\n--B_ALT_69f05ec80e08a8.32222684\r\nContent-Type: text\/html; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n&lt;!-- DEBUG-VIEW START 1 APPPATH\\Views\\emails\\verify_email.php --&gt;=0A&lt;!DOCTY=\r\nPE html&gt;=0A&lt;html lang=3D&quot;en&quot;&gt;=0A&lt;head&gt;=0A    &lt;meta charset=3D&quot;UTF-8&quot;&gt;=0A   =\r\n &lt;meta name=3D&quot;viewport&quot; content=3D&quot;width=3Ddevice-width, initial-scale=3D1=\r\n.0&quot;&gt;=0A    &lt;style&gt;=0A        body {=0A            font-family: &#039;Poppins&#039;, -=\r\napple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, sans-serif;=0A            lin=\r\ne-height: 1.6;=0A            color: #333;=0A        }=0A        .email-cont=\r\nainer {=0A            max-width: 600px;=0A            margin: 0 auto;=0A   =\r\n         background: linear-gradient(135deg, #0a5872, #052c39);=0A         =\r\n   padding: 0;=0A            border-radius: 12px;=0A            overflow: h=\r\nidden;=0A            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);=0A        }=\r\n=0A        .header {=0A            background: linear-gradient(135deg, #0a5=\r\n872, #052c39);=0A            color: white;=0A            padding: 32px 24px=\r\n;=0A            text-align: center;=0A        }=0A        .header h1 {=0A  =\r\n          margin: 0;=0A            font-size: 2rem;=0A            font-weig=\r\nht: 700;=0A            letter-spacing: 1px;=0A        }=0A        .header p=\r\n {=0A            margin: 8px 0 0;=0A            opacity: 0.9;=0A           =\r\n font-size: 0.9rem;=0A        }=0A        .content {=0A            padding:=\r\n 32px 24px;=0A            background: white;=0A        }=0A        .greetin=\r\ng {=0A            margin-bottom: 24px;=0A            font-size: 1.1rem;=0A =\r\n           font-weight: 600;=0A            color: #052c39;=0A        }=0A  =\r\n      .message {=0A            margin-bottom: 28px;=0A            line-heig=\r\nht: 1.8;=0A            color: #555;=0A        }=0A        .verify-button-wr=\r\napper {=0A            text-align: center;=0A            margin: 32px 0;=0A =\r\n       }=0A        .verify-button {=0A            display: inline-block;=0A=\r\n            background: linear-gradient(45deg, #48cae4, #0077b6);=0A       =\r\n     color: white;=0A            padding: 14px 40px;=0A            border-r=\r\nadius: 50px;=0A            text-decoration: none;=0A            font-weight=\r\n: 700;=0A            transition: transform 0.3s, box-shadow 0.3s;=0A       =\r\n     box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);=0A        }=0A        .=\r\nverify-button:hover {=0A            transform: translateY(-2px);=0A        =\r\n    box-shadow: 0 6px 16px rgba(0, 119, 182, 0.3);=0A        }=0A        .l=\r\nink-text {=0A            margin-top: 20px;=0A            padding-top: 20px;=\r\n=0A            border-top: 1px solid #e9ecef;=0A            font-size: 0.85=\r\nrem;=0A            color: #999;=0A            word-break: break-all;=0A    =\r\n    }=0A        .link-text strong {=0A            color: #555;=0A        }=\r\n=0A        .footer {=0A            background: #f8f9fa;=0A            paddi=\r\nng: 24px;=0A            text-align: center;=0A            color: #999;=0A  =\r\n          font-size: 0.85rem;=0A            border-top: 1px solid #e9ecef;=\r\n=0A        }=0A        .footer p {=0A            margin: 8px 0;=0A        }=\r\n=0A        .warning {=0A            background: #fff3cd;=0A            bord=\r\ner-left: 4px solid #ffc107;=0A            padding: 16px;=0A            marg=\r\nin: 24px 0;=0A            border-radius: 4px;=0A            font-size: 0.9r=\r\nem;=0A            color: #856404;=0A        }=0A    &lt;\/style&gt;=0A&lt;\/head&gt;=0A&lt;b=\r\nody&gt;=0A=0A&lt;div class=3D&quot;email-container&quot;&gt;=0A    &lt;div class=3D&quot;header&quot;&gt;=0A  =\r\n      &lt;h1&gt;&lt;i style=3D&quot;font-size: 1.8rem;&quot;&gt;=F0=9F=8C=8A&lt;\/i&gt; Waves&lt;\/h1&gt;=0A   =\r\n     &lt;p&gt;Water Sports Adventures&lt;\/p&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;con=\r\ntent&quot;&gt;=0A        &lt;div class=3D&quot;greeting&quot;&gt;=0A            Hi earl,=0A        =\r\n&lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;message&quot;&gt;=0A            Welcome to Waves =\r\nWater Sports! We&#039;re excited to have you join our community. =0A            =\r\nTo get started, please verify your email address by clicking the button bel=\r\now:=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;verify-button-wrapper&quot;&gt;=0A =\r\n           &lt;a href=3D&quot;http:\/\/localhost:8080\/auth\/verify-email\/f3c797bb5612f=\r\n46fa59dc48dfc041a76179ade50cf2ec9d5f8570adf1720bef6&quot; class=3D&quot;verify-button=\r\n&quot;&gt;=0A                Verify Email Address=0A            &lt;\/a&gt;=0A        &lt;\/di=\r\nv&gt;=0A=0A        &lt;div class=3D&quot;link-text&quot;&gt;=0A            Or copy and paste t=\r\nhis link in your browser:&lt;br&gt;=0A            &lt;strong&gt;http:\/\/localhost:8080\/a=\r\nuth\/verify-email\/f3c797bb5612f46fa59dc48dfc041a76179ade50cf2ec9d5f8570adf17=\r\n20bef6&lt;\/strong&gt;=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;warning&quot;&gt;=0A   =\r\n         &lt;strong&gt;=E2=8F=B1=EF=B8=8F This link expires in 24 hours.&lt;\/strong&gt;=\r\n If you don&#039;t verify within this time, =0A            you&#039;ll need to reques=\r\nt a new verification email.=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;mes=\r\nsage&quot;&gt;=0A            If you didn&#039;t create this account, please ignore this =\r\nemail.=0A        &lt;\/div&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;footer&quot;&gt;=0A    =\r\n    &lt;p&gt;=C2=A9 2026 Waves Water Sports. All rights reserved.&lt;\/p&gt;=0A        &lt;=\r\np&gt;If you have questions, contact us at support@marisense.local&lt;\/p&gt;=0A    &lt;\/=\r\ndiv&gt;=0A&lt;\/div&gt;=0A=0A&lt;\/body&gt;=0A&lt;\/html&gt;=0A=0A&lt;!-- DEBUG-VIEW ENDED 1 APPPATH\\V=\r\niews\\emails\\verify_email.php --&gt;\r\n\r\n--B_ALT_69f05ec80e08a8.32222684--<\/pre>"
+DEBUG - 2026-04-28 07:16:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:16:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:27:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:27:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:28:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:28:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 07:28:14 --> Email: sendWithSmtp throwed ErrorException: fsockopen(): SSL operation failed with code 1. OpenSSL Error messages:
+error:0A00010B:SSL routines::wrong version number in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1910
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'fsockopen(): SS...', 'C:\\Users\\earls\\...', 1910)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1910): fsockopen('ssl://smtp.gmai...', 587, NULL, NULL, 30)
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1823): CodeIgniter\Email\Email->SMTPConnect()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithSmtp()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(172): CodeIgniter\Email\Email->send()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(255): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): App\Controllers\Auth->resendVerificationEmail()
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#14 {main}
+ERROR - 2026-04-28 07:28:14 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-04-28 07:28:14 --> 
+ERROR - 2026-04-28 07:28:14 --> Verification email failed to send to earlsincombenido0@gmail.com: "Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Tue, 28 Apr 2026 07:28:11 +0000\r\nTo: earlsincombenido0@gmail.com\r\nFrom: &quot;Waves Water Sports&quot; &lt;noreply@marisense.local&gt;\r\nReturn-Path: &lt;noreply@marisense.local&gt;\r\nSubject: =?UTF-8?Q?Verify=20Your=20Email=20Address?=\r\nReply-To: &lt;noreply@marisense.local&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@marisense.local\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69f0618b474996.61934253@marisense.local&gt;\r\nMime-Version: 1.0\r\n\n\nContent-Type: multipart\/alternative; boundary=&quot;B_ALT_69f0618b474b89.97514228&quot;\r\n\r\nThis is a multi-part message in MIME format.\r\nYour email application may not support this format.\r\n\r\n--B_ALT_69f0618b474b89.97514228\r\nContent-Type: text\/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n\ud83c\udf0a Waves\r\n Water Sports Adventures\r\n\r\n\r\n\r\n\r\n Hi earl,\r\n\r\n\r\n\r\n Welcome to Waves Water Sports! We&#039;re excited to have you join our\r\ncommunity.\r\n To get started, please verify your email address by clicking the button\r\nbelow:\r\n\r\n\r\n\r\n\r\n Verify Email Address\r\n\r\n\r\n\r\n\r\n Or copy and paste this link in your browser:\r\n http:\/\/localhost:8080\/auth\/verify-email\/4fa3bd409ea19f1d26876bd2d0739f67187663e4212e82641b4d1ec8b298c52b\r\n\r\n\r\n\r\n \u23f1\ufe0f This link expires in 24 hours. If you don&#039;t verify within this time,\r\n you&#039;ll need to request a new verification email.\r\n\r\n\r\n\r\n If you didn&#039;t create this account, please ignore this email.\r\n\r\n\r\n\r\n\r\n \u00a9 2026 Waves Water Sports. All rights reserved.\r\n If you have questions, contact us at support@marisense.local\r\n\r\n\r\n--B_ALT_69f0618b474b89.97514228\r\nContent-Type: text\/html; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n&lt;!-- DEBUG-VIEW START 1 APPPATH\\Views\\emails\\verify_email.php --&gt;=0A&lt;!DOCTY=\r\nPE html&gt;=0A&lt;html lang=3D&quot;en&quot;&gt;=0A&lt;head&gt;=0A    &lt;meta charset=3D&quot;UTF-8&quot;&gt;=0A   =\r\n &lt;meta name=3D&quot;viewport&quot; content=3D&quot;width=3Ddevice-width, initial-scale=3D1=\r\n.0&quot;&gt;=0A    &lt;style&gt;=0A        body {=0A            font-family: &#039;Poppins&#039;, -=\r\napple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, sans-serif;=0A            lin=\r\ne-height: 1.6;=0A            color: #333;=0A        }=0A        .email-cont=\r\nainer {=0A            max-width: 600px;=0A            margin: 0 auto;=0A   =\r\n         background: linear-gradient(135deg, #0a5872, #052c39);=0A         =\r\n   padding: 0;=0A            border-radius: 12px;=0A            overflow: h=\r\nidden;=0A            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);=0A        }=\r\n=0A        .header {=0A            background: linear-gradient(135deg, #0a5=\r\n872, #052c39);=0A            color: white;=0A            padding: 32px 24px=\r\n;=0A            text-align: center;=0A        }=0A        .header h1 {=0A  =\r\n          margin: 0;=0A            font-size: 2rem;=0A            font-weig=\r\nht: 700;=0A            letter-spacing: 1px;=0A        }=0A        .header p=\r\n {=0A            margin: 8px 0 0;=0A            opacity: 0.9;=0A           =\r\n font-size: 0.9rem;=0A        }=0A        .content {=0A            padding:=\r\n 32px 24px;=0A            background: white;=0A        }=0A        .greetin=\r\ng {=0A            margin-bottom: 24px;=0A            font-size: 1.1rem;=0A =\r\n           font-weight: 600;=0A            color: #052c39;=0A        }=0A  =\r\n      .message {=0A            margin-bottom: 28px;=0A            line-heig=\r\nht: 1.8;=0A            color: #555;=0A        }=0A        .verify-button-wr=\r\napper {=0A            text-align: center;=0A            margin: 32px 0;=0A =\r\n       }=0A        .verify-button {=0A            display: inline-block;=0A=\r\n            background: linear-gradient(45deg, #48cae4, #0077b6);=0A       =\r\n     color: white;=0A            padding: 14px 40px;=0A            border-r=\r\nadius: 50px;=0A            text-decoration: none;=0A            font-weight=\r\n: 700;=0A            transition: transform 0.3s, box-shadow 0.3s;=0A       =\r\n     box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);=0A        }=0A        .=\r\nverify-button:hover {=0A            transform: translateY(-2px);=0A        =\r\n    box-shadow: 0 6px 16px rgba(0, 119, 182, 0.3);=0A        }=0A        .l=\r\nink-text {=0A            margin-top: 20px;=0A            padding-top: 20px;=\r\n=0A            border-top: 1px solid #e9ecef;=0A            font-size: 0.85=\r\nrem;=0A            color: #999;=0A            word-break: break-all;=0A    =\r\n    }=0A        .link-text strong {=0A            color: #555;=0A        }=\r\n=0A        .footer {=0A            background: #f8f9fa;=0A            paddi=\r\nng: 24px;=0A            text-align: center;=0A            color: #999;=0A  =\r\n          font-size: 0.85rem;=0A            border-top: 1px solid #e9ecef;=\r\n=0A        }=0A        .footer p {=0A            margin: 8px 0;=0A        }=\r\n=0A        .warning {=0A            background: #fff3cd;=0A            bord=\r\ner-left: 4px solid #ffc107;=0A            padding: 16px;=0A            marg=\r\nin: 24px 0;=0A            border-radius: 4px;=0A            font-size: 0.9r=\r\nem;=0A            color: #856404;=0A        }=0A    &lt;\/style&gt;=0A&lt;\/head&gt;=0A&lt;b=\r\nody&gt;=0A=0A&lt;div class=3D&quot;email-container&quot;&gt;=0A    &lt;div class=3D&quot;header&quot;&gt;=0A  =\r\n      &lt;h1&gt;&lt;i style=3D&quot;font-size: 1.8rem;&quot;&gt;=F0=9F=8C=8A&lt;\/i&gt; Waves&lt;\/h1&gt;=0A   =\r\n     &lt;p&gt;Water Sports Adventures&lt;\/p&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;con=\r\ntent&quot;&gt;=0A        &lt;div class=3D&quot;greeting&quot;&gt;=0A            Hi earl,=0A        =\r\n&lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;message&quot;&gt;=0A            Welcome to Waves =\r\nWater Sports! We&#039;re excited to have you join our community. =0A            =\r\nTo get started, please verify your email address by clicking the button bel=\r\now:=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;verify-button-wrapper&quot;&gt;=0A =\r\n           &lt;a href=3D&quot;http:\/\/localhost:8080\/auth\/verify-email\/4fa3bd409ea19=\r\nf1d26876bd2d0739f67187663e4212e82641b4d1ec8b298c52b&quot; class=3D&quot;verify-button=\r\n&quot;&gt;=0A                Verify Email Address=0A            &lt;\/a&gt;=0A        &lt;\/di=\r\nv&gt;=0A=0A        &lt;div class=3D&quot;link-text&quot;&gt;=0A            Or copy and paste t=\r\nhis link in your browser:&lt;br&gt;=0A            &lt;strong&gt;http:\/\/localhost:8080\/a=\r\nuth\/verify-email\/4fa3bd409ea19f1d26876bd2d0739f67187663e4212e82641b4d1ec8b2=\r\n98c52b&lt;\/strong&gt;=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;warning&quot;&gt;=0A   =\r\n         &lt;strong&gt;=E2=8F=B1=EF=B8=8F This link expires in 24 hours.&lt;\/strong&gt;=\r\n If you don&#039;t verify within this time, =0A            you&#039;ll need to reques=\r\nt a new verification email.=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;mes=\r\nsage&quot;&gt;=0A            If you didn&#039;t create this account, please ignore this =\r\nemail.=0A        &lt;\/div&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;footer&quot;&gt;=0A    =\r\n    &lt;p&gt;=C2=A9 2026 Waves Water Sports. All rights reserved.&lt;\/p&gt;=0A        &lt;=\r\np&gt;If you have questions, contact us at support@marisense.local&lt;\/p&gt;=0A    &lt;\/=\r\ndiv&gt;=0A&lt;\/div&gt;=0A=0A&lt;\/body&gt;=0A&lt;\/html&gt;=0A=0A&lt;!-- DEBUG-VIEW ENDED 1 APPPATH\\V=\r\niews\\emails\\verify_email.php --&gt;\r\n\r\n--B_ALT_69f0618b474b89.97514228--<\/pre>"
+DEBUG - 2026-04-28 07:28:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:28:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:30:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:30:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:30:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:30:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:30:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:35:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:35:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:35:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:35:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 07:35:55 --> Email: sendWithSmtp throwed ErrorException: fsockopen(): SSL operation failed with code 1. OpenSSL Error messages:
+error:0A00010B:SSL routines::wrong version number in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1910
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'fsockopen(): SS...', 'C:\\Users\\earls\\...', 1910)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1910): fsockopen('ssl://smtp.gmai...', 587, NULL, NULL, 30)
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1823): CodeIgniter\Email\Email->SMTPConnect()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithSmtp()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(172): CodeIgniter\Email\Email->send()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(255): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): App\Controllers\Auth->resendVerificationEmail()
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#14 {main}
+ERROR - 2026-04-28 07:35:55 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-04-28 07:35:55 --> 
+ERROR - 2026-04-28 07:35:55 --> Verification email failed to send to earlsincombenido0@gmail.com: "Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Tue, 28 Apr 2026 07:35:52 +0000\r\nTo: earlsincombenido0@gmail.com\r\nFrom: &quot;Waves Water Sports&quot; &lt;noreply@marisense.local&gt;\r\nReturn-Path: &lt;noreply@marisense.local&gt;\r\nSubject: =?UTF-8?Q?Verify=20Your=20Email=20Address?=\r\nReply-To: &lt;noreply@marisense.local&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@marisense.local\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69f06358e00529.81804460@marisense.local&gt;\r\nMime-Version: 1.0\r\n\n\nContent-Type: multipart\/alternative; boundary=&quot;B_ALT_69f06358e00814.94769144&quot;\r\n\r\nThis is a multi-part message in MIME format.\r\nYour email application may not support this format.\r\n\r\n--B_ALT_69f06358e00814.94769144\r\nContent-Type: text\/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n\ud83c\udf0a Waves\r\n Water Sports Adventures\r\n\r\n\r\n\r\n\r\n Hi earl,\r\n\r\n\r\n\r\n Welcome to Waves Water Sports! We&#039;re excited to have you join our\r\ncommunity.\r\n To get started, please verify your email address by clicking the button\r\nbelow:\r\n\r\n\r\n\r\n\r\n Verify Email Address\r\n\r\n\r\n\r\n\r\n Or copy and paste this link in your browser:\r\n http:\/\/localhost:8080\/auth\/verify-email\/ec7524a2f5c1978dbbfff0bc1205c207b97b3ca2e3b2ddc40b7b3b79ddd29a75\r\n\r\n\r\n\r\n \u23f1\ufe0f This link expires in 24 hours. If you don&#039;t verify within this time,\r\n you&#039;ll need to request a new verification email.\r\n\r\n\r\n\r\n If you didn&#039;t create this account, please ignore this email.\r\n\r\n\r\n\r\n\r\n \u00a9 2026 Waves Water Sports. All rights reserved.\r\n If you have questions, contact us at support@marisense.local\r\n\r\n\r\n--B_ALT_69f06358e00814.94769144\r\nContent-Type: text\/html; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n&lt;!-- DEBUG-VIEW START 1 APPPATH\\Views\\emails\\verify_email.php --&gt;=0A&lt;!DOCTY=\r\nPE html&gt;=0A&lt;html lang=3D&quot;en&quot;&gt;=0A&lt;head&gt;=0A    &lt;meta charset=3D&quot;UTF-8&quot;&gt;=0A   =\r\n &lt;meta name=3D&quot;viewport&quot; content=3D&quot;width=3Ddevice-width, initial-scale=3D1=\r\n.0&quot;&gt;=0A    &lt;style&gt;=0A        body {=0A            font-family: &#039;Poppins&#039;, -=\r\napple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, sans-serif;=0A            lin=\r\ne-height: 1.6;=0A            color: #333;=0A        }=0A        .email-cont=\r\nainer {=0A            max-width: 600px;=0A            margin: 0 auto;=0A   =\r\n         background: linear-gradient(135deg, #0a5872, #052c39);=0A         =\r\n   padding: 0;=0A            border-radius: 12px;=0A            overflow: h=\r\nidden;=0A            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);=0A        }=\r\n=0A        .header {=0A            background: linear-gradient(135deg, #0a5=\r\n872, #052c39);=0A            color: white;=0A            padding: 32px 24px=\r\n;=0A            text-align: center;=0A        }=0A        .header h1 {=0A  =\r\n          margin: 0;=0A            font-size: 2rem;=0A            font-weig=\r\nht: 700;=0A            letter-spacing: 1px;=0A        }=0A        .header p=\r\n {=0A            margin: 8px 0 0;=0A            opacity: 0.9;=0A           =\r\n font-size: 0.9rem;=0A        }=0A        .content {=0A            padding:=\r\n 32px 24px;=0A            background: white;=0A        }=0A        .greetin=\r\ng {=0A            margin-bottom: 24px;=0A            font-size: 1.1rem;=0A =\r\n           font-weight: 600;=0A            color: #052c39;=0A        }=0A  =\r\n      .message {=0A            margin-bottom: 28px;=0A            line-heig=\r\nht: 1.8;=0A            color: #555;=0A        }=0A        .verify-button-wr=\r\napper {=0A            text-align: center;=0A            margin: 32px 0;=0A =\r\n       }=0A        .verify-button {=0A            display: inline-block;=0A=\r\n            background: linear-gradient(45deg, #48cae4, #0077b6);=0A       =\r\n     color: white;=0A            padding: 14px 40px;=0A            border-r=\r\nadius: 50px;=0A            text-decoration: none;=0A            font-weight=\r\n: 700;=0A            transition: transform 0.3s, box-shadow 0.3s;=0A       =\r\n     box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);=0A        }=0A        .=\r\nverify-button:hover {=0A            transform: translateY(-2px);=0A        =\r\n    box-shadow: 0 6px 16px rgba(0, 119, 182, 0.3);=0A        }=0A        .l=\r\nink-text {=0A            margin-top: 20px;=0A            padding-top: 20px;=\r\n=0A            border-top: 1px solid #e9ecef;=0A            font-size: 0.85=\r\nrem;=0A            color: #999;=0A            word-break: break-all;=0A    =\r\n    }=0A        .link-text strong {=0A            color: #555;=0A        }=\r\n=0A        .footer {=0A            background: #f8f9fa;=0A            paddi=\r\nng: 24px;=0A            text-align: center;=0A            color: #999;=0A  =\r\n          font-size: 0.85rem;=0A            border-top: 1px solid #e9ecef;=\r\n=0A        }=0A        .footer p {=0A            margin: 8px 0;=0A        }=\r\n=0A        .warning {=0A            background: #fff3cd;=0A            bord=\r\ner-left: 4px solid #ffc107;=0A            padding: 16px;=0A            marg=\r\nin: 24px 0;=0A            border-radius: 4px;=0A            font-size: 0.9r=\r\nem;=0A            color: #856404;=0A        }=0A    &lt;\/style&gt;=0A&lt;\/head&gt;=0A&lt;b=\r\nody&gt;=0A=0A&lt;div class=3D&quot;email-container&quot;&gt;=0A    &lt;div class=3D&quot;header&quot;&gt;=0A  =\r\n      &lt;h1&gt;&lt;i style=3D&quot;font-size: 1.8rem;&quot;&gt;=F0=9F=8C=8A&lt;\/i&gt; Waves&lt;\/h1&gt;=0A   =\r\n     &lt;p&gt;Water Sports Adventures&lt;\/p&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;con=\r\ntent&quot;&gt;=0A        &lt;div class=3D&quot;greeting&quot;&gt;=0A            Hi earl,=0A        =\r\n&lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;message&quot;&gt;=0A            Welcome to Waves =\r\nWater Sports! We&#039;re excited to have you join our community. =0A            =\r\nTo get started, please verify your email address by clicking the button bel=\r\now:=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;verify-button-wrapper&quot;&gt;=0A =\r\n           &lt;a href=3D&quot;http:\/\/localhost:8080\/auth\/verify-email\/ec7524a2f5c19=\r\n78dbbfff0bc1205c207b97b3ca2e3b2ddc40b7b3b79ddd29a75&quot; class=3D&quot;verify-button=\r\n&quot;&gt;=0A                Verify Email Address=0A            &lt;\/a&gt;=0A        &lt;\/di=\r\nv&gt;=0A=0A        &lt;div class=3D&quot;link-text&quot;&gt;=0A            Or copy and paste t=\r\nhis link in your browser:&lt;br&gt;=0A            &lt;strong&gt;http:\/\/localhost:8080\/a=\r\nuth\/verify-email\/ec7524a2f5c1978dbbfff0bc1205c207b97b3ca2e3b2ddc40b7b3b79dd=\r\nd29a75&lt;\/strong&gt;=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;warning&quot;&gt;=0A   =\r\n         &lt;strong&gt;=E2=8F=B1=EF=B8=8F This link expires in 24 hours.&lt;\/strong&gt;=\r\n If you don&#039;t verify within this time, =0A            you&#039;ll need to reques=\r\nt a new verification email.=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;mes=\r\nsage&quot;&gt;=0A            If you didn&#039;t create this account, please ignore this =\r\nemail.=0A        &lt;\/div&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;footer&quot;&gt;=0A    =\r\n    &lt;p&gt;=C2=A9 2026 Waves Water Sports. All rights reserved.&lt;\/p&gt;=0A        &lt;=\r\np&gt;If you have questions, contact us at support@marisense.local&lt;\/p&gt;=0A    &lt;\/=\r\ndiv&gt;=0A&lt;\/div&gt;=0A=0A&lt;\/body&gt;=0A&lt;\/html&gt;=0A=0A&lt;!-- DEBUG-VIEW ENDED 1 APPPATH\\V=\r\niews\\emails\\verify_email.php --&gt;\r\n\r\n--B_ALT_69f06358e00814.94769144--<\/pre>"
+DEBUG - 2026-04-28 07:35:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 07:35:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 08:03:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 08:03:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 08:03:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 08:03:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-04-28 08:03:23 --> Email: sendWithSmtp throwed ErrorException: fsockopen(): SSL operation failed with code 1. OpenSSL Error messages:
+error:0A00010B:SSL routines::wrong version number in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1910
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'fsockopen(): SS...', 'C:\\Users\\earls\\...', 1910)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1910): fsockopen('ssl://smtp.gmai...', 587, NULL, NULL, 30)
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1823): CodeIgniter\Email\Email->SMTPConnect()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithSmtp()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(172): CodeIgniter\Email\Email->send()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(255): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): App\Controllers\Auth->resendVerificationEmail()
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#14 {main}
+ERROR - 2026-04-28 08:03:23 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-04-28 08:03:23 --> 
+ERROR - 2026-04-28 08:03:23 --> Verification email failed to send to earlsincombenido0@gmail.com: "Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Tue, 28 Apr 2026 08:03:20 +0000\r\nTo: earlsincombenido0@gmail.com\r\nFrom: &quot;Waves Water Sports&quot; &lt;noreply@marisense.local&gt;\r\nReturn-Path: &lt;noreply@marisense.local&gt;\r\nSubject: =?UTF-8?Q?Verify=20Your=20Email=20Address?=\r\nReply-To: &lt;noreply@marisense.local&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: noreply@marisense.local\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;69f069c8c75d65.05791539@marisense.local&gt;\r\nMime-Version: 1.0\r\n\n\nContent-Type: multipart\/alternative; boundary=&quot;B_ALT_69f069c8c75f65.01642991&quot;\r\n\r\nThis is a multi-part message in MIME format.\r\nYour email application may not support this format.\r\n\r\n--B_ALT_69f069c8c75f65.01642991\r\nContent-Type: text\/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n\ud83c\udf0a Waves\r\n Water Sports Adventures\r\n\r\n\r\n\r\n\r\n Hi earl,\r\n\r\n\r\n\r\n Welcome to Waves Water Sports! We&#039;re excited to have you join our\r\ncommunity.\r\n To get started, please verify your email address by clicking the button\r\nbelow:\r\n\r\n\r\n\r\n\r\n Verify Email Address\r\n\r\n\r\n\r\n\r\n Or copy and paste this link in your browser:\r\n http:\/\/localhost:8080\/auth\/verify-email\/5c27bd1b516fabf827086aa6f2c9161e34e61966d71d10b0e0c7a432610dbed3\r\n\r\n\r\n\r\n \u23f1\ufe0f This link expires in 24 hours. If you don&#039;t verify within this time,\r\n you&#039;ll need to request a new verification email.\r\n\r\n\r\n\r\n If you didn&#039;t create this account, please ignore this email.\r\n\r\n\r\n\r\n\r\n \u00a9 2026 Waves Water Sports. All rights reserved.\r\n If you have questions, contact us at support@marisense.local\r\n\r\n\r\n--B_ALT_69f069c8c75f65.01642991\r\nContent-Type: text\/html; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n&lt;!-- DEBUG-VIEW START 1 APPPATH\\Views\\emails\\verify_email.php --&gt;=0A&lt;!DOCTY=\r\nPE html&gt;=0A&lt;html lang=3D&quot;en&quot;&gt;=0A&lt;head&gt;=0A    &lt;meta charset=3D&quot;UTF-8&quot;&gt;=0A   =\r\n &lt;meta name=3D&quot;viewport&quot; content=3D&quot;width=3Ddevice-width, initial-scale=3D1=\r\n.0&quot;&gt;=0A    &lt;style&gt;=0A        body {=0A            font-family: &#039;Poppins&#039;, -=\r\napple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, sans-serif;=0A            lin=\r\ne-height: 1.6;=0A            color: #333;=0A        }=0A        .email-cont=\r\nainer {=0A            max-width: 600px;=0A            margin: 0 auto;=0A   =\r\n         background: linear-gradient(135deg, #0a5872, #052c39);=0A         =\r\n   padding: 0;=0A            border-radius: 12px;=0A            overflow: h=\r\nidden;=0A            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);=0A        }=\r\n=0A        .header {=0A            background: linear-gradient(135deg, #0a5=\r\n872, #052c39);=0A            color: white;=0A            padding: 32px 24px=\r\n;=0A            text-align: center;=0A        }=0A        .header h1 {=0A  =\r\n          margin: 0;=0A            font-size: 2rem;=0A            font-weig=\r\nht: 700;=0A            letter-spacing: 1px;=0A        }=0A        .header p=\r\n {=0A            margin: 8px 0 0;=0A            opacity: 0.9;=0A           =\r\n font-size: 0.9rem;=0A        }=0A        .content {=0A            padding:=\r\n 32px 24px;=0A            background: white;=0A        }=0A        .greetin=\r\ng {=0A            margin-bottom: 24px;=0A            font-size: 1.1rem;=0A =\r\n           font-weight: 600;=0A            color: #052c39;=0A        }=0A  =\r\n      .message {=0A            margin-bottom: 28px;=0A            line-heig=\r\nht: 1.8;=0A            color: #555;=0A        }=0A        .verify-button-wr=\r\napper {=0A            text-align: center;=0A            margin: 32px 0;=0A =\r\n       }=0A        .verify-button {=0A            display: inline-block;=0A=\r\n            background: linear-gradient(45deg, #48cae4, #0077b6);=0A       =\r\n     color: white;=0A            padding: 14px 40px;=0A            border-r=\r\nadius: 50px;=0A            text-decoration: none;=0A            font-weight=\r\n: 700;=0A            transition: transform 0.3s, box-shadow 0.3s;=0A       =\r\n     box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);=0A        }=0A        .=\r\nverify-button:hover {=0A            transform: translateY(-2px);=0A        =\r\n    box-shadow: 0 6px 16px rgba(0, 119, 182, 0.3);=0A        }=0A        .l=\r\nink-text {=0A            margin-top: 20px;=0A            padding-top: 20px;=\r\n=0A            border-top: 1px solid #e9ecef;=0A            font-size: 0.85=\r\nrem;=0A            color: #999;=0A            word-break: break-all;=0A    =\r\n    }=0A        .link-text strong {=0A            color: #555;=0A        }=\r\n=0A        .footer {=0A            background: #f8f9fa;=0A            paddi=\r\nng: 24px;=0A            text-align: center;=0A            color: #999;=0A  =\r\n          font-size: 0.85rem;=0A            border-top: 1px solid #e9ecef;=\r\n=0A        }=0A        .footer p {=0A            margin: 8px 0;=0A        }=\r\n=0A        .warning {=0A            background: #fff3cd;=0A            bord=\r\ner-left: 4px solid #ffc107;=0A            padding: 16px;=0A            marg=\r\nin: 24px 0;=0A            border-radius: 4px;=0A            font-size: 0.9r=\r\nem;=0A            color: #856404;=0A        }=0A    &lt;\/style&gt;=0A&lt;\/head&gt;=0A&lt;b=\r\nody&gt;=0A=0A&lt;div class=3D&quot;email-container&quot;&gt;=0A    &lt;div class=3D&quot;header&quot;&gt;=0A  =\r\n      &lt;h1&gt;&lt;i style=3D&quot;font-size: 1.8rem;&quot;&gt;=F0=9F=8C=8A&lt;\/i&gt; Waves&lt;\/h1&gt;=0A   =\r\n     &lt;p&gt;Water Sports Adventures&lt;\/p&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;con=\r\ntent&quot;&gt;=0A        &lt;div class=3D&quot;greeting&quot;&gt;=0A            Hi earl,=0A        =\r\n&lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;message&quot;&gt;=0A            Welcome to Waves =\r\nWater Sports! We&#039;re excited to have you join our community. =0A            =\r\nTo get started, please verify your email address by clicking the button bel=\r\now:=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;verify-button-wrapper&quot;&gt;=0A =\r\n           &lt;a href=3D&quot;http:\/\/localhost:8080\/auth\/verify-email\/5c27bd1b516fa=\r\nbf827086aa6f2c9161e34e61966d71d10b0e0c7a432610dbed3&quot; class=3D&quot;verify-button=\r\n&quot;&gt;=0A                Verify Email Address=0A            &lt;\/a&gt;=0A        &lt;\/di=\r\nv&gt;=0A=0A        &lt;div class=3D&quot;link-text&quot;&gt;=0A            Or copy and paste t=\r\nhis link in your browser:&lt;br&gt;=0A            &lt;strong&gt;http:\/\/localhost:8080\/a=\r\nuth\/verify-email\/5c27bd1b516fabf827086aa6f2c9161e34e61966d71d10b0e0c7a43261=\r\n0dbed3&lt;\/strong&gt;=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;warning&quot;&gt;=0A   =\r\n         &lt;strong&gt;=E2=8F=B1=EF=B8=8F This link expires in 24 hours.&lt;\/strong&gt;=\r\n If you don&#039;t verify within this time, =0A            you&#039;ll need to reques=\r\nt a new verification email.=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;mes=\r\nsage&quot;&gt;=0A            If you didn&#039;t create this account, please ignore this =\r\nemail.=0A        &lt;\/div&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;footer&quot;&gt;=0A    =\r\n    &lt;p&gt;=C2=A9 2026 Waves Water Sports. All rights reserved.&lt;\/p&gt;=0A        &lt;=\r\np&gt;If you have questions, contact us at support@marisense.local&lt;\/p&gt;=0A    &lt;\/=\r\ndiv&gt;=0A&lt;\/div&gt;=0A=0A&lt;\/body&gt;=0A&lt;\/html&gt;=0A=0A&lt;!-- DEBUG-VIEW ENDED 1 APPPATH\\V=\r\niews\\emails\\verify_email.php --&gt;\r\n\r\n--B_ALT_69f069c8c75f65.01642991--<\/pre>"
+DEBUG - 2026-04-28 08:03:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-04-28 08:03:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

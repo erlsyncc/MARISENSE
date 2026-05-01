@@ -1,0 +1,1 @@
+__ci_last_regenerate|i:1777361256;csrf_test_name|s:32:"e990c7e0d2ea8c26290ce2814b538b91";_ci_previous_url|s:52:"http://localhost:8080/index.php/verify-email-pending";email|s:27:"earlsincombenido0@gmail.com";__ci_vars|a:2:{s:5:"email";s:3:"old";s:7:"message";s:3:"old";}message|s:42:"Verification email sent! Check your inbox.";
