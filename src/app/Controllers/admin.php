@@ -17,7 +17,7 @@ class Admin extends BaseController
     }
 
     // =========================================================
-    //  DASHBOARD
+    //  DASHBOARD  — shows only the 5 most recent bookings
     // =========================================================
     public function index()
     {
@@ -55,21 +55,45 @@ class Admin extends BaseController
     }
 
     // =========================================================
-    //  BOOKINGS — FIX: merge payment_history receipt into booking
+    //  BOOKINGS — paginated full list with receipt merge
     // =========================================================
     public function bookings()
     {
         if ($r = $this->requireAdmin()) return $r;
 
-        $db = \Config\Database::connect();
+        $db      = \Config\Database::connect();
+        $perPage = 15;
+        $page    = max(1, (int)($this->request->getGet('page') ?? 1));
+        $offset  = ($page - 1) * $perPage;
 
-        $bookings = $db->table('bookings b')
+        // Active filter & search
+        $statusFilter = $this->request->getGet('status') ?? 'all';
+        $search       = trim($this->request->getGet('search') ?? '');
+
+        // Base builder
+        $builder = $db->table('bookings b')
             ->select('b.*, u.username')
-            ->join('users u', 'u.id = b.user_id', 'left')
+            ->join('users u', 'u.id = b.user_id', 'left');
+
+        if ($statusFilter !== 'all') {
+            $builder->where('b.status', $statusFilter);
+        }
+        if ($search !== '') {
+            $builder->groupStart()
+                ->like('u.username', $search)
+                ->orLike('b.booking_code', $search)
+                ->groupEnd();
+        }
+
+        $totalBookings = $builder->countAllResults(false); // false = don't reset
+        $totalPages    = (int)ceil($totalBookings / $perPage);
+
+        $bookings = $builder
             ->orderBy('b.created_at', 'DESC')
+            ->limit($perPage, $offset)
             ->get()->getResultArray();
 
-        // ── FIX: merge latest payment_history receipt data into each booking ──
+        // ── Merge latest payment_history receipt data into each booking ──
         foreach ($bookings as &$b) {
             $ph = $db->table('payment_history')
                 ->where('booking_id', $b['id'])
@@ -79,32 +103,50 @@ class Admin extends BaseController
 
             $b['latest_payment'] = $ph ?: null;
 
-            // If the bookings table has no receipt but payment_history does,
-            // pull the receipt fields up so the view can display them.
             if (empty($b['gcash_receipt']) && !empty($ph['gcash_receipt'])) {
-                $b['gcash_receipt']     = $ph['gcash_receipt'];
-                $b['gcash_ref']         = $ph['gcash_ref']         ?? $b['gcash_ref']         ?? null;
-                $b['gcash_submitted_at']= $ph['created_at']        ?? $b['gcash_submitted_at']?? null;
+                $b['gcash_receipt']      = $ph['gcash_receipt'];
+                $b['gcash_ref']          = $ph['gcash_ref'] ?? null;
+                $b['gcash_submitted_at'] = $ph['created_at'] ?? null;
             }
 
-            // Sync payment status fields from payment_history if not already set
-            if (!empty($ph)) {
-                if (empty($b['payment_status']) || $b['payment_status'] === 'unpaid') {
-                    if ($ph['payment_type'] === 'full_payment' && $ph['is_verified']) {
-                        $b['payment_status'] = 'paid';
-                    }
-                }
-                if (empty($b['down_payment_status']) || $b['down_payment_status'] !== 'paid') {
-                    if ($ph['payment_type'] === 'down_payment' && $ph['is_verified']) {
-                        $b['down_payment_status'] = 'paid';
-                    }
-                }
-            }
+            $b['gcash_receipt_path'] = $b['gcash_receipt']      ?? null;
+            $b['gcash_ref_no']       = $b['gcash_ref']          ?? null;
+            $b['gcash_submitted_at'] = $b['gcash_submitted_at'] ?? $ph['created_at'] ?? null;
         }
         unset($b);
 
-        $pendingCount        = $db->table('bookings')->where('status', 'pending')->countAllResults();
-        $pendingVerifyCount  = $db->table('payment_history')
+        // ── Pre-compute line items server-side ──
+        foreach ($bookings as &$b) {
+            $actNames = array_values(array_filter(array_map('trim', explode(',', $b['all_activities'] ?? $b['activity_name'] ?? ''))));
+            $ppaMap   = [];
+            if (!empty($b['participants_per_activity'])) {
+                $dec = json_decode($b['participants_per_activity'], true);
+                if (is_array($dec)) $ppaMap = $dec;
+            }
+            if (empty($ppaMap)) {
+                $tot = (int)($b['participants'] ?? 1);
+                $per = (int)floor($tot / max(count($actNames), 1));
+                $rem = $tot % max(count($actNames), 1);
+                foreach ($actNames as $idx => $an) {
+                    $ppaMap[$an] = $per + ($idx === 0 ? $rem : 0);
+                }
+            }
+            $lineItems = [];
+            foreach ($actNames as $an) {
+                $an    = trim($an);
+                $pax   = (int)($ppaMap[$an] ?? 0);
+                $row   = $db->table('activities')->where('name', $an)->get()->getRowArray();
+                $price = $row ? (float)$row['price'] : 0;
+                $type  = $row ? ($row['price_type'] ?? 'flat') : 'flat';
+                $lineT = ($type === 'per_person') ? $price * $pax : $price;
+                $lineItems[$an] = ['price' => $price, 'price_type' => $type, 'pax' => $pax, 'line_total' => $lineT];
+            }
+            $b['_line_items'] = $lineItems;
+        }
+        unset($b);
+
+        $pendingCount       = $db->table('bookings')->where('status', 'pending')->countAllResults();
+        $pendingVerifyCount = $db->table('payment_history')
             ->where('is_verified', 0)
             ->where('gcash_receipt IS NOT NULL', null, false)
             ->countAllResults();
@@ -113,6 +155,12 @@ class Admin extends BaseController
             'bookings'           => $bookings,
             'pendingCount'       => $pendingCount,
             'pendingVerifyCount' => $pendingVerifyCount,
+            'totalBookings'      => $totalBookings,
+            'totalPages'         => $totalPages,
+            'currentPage'        => $page,
+            'perPage'            => $perPage,
+            'statusFilter'       => $statusFilter,
+            'search'             => $search,
         ]);
     }
 
@@ -136,80 +184,31 @@ class Admin extends BaseController
     }
 
     // =========================================================
-    //  UPDATE PAYMENT — FIX: also handles payment_history table
+    //  UPDATE PAYMENT (mark down / full paid / reject receipt)
     // =========================================================
     public function updatePayment()
     {
         if ($r = $this->requireAdmin()) return $r;
 
         $bookingId     = (int) $this->request->getPost('booking_id');
-        $paymentAction = $this->request->getPost('payment_action'); // down_paid | full_paid | reject_receipt
+        $paymentAction = $this->request->getPost('payment_action');
 
         if (! $bookingId || ! in_array($paymentAction, ['down_paid', 'full_paid', 'reject_receipt'])) {
-            return redirect()->back()->with('error', 'Invalid payment action.');
+            return redirect()->back()->with('error', 'Invalid payment request.');
         }
 
         $db = \Config\Database::connect();
 
-        if ($paymentAction === 'reject_receipt') {
-            // Remove latest unverified receipt from payment_history
-            $ph = $db->table('payment_history')
-                ->where('booking_id', $bookingId)
-                ->where('is_verified', 0)
-                ->orderBy('created_at', 'DESC')
-                ->limit(1)
-                ->get()->getRowArray();
-
-            if ($ph) {
-                $db->table('payment_history')->where('id', $ph['id'])->delete();
-            }
-
-            // Also clear receipt columns on bookings table if they exist
-            $db->table('bookings')->where('id', $bookingId)->update([
-                'gcash_receipt'      => null,
-                'gcash_ref'          => null,
-                'gcash_submitted_at' => null,
-                'updated_at'         => date('Y-m-d H:i:s'),
-            ]);
-
-            return redirect()->to(base_url('admin/bookings'))
-                             ->with('success', 'Receipt rejected. The user will need to re-upload.');
-        }
-
         if ($paymentAction === 'down_paid') {
-            // Mark latest payment_history entry as verified
-            $ph = $db->table('payment_history')
-                ->where('booking_id', $bookingId)
-                ->orderBy('created_at', 'DESC')
-                ->limit(1)
-                ->get()->getRowArray();
-
-            if ($ph) {
-                $db->table('payment_history')->where('id', $ph['id'])->update([
-                    'is_verified' => 1,
-                    'verified_by' => auth()->id(),
-                    'verified_at' => date('Y-m-d H:i:s'),
-                ]);
-            }
-
             $db->table('bookings')->where('id', $bookingId)->update([
                 'down_payment_status'  => 'paid',
                 'down_payment_paid_at' => date('Y-m-d H:i:s'),
                 'updated_at'           => date('Y-m-d H:i:s'),
             ]);
-
-            return redirect()->to(base_url('admin/bookings'))
-                             ->with('success', '50% down payment marked as confirmed.');
-        }
-
-        if ($paymentAction === 'full_paid') {
-            // Mark latest payment_history entry as verified
             $ph = $db->table('payment_history')
                 ->where('booking_id', $bookingId)
                 ->orderBy('created_at', 'DESC')
-                ->limit(1)
-                ->get()->getRowArray();
-
+                ->limit(1)->get()->getRowArray();
             if ($ph) {
                 $db->table('payment_history')->where('id', $ph['id'])->update([
                     'is_verified' => 1,
@@ -217,19 +216,41 @@ class Admin extends BaseController
                     'verified_at' => date('Y-m-d H:i:s'),
                 ]);
             }
+            return redirect()->to(base_url('admin/bookings'))->with('success', '50% down payment marked as confirmed.');
 
+        } elseif ($paymentAction === 'full_paid') {
             $db->table('bookings')->where('id', $bookingId)->update([
                 'payment_status' => 'paid',
                 'updated_at'     => date('Y-m-d H:i:s'),
             ]);
+            $ph = $db->table('payment_history')
+                ->where('booking_id', $bookingId)
+                ->orderBy('created_at', 'DESC')
+                ->limit(1)->get()->getRowArray();
+            if ($ph) {
+                $db->table('payment_history')->where('id', $ph['id'])->update([
+                    'is_verified' => 1,
+                    'verified_by' => auth()->id(),
+                    'verified_at' => date('Y-m-d H:i:s'),
+                ]);
+            }
+            return redirect()->to(base_url('admin/bookings'))->with('success', 'Booking marked as fully paid.');
 
-            return redirect()->to(base_url('admin/bookings'))
-                             ->with('success', 'Booking marked as fully paid.');
+        } elseif ($paymentAction === 'reject_receipt') {
+            $db->table('payment_history')->where('booking_id', $bookingId)->delete();
+            $db->table('bookings')->where('id', $bookingId)->update([
+                'gcash_receipt' => null,
+                'gcash_ref'     => null,
+                'updated_at'    => date('Y-m-d H:i:s'),
+            ]);
+            return redirect()->to(base_url('admin/bookings'))->with('success', 'Receipt rejected. User can now re-upload.');
         }
+
+        return redirect()->back()->with('error', 'Unknown action.');
     }
 
     // =========================================================
-    //  VERIFY PAYMENT (legacy endpoint — kept for compatibility)
+    //  VERIFY PAYMENT (legacy — kept for backward compat)
     // =========================================================
     public function verifyPayment()
     {
@@ -237,7 +258,7 @@ class Admin extends BaseController
 
         $paymentId = (int) $this->request->getPost('payment_id');
         $bookingId = (int) $this->request->getPost('booking_id');
-        $action    = $this->request->getPost('action'); // 'approve' or 'reject'
+        $action    = $this->request->getPost('action');
 
         if (! $paymentId || ! $bookingId || ! in_array($action, ['approve', 'reject'])) {
             return redirect()->back()->with('error', 'Invalid verification request.');

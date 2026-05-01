@@ -510,7 +510,7 @@ function fmtDateTime(str) {
 }
 
 /* Receipt base URL */
-const RECEIPT_BASE_URL = '<?= base_url('uploads/receipts/') ?>';
+const RECEIPT_BASE_URL = '<?= base_url('uploads/gcash_receipts/') ?>';
 
 function openDetail(b) {
 

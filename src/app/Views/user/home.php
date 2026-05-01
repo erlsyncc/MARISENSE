@@ -271,6 +271,7 @@
             align-items:center;
             margin-top:25px;
         }
+        
     </style>
 </head>
 <body>

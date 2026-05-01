@@ -243,7 +243,7 @@
     </div>
 
     <div class="login-form-area">
-        <h3 class="fw-bold mb-1">Welcome Back!</h3>
+        <h3 class="fw-bold mb-1">Welcome!</h3>
         <p class="text-muted small mb-4">Please log in to manage your bookings.</p>
 
         <?php if($session->getFlashdata('error')): ?>
