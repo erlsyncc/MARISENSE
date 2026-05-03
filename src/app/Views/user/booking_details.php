@@ -10,7 +10,6 @@
     <style>
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; }
         body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; min-height: 100vh; }
-
         /* ── Navbar ── */
         .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
@@ -22,23 +21,18 @@
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255,107,107,0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
-
         /* ── Page layout ── */
         .page-body { max-width: 820px; margin: 50px auto 100px; padding: 0 24px; }
-
         .breadcrumb-strip { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 22px; }
         .breadcrumb-strip a { color: var(--accent-cyan); text-decoration: none; }
         .breadcrumb-strip a:hover { text-decoration: underline; }
-
         /* ── Main card ── */
         .details-card { background: rgba(255,255,255,0.08); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.15); border-radius: 28px; padding: 38px; }
-
         /* ── Booking header ── */
         .booking-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; flex-wrap: wrap; gap: 14px; }
         .booking-header-title { font-size: 1.55rem; font-weight: 700; margin: 0 0 4px; line-height: 1.3; }
         .booking-header-sub { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin: 0; }
         .booking-code-badge { background: rgba(72,202,228,0.12); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); padding: 6px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 700; letter-spacing: 1px; white-space: nowrap; }
-
         /* ── Timeline ── */
         .timeline { display: flex; margin-bottom: 30px; }
         .tl-step { flex: 1; text-align: center; position: relative; }
@@ -48,18 +42,15 @@
         .tl-dot.current { background: rgba(72,202,228,0.18); color: var(--accent-cyan); border-color: var(--accent-cyan); }
         .tl-label { font-size: 0.63rem; color: rgba(255,255,255,0.38); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
         .tl-label.active { color: var(--accent-cyan); }
-
         /* ── Section label ── */
         .section-label { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-cyan); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
         .section-divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 26px 0; }
-
         /* ── Status badges ── */
         .badge-status { padding: 6px 16px; border-radius: 50px; font-weight: 700; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 5px; }
         .status-pending   { background: rgba(255,193,7,0.12);  color: #ffc107; border: 1px solid rgba(255,193,7,0.45); }
         .status-confirmed { background: rgba(40,167,69,0.12);  color: #5ddb8a; border: 1px solid rgba(40,167,69,0.45); }
         .status-completed { background: rgba(72,202,228,0.12); color: #48cae4; border: 1px solid rgba(72,202,228,0.45); }
         .status-cancelled { background: rgba(220,53,69,0.12);  color: #ff9999; border: 1px solid rgba(220,53,69,0.45); }
-
         /* ── Cost summary table ── */
         .cost-table { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 16px; overflow: hidden; margin-bottom: 22px; }
         .cost-table-header { padding: 10px 18px; background: rgba(72,202,228,0.07); font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-cyan); border-bottom: 1px solid rgba(72,202,228,0.12); }
@@ -73,7 +64,6 @@
         .cost-total-label { font-size: 0.88rem; font-weight: 700; color: var(--accent-cyan); }
         .cost-total-meta { font-size: 0.7rem; font-weight: 400; opacity: 0.55; margin-left: 8px; }
         .cost-total-amount { font-size: 1.35rem; font-weight: 900; color: var(--accent-cyan); }
-
         /* ── Payment block ── */
         .payment-block { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 16px; padding: 20px 22px; margin-bottom: 22px; }
         .payment-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -86,7 +76,6 @@
         .pay-badge-unpaid { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.14); padding: 5px 14px; border-radius: 50px; font-size: 0.76rem; font-weight: 700; }
         .pay-instruction { background: rgba(72,202,228,0.05); border: 1px solid rgba(72,202,228,0.15); border-radius: 10px; padding: 11px 16px; margin-top: 14px; font-size: 0.78rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
         .pay-instruction strong { color: var(--accent-cyan); }
-
         /* ── Action buttons ── */
         .action-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
         .btn-back { background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 11px 26px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.88rem; }
@@ -95,7 +84,6 @@
         .btn-cancel-booking:hover { background: rgba(220,53,69,0.28); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(220,53,69,0.2); }
         .btn-pay-detail { background: rgba(40,167,69,0.1); border: 1px solid rgba(40,167,69,0.32); color: #5ddb8a; padding: 11px 26px; border-radius: 50px; font-weight: 600; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.88rem; }
         .btn-pay-detail:hover { background: rgba(40,167,69,0.28); transform: translateY(-2px); }
-
         /* ── Payment Modal ── */
         #payModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,44,57,0.92); backdrop-filter: blur(10px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeInModal 0.25s ease; }
         #payModal.d-none { display: none !important; }

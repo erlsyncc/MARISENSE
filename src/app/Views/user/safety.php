@@ -10,14 +10,7 @@
     <style>
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; }
         body {font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; min-height: 100vh}
-
-        .highlight-brand {
-            font-weight: 700;
-            color: #48cae4;
-            text-shadow: 0 0 10px rgba(72, 202, 228, 0.4);
-            letter-spacing: 1px;
-        }
-
+        .highlight-brand {font-weight: 700;color: #48cae4;text-shadow: 0 0 10px rgba(72, 202, 228, 0.4); letter-spacing: 1px; }
         /* Navbar Styles */
         .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
@@ -29,59 +22,13 @@
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
-
-        /* ============================================================
-           ADDED: HELP BUTTON STYLE
-           ============================================================ */
-        .btn-help-custom {
-            color: #48cae4;
-            font-weight: 600;
-            font-size: 0.85rem;
-            padding: 8px 18px;
-            border: 1px solid rgba(72,202,228,0.5);
-            border-radius: 50px;
-            background: rgba(72,202,228,0.08);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-help-custom:hover {
-            background: rgba(72,202,228,0.2);
-            border-color: var(--accent-cyan);
-        }
-        /* ============================================================
-           ADDED: HELP MODAL STYLES
-           ============================================================ */
-        #helpModal {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(5,44,57,0.88);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            animation: fadeInModal 0.25s ease;
-        }
+        .btn-help-custom {color: #48cae4;font-weight: 600;font-size: 0.85rem; padding: 8px 18px;border-radius: 50px;background: rgba(72,202,228,0.08);cursor: pointer;transition: 0.3s;}
+        .btn-help-custom:hover {background: rgba(72,202,228,0.2);border-color: var(--accent-cyan);}
+        #helpModal {position: fixed;top: 0; left: 0;width: 100%; height: 100%;background: rgba(5,44,57,0.88);backdrop-filter: blur(8px); z-index: 9999;display: flex;align-items: center;justify-content: center;padding: 20px;animation: fadeInModal 0.25s ease;}
         #helpModal.d-none { display: none !important; }
-        @keyframes fadeInModal {
-            from { opacity: 0; transform: scale(0.96); }
-            to   { opacity: 1; transform: scale(1); }
-        }
-        .help-modal-box {
-            background: #0a3d52;
-            border: 1px solid rgba(72,202,228,0.35);
-            border-radius: 30px;
-            padding: 40px;
-            max-width: 780px;
-            width: 100%;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-        }
-        .help-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;margin-bottom: 28px;}
+        @keyframes fadeInModal { from { opacity: 0; transform: scale(0.96); }to   { opacity: 1; transform: scale(1); }}
+        .help-modal-box {background: #0a3d52;border: 1px solid rgba(72,202,228,0.35);padding: 40px;max-width: 780px;width: 100%;box-shadow: 0 30px 60px rgba(0,0,0,0.5);}
+        .help-modal-header {display: flex;justify-content: space-between;align-items: center;margin-bottom: 28px;}
         .help-modal-title {color: #48cae4;font-size: 1.3rem;font-weight: 700;margin: 0;}
         .btn-close-help {background: none;border: 1px solid rgba(255,255,255,0.25);color: white;border-radius: 50px;padding: 6px 20px;cursor: pointer;font-size: 0.85rem;transition: 0.3s;}
         .btn-close-help:hover { background: rgba(255,255,255,0.1); }

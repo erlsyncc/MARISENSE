@@ -10,9 +10,9 @@
     <style>
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; }
         body {font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; min-height: 100vh}
-        
+
         .highlight-brand { font-weight: 700; color: #48cae4; text-shadow: 0 0 10px rgba(72, 202, 228, 0.4); letter-spacing: 1px; }
-        
+
         /* Navbar */
         .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
@@ -52,6 +52,7 @@
         .step-card { background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; padding: 28px; margin-bottom: 20px; }
         .step-label { display: inline-flex; align-items: center; gap: 8px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-cyan); margin-bottom: 6px; }
         .section-sep { width: 40px; height: 2px; background: linear-gradient(90deg, var(--accent-cyan), transparent); border-radius: 2px; margin-bottom: 18px; }
+
         /* Activity picker */
         .activity-highlight { background: linear-gradient(135deg, rgba(10,88,114,0.5), rgba(5,44,57,0.7)); border-left: 4px solid var(--accent-cyan); border-radius: 16px; padding: 20px 24px; position: relative; margin-bottom: 10px; }
         .activity-highlight h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; padding-right: 120px; }
@@ -71,6 +72,7 @@
         .act-opt-price { font-size: 0.72rem; color: rgba(255,255,255,0.5); margin-left: auto; }
         .btn-add-activity { display: inline-flex; align-items: center; gap: 8px; background: rgba(72,202,228,0.1); border: 1px dashed rgba(72,202,228,0.5); color: var(--accent-cyan); border-radius: 50px; padding: 8px 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 12px; width: 100%; justify-content: center; }
         .btn-add-activity:hover { background: rgba(72,202,228,0.22); border-style: solid; }
+
         /* Calendar */
         .calendar-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .calendar-header-row h4 { font-size: 1rem; font-weight: 700; }
@@ -80,33 +82,51 @@
         .cal-day-headers span { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: var(--accent-cyan); padding: 4px 0; }
         .calendar-days-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; }
         .day-box { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 0.8rem; font-weight: 600; cursor: default; min-height: 34px; transition: all 0.2s; position: relative; }
-        .day-box.empty { background: transparent; }
-        .day-box.available { background: rgba(40,167,69,0.15); border: 1px solid rgba(40,167,69,0.35); color: #5ddb8a; cursor: pointer; }
+        .day-box.empty    { background: transparent; border: none; }
+        .day-box.available{ background: rgba(40,167,69,0.15); border: 1px solid rgba(40,167,69,0.35); color: #5ddb8a; cursor: pointer; }
         .day-box.available:hover { background: rgba(40,167,69,0.35); transform: scale(1.08); }
-        .day-box.past { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.2); cursor: not-allowed; }
-        .day-box.partial { background: rgba(255,193,7,0.15); border: 1px solid rgba(255,193,7,0.4); color: #ffc107; cursor: pointer; }
+        .day-box.past     { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.2); cursor: not-allowed; }
+        .day-box.partial  { background: rgba(255,193,7,0.15); border: 1px solid rgba(255,193,7,0.4); color: #ffc107; cursor: pointer; }
         .day-box.partial:hover { background: rgba(255,193,7,0.3); transform: scale(1.08); }
-        .day-box.booked { background: rgba(220,53,69,0.2); border: 1px solid rgba(220,53,69,0.4); color: #ff9999; cursor: not-allowed; }
-        .day-box.today { outline: 2px solid var(--accent-cyan); }
-        .day-box.selected { background: var(--accent-cyan) !important; color: var(--deep-blue) !important; border: none !important; font-weight: 700 !important; box-shadow: 0 4px 12px rgba(72,202,228,0.4) !important; }
+        .day-box.booked   { background: rgba(220,53,69,0.2); border: 1px solid rgba(220,53,69,0.4); color: #ff9999; cursor: not-allowed; }
+        .day-box.today    { outline: 2px solid var(--accent-cyan); outline-offset: 1px; }
+        .day-box.selected { background: var(--accent-cyan) !important; color: var(--deep-blue) !important; border: none !important; font-weight: 700 !important; box-shadow: 0 4px 12px rgba(72,202,228,0.4) !important; outline: none !important; }
+
+        /* ── Fixed calendar legend ── */
         .cal-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: rgba(255,255,255,0.6); }
         .cal-legend-item { display: flex; align-items: center; gap: 6px; }
-        .cal-dot { width: 11px; height: 11px; border-radius: 3px; }
-        .cal-dot.avail { background: rgba(40,167,69,0.5); border: 1px solid rgba(40,167,69,0.6); }
-        .cal-dot.partial { background: rgba(255,193,7,0.5); border: 1px solid rgba(255,193,7,0.6); }
-        .cal-dot.full { background: rgba(220,53,69,0.5); border: 1px solid rgba(220,53,69,0.6); }
-        .cal-dot.today { outline: 2px solid var(--accent-cyan); background: transparent; }
-        /* Time slots */
-        .time-slots-wrapper { max-height: 230px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 10px; background: rgba(255,255,255,0.03); }
+        .cal-dot { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
+        .cal-dot.avail   { background: rgba(40,167,69,0.4);  border: 1px solid rgba(40,167,69,0.7); }
+        .cal-dot.partial { background: rgba(255,193,7,0.4);  border: 1px solid rgba(255,193,7,0.7); }
+        .cal-dot.full    { background: rgba(220,53,69,0.4);  border: 1px solid rgba(220,53,69,0.7); }
+        .cal-dot.past    { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); }
+        .cal-dot.today   { background: transparent; border: 2px solid var(--accent-cyan); }
+
+        /* Time slots — single activity (1-hour blocks, unchanged) */
+        .time-slots-wrapper { max-height: 260px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 10px; background: rgba(255,255,255,0.03); }
         .time-slot-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 11px 14px; margin-bottom: 7px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: white; cursor: pointer; transition: 0.2s; font-size: 0.86rem; font-weight: 500; }
         .time-slot-btn:last-child { margin-bottom: 0; }
-        .time-slot-btn:hover { border-color: rgba(72,202,228,0.5); background: rgba(72,202,228,0.1); }
+        .time-slot-btn:hover:not(.unavailable):not(.lunch-break) { border-color: rgba(72,202,228,0.5); background: rgba(72,202,228,0.1); }
         .time-slot-btn.active { background: var(--accent-cyan); color: var(--deep-blue); border-color: var(--accent-cyan); font-weight: 700; }
-        .time-slot-btn.unavailable { background: rgba(255,107,107,0.06); color: rgba(255,255,255,0.3); border-color: rgba(255,107,107,0.15); cursor: not-allowed; }
-        .slot-status { font-size: 0.7rem; padding: 3px 10px; border-radius: 50px; font-weight: 600; }
-        .slot-status.open { background: rgba(40,167,69,0.2); color: #5ddb8a; }
-        .slot-status.taken { background: rgba(255,107,107,0.2); color: #ff9999; }
+        .time-slot-btn.unavailable { background: rgba(220,53,69,0.07); color: rgba(255,255,255,0.35); border-color: rgba(220,53,69,0.2); cursor: not-allowed; }
+        .time-slot-btn.lunch-break { background: rgba(255,193,7,0.05); color: rgba(255,255,255,0.35); border: 1px dashed rgba(255,193,7,0.25); cursor: not-allowed; font-style: italic; }
+        .slot-status { font-size: 0.7rem; padding: 3px 10px; border-radius: 50px; font-weight: 600; white-space: nowrap; }
+        .slot-status.open   { background: rgba(40,167,69,0.2);  color: #5ddb8a; }
+        .slot-status.taken  { background: rgba(220,53,69,0.2);  color: #ff9999; }
+        .slot-status.lunch  { background: rgba(255,193,7,0.15); color: #ffc107; }
         .slots-loading { text-align: center; padding: 20px; opacity: 0.5; font-size: 0.85rem; }
+
+        /* ── Multi-activity time slot section ── */
+        .multi-slot-section { margin-bottom: 18px; }
+        .multi-slot-header { display: flex; align-items: center; gap: 9px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-cyan); margin-bottom: 8px; }
+        .multi-slot-header i { width: 16px; text-align: center; }
+        .multi-slot-select { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: white; padding: 10px 14px; font-family: 'Poppins', sans-serif; font-size: 0.86rem; outline: none; transition: 0.2s; cursor: pointer; }
+        .multi-slot-select:focus { border-color: rgba(72,202,228,0.5); background: rgba(255,255,255,0.1); }
+        .multi-slot-select option { background: #073d52; color: white; }
+        .multi-slot-select option.opt-taken { color: #ff9999; }
+        .multi-slot-select option.opt-lunch  { color: #ffc107; font-style: italic; }
+        .multi-slot-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 14px 0; }
+
         /* Form fields */
         .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .field-group { margin-bottom: 16px; }
@@ -118,15 +138,17 @@
         .form-select-wave option { background: #073d52; color: white; }
         textarea.form-control-wave { resize: vertical; min-height: 80px; }
         .form-hint { font-size: 0.73rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
         /* Sea conditions */
         .conditions-box { background: rgba(72,202,228,0.06); border: 1px solid rgba(72,202,228,0.2); border-radius: 14px; padding: 18px 22px; }
         .conditions-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; text-align: center; }
         .condition-item strong { display: block; font-size: 1.1rem; color: var(--accent-cyan); margin-bottom: 2px; }
         .condition-item span { color: rgba(255,255,255,0.5); font-size: 0.72rem; text-transform: uppercase; }
         .safety-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 50px; font-weight: 700; font-size: 0.83rem; }
-        .safe-bg { background: rgba(40,167,69,0.15); color: #5ddb8a; border: 1px solid rgba(40,167,69,0.35); }
-        .moderate-bg { background: rgba(255,193,7,0.15); color: #ffc107; border: 1px solid rgba(255,193,7,0.35); }
-        .unsafe-bg { background: rgba(220,53,69,0.15); color: #ff9999; border: 1px solid rgba(220,53,69,0.35); }
+        .safe-bg     { background: rgba(40,167,69,0.15);  color: #5ddb8a; border: 1px solid rgba(40,167,69,0.35); }
+        .moderate-bg { background: rgba(255,193,7,0.15);  color: #ffc107; border: 1px solid rgba(255,193,7,0.35); }
+        .unsafe-bg   { background: rgba(220,53,69,0.15);  color: #ff9999; border: 1px solid rgba(220,53,69,0.35); }
+
         /* Summary card */
         .summary-sidebar { position: sticky; top: 82px; }
         .summary-card { background: var(--soft-white); color: var(--deep-blue); border-radius: 24px; padding: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); margin-bottom: 18px; }
@@ -138,7 +160,7 @@
         .summary-total-box { background: linear-gradient(135deg, rgba(10,88,114,0.08), rgba(72,202,228,0.1)); border: 1px solid rgba(10,88,114,0.12); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
         .price-breakdown { font-size: 0.8rem; color: rgba(5,44,57,0.6); margin-bottom: 8px; }
         .price-total-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(10,88,114,0.12); padding-top: 8px; }
-        .price-total-row .total-label { font-weight: 700; font-size: 0.88rem; color: var(--deep-blue); }
+        .price-total-row .total-label  { font-weight: 700; font-size: 0.88rem; color: var(--deep-blue); }
         .price-total-row .total-amount { font-size: 1.5rem; font-weight: 900; color: var(--ocean-blue); }
         .form-check-label { font-size: 0.8rem; color: rgba(5,44,57,0.7); }
         .form-check-input:checked { background-color: var(--ocean-blue); border-color: var(--ocean-blue); }
@@ -152,13 +174,14 @@
         .alert-wave-danger { background: rgba(220,53,69,0.15); border: 1px solid rgba(220,53,69,0.4); color: #ff9999; }
         .sum-activity-line { background: rgba(10,88,114,0.06); border-radius: 8px; padding: 8px 10px; margin-bottom: 6px; }
         .sum-activity-line:last-child { margin-bottom: 0; }
-        .sal-name { font-size: 0.82rem; font-weight: 700; color: var(--ocean-blue); margin-bottom: 3px; }
+        .sal-name   { font-size: 0.82rem; font-weight: 700; color: var(--ocean-blue); margin-bottom: 3px; }
         .sal-detail { display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(5,44,57,0.55); }
-        .sal-price { font-weight: 700; color: var(--ocean-blue); }
+        .sal-price  { font-weight: 700; color: var(--ocean-blue); }
         @media (max-width: 992px) { .booking-layout { grid-template-columns: 1fr; } .summary-sidebar { position: static; } .form-row-2 { grid-template-columns: 1fr; } }
         html { scroll-behavior: smooth; }
         footer { background: var(--deep-blue); padding: 100px 0 40px 0; color: rgba(255,255,255,0.6) !important; border-top: 1px solid rgba(255,255,255,0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        /* ── SEARCH ── */
+
+        /* Search */
         .btn-search-custom { color: #48cae4; font-size: 1.1rem; padding: 8px 12px; border: 1px solid rgba(72,202,228,0.5); border-radius: 50px; background: rgba(72,202,228,0.08); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
         .btn-search-custom:hover { background: rgba(72,202,228,0.2); border-color: #48cae4; }
         #searchOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,44,57,0.92); backdrop-filter: blur(10px); z-index: 99999; display: flex; flex-direction: column; align-items: center; padding-top: 100px; animation: fadeInSearch 0.2s ease; }
@@ -198,15 +221,12 @@
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
         <div class="logout-wrapper">
-            <!-- SEARCH ICON -->
             <button class="btn-search-custom" onclick="openSearch()" title="Search">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
-            <!-- HELP -->
             <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
                 <i class="fa-solid fa-circle-question me-1"></i> Help
             </button>
-            <!-- LOGOUT -->
             <a href="<?= base_url('logout') ?>" class="btn-logout-custom">
                 <i class="fa-solid fa-power-off me-1"></i> Logout
             </a>
@@ -225,10 +245,6 @@
 </header>
 
 <?php
-/* ─────────────────────────────────────────────────────────────
-   Build a JS-friendly array from the DB $activities rows.
-   Icons are mapped by name; anything unknown gets a default.
-   ───────────────────────────────────────────────────────────── */
 $iconMap = [
     'jet ski'       => 'fa-water',
     'banana boat'   => 'fa-ship',
@@ -242,7 +258,7 @@ foreach (($activities ?? []) as $act) {
     $jsActivities[$act['name']] = [
         'desc'       => $act['description'] ?? '',
         'difficulty' => $act['difficulty']  ?? 'Moderate',
-        'duration'   => (int)($act['duration']  ?? 0),
+        'duration'   => (int)($act['duration']  ?? 60),
         'max'        => (int)(preg_match('/(\d+)\s*(?:persons?)?$/u', $act['max_riders'] ?? '', $m) ? $m[1] : 1),
         'price'      => (float)$act['price'],
         'price_type' => $act['price_type'] ?? 'flat',
@@ -254,28 +270,33 @@ $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['pric
 ?>
 
 <script>
-    const BOOKING_SLOTS_URL    = "<?= base_url('user/booking/slots') ?>";
-    const BOOKED_DATES_URL     = "<?= base_url('user/booking/booked-dates') ?>";
-    /* ── DB-driven activity data ── */
-    const ACTIVITY_DATA        = <?= json_encode($jsActivities) ?>;
-    const ACTIVITY_PRICING     = <?= json_encode($pricing) ?>;
-    const ACTIVITY_MAX         = <?= json_encode($maxRiders) ?>;
-    const ACTIVITY_DURATION    = <?= json_encode($durations) ?>;
-    const PER_PERSON_ACTIVITIES= <?= json_encode($perPersonActivities) ?>;
+    const BOOKING_SLOTS_URL     = "<?= base_url('user/booking/slots') ?>";
+    const BOOKED_DATES_URL      = "<?= base_url('user/booking/booked-dates') ?>";
+    const ACTIVITY_DATA         = <?= json_encode($jsActivities) ?>;
+    const ACTIVITY_PRICING      = <?= json_encode($pricing) ?>;
+    const ACTIVITY_MAX          = <?= json_encode($maxRiders) ?>;
+    const ACTIVITY_DURATION     = <?= json_encode($durations) ?>;
+    const PER_PERSON_ACTIVITIES = <?= json_encode($perPersonActivities) ?>;
 
     let selectedActivity  = "<?= esc($selectedActivity) ?>";
     let bookedDates       = <?= json_encode($bookedDates) ?>;
+    let partialDates      = <?= json_encode($partialDates ?? []) ?>;  // dates with some slots taken
     let selectedDate      = '';
     let selectedTime      = '';
+
+    /* Multi-activity per-activity selected times: { actName: "HH:MM" } */
+    let multiSelectedTimes = {};
 </script>
 
 <form action="<?= base_url('user/booking/store') ?>" method="POST" id="bookingForm">
     <?= csrf_field() ?>
-    <input type="hidden" name="activity"       id="f_activity"       value="<?= esc($selectedActivity) ?>">
-    <input type="hidden" name="all_activities" id="f_all_activities" value="<?= esc($selectedActivity) ?>">
-    <input type="hidden" name="date"           id="f_date"           value="">
-    <input type="hidden" name="time"           id="f_time"           value="">
-    <input type="hidden" name="participants"   id="f_participants"   value="1">
+    <input type="hidden" name="activity"                    id="f_activity"                    value="<?= esc($selectedActivity) ?>">
+    <input type="hidden" name="all_activities"              id="f_all_activities"              value="<?= esc($selectedActivity) ?>">
+    <input type="hidden" name="date"                        id="f_date"                        value="">
+    <input type="hidden" name="time"                        id="f_time"                        value="">
+    <input type="hidden" name="participants"                id="f_participants"                value="1">
+    <input type="hidden" name="participants_per_activity"   id="f_participants_per_activity"   value="{}">
+    <input type="hidden" name="time_per_activity"           id="f_time_per_activity"           value="{}">
 
 <div class="booking-layout">
 <div class="steps-column">
@@ -295,7 +316,6 @@ $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['pric
         <div id="activity-empty" style="display:none;">
             <p class="opacity-50 mb-0" style="font-size:0.88rem;"><i class="fa-solid fa-circle-info me-2"></i>No activity selected. Pick one below.</p>
         </div>
-        <!-- ── Dynamic activity picker (DB-driven) ── -->
         <div class="activity-picker" id="activity-picker">
             <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:8px;">Choose an activity to add:</p>
             <div class="activity-grid" id="activity-grid">
@@ -338,11 +358,13 @@ $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['pric
             <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
         </div>
         <div class="calendar-days-grid" id="calendar-days"></div>
+        <!-- Fixed legend: colours exactly match the day-box classes -->
         <div class="cal-legend">
             <div class="cal-legend-item"><div class="cal-dot avail"></div> Available</div>
             <div class="cal-legend-item"><div class="cal-dot partial"></div> Partially Booked</div>
             <div class="cal-legend-item"><div class="cal-dot full"></div> Fully Booked</div>
-            <div class="cal-legend-item"><div class="cal-dot today" style="width:11px;height:11px;border-radius:3px;"></div> Today</div>
+            <div class="cal-legend-item"><div class="cal-dot past"></div> Past / Unavailable</div>
+            <div class="cal-legend-item"><div class="cal-dot today"></div> Today</div>
         </div>
     </div>
 
@@ -350,7 +372,7 @@ $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['pric
     <div class="step-card">
         <div class="step-label"><i class="fa-regular fa-clock"></i> Step 3 — Select Time Slot</div>
         <div class="section-sep"></div>
-        <div class="time-slots-wrapper" id="time-slots-container">
+        <div id="time-slots-area">
             <div class="slots-loading"><i class="fa-solid fa-calendar-days me-2"></i>Please select a date first.</div>
         </div>
         <p class="form-hint mt-2" id="slots-count-hint"></p>
@@ -417,7 +439,6 @@ $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['pric
     <div class="summary-card">
         <div class="step-label" style="color:var(--ocean-blue);"><i class="fa-solid fa-clipboard-check"></i> Step 6 — Confirm Booking</div>
         <h4>Booking Summary</h4>
-
         <div class="summary-row"><span class="s-label">Activity</span><span class="s-value" id="summary-activity">—</span></div>
         <div class="summary-row"><span class="s-label">Location</span><span class="s-value">Matabungkay Beach</span></div>
         <div class="summary-row"><span class="s-label">Date</span><span class="s-value" id="summary-date">Not selected</span></div>
@@ -425,9 +446,7 @@ $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['pric
         <div class="summary-row"><span class="s-label">Duration</span><span class="s-value" id="summary-duration">—</span></div>
         <div class="summary-row"><span class="s-label">Participants</span><span class="s-value" id="summary-participants">—</span></div>
         <div class="summary-row"><span class="s-label">Contact No.</span><span class="s-value" id="summary-contact">—</span></div>
-
         <hr class="summary-divider">
-
         <div class="summary-total-box">
             <div class="price-breakdown" id="summary-base-price"></div>
             <div class="price-total-row">
@@ -435,25 +454,21 @@ $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['pric
                 <span class="total-amount" id="summary-total">—</span>
             </div>
         </div>
-
         <div style="background:rgba(72,202,228,0.08);border:1px solid rgba(72,202,228,0.25);border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:0.78rem;color:rgba(5,44,57,0.65);">
             <i class="fa-solid fa-circle-info me-1" style="color:var(--ocean-blue);"></i>
             Payment can be made after booking — visit <strong>My Bookings</strong> to pay half or full via GCash.
         </div>
-
         <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" name="guidelines" id="guidelines" value="1" required>
             <label class="form-check-label" for="guidelines">
                 I have read and agree to the safety guidelines and activity rules.
             </label>
         </div>
-
         <button type="submit" class="btn-confirm" id="confirm-btn" disabled>
             <i class="fas fa-check-circle me-2"></i> Confirm Reservation
         </button>
         <p class="form-hint text-center mt-2" id="confirm-hint" style="color:rgba(5,44,57,0.5);">Please complete all steps to continue.</p>
     </div>
-
     <div class="slots-info-card">
         <p><i class="fas fa-shield-halved"></i> Safety gear provided for all activities</p>
         <p><i class="fas fa-rotate-left"></i> Free cancellation up to 24 hrs before</p>
@@ -496,6 +511,24 @@ $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['pric
     </div>
 </div>
 
+<!-- Search overlay -->
+<div id="searchOverlay" class="d-none">
+    <div class="search-overlay-inner">
+        <div class="search-overlay-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input class="search-overlay-input" id="globalSearchInput" type="text"
+                   placeholder="Search activities, bookings, sea conditions…"
+                   autocomplete="off" oninput="runGlobalSearch(this.value)">
+            <button class="btn-close-search" onclick="closeSearch()">
+                <i class="fa-solid fa-xmark me-1"></i> Close
+            </button>
+        </div>
+        <div id="searchResultsBox" class="search-results-box">
+            <div class="sdn-hint"><i class="fa-solid fa-magnifying-glass me-2"></i>Start typing to search the entire system…</div>
+        </div>
+    </div>
+</div>
+
 <script>
 // ============================================================
 // STATE
@@ -503,6 +536,75 @@ $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['pric
 let selectedActivities = selectedActivity ? [selectedActivity] : [];
 let participantCounts  = {};
 let pickerVisible      = false;
+
+// ============================================================
+// HELPERS — time formatting
+// ============================================================
+
+/**
+ * Format minutes-since-midnight to "h:mm AM/PM"
+ */
+function minsToLabel(mins) {
+    var h = Math.floor(mins / 60);
+    var m = mins % 60;
+    var ampm = h < 12 ? 'AM' : 'PM';
+    var h12  = h === 0 ? 12 : (h > 12 ? h - 12 : h);
+    return h12 + ':' + String(m).padStart(2, '0') + ' ' + ampm;
+}
+
+/**
+ * Format minutes-since-midnight to "HH:MM" (server value)
+ */
+function minsToValue(mins) {
+    var h = Math.floor(mins / 60);
+    var m = mins % 60;
+    return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+}
+
+/**
+ * Build all slots for one activity on the selected date.
+ * - Start: 7:00 AM (420 mins)
+ * - End:   5:00 PM (1020 mins) — last slot must finish by 17:00
+ * - Skip:  12:00 PM – 1:00 PM (720–780) lunch break
+ * - Step:  activity duration in minutes
+ *
+ * Returns array of { label, value, isLunch, isTaken }
+ */
+function buildSlotsForActivity(actName, durationMins, takenSet) {
+    var slots   = [];
+    var step    = durationMins > 0 ? durationMins : 60;
+    var start   = 7 * 60;   // 7:00 AM
+    var end     = 17 * 60;  // 5:00 PM
+
+    var cur = start;
+    while (cur < end) {
+        var next = cur + step;
+        if (next > end) break; // slot would go past 5 PM — skip
+
+        var fromLabel = minsToLabel(cur);
+        var toLabel   = minsToLabel(next);
+        var label     = fromLabel + ' – ' + toLabel;
+        var value     = minsToValue(cur);
+
+        // Lunch break: any slot that overlaps 12:00–13:00
+        var lunchStart = 12 * 60;
+        var lunchEnd   = 13 * 60;
+        var overlapsLunch = cur < lunchEnd && next > lunchStart;
+
+        if (overlapsLunch) {
+            slots.push({ label: '12:00 PM – 1:00 PM — Lunch Break', value: '12:00', isLunch: true, isTaken: false });
+            // Jump past lunch
+            cur = lunchEnd;
+            continue;
+        }
+
+        var isTaken = takenSet.has(value + ':00') || takenSet.has(value);
+        slots.push({ label: label, value: value, isLunch: false, isTaken: isTaken });
+        cur = next;
+    }
+
+    return slots;
+}
 
 // ============================================================
 // INIT
@@ -523,17 +625,14 @@ function showPicker() {
     document.getElementById('btn-add-wrapper').style.display = 'none';
     refreshPickerOptions();
 }
-
 function hidePicker() {
     pickerVisible = false;
     document.getElementById('activity-picker').classList.remove('show');
     if (selectedActivities.length > 0) document.getElementById('btn-add-wrapper').style.display = 'block';
 }
-
 function refreshPickerOptions() {
-    document.querySelectorAll('.activity-option').forEach(el => {
-        const act = el.getAttribute('data-activity');
-        el.classList.toggle('already-selected', selectedActivities.includes(act));
+    document.querySelectorAll('.activity-option').forEach(function(el) {
+        el.classList.toggle('already-selected', selectedActivities.includes(el.getAttribute('data-activity')));
     });
 }
 
@@ -546,30 +645,29 @@ function pickActivity(act) {
     renderActivityList();
     renderSummaryActivities();
     checkConfirmReady();
+    resetTimeSlots();
 
-    // Refresh booked dates for primary activity
     fetch(BOOKED_DATES_URL + '?activity=' + encodeURIComponent(selectedActivities[0]))
-        .then(r => r.json())
-        .then(data => {
-            bookedDates  = data.bookedDates || [];
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            bookedDates  = data.bookedDates  || [];
+            partialDates = data.partialDates || [];
             selectedDate = '';
-            selectedTime = '';
-            document.getElementById('f_date').value          = '';
-            document.getElementById('f_time').value          = '';
+            document.getElementById('f_date').value = '';
             document.getElementById('summary-date').textContent = 'Not selected';
-            document.getElementById('summary-time').textContent = 'Not selected';
-            document.getElementById('time-slots-container').innerHTML = '<div class="slots-loading"><i class="fa-solid fa-calendar-days me-2"></i>Please select a date first.</div>';
             renderCalendar();
             checkConfirmReady();
         });
 }
 
 function removeActivity(act) {
-    selectedActivities = selectedActivities.filter(a => a !== act);
+    selectedActivities = selectedActivities.filter(function(a) { return a !== act; });
+    delete multiSelectedTimes[act];
     document.getElementById('f_activity').value       = selectedActivities.length > 0 ? selectedActivities[0] : '';
     document.getElementById('f_all_activities').value = selectedActivities.join(',');
     renderActivityList();
     renderSummaryActivities();
+    resetTimeSlots();
     if (selectedActivities.length === 0) {
         showPicker();
         document.getElementById('btn-add-wrapper').style.display = 'none';
@@ -581,37 +679,28 @@ function removeActivity(act) {
 // RENDER SELECTED ACTIVITY CARDS
 // ============================================================
 function renderActivityList() {
-    const container = document.getElementById('activity-display');
-    const emptyEl   = document.getElementById('activity-empty');
-
-    if (selectedActivities.length === 0) {
-        container.innerHTML = '';
-        emptyEl.style.display = 'block';
-        return;
-    }
+    var container = document.getElementById('activity-display');
+    var emptyEl   = document.getElementById('activity-empty');
+    if (selectedActivities.length === 0) { container.innerHTML = ''; emptyEl.style.display = 'block'; return; }
     emptyEl.style.display = 'none';
-
-    container.innerHTML = selectedActivities.map(act => {
-        const data  = ACTIVITY_DATA[act] || {};
-        const max   = data.max   || 1;
-        const dur   = data.duration || 0;
-        const price = data.price  || 0;
-        const pp    = PER_PERSON_ACTIVITIES.includes(act);
-        const gear  = data.gear  || '';
-        return `<div class="activity-highlight">
-            <div class="act-card-actions">
-                <div class="btn-cancel-act" onclick="removeActivity('${act}')" title="Remove"><i class="fa-solid fa-xmark"></i></div>
-            </div>
-            <h3>${act}</h3>
-            <p style="color:rgba(255,255,255,0.6);font-size:0.82rem;margin-bottom:14px;">${data.desc || ''}</p>
-            <div class="activity-meta">
-                <span><i class="fa-solid fa-clock"></i> ${dur} mins</span>
-                <span><i class="fa-solid fa-users"></i> Max ${max} person${max>1?'s':''}</span>
-                ${gear ? `<span><i class="fa-solid fa-vest"></i> ${gear}</span>` : ''}
-                <span><i class="fa-solid fa-gauge-high"></i> ${data.difficulty || '—'}</span>
-                <span><i class="fa-solid fa-tag"></i> ₱${price.toLocaleString()}${pp?' / person':''}</span>
-            </div>
-        </div>`;
+    container.innerHTML = selectedActivities.map(function(act) {
+        var data  = ACTIVITY_DATA[act] || {};
+        var max   = data.max  || 1;
+        var dur   = data.duration || 0;
+        var price = data.price || 0;
+        var pp    = PER_PERSON_ACTIVITIES.includes(act);
+        var gear  = data.gear || '';
+        return '<div class="activity-highlight">'
+            + '<div class="act-card-actions"><div class="btn-cancel-act" onclick="removeActivity(\'' + act + '\')" title="Remove"><i class="fa-solid fa-xmark"></i></div></div>'
+            + '<h3>' + act + '</h3>'
+            + '<p style="color:rgba(255,255,255,0.6);font-size:0.82rem;margin-bottom:14px;">' + (data.desc || '') + '</p>'
+            + '<div class="activity-meta">'
+            + '<span><i class="fa-solid fa-clock"></i> ' + dur + ' mins</span>'
+            + '<span><i class="fa-solid fa-users"></i> Max ' + max + ' person' + (max > 1 ? 's' : '') + '</span>'
+            + (gear ? '<span><i class="fa-solid fa-vest"></i> ' + gear + '</span>' : '')
+            + '<span><i class="fa-solid fa-gauge-high"></i> ' + (data.difficulty || '—') + '</span>'
+            + '<span><i class="fa-solid fa-tag"></i> ₱' + price.toLocaleString() + (pp ? ' / person' : '') + '</span>'
+            + '</div></div>';
     }).join('');
 }
 
@@ -620,61 +709,48 @@ function renderActivityList() {
 // ============================================================
 function updateActivityParticipants(act, val) {
     participantCounts[act] = parseInt(val);
-    var total = Object.values(participantCounts).reduce((s,v) => s + v, 0);
+    var total = Object.values(participantCounts).reduce(function(s, v) { return s + v; }, 0);
     document.getElementById('f_participants').value = total;
+    document.getElementById('f_participants_per_activity').value = JSON.stringify(participantCounts);
     updateSummaryParticipants();
     recalcTotal();
 }
-
 function updateSummaryParticipants() {
     if (selectedActivities.length === 0) { document.getElementById('summary-participants').textContent = '—'; return; }
-    var parts = selectedActivities.map(act => {
-        var c = participantCounts[act] || 1;
-        return `${act}: ${c} person${c>1?'s':''}`;
-    });
-    document.getElementById('summary-participants').textContent = parts.join(' · ');
+    document.getElementById('summary-participants').textContent =
+        selectedActivities.map(function(act) { var c = participantCounts[act] || 1; return act + ': ' + c + ' person' + (c > 1 ? 's' : ''); }).join(' · ');
 }
-
 function updateSummaryContact() {
-    var val = document.getElementById('f_contact').value;
-    document.getElementById('summary-contact').textContent = val || '—';
+    document.getElementById('summary-contact').textContent = document.getElementById('f_contact').value || '—';
 }
-
 function renderParticipantsDropdowns() {
     var container = document.getElementById('participants-container');
-    if (selectedActivities.length === 0) {
-        container.innerHTML = '<p class="form-hint" style="opacity:0.5;">Select an activity first.</p>';
-        return;
-    }
-    container.innerHTML = selectedActivities.map(act => {
+    if (selectedActivities.length === 0) { container.innerHTML = '<p class="form-hint" style="opacity:0.5;">Select an activity first.</p>'; return; }
+    container.innerHTML = selectedActivities.map(function(act) {
         var max     = ACTIVITY_DATA[act] ? ACTIVITY_DATA[act].max : (ACTIVITY_MAX[act] || 1);
         var current = Math.min(participantCounts[act] || 1, max);
         participantCounts[act] = current;
         var options = '';
         for (var i = 1; i <= max; i++) {
-            options += `<option value="${i}"${i===current?' selected':''}>` + i + ` Person${i>1?'s':''}</option>`;
+            options += '<option value="' + i + '"' + (i === current ? ' selected' : '') + '>' + i + ' Person' + (i > 1 ? 's' : '') + '</option>';
         }
-        return `<div style="margin-bottom:10px;">
-            <p style="font-size:0.75rem;color:rgba(255,255,255,0.6);margin-bottom:4px;font-weight:600;">
-                <i class="fa-solid fa-person-swimming me-1" style="color:var(--accent-cyan);"></i>${act}
-                <span style="opacity:0.5;">(max ${max})</span>
-            </p>
-            <select class="form-select-wave" onchange="updateActivityParticipants('${act}', this.value)">${options}</select>
-        </div>`;
+        return '<div style="margin-bottom:10px;">'
+            + '<p style="font-size:0.75rem;color:rgba(255,255,255,0.6);margin-bottom:4px;font-weight:600;"><i class="fa-solid fa-person-swimming me-1" style="color:var(--accent-cyan);"></i>' + act + ' <span style="opacity:0.5;">(max ' + max + ')</span></p>'
+            + '<select class="form-select-wave" onchange="updateActivityParticipants(\'' + act + '\', this.value)">' + options + '</select>'
+            + '</div>';
     }).join('');
     updateSummaryParticipants();
-    var totalP = Object.values(participantCounts).reduce((s,v) => s + v, 0);
+    var totalP = Object.values(participantCounts).reduce(function(s,v){return s+v;}, 0);
     document.getElementById('f_participants').value = totalP || 1;
+    document.getElementById('f_participants_per_activity').value = JSON.stringify(participantCounts);
 }
-
 function cleanParticipantCounts() {
-    Object.keys(participantCounts).forEach(act => { if (!selectedActivities.includes(act)) delete participantCounts[act]; });
-    selectedActivities.forEach(act => { if (!participantCounts[act]) participantCounts[act] = 1; });
+    Object.keys(participantCounts).forEach(function(act) { if (!selectedActivities.includes(act)) delete participantCounts[act]; });
+    selectedActivities.forEach(function(act) { if (!participantCounts[act]) participantCounts[act] = 1; });
 }
-
 function recalcTotal() {
     var total = 0;
-    selectedActivities.forEach(act => {
+    selectedActivities.forEach(function(act) {
         var price = (ACTIVITY_DATA[act] && ACTIVITY_DATA[act].price) ? ACTIVITY_DATA[act].price : (ACTIVITY_PRICING[act] || 0);
         var count = participantCounts[act] || 1;
         total += PER_PERSON_ACTIVITIES.includes(act) ? price * count : price;
@@ -682,21 +758,17 @@ function recalcTotal() {
     document.getElementById('summary-total').textContent = total ? '₱' + total.toLocaleString() : '—';
     return total;
 }
-
 function renderSummaryActivities() {
     cleanParticipantCounts();
     renderParticipantsDropdowns();
-
     document.getElementById('summary-activity').textContent =
         selectedActivities.length > 0 ? selectedActivities.join(', ') : '—';
-
     document.getElementById('summary-duration').textContent =
         selectedActivities.length > 0
-            ? selectedActivities.map(a => a + ': ' + ((ACTIVITY_DATA[a] && ACTIVITY_DATA[a].duration) || 0) + ' mins').join(' · ')
+            ? selectedActivities.map(function(a) { return a + ': ' + ((ACTIVITY_DATA[a] && ACTIVITY_DATA[a].duration) || 0) + ' mins'; }).join(' · ')
             : '—';
-
     var total = 0, html = '';
-    selectedActivities.forEach(act => {
+    selectedActivities.forEach(function(act) {
         var data  = ACTIVITY_DATA[act] || {};
         var price = data.price || (ACTIVITY_PRICING[act] || 0);
         var pp    = PER_PERSON_ACTIVITIES.includes(act);
@@ -704,13 +776,11 @@ function renderSummaryActivities() {
         var dur   = data.duration || 0;
         var line  = pp ? price * count : price;
         total += line;
-        html += `<div class="sum-activity-line">
-            <div class="sal-name">${act}</div>
-            <div class="sal-detail">
-                <span>${dur} mins · ${count} person${count>1?'s':''}${pp?' · ₱'+price.toLocaleString()+'×'+count:''}</span>
-                <span class="sal-price">₱${line.toLocaleString()}</span>
-            </div>
-        </div>`;
+        html += '<div class="sum-activity-line">'
+            + '<div class="sal-name">' + act + '</div>'
+            + '<div class="sal-detail"><span>' + dur + ' mins · ' + count + ' person' + (count > 1 ? 's' : '') + (pp ? ' · ₱' + price.toLocaleString() + '×' + count : '') + '</span>'
+            + '<span class="sal-price">₱' + line.toLocaleString() + '</span></div>'
+            + '</div>';
     });
     document.getElementById('summary-base-price').innerHTML = html;
     document.getElementById('summary-total').textContent = total ? '₱' + total.toLocaleString() : '—';
@@ -720,160 +790,343 @@ function renderSummaryActivities() {
 // ============================================================
 // CALENDAR
 // ============================================================
-const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-let currentDate = new Date();
+var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var currentDate = new Date();
 
 function renderCalendar() {
-    const yr = currentDate.getFullYear(), mo = currentDate.getMonth();
-    document.getElementById('cal-month-year').textContent = `${monthNames[mo]} ${yr}`;
-    const firstDay     = new Date(yr, mo, 1).getDay();
-    const daysInMonth  = new Date(yr, mo+1, 0).getDate();
-    const todayStr     = formatDate(new Date());
-    const grid         = document.getElementById('calendar-days');
-    grid.innerHTML     = '';
+    var yr = currentDate.getFullYear(), mo = currentDate.getMonth();
+    document.getElementById('cal-month-year').textContent = monthNames[mo] + ' ' + yr;
+    var firstDay    = new Date(yr, mo, 1).getDay();
+    var daysInMonth = new Date(yr, mo + 1, 0).getDate();
+    var todayStr    = formatDate(new Date());
+    var grid        = document.getElementById('calendar-days');
+    grid.innerHTML  = '';
 
-    for (let i = 0; i < firstDay; i++) {
-        const d = document.createElement('div'); d.className = 'day-box empty'; grid.appendChild(d);
+    for (var i = 0; i < firstDay; i++) {
+        var e = document.createElement('div'); e.className = 'day-box empty'; grid.appendChild(e);
     }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-        const d       = document.createElement('div');
-        d.className   = 'day-box';
+    for (var day = 1; day <= daysInMonth; day++) {
+        var d       = document.createElement('div');
+        d.className = 'day-box';
         d.textContent = day;
-        const dateStr = `${yr}-${String(mo+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-        const isToday = dateStr === todayStr;
-        const isPast  = dateStr < todayStr;
-        const isTodayAllSlotsPast = isToday && (() => { return new Date().getHours() >= 17; })();
+        var dateStr = yr + '-' + String(mo + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+        var isToday = dateStr === todayStr;
+        var isPast  = dateStr < todayStr;
+        var allSlotsPast = isToday && new Date().getHours() >= 17;
 
-        if (isPast || isTodayAllSlotsPast) {
+        if (isPast || allSlotsPast) {
             d.classList.add('past');
             d.title = isPast ? 'Past date' : 'No more slots today';
         } else if (bookedDates.includes(dateStr)) {
+            // Fully booked
             d.classList.add('booked');
             d.title = 'Fully booked';
+        } else if (partialDates.includes(dateStr)) {
+            // Some slots taken — show as partial/yellow
+            d.classList.add('partial');
+            if (isToday) d.classList.add('today');
+            d.title = 'Partially booked — some slots available';
+            (function(ds, el) {
+                el.addEventListener('click', function() {
+                    document.querySelectorAll('.day-box.selected').forEach(function(x) { x.classList.remove('selected'); });
+                    el.classList.add('selected');
+                    selectDate(ds);
+                });
+            })(dateStr, d);
         } else {
+            // Fully available
             d.classList.add('available');
             if (isToday) d.classList.add('today');
             d.title = 'Available — Click to select';
-            d.addEventListener('click', function() {
-                document.querySelectorAll('.day-box.selected').forEach(el => el.classList.remove('selected'));
-                d.classList.add('selected');
-                selectDate(dateStr);
-            });
+            (function(ds, el) {
+                el.addEventListener('click', function() {
+                    document.querySelectorAll('.day-box.selected').forEach(function(x) { x.classList.remove('selected'); });
+                    el.classList.add('selected');
+                    selectDate(ds);
+                });
+            })(dateStr, d);
         }
         grid.appendChild(d);
     }
 }
 
 function formatDate(dt) {
-    return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+    return dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0');
 }
 
 function selectDate(dateStr) {
     selectedDate = dateStr;
     document.getElementById('f_date').value = dateStr;
-    const opts = {year:'numeric', month:'long', day:'numeric'};
-    document.getElementById('summary-date').textContent = new Date(dateStr+'T00:00:00').toLocaleDateString('en-PH', opts);
+    var opts = { year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('summary-date').textContent = new Date(dateStr + 'T00:00:00').toLocaleDateString('en-PH', opts);
+
+    /* Reset time selections */
     selectedTime = '';
+    multiSelectedTimes = {};
     document.getElementById('f_time').value = '';
+    document.getElementById('f_time_per_activity').value = '{}';
     document.getElementById('summary-time').textContent = 'Not selected';
     checkConfirmReady();
+
     loadTimeSlots(dateStr);
 }
 
-document.getElementById('prev-month').addEventListener('click', () => {
-    const now = new Date();
+document.getElementById('prev-month').addEventListener('click', function() {
+    var now = new Date();
     if (currentDate.getFullYear() === now.getFullYear() && currentDate.getMonth() === now.getMonth()) return;
     currentDate.setMonth(currentDate.getMonth() - 1);
     renderCalendar();
 });
-document.getElementById('next-month').addEventListener('click', () => {
+document.getElementById('next-month').addEventListener('click', function() {
     currentDate.setMonth(currentDate.getMonth() + 1);
     renderCalendar();
 });
 
+// ============================================================
+// TIME SLOTS
+// ============================================================
+
+function resetTimeSlots() {
+    selectedTime = '';
+    multiSelectedTimes = {};
+    document.getElementById('f_time').value = '';
+    document.getElementById('f_time_per_activity').value = '{}';
+    document.getElementById('summary-time').textContent = 'Not selected';
+    document.getElementById('time-slots-area').innerHTML =
+        '<div class="slots-loading"><i class="fa-solid fa-calendar-days me-2"></i>Please select a date first.</div>';
+    document.getElementById('slots-count-hint').textContent = '';
+}
+
+/**
+ * Load time slots for the selected date.
+ * Single activity  → original 1-hour slot list (buttons).
+ * Multi-activity   → one dropdown per activity, slots sized to activity duration.
+ */
 function loadTimeSlots(date) {
-    const actForSlots = selectedActivities.length > 0 ? selectedActivities[0] : '';
-    if (!actForSlots) {
-        document.getElementById('time-slots-container').innerHTML = '<div class="slots-loading"><i class="fa-solid fa-circle-exclamation me-2 text-warning"></i>Please select an activity first.</div>';
+    if (selectedActivities.length === 0) {
+        document.getElementById('time-slots-area').innerHTML =
+            '<div class="slots-loading"><i class="fa-solid fa-circle-exclamation me-2 text-warning"></i>Please select an activity first.</div>';
         return;
     }
-    const container = document.getElementById('time-slots-container');
-    container.innerHTML = '<div class="slots-loading"><i class="fa-solid fa-spinner fa-spin me-2"></i>Loading slots…</div>';
+
+    var area = document.getElementById('time-slots-area');
+    area.innerHTML = '<div class="slots-loading"><i class="fa-solid fa-spinner fa-spin me-2"></i>Loading slots…</div>';
     document.getElementById('slots-count-hint').textContent = '';
 
-    const staticSlots = [];
-    for (var h = 7; h < 17; h++) {
-        var ampm1 = h < 12 ? 'AM' : 'PM'; var ampm2 = (h+1) < 12 ? 'AM' : 'PM';
-        var h1 = h > 12 ? h-12 : h; var h2 = (h+1) > 12 ? h+1-12 : h+1;
-        staticSlots.push({ label: `${h1}:00 ${ampm1} – ${h2}:00 ${ampm2}`, value: `${String(h).padStart(2,'0')}:00` });
-    }
-
-    fetch(`${BOOKING_SLOTS_URL}?activity=${encodeURIComponent(actForSlots)}&date=${date}`)
-        .then(r => r.json())
-        .then(data => {
-            var taken = new Set();
-            (data.slots || []).forEach(s => { if (!s.available) taken.add(s.value); });
-            container.innerHTML = '';
-            var avail = 0;
-            staticSlots.forEach(slot => {
-                var isTaken = taken.has(slot.value + ':00') || taken.has(slot.value);
-                var btn = document.createElement('div');
-                btn.className = 'time-slot-btn' + (isTaken ? ' unavailable' : '');
-                btn.innerHTML = `<span>${slot.label}</span><span class="slot-status ${isTaken?'taken':'open'}">${isTaken?'Taken':'Available'}</span>`;
-                if (!isTaken) {
-                    avail++;
-                    btn.addEventListener('click', function() {
-                        document.querySelectorAll('.time-slot-btn.active').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        selectTime(slot.value, slot.label);
-                    });
-                }
-                container.appendChild(btn);
-            });
-            var hint = document.getElementById('slots-count-hint');
-            hint.innerHTML = avail === 0
-                ? '<i class="fas fa-circle-xmark me-1 text-danger"></i> No slots available for this date.'
-                : `<i class="fas fa-circle-info me-1" style="color:var(--accent-cyan);"></i> ${avail} slot${avail!==1?'s':''} available`;
+    /* Fetch taken slots for the primary activity on this date */
+    var primaryAct = selectedActivities[0];
+    fetch(BOOKING_SLOTS_URL + '?activity=' + encodeURIComponent(primaryAct) + '&date=' + date)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            var takenSet = new Set();
+            (data.slots || []).forEach(function(s) { if (!s.available) takenSet.add(s.value); });
+            renderTimeSlotArea(takenSet);
         })
-        .catch(() => {
-            container.innerHTML = '';
-            staticSlots.forEach(slot => {
-                var btn = document.createElement('div');
-                btn.className = 'time-slot-btn';
-                btn.innerHTML = `<span>${slot.label}</span><span class="slot-status open">Available</span>`;
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.time-slot-btn.active').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    selectTime(slot.value, slot.label);
-                });
-                container.appendChild(btn);
-            });
-            document.getElementById('slots-count-hint').innerHTML = `<i class="fas fa-circle-info me-1" style="color:var(--accent-cyan);"></i> ${staticSlots.length} slots available`;
+        .catch(function() {
+            renderTimeSlotArea(new Set());
         });
 }
 
-function selectTime(value, display) {
+function renderTimeSlotArea(takenSet) {
+    var area = document.getElementById('time-slots-area');
+    area.innerHTML = '';
+
+    if (selectedActivities.length === 1) {
+        /* ── SINGLE ACTIVITY: original 1-hour button list ── */
+        renderSingleActivitySlots(area, selectedActivities[0], takenSet);
+    } else {
+        /* ── MULTI-ACTIVITY: one dropdown per activity ── */
+        renderMultiActivitySlots(area, takenSet);
+    }
+}
+
+/* ── Single activity: 1-hour clickable buttons (original behaviour) ── */
+function renderSingleActivitySlots(area, actName, takenSet) {
+    var duration = (ACTIVITY_DATA[actName] && ACTIVITY_DATA[actName].duration) ? ACTIVITY_DATA[actName].duration : 60;
+    var slots    = buildSlotsForActivity(actName, duration, takenSet);
+
+    var wrapper = document.createElement('div');
+    wrapper.className = 'time-slots-wrapper';
+    var avail = 0;
+
+    slots.forEach(function(slot) {
+        var btn = document.createElement('div');
+        if (slot.isLunch) {
+            btn.className = 'time-slot-btn lunch-break';
+            btn.innerHTML = '<span>' + slot.label + '</span><span class="slot-status lunch">Break</span>';
+        } else if (slot.isTaken) {
+            btn.className = 'time-slot-btn unavailable';
+            btn.innerHTML = '<span>' + slot.label + '</span><span class="slot-status taken">Taken</span>';
+        } else {
+            btn.className = 'time-slot-btn';
+            btn.innerHTML = '<span>' + slot.label + '</span><span class="slot-status open">Available</span>';
+            avail++;
+            (function(s, el) {
+                el.addEventListener('click', function() {
+                    wrapper.querySelectorAll('.time-slot-btn.active').forEach(function(b) { b.classList.remove('active'); });
+                    el.classList.add('active');
+                    selectSingleTime(s.value, s.label);
+                });
+            })(slot, btn);
+        }
+        wrapper.appendChild(btn);
+    });
+    area.appendChild(wrapper);
+
+    document.getElementById('slots-count-hint').innerHTML = avail === 0
+        ? '<i class="fas fa-circle-xmark me-1 text-danger"></i> No slots available for this date.'
+        : '<i class="fas fa-circle-info me-1" style="color:var(--accent-cyan);"></i> ' + avail + ' slot' + (avail !== 1 ? 's' : '') + ' available';
+}
+
+/* ── Multi-activity: one dropdown per activity ── */
+function renderMultiActivitySlots(area, takenSet) {
+    selectedActivities.forEach(function(actName, idx) {
+        var duration = (ACTIVITY_DATA[actName] && ACTIVITY_DATA[actName].duration) ? ACTIVITY_DATA[actName].duration : 60;
+        var slots    = buildSlotsForActivity(actName, duration, takenSet);
+        var icon     = (ACTIVITY_DATA[actName] && ACTIVITY_DATA[actName].icon) ? ACTIVITY_DATA[actName].icon : 'fa-person-swimming';
+
+        var section = document.createElement('div');
+        section.className = 'multi-slot-section';
+
+        /* Header */
+        var header = document.createElement('div');
+        header.className = 'multi-slot-header';
+        header.innerHTML = '<i class="fa-solid ' + icon + '"></i> ' + actName
+            + ' <span style="opacity:0.45;font-weight:400;text-transform:none;letter-spacing:0;font-size:0.7rem;margin-left:4px;">(' + duration + ' min slots)</span>';
+        section.appendChild(header);
+
+        /* Dropdown */
+        var sel = document.createElement('select');
+        sel.className = 'multi-slot-select';
+        sel.setAttribute('data-activity', actName);
+
+        /* Placeholder option */
+        var ph = document.createElement('option');
+        ph.value = '';
+        ph.textContent = '— Select a time —';
+        ph.disabled = true;
+        ph.selected = true;
+        sel.appendChild(ph);
+
+        slots.forEach(function(slot) {
+            var opt = document.createElement('option');
+            opt.value = slot.value;
+            if (slot.isLunch) {
+                opt.textContent = slot.label;
+                opt.disabled = true;
+                opt.className = 'opt-lunch';
+            } else if (slot.isTaken) {
+                opt.textContent = slot.label + '  ✗ Taken';
+                opt.disabled = true;
+                opt.className = 'opt-taken';
+            } else {
+                opt.textContent = slot.label;
+            }
+            sel.appendChild(opt);
+        });
+
+        (function(act, selectEl) {
+            selectEl.addEventListener('change', function() {
+                multiSelectedTimes[act] = selectEl.value;
+                updateMultiTimeSummary();
+                checkConfirmReady();
+            });
+        })(actName, sel);
+
+        section.appendChild(sel);
+
+        /* Divider between activities */
+        if (idx < selectedActivities.length - 1) {
+            var div = document.createElement('hr');
+            div.className = 'multi-slot-divider';
+            section.appendChild(div);
+        }
+
+        area.appendChild(section);
+    });
+
+    document.getElementById('slots-count-hint').innerHTML =
+        '<i class="fas fa-circle-info me-1" style="color:var(--accent-cyan);"></i> Select a start time for each activity.';
+}
+
+function selectSingleTime(value, display) {
     selectedTime = value;
     document.getElementById('f_time').value = value;
     document.getElementById('summary-time').textContent = display;
     checkConfirmReady();
 }
 
-function checkConfirmReady() {
-    const btn  = document.getElementById('confirm-btn');
-    const hint = document.getElementById('confirm-hint');
-    if (selectedActivities.length === 0) { btn.disabled = true; hint.textContent = 'Please select at least one activity.'; }
-    else if (!selectedDate)              { btn.disabled = true; hint.textContent = 'Please select a date.'; }
-    else if (!selectedTime)              { btn.disabled = true; hint.textContent = 'Please select a time slot.'; }
-    else                                 { btn.disabled = false; hint.textContent = ''; }
+function updateMultiTimeSummary() {
+    /* f_time = first activity's time (for backward compat with DB) */
+    var firstAct = selectedActivities[0];
+    selectedTime = multiSelectedTimes[firstAct] || '';
+    document.getElementById('f_time').value = selectedTime;
+    document.getElementById('f_time_per_activity').value = JSON.stringify(multiSelectedTimes);
+
+    /* Summary label */
+    var parts = selectedActivities.map(function(act) {
+        var t = multiSelectedTimes[act];
+        if (!t) return act + ': —';
+        /* Convert HH:MM to display label */
+        var dur   = (ACTIVITY_DATA[act] && ACTIVITY_DATA[act].duration) ? ACTIVITY_DATA[act].duration : 60;
+        var hh    = parseInt(t.split(':')[0]);
+        var mm    = parseInt(t.split(':')[1]);
+        var start = hh * 60 + mm;
+        var end   = start + dur;
+        return act + ': ' + minsToLabel(start) + ' – ' + minsToLabel(end);
+    });
+    document.getElementById('summary-time').textContent = parts.join(' | ');
 }
 
+// ============================================================
+// CONFIRM READY CHECK
+// ============================================================
+function checkConfirmReady() {
+    var btn  = document.getElementById('confirm-btn');
+    var hint = document.getElementById('confirm-hint');
+
+    if (selectedActivities.length === 0) {
+        btn.disabled = true; hint.textContent = 'Please select at least one activity.'; return;
+    }
+    if (!selectedDate) {
+        btn.disabled = true; hint.textContent = 'Please select a date.'; return;
+    }
+
+    if (selectedActivities.length === 1) {
+        if (!selectedTime) { btn.disabled = true; hint.textContent = 'Please select a time slot.'; return; }
+    } else {
+        /* All activities must have a time selected */
+        var missing = selectedActivities.filter(function(act) { return !multiSelectedTimes[act]; });
+        if (missing.length > 0) {
+            btn.disabled = true;
+            hint.textContent = 'Please select a time for: ' + missing.join(', ');
+            return;
+        }
+    }
+
+    btn.disabled = false;
+    hint.textContent = '';
+}
+
+// ============================================================
+// FORM SUBMIT GUARD
+// ============================================================
 document.getElementById('bookingForm').addEventListener('submit', function(e) {
-    const contact = document.getElementById('f_contact').value.trim();
+    var contact = document.getElementById('f_contact').value.trim();
     if (!contact) { e.preventDefault(); alert('Please provide your contact number.'); return; }
-    if (selectedActivities.length === 0 || !selectedDate || !selectedTime) {
+    if (selectedActivities.length === 0 || !selectedDate) {
         e.preventDefault(); alert('Please complete all required steps.'); return;
+    }
+    if (selectedActivities.length === 1 && !selectedTime) {
+        e.preventDefault(); alert('Please select a time slot.'); return;
+    }
+    if (selectedActivities.length > 1) {
+        var missing = selectedActivities.filter(function(act) { return !multiSelectedTimes[act]; });
+        if (missing.length > 0) {
+            e.preventDefault();
+            alert('Please select a time for: ' + missing.join(', '));
+            return;
+        }
     }
     if (!document.getElementById('guidelines').checked) {
         e.preventDefault(); alert('Please agree to the safety guidelines.'); return;
@@ -887,29 +1140,58 @@ document.getElementById('helpModal').addEventListener('click', function(e) {
 initActivityDisplay();
 renderCalendar();
 </script>
-<!-- GLOBAL SEARCH OVERLAY -->
-<div id="searchOverlay" class="d-none">
-    <div class="search-overlay-inner">
-        <div class="search-overlay-bar">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input class="search-overlay-input"
-                   id="globalSearchInput"
-                   type="text"
-                   placeholder="Search activities, bookings, sea conditions…"
-                   autocomplete="off"
-                   oninput="runGlobalSearch(this.value)">
-            <button class="btn-close-search" onclick="closeSearch()">
-                <i class="fa-solid fa-xmark me-1"></i> Close
-            </button>
-        </div>
-        <div id="searchResultsBox" class="search-results-box">
-            <div class="sdn-hint">
-                <i class="fa-solid fa-magnifying-glass me-2"></i>
-                Start typing to search the entire system…
-            </div>
-        </div>
-    </div>
-</div>
-<!-- END GLOBAL SEARCH OVERLAY -->
+
+<script>const CI_BASE_URL = "<?= base_url() ?>";</script>
+<script>
+(function () {
+    var BASE = (typeof CI_BASE_URL !== 'undefined') ? CI_BASE_URL : '/';
+    var SEARCH_INDEX = [
+        { section: 'Home', title: 'Home Dashboard',     sub: 'Activities, sea conditions & reviews at a glance', icon: 'fa-house',                url: BASE + 'user/home' },
+        { section: 'Home', title: 'Live Buoy Data',     sub: 'Real-time MARISENSE buoy monitoring widget',       icon: 'fa-satellite-dish',       url: BASE + 'user/home' },
+        { section: 'Home', title: 'Find Us on Map',     sub: 'Matabungkay Beach, Lian, Batangas',                icon: 'fa-location-dot',         url: BASE + 'user/home' },
+        { section: 'Activities', title: 'Jet Ski',      sub: 'High-speed water adventure',                        icon: 'fa-water',                url: BASE + 'user/activities' },
+        { section: 'Activities', title: 'Banana Boat',  sub: 'Fun group ride for families and friends',           icon: 'fa-ship',                 url: BASE + 'user/activities' },
+        { section: 'Activities', title: 'Kayaking',     sub: 'Explore calm coastal waters peacefully',            icon: 'fa-sailboat',             url: BASE + 'user/activities' },
+        { section: 'Activities', title: 'Flying Saucer',sub: 'Glide and spin thrillingly on the water surface',   icon: 'fa-circle-radiation',     url: BASE + 'user/activities' },
+        { section: 'Book & Reserve', title: 'Book an Activity',   sub: 'Select your water sport and reserve a slot', icon: 'fa-calendar-check', url: BASE + 'user/booking' },
+        { section: 'Book & Reserve', title: 'Choose Date & Time', sub: 'Pick an available date and time slot',       icon: 'fa-clock',          url: BASE + 'user/booking' },
+        { section: 'Book & Reserve', title: 'GCash Payment',      sub: 'Pay 50% down payment or full via GCash',     icon: 'fa-peso-sign',      url: BASE + 'user/booking' },
+        { section: 'My Bookings', title: 'My Reservations', sub: 'View all your active and past bookings',          icon: 'fa-list-check',     url: BASE + 'user/my-bookings' },
+        { section: 'My Bookings', title: 'Booking Status',  sub: 'Pending, Confirmed, Completed, Cancelled',        icon: 'fa-circle-check',   url: BASE + 'user/my-bookings' },
+        { section: 'My Bookings', title: 'Pay Balance',     sub: 'Pay remaining balance via GCash',                 icon: 'fa-credit-card',    url: BASE + 'user/my-bookings' },
+        { section: 'Safety & Sea Conditions', title: 'Sea Conditions', sub: 'Full MARISENSE live data dashboard',   icon: 'fa-tower-broadcast',url: BASE + 'user/safety' },
+        { section: 'Safety & Sea Conditions', title: 'Safety Status', sub: 'Safe / Moderate / Unsafe indicator',    icon: 'fa-shield-halved',  url: BASE + 'user/safety' },
+        { section: 'Reviews', title: 'Read Reviews',   sub: 'Browse feedback from fellow adventurers',              icon: 'fa-star',           url: BASE + 'user/reviews' },
+        { section: 'Reviews', title: 'Write a Review', sub: 'Share your experience after completing an activity',   icon: 'fa-pen-to-square',  url: BASE + 'user/reviews' },
+    ];
+    function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+    function hl(text, q) { if (!q) return text; return text.replace(new RegExp('(' + escRe(q) + ')', 'gi'), '<span class="sdn-highlight">$1</span>'); }
+    window.openSearch = function() {
+        document.getElementById('searchOverlay').classList.remove('d-none');
+        setTimeout(function() { var i = document.getElementById('globalSearchInput'); if (i) { i.value=''; i.focus(); } document.getElementById('searchResultsBox').innerHTML='<div class="sdn-hint"><i class="fa-solid fa-magnifying-glass me-2"></i>Start typing to search the entire system…</div>'; }, 60);
+    };
+    window.closeSearch = function() { document.getElementById('searchOverlay').classList.add('d-none'); };
+    window.runGlobalSearch = function(q) {
+        var box = document.getElementById('searchResultsBox');
+        q = q.trim();
+        if (!q) { box.innerHTML = '<div class="sdn-hint"><i class="fa-solid fa-magnifying-glass me-2"></i>Start typing…</div>'; return; }
+        var hits = SEARCH_INDEX.filter(function(it) { return (it.title+' '+it.sub+' '+it.section).toLowerCase().includes(q.toLowerCase()); }).slice(0,14);
+        if (!hits.length) { box.innerHTML = '<div class="sdn-no-result"><i class="fa-solid fa-circle-xmark me-2"></i>No results for "'+q+'"</div>'; return; }
+        var sections = [...new Set(hits.map(function(h){return h.section;}))];
+        var html = '';
+        sections.forEach(function(sec) {
+            html += '<div class="sdn-section-label"><i class="fa-solid fa-folder-open me-1"></i>' + sec + '</div>';
+            hits.filter(function(h){return h.section===sec;}).forEach(function(it) {
+                html += '<a class="sdn-item" href="'+it.url+'" onclick="closeSearch()">'
+                      + '<div class="sdn-icon"><i class="fa-solid '+it.icon+'" style="font-size:13px;"></i></div>'
+                      + '<div><div class="sdn-title">'+hl(it.title,q)+'</div><div class="sdn-sub">'+hl(it.sub,q)+'</div></div></a>';
+            });
+        });
+        box.innerHTML = html;
+    };
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSearch(); });
+    document.getElementById('searchOverlay').addEventListener('click', function(e){ if(e.target===this) closeSearch(); });
+})();
+</script>
 </body>
 </html>
