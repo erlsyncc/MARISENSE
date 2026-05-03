@@ -158,6 +158,30 @@
         @media (max-width: 992px) { .booking-layout { grid-template-columns: 1fr; } .summary-sidebar { position: static; } .form-row-2 { grid-template-columns: 1fr; } }
         html { scroll-behavior: smooth; }
         footer { background: var(--deep-blue); padding: 100px 0 40px 0; color: rgba(255,255,255,0.6) !important; border-top: 1px solid rgba(255,255,255,0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        /* ── SEARCH ── */
+        .btn-search-custom { color: #48cae4; font-size: 1.1rem; padding: 8px 12px; border: 1px solid rgba(72,202,228,0.5); border-radius: 50px; background: rgba(72,202,228,0.08); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .btn-search-custom:hover { background: rgba(72,202,228,0.2); border-color: #48cae4; }
+        #searchOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,44,57,0.92); backdrop-filter: blur(10px); z-index: 99999; display: flex; flex-direction: column; align-items: center; padding-top: 100px; animation: fadeInSearch 0.2s ease; }
+        #searchOverlay.d-none { display: none !important; }
+        @keyframes fadeInSearch { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .search-overlay-inner { width: 100%; max-width: 640px; padding: 0 20px; }
+        .search-overlay-bar { display: flex; align-items: center; gap: 12px; background: #0a3d52; border: 1.5px solid rgba(72,202,228,0.5); border-radius: 16px; padding: 14px 18px; margin-bottom: 12px; }
+        .search-overlay-bar i { color: #48cae4; font-size: 1rem; flex-shrink: 0; }
+        .search-overlay-input { flex: 1; background: none; border: none; outline: none; color: #fff; font-size: 1rem; font-family: 'Poppins', sans-serif; }
+        .search-overlay-input::placeholder { color: rgba(255,255,255,0.35); }
+        .btn-close-search { background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); border-radius: 50px; padding: 5px 14px; font-size: 0.78rem; cursor: pointer; font-family: 'Poppins', sans-serif; transition: 0.2s; white-space: nowrap; }
+        .btn-close-search:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .search-results-box { background: #0a3d52; border: 1px solid rgba(72,202,228,0.25); border-radius: 16px; overflow: hidden; max-height: 420px; overflow-y: auto; }
+        .sdn-section-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(72,202,228,0.7); padding: 10px 16px 4px; background: rgba(72,202,228,0.05); }
+        .sdn-item { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); text-decoration: none; color: #fff; transition: 0.15s; }
+        .sdn-item:last-child { border-bottom: none; }
+        .sdn-item:hover { background: rgba(72,202,228,0.1); }
+        .sdn-icon { width: 34px; height: 34px; border-radius: 9px; background: rgba(72,202,228,0.12); display: flex; align-items: center; justify-content: center; color: #48cae4; flex-shrink: 0; }
+        .sdn-title { font-size: 0.85rem; font-weight: 600; line-height: 1.2; }
+        .sdn-sub { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 2px; }
+        .sdn-no-result { text-align: center; padding: 30px; color: rgba(255,255,255,0.4); font-size: 0.88rem; }
+        .sdn-hint { text-align: center; padding: 20px; color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+        .sdn-highlight { background: rgba(72,202,228,0.25); color: #48cae4; border-radius: 2px; padding: 0 2px; }
     </style>
 </head>
 <body>
@@ -174,10 +198,18 @@
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
         <div class="logout-wrapper">
+            <!-- SEARCH ICON -->
+            <button class="btn-search-custom" onclick="openSearch()" title="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <!-- HELP -->
             <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
                 <i class="fa-solid fa-circle-question me-1"></i> Help
             </button>
-            <a href="<?= base_url('logout') ?>" class="btn-logout-custom"><i class="fa-solid fa-power-off me-1"></i> Logout</a>
+            <!-- LOGOUT -->
+            <a href="<?= base_url('logout') ?>" class="btn-logout-custom">
+                <i class="fa-solid fa-power-off me-1"></i> Logout
+            </a>
         </div>
     </div>
 </nav>
@@ -855,5 +887,29 @@ document.getElementById('helpModal').addEventListener('click', function(e) {
 initActivityDisplay();
 renderCalendar();
 </script>
+<!-- GLOBAL SEARCH OVERLAY -->
+<div id="searchOverlay" class="d-none">
+    <div class="search-overlay-inner">
+        <div class="search-overlay-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input class="search-overlay-input"
+                   id="globalSearchInput"
+                   type="text"
+                   placeholder="Search activities, bookings, sea conditions…"
+                   autocomplete="off"
+                   oninput="runGlobalSearch(this.value)">
+            <button class="btn-close-search" onclick="closeSearch()">
+                <i class="fa-solid fa-xmark me-1"></i> Close
+            </button>
+        </div>
+        <div id="searchResultsBox" class="search-results-box">
+            <div class="sdn-hint">
+                <i class="fa-solid fa-magnifying-glass me-2"></i>
+                Start typing to search the entire system…
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END GLOBAL SEARCH OVERLAY -->
 </body>
 </html>

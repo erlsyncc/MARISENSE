@@ -160,6 +160,30 @@
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
         .social-icons i { color: rgba(255,255,255,0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
         .social-icons i:hover { color: var(--accent-cyan); transform: scale(1.2); }
+        /* ── SEARCH ── */
+        .btn-search-custom { color: #48cae4; font-size: 1.1rem; padding: 8px 12px; border: 1px solid rgba(72,202,228,0.5); border-radius: 50px; background: rgba(72,202,228,0.08); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .btn-search-custom:hover { background: rgba(72,202,228,0.2); border-color: #48cae4; }
+        #searchOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,44,57,0.92); backdrop-filter: blur(10px); z-index: 99999; display: flex; flex-direction: column; align-items: center; padding-top: 100px; animation: fadeInSearch 0.2s ease; }
+        #searchOverlay.d-none { display: none !important; }
+        @keyframes fadeInSearch { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .search-overlay-inner { width: 100%; max-width: 640px; padding: 0 20px; }
+        .search-overlay-bar { display: flex; align-items: center; gap: 12px; background: #0a3d52; border: 1.5px solid rgba(72,202,228,0.5); border-radius: 16px; padding: 14px 18px; margin-bottom: 12px; }
+        .search-overlay-bar i { color: #48cae4; font-size: 1rem; flex-shrink: 0; }
+        .search-overlay-input { flex: 1; background: none; border: none; outline: none; color: #fff; font-size: 1rem; font-family: 'Poppins', sans-serif; }
+        .search-overlay-input::placeholder { color: rgba(255,255,255,0.35); }
+        .btn-close-search { background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); border-radius: 50px; padding: 5px 14px; font-size: 0.78rem; cursor: pointer; font-family: 'Poppins', sans-serif; transition: 0.2s; white-space: nowrap; }
+        .btn-close-search:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .search-results-box { background: #0a3d52; border: 1px solid rgba(72,202,228,0.25); border-radius: 16px; overflow: hidden; max-height: 420px; overflow-y: auto; }
+        .sdn-section-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(72,202,228,0.7); padding: 10px 16px 4px; background: rgba(72,202,228,0.05); }
+        .sdn-item { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); text-decoration: none; color: #fff; transition: 0.15s; }
+        .sdn-item:last-child { border-bottom: none; }
+        .sdn-item:hover { background: rgba(72,202,228,0.1); }
+        .sdn-icon { width: 34px; height: 34px; border-radius: 9px; background: rgba(72,202,228,0.12); display: flex; align-items: center; justify-content: center; color: #48cae4; flex-shrink: 0; }
+        .sdn-title { font-size: 0.85rem; font-weight: 600; line-height: 1.2; }
+        .sdn-sub { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 2px; }
+        .sdn-no-result { text-align: center; padding: 30px; color: rgba(255,255,255,0.4); font-size: 0.88rem; }
+        .sdn-hint { text-align: center; padding: 20px; color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+        .sdn-highlight { background: rgba(72,202,228,0.25); color: #48cae4; border-radius: 2px; padding: 0 2px; }
     </style>
 </head>
 <body>
@@ -182,9 +206,15 @@
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
         <div class="logout-wrapper">
+            <!-- SEARCH ICON -->
+            <button class="btn-search-custom" onclick="openSearch()" title="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <!-- HELP -->
             <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
                 <i class="fa-solid fa-circle-question me-1"></i> Help
             </button>
+            <!-- LOGOUT -->
             <a href="<?= base_url('logout') ?>" class="btn-logout-custom">
                 <i class="fa-solid fa-power-off me-1"></i> Logout
             </a>
@@ -709,6 +739,143 @@
     document.getElementById('helpModal').addEventListener('click', function(e) {
         if (e.target === this) this.classList.add('d-none');
     });
+    /* ═══════════════════════════════════
+   GLOBAL SEARCH — User Side
+   Add before </body> on every user page.
+═══════════════════════════════════ */
+(function () {
+    const BASE = (typeof CI_BASE_URL !== 'undefined') ? CI_BASE_URL : '/';
+
+    const SEARCH_INDEX = [
+        /* HOME */
+        { section: 'Home', title: 'Home Dashboard',     sub: 'Activities, sea conditions & reviews at a glance', icon: 'fa-house',           url: BASE + 'user/home' },
+        { section: 'Home', title: 'Live Buoy Data',     sub: 'Real-time MARISENSE buoy monitoring widget',       icon: 'fa-satellite-dish',  url: BASE + 'user/home' },
+        { section: 'Home', title: 'Find Us on Map',     sub: 'Matabungkay Beach, Lian, Batangas',                icon: 'fa-location-dot',    url: BASE + 'user/home' },
+        { section: 'Home', title: 'About Us',           sub: 'About Waves Water Sports and our commitments',     icon: 'fa-circle-info',     url: BASE + 'user/home' },
+        /* ACTIVITIES */
+        { section: 'Activities', title: 'All Activities',   sub: 'Browse all available water sports',                    icon: 'fa-person-swimming',  url: BASE + 'user/activities' },
+        { section: 'Activities', title: 'Jet Ski',          sub: 'High-speed water adventure',                           icon: 'fa-water',            url: BASE + 'user/activities#jet-ski' },
+        { section: 'Activities', title: 'Banana Boat',      sub: 'Fun group ride for families and friends',              icon: 'fa-ship',             url: BASE + 'user/activities#banana-boat' },
+        { section: 'Activities', title: 'Kayaking',         sub: 'Explore calm coastal waters peacefully',               icon: 'fa-sailboat',         url: BASE + 'user/activities#kayaking' },
+        { section: 'Activities', title: 'Flying Saucer',    sub: 'Glide and spin thrillingly on the water surface',      icon: 'fa-circle-radiation', url: BASE + 'user/activities#flying-saucer' },
+        /* BOOK & RESERVE */
+        { section: 'Book & Reserve', title: 'Book an Activity',    sub: 'Select your water sport and reserve a slot',   icon: 'fa-calendar-check', url: BASE + 'user/booking' },
+        { section: 'Book & Reserve', title: 'Choose Date & Time',  sub: 'Pick an available date and time slot',         icon: 'fa-clock',          url: BASE + 'user/booking' },
+        { section: 'Book & Reserve', title: 'GCash Payment',       sub: 'Pay 50% down payment or full via GCash',       icon: 'fa-peso-sign',      url: BASE + 'user/booking' },
+        { section: 'Book & Reserve', title: 'Number of Participants', sub: 'Set number of riders per activity',          icon: 'fa-users',          url: BASE + 'user/booking' },
+        { section: 'Book & Reserve', title: 'Special Requests',    sub: 'Add health concerns or special needs',          icon: 'fa-note-sticky',    url: BASE + 'user/booking' },
+        /* MY BOOKINGS */
+        { section: 'My Bookings', title: 'My Reservations',  sub: 'View all your active and past bookings',          icon: 'fa-list-check',      url: BASE + 'user/my-bookings' },
+        { section: 'My Bookings', title: 'Booking Status',   sub: 'Pending, Confirmed, Completed, Cancelled',        icon: 'fa-circle-check',    url: BASE + 'user/my-bookings' },
+        { section: 'My Bookings', title: 'Pay Balance',      sub: 'Pay remaining balance via GCash',                  icon: 'fa-credit-card',     url: BASE + 'user/my-bookings' },
+        { section: 'My Bookings', title: 'Booking Code',     sub: 'Find booking by code or activity name',            icon: 'fa-barcode',         url: BASE + 'user/my-bookings' },
+        { section: 'My Bookings', title: 'Cancel Booking',   sub: 'Free cancellation up to 24 hrs before schedule',   icon: 'fa-ban',             url: BASE + 'user/my-bookings' },
+        /* SAFETY */
+        { section: 'Safety & Sea Conditions', title: 'Sea Conditions Overview', sub: 'Full MARISENSE live data dashboard',              icon: 'fa-tower-broadcast', url: BASE + 'user/safety' },
+        { section: 'Safety & Sea Conditions', title: 'Wind Speed',              sub: 'Current wind speed reading in knots',              icon: 'fa-wind',            url: BASE + 'user/safety#marisense-section' },
+        { section: 'Safety & Sea Conditions', title: 'Wave Height',             sub: 'Live buoy wave height in meters',                  icon: 'fa-water',           url: BASE + 'user/safety#marisense-section' },
+        { section: 'Safety & Sea Conditions', title: 'Wave Period',             sub: 'Wave frequency measured in seconds',               icon: 'fa-wave-square',     url: BASE + 'user/safety#marisense-section' },
+        { section: 'Safety & Sea Conditions', title: 'Safety Status',           sub: 'Safe / Moderate / Unsafe activity indicator',      icon: 'fa-shield-halved',   url: BASE + 'user/safety' },
+        { section: 'Safety & Sea Conditions', title: 'About MARISENSE',         sub: 'Smart marine monitoring system overview',          icon: 'fa-circle-info',     url: BASE + 'user/safety' },
+        { section: 'Safety & Sea Conditions', title: 'Safety Protocol',         sub: 'Wind and wave thresholds for activity suspension', icon: 'fa-triangle-exclamation', url: BASE + 'user/safety' },
+        /* REVIEWS */
+        { section: 'Reviews', title: 'Read Reviews',    sub: 'Browse feedback from fellow adventurers',              icon: 'fa-star',          url: BASE + 'user/reviews' },
+        { section: 'Reviews', title: 'Write a Review',  sub: 'Share your experience after completing an activity',   icon: 'fa-pen-to-square', url: BASE + 'user/reviews' },
+        { section: 'Reviews', title: 'Star Rating',     sub: 'Rate your activity experience from 1 to 5 stars',      icon: 'fa-star-half-stroke', url: BASE + 'user/reviews' },
+        { section: 'Reviews', title: 'Felt Safe',       sub: 'Indicate whether you felt safe during the activity',   icon: 'fa-shield-halved', url: BASE + 'user/reviews' },
+    ];
+
+    function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+    function hl(text, q) {
+        if (!q) return text;
+        return text.replace(new RegExp('(' + escRe(q) + ')', 'gi'),
+            '<span class="sdn-highlight">$1</span>');
+    }
+
+    window.openSearch = function () {
+        document.getElementById('searchOverlay').classList.remove('d-none');
+        setTimeout(function () {
+            var inp = document.getElementById('globalSearchInput');
+            if (inp) { inp.value = ''; inp.focus(); }
+            document.getElementById('searchResultsBox').innerHTML =
+                '<div class="sdn-hint"><i class="fa-solid fa-magnifying-glass me-2"></i>Start typing to search the entire system…</div>';
+        }, 60);
+    };
+
+    window.closeSearch = function () {
+        document.getElementById('searchOverlay').classList.add('d-none');
+    };
+
+    window.runGlobalSearch = function (q) {
+        var box = document.getElementById('searchResultsBox');
+        q = q.trim();
+
+        if (!q) {
+            box.innerHTML = '<div class="sdn-hint"><i class="fa-solid fa-magnifying-glass me-2"></i>Start typing to search the entire system…</div>';
+            return;
+        }
+
+        var hits = SEARCH_INDEX.filter(function (it) {
+            return (it.title + ' ' + it.sub + ' ' + it.section)
+                .toLowerCase().includes(q.toLowerCase());
+        }).slice(0, 14);
+
+        if (!hits.length) {
+            box.innerHTML = '<div class="sdn-no-result"><i class="fa-solid fa-circle-xmark me-2" style="color:rgba(255,100,100,0.6);"></i>No results found for <strong>"' + q + '"</strong></div>';
+            return;
+        }
+
+        var sections = [...new Set(hits.map(function (h) { return h.section; }))];
+        var html = '';
+        sections.forEach(function (sec) {
+            html += '<div class="sdn-section-label"><i class="fa-solid fa-folder-open me-1"></i>' + sec + '</div>';
+            hits.filter(function (h) { return h.section === sec; }).forEach(function (it) {
+                html += '<a class="sdn-item" href="' + it.url + '" onclick="closeSearch()">'
+                      + '<div class="sdn-icon"><i class="fa-solid ' + it.icon + '" style="font-size:13px;"></i></div>'
+                      + '<div><div class="sdn-title">' + hl(it.title, q) + '</div>'
+                      + '<div class="sdn-sub">' + hl(it.sub, q) + '</div></div>'
+                      + '</a>';
+            });
+        });
+
+        box.innerHTML = html;
+    };
+
+    /* Close on Escape or clicking the backdrop */
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeSearch();
+    });
+
+    document.getElementById('searchOverlay').addEventListener('click', function (e) {
+        if (e.target === this) closeSearch();
+    });
+})();
 </script>
+<script>const CI_BASE_URL = "<?= base_url() ?>";</script>
+<!-- GLOBAL SEARCH OVERLAY -->
+<div id="searchOverlay" class="d-none">
+    <div class="search-overlay-inner">
+        <div class="search-overlay-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input class="search-overlay-input"
+                   id="globalSearchInput"
+                   type="text"
+                   placeholder="Search activities, bookings, sea conditions…"
+                   autocomplete="off"
+                   oninput="runGlobalSearch(this.value)">
+            <button class="btn-close-search" onclick="closeSearch()">
+                <i class="fa-solid fa-xmark me-1"></i> Close
+            </button>
+        </div>
+        <div id="searchResultsBox" class="search-results-box">
+            <div class="sdn-hint">
+                <i class="fa-solid fa-magnifying-glass me-2"></i>
+                Start typing to search the entire system…
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END GLOBAL SEARCH OVERLAY -->
 </body>
 </html>
