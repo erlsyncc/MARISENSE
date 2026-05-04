@@ -74,11 +74,20 @@
         .bc-code { font-size: 0.72rem; color: var(--accent-cyan); font-weight: 600; letter-spacing: 1px; opacity: 0.8; }
         .bc-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
-        /* Booking meta strip */
-        .bc-meta-strip { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; padding: 10px 14px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); }
+        /* Booking meta strip — no Time here anymore */
+        .bc-meta-strip { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 10px; padding: 10px 14px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); }
         .bc-meta-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
         .bc-meta-item i { color: var(--accent-cyan); font-size: 0.7rem; }
         .bc-meta-item span { color: rgba(255,255,255,0.8); font-weight: 600; }
+
+        /* ── Per-activity time slots block ── */
+        .bc-time-block { background: rgba(72,202,228,0.05); border: 1px solid rgba(72,202,228,0.15); border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; }
+        .bc-time-block-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-cyan); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .bc-time-row { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; margin-bottom: 5px; }
+        .bc-time-row:last-child { margin-bottom: 0; }
+        .bc-time-row i { color: var(--accent-cyan); font-size: 0.7rem; width: 14px; flex-shrink: 0; }
+        .bc-time-act-name { color: rgba(255,255,255,0.6); font-weight: 600; min-width: 110px; flex-shrink: 0; }
+        .bc-time-value { color: white; font-weight: 700; }
 
         /* Per-activity cost breakdown table */
         .bc-pax-table { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
@@ -160,7 +169,7 @@
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
         .social-icons i { color: rgba(255,255,255,0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
         .social-icons i:hover { color: var(--accent-cyan); transform: scale(1.2); }
-        /* ── SEARCH ── */
+
         .btn-search-custom { color: #48cae4; font-size: 1.1rem; padding: 8px 12px; border: 1px solid rgba(72,202,228,0.5); border-radius: 50px; background: rgba(72,202,228,0.08); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
         .btn-search-custom:hover { background: rgba(72,202,228,0.2); border-color: #48cae4; }
         #searchOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,44,57,0.92); backdrop-filter: blur(10px); z-index: 99999; display: flex; flex-direction: column; align-items: center; padding-top: 100px; animation: fadeInSearch 0.2s ease; }
@@ -206,15 +215,12 @@
             <a href="<?= base_url('user/reviews') ?>" class="nav-link-custom">Reviews</a>
         </div>
         <div class="logout-wrapper">
-            <!-- SEARCH ICON -->
             <button class="btn-search-custom" onclick="openSearch()" title="Search">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
-            <!-- HELP -->
             <button class="btn-help-custom" onclick="document.getElementById('helpModal').classList.remove('d-none')">
                 <i class="fa-solid fa-circle-question me-1"></i> Help
             </button>
-            <!-- LOGOUT -->
             <a href="<?= base_url('logout') ?>" class="btn-logout-custom">
                 <i class="fa-solid fa-power-off me-1"></i> Logout
             </a>
@@ -239,24 +245,32 @@
     <?php endif; ?>
 
     <?php
-    /* ── helpers ── */
     $db = \Config\Database::connect();
 
-    /**
-     * Computes line total for one activity given its DB row and pax count.
-     * per_person  → price × pax
-     * flat        → price (regardless of pax)
-     */
     function mbCalcLine(array $actRow, int $pax): array {
         $price     = (float)($actRow['price'] ?? 0);
         $priceType = $actRow['price_type'] ?? 'flat';
         $lineTotal = ($priceType === 'per_person') ? $price * $pax : $price;
-        return [
-            'price'      => $price,
-            'price_type' => $priceType,
-            'pax'        => $pax,
-            'line_total' => $lineTotal,
-        ];
+        return ['price' => $price, 'price_type' => $priceType, 'pax' => $pax, 'line_total' => $lineTotal];
+    }
+
+    /**
+     * Format "HH:MM:SS" or "HH:MM" to "h:i A – end h:i A" given duration in minutes.
+     * Used for single-activity display.
+     */
+    function fmtTimeSlot(string $timeStr, int $durationMins = 60): string {
+        $ts  = strtotime('1970-01-01 ' . $timeStr);
+        $end = $ts + ($durationMins * 60);
+        return date('g:i A', $ts) . ' – ' . date('g:i A', $end);
+    }
+
+    /**
+     * Format "HH:MM:SS" or "HH:MM" to just "h:i A – end" given duration.
+     */
+    function fmtTimeSlotEnd(string $timeStr, int $durationMins = 60): string {
+        $ts  = strtotime('1970-01-01 ' . $timeStr);
+        $end = $ts + ($durationMins * 60);
+        return date('g:i A', $ts) . ' – ' . date('g:i A', $end);
     }
 
     $iconMap = [
@@ -321,8 +335,8 @@
             $tabGroup    = match($status) { 'pending','confirmed'=>'active','completed'=>'completed','cancelled'=>'cancelled',default=>'all' };
 
             $payClass = 'pay-unpaid'; $payText = 'Unpaid'; $payIcon = 'fa-hourglass';
-            if ($booking['payment_status'] === 'paid')                        { $payClass = 'pay-paid';   $payText = 'Paid';     $payIcon = 'fa-check'; }
-            elseif (($booking['down_payment_status'] ?? '') === 'paid')       { $payClass = 'pay-half';   $payText = '50% Paid'; $payIcon = 'fa-circle-half-stroke'; }
+            if ($booking['payment_status'] === 'paid')                  { $payClass = 'pay-paid';  $payText = 'Paid';     $payIcon = 'fa-check'; }
+            elseif (($booking['down_payment_status'] ?? '') === 'paid') { $payClass = 'pay-half';  $payText = '50% Paid'; $payIcon = 'fa-circle-half-stroke'; }
 
             /* ── Activities ── */
             $allActNames = array_values(array_filter(array_map('trim', explode(',', $booking['all_activities'] ?? $booking['activity_name']))));
@@ -344,56 +358,54 @@
                 $totalPax  = (int)$booking['participants'];
                 $perAct    = (int)floor($totalPax / max(count($allActNames), 1));
                 $remainder = $totalPax % max(count($allActNames), 1);
-                foreach ($allActNames as $idx => $an) {
-                    $ppaMap[trim($an)] = $perAct + ($idx === 0 ? $remainder : 0);
+                foreach ($allActNames as $idx => $an) { $ppaMap[trim($an)] = $perAct + ($idx === 0 ? $remainder : 0); }
+            }
+
+            /* ── Time per activity ── */
+            $tpaMap = [];
+            if (!empty($booking['time_per_activity'])) {
+                $decoded = json_decode($booking['time_per_activity'], true);
+                if (is_array($decoded)) $tpaMap = $decoded;
+            }
+            // Fallback: stagger each activity consecutively from the booked start time
+            if (empty($tpaMap)) {
+                $cursor = strtotime('1970-01-01 ' . $booking['time']);
+                foreach ($allActNames as $an) {
+                    $an = trim($an);
+                    $tpaMap[$an] = date('H:i:s', $cursor);
+                    $dur    = isset($actRowCache[$an]) ? (int)($actRowCache[$an]['duration'] ?? 60) : 60;
+                    $cursor += $dur * 60;
                 }
             }
 
-            /* ── Fetch activity rows from DB for pricing ── */
+            /* ── Fetch activity rows ── */
             $actRowCache = [];
             foreach ($allActNames as $an) {
-                $an = trim($an);
+                $an  = trim($an);
                 $row = $db->table('activities')->where('name', $an)->get()->getRowArray();
                 if ($row) $actRowCache[$an] = $row;
             }
 
-            /* ── Compute per-activity line totals & grand total ──────────────
-             * Sum ALL activity line totals. Do NOT use $booking['total_amount']
-             * here because it may only reflect a single activity if the booking
-             * was saved incorrectly. The computed sum is always correct.
-             * ──────────────────────────────────────────────────────────────── */
+            /* ── Compute per-activity line totals ── */
             $lineItems     = [];
             $computedTotal = 0.0;
             foreach ($allActNames as $an) {
                 $an  = trim($an);
                 $pax = (int)($ppaMap[$an] ?? 0);
-                if (isset($actRowCache[$an])) {
-                    $line = mbCalcLine($actRowCache[$an], $pax);
-                } else {
-                    $line = ['price' => 0, 'price_type' => 'flat', 'pax' => $pax, 'line_total' => 0];
-                }
+                $line = isset($actRowCache[$an])
+                    ? mbCalcLine($actRowCache[$an], $pax)
+                    : ['price' => 0, 'price_type' => 'flat', 'pax' => $pax, 'line_total' => 0];
                 $lineItems[$an]  = $line;
                 $computedTotal  += $line['line_total'];
             }
-
-            /*
-             * Use $computedTotal as the authoritative display total.
-             * Fall back to $booking['total_amount'] only if we couldn't
-             * resolve any prices from the DB (e.g. activity deleted).
-             */
             $displayTotal = ($computedTotal > 0) ? $computedTotal : (float)$booking['total_amount'];
-
-            /* ── Time display ── */
-            $ts          = strtotime($booking['time']);
-            $timeDisplay = date('h:i A', $ts) . ' – ' . date('h:i A', $ts + 3600);
 
             /* ── Dates ── */
             $bookedOn = date('M d, Y', strtotime($booking['created_at']));
             $actDate  = date('M d, Y', strtotime($booking['date']));
 
-            /* ── Remaining balance (use displayTotal for accuracy) ── */
+            /* ── Remaining balance ── */
             $remaining = $displayTotal - (float)($booking['down_payment'] ?? 0);
-
             $totalParticipants = array_sum($ppaMap);
         ?>
         <div class="booking-card"
@@ -424,7 +436,7 @@
                 </div>
             </div>
 
-            <!-- Meta strip -->
+            <!-- Meta strip — Booked On + Activity Date only (no single Time here) -->
             <div class="bc-meta-strip">
                 <div class="bc-meta-item">
                     <i class="fa-regular fa-clock"></i>
@@ -434,27 +446,30 @@
                     <i class="fa-regular fa-calendar-check"></i>
                     Activity date: <span><?= $actDate ?></span>
                 </div>
-                <div class="bc-meta-item">
-                    <i class="fa-regular fa-clock"></i>
-                    Time: <span><?= $timeDisplay ?></span>
-                </div>
             </div>
 
-            <!-- Activity pills (multi only) -->
-            <?php if ($multiActivity): ?>
-            <div class="bc-activities">
+            <!-- ── Per-activity time slots ── -->
+            <div class="bc-time-block">
+                <div class="bc-time-block-label">
+                    <i class="fa-regular fa-clock"></i> Time
+                </div>
                 <?php foreach ($allActNames as $an):
-                    $anKey  = strtolower(trim($an));
-                    $anIcon = $iconMap[$anKey] ?? 'fa-person-swimming';
+                    $an      = trim($an);
+                    $aKey    = strtolower($an);
+                    $aIcon   = $iconMap[$aKey] ?? 'fa-person-swimming';
+                    $rawTime = $tpaMap[$an] ?? $booking['time'];
+                    $dur     = isset($actRowCache[$an]) ? (int)($actRowCache[$an]['duration'] ?? 60) : 60;
+                    $slotStr = fmtTimeSlotEnd($rawTime, $dur);
                 ?>
-                <span class="bc-act-pill">
-                    <i class="fa-solid <?= $anIcon ?>"></i> <?= esc(trim($an)) ?>
-                </span>
+                <div class="bc-time-row">
+                    <i class="fa-solid <?= $aIcon ?>"></i>
+                    <span class="bc-time-act-name"><?= esc($an) ?></span>
+                    <span class="bc-time-value"><?= $slotStr ?></span>
+                </div>
                 <?php endforeach; ?>
             </div>
-            <?php endif; ?>
 
-            <!-- ── Cost Breakdown ── -->
+            <!-- Cost Breakdown -->
             <div class="bc-pax-table">
                 <div class="bc-pax-header">
                     <i class="fa-solid fa-calculator me-1"></i> Cost Breakdown
@@ -470,19 +485,14 @@
                         <i class="fa-solid <?= $icon ?>"></i>
                         <?= esc($an) ?>
                         <?php if ($line['price_type'] === 'per_person' && $line['price'] > 0): ?>
-                            <span class="pax-formula">
-                                ₱<?= number_format($line['price'], 0) ?> &times; <?= $line['pax'] ?> person<?= $line['pax'] != 1 ? 's' : '' ?>
-                            </span>
+                            <span class="pax-formula">₱<?= number_format($line['price'], 0) ?> &times; <?= $line['pax'] ?> person<?= $line['pax'] != 1 ? 's' : '' ?></span>
                         <?php elseif ($line['price'] > 0): ?>
-                            <span class="pax-formula">
-                                flat rate &middot; <?= $line['pax'] ?> person<?= $line['pax'] != 1 ? 's' : '' ?>
-                            </span>
+                            <span class="pax-formula">flat rate &middot; <?= $line['pax'] ?> person<?= $line['pax'] != 1 ? 's' : '' ?></span>
                         <?php endif; ?>
                     </div>
                     <div class="pax-line-total">₱<?= number_format($line['line_total'], 2) ?></div>
                 </div>
                 <?php endforeach; ?>
-                <!-- ✅ Grand total = sum of ALL activity line totals -->
                 <div class="bc-pax-total">
                     <span>
                         <i class="fa-solid fa-equals me-1"></i> Total Amount
@@ -556,7 +566,7 @@
         </div>
         <?php endif; ?>
 
-    </div><!-- /bookings-panel -->
+    </div>
 </div>
 
 <footer class="text-center">
@@ -581,7 +591,6 @@
             </div>
             <button class="btn-close-pay" onclick="closePayModal()"><i class="fa-solid fa-xmark me-1"></i> Close</button>
         </div>
-
         <div class="pay-opt-row">
             <div class="pay-opt selected" id="payopt-half" onclick="selectPayOpt('half')">
                 <i class="fa-brands fa-google-pay me-1" style="color:#1a73e8;"></i><br>
@@ -592,7 +601,6 @@
                 Full Payment<br><span style="font-size:0.68rem;font-weight:400;">Pay everything now</span>
             </div>
         </div>
-
         <div class="pay-amount-box">
             <div>
                 <div class="pay-amount-label" id="pay-amount-label">Down Payment (50%)</div>
@@ -602,33 +610,28 @@
                 Total:<br><span id="pay-total-display" style="color:rgba(255,255,255,0.7);font-weight:700;">—</span>
             </div>
         </div>
-
         <div class="gcash-info-box">
             <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.4);margin-bottom:4px;">GCash Number</div>
-            <div class="gcash-num"><i class="fa-brands fa-google-pay" style="color:#1a73e8;"></i> 0917-XXX-XXXX</div>
+            <div class="gcash-num"><i class="fa-brands fa-google-pay" style="color:#1a73e8;"></i> 0951-313-1320</div>
             <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:2px;">Waves Water Sports</div>
             <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:8px;line-height:1.6;">
                 1. Open GCash → Send Money &nbsp;|&nbsp; 2. Enter number &amp; amount<br>
                 3. Screenshot receipt &nbsp;|&nbsp; 4. Upload the screenshot below
             </div>
         </div>
-
         <form action="<?= base_url('user/booking/pay') ?>" method="POST" enctype="multipart/form-data" id="payForm">
             <?= csrf_field() ?>
             <input type="hidden" name="booking_id"   id="pay-booking-id" value="">
             <input type="hidden" name="payment_type" id="pay-type-hidden" value="half">
-
             <div style="margin-bottom:12px;">
                 <label class="pay-field-label">GCash Receipt Screenshot <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:0.6;">(required)</span></label>
                 <input type="file" name="gcash_receipt" id="gcash-file-input" accept="image/*" class="pay-file-input" required>
                 <p class="pay-note">Attach a screenshot of your GCash transaction. Accepted: JPG, PNG.</p>
             </div>
-
             <div style="margin-bottom:12px;">
                 <label class="pay-field-label">GCash Reference No. <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:0.6;">(optional)</span></label>
                 <input type="text" name="gcash_ref" placeholder="e.g. 1234567890" class="pay-text-input">
             </div>
-
             <button type="submit" class="btn-confirm-pay" id="pay-submit-btn">
                 <i class="fa-solid fa-check-circle me-2"></i> Submit Payment
             </button>
@@ -739,143 +742,76 @@
     document.getElementById('helpModal').addEventListener('click', function(e) {
         if (e.target === this) this.classList.add('d-none');
     });
-    /* ═══════════════════════════════════
-   GLOBAL SEARCH — User Side
-   Add before </body> on every user page.
-═══════════════════════════════════ */
+</script>
+
+<script>const CI_BASE_URL = "<?= base_url() ?>";</script>
+<script>
 (function () {
-    const BASE = (typeof CI_BASE_URL !== 'undefined') ? CI_BASE_URL : '/';
-
-    const SEARCH_INDEX = [
-        /* HOME */
-        { section: 'Home', title: 'Home Dashboard',     sub: 'Activities, sea conditions & reviews at a glance', icon: 'fa-house',           url: BASE + 'user/home' },
-        { section: 'Home', title: 'Live Buoy Data',     sub: 'Real-time MARISENSE buoy monitoring widget',       icon: 'fa-satellite-dish',  url: BASE + 'user/home' },
-        { section: 'Home', title: 'Find Us on Map',     sub: 'Matabungkay Beach, Lian, Batangas',                icon: 'fa-location-dot',    url: BASE + 'user/home' },
-        { section: 'Home', title: 'About Us',           sub: 'About Waves Water Sports and our commitments',     icon: 'fa-circle-info',     url: BASE + 'user/home' },
-        /* ACTIVITIES */
-        { section: 'Activities', title: 'All Activities',   sub: 'Browse all available water sports',                    icon: 'fa-person-swimming',  url: BASE + 'user/activities' },
-        { section: 'Activities', title: 'Jet Ski',          sub: 'High-speed water adventure',                           icon: 'fa-water',            url: BASE + 'user/activities#jet-ski' },
-        { section: 'Activities', title: 'Banana Boat',      sub: 'Fun group ride for families and friends',              icon: 'fa-ship',             url: BASE + 'user/activities#banana-boat' },
-        { section: 'Activities', title: 'Kayaking',         sub: 'Explore calm coastal waters peacefully',               icon: 'fa-sailboat',         url: BASE + 'user/activities#kayaking' },
-        { section: 'Activities', title: 'Flying Saucer',    sub: 'Glide and spin thrillingly on the water surface',      icon: 'fa-circle-radiation', url: BASE + 'user/activities#flying-saucer' },
-        /* BOOK & RESERVE */
-        { section: 'Book & Reserve', title: 'Book an Activity',    sub: 'Select your water sport and reserve a slot',   icon: 'fa-calendar-check', url: BASE + 'user/booking' },
-        { section: 'Book & Reserve', title: 'Choose Date & Time',  sub: 'Pick an available date and time slot',         icon: 'fa-clock',          url: BASE + 'user/booking' },
-        { section: 'Book & Reserve', title: 'GCash Payment',       sub: 'Pay 50% down payment or full via GCash',       icon: 'fa-peso-sign',      url: BASE + 'user/booking' },
-        { section: 'Book & Reserve', title: 'Number of Participants', sub: 'Set number of riders per activity',          icon: 'fa-users',          url: BASE + 'user/booking' },
-        { section: 'Book & Reserve', title: 'Special Requests',    sub: 'Add health concerns or special needs',          icon: 'fa-note-sticky',    url: BASE + 'user/booking' },
-        /* MY BOOKINGS */
-        { section: 'My Bookings', title: 'My Reservations',  sub: 'View all your active and past bookings',          icon: 'fa-list-check',      url: BASE + 'user/my-bookings' },
-        { section: 'My Bookings', title: 'Booking Status',   sub: 'Pending, Confirmed, Completed, Cancelled',        icon: 'fa-circle-check',    url: BASE + 'user/my-bookings' },
-        { section: 'My Bookings', title: 'Pay Balance',      sub: 'Pay remaining balance via GCash',                  icon: 'fa-credit-card',     url: BASE + 'user/my-bookings' },
-        { section: 'My Bookings', title: 'Booking Code',     sub: 'Find booking by code or activity name',            icon: 'fa-barcode',         url: BASE + 'user/my-bookings' },
-        { section: 'My Bookings', title: 'Cancel Booking',   sub: 'Free cancellation up to 24 hrs before schedule',   icon: 'fa-ban',             url: BASE + 'user/my-bookings' },
-        /* SAFETY */
-        { section: 'Safety & Sea Conditions', title: 'Sea Conditions Overview', sub: 'Full MARISENSE live data dashboard',              icon: 'fa-tower-broadcast', url: BASE + 'user/safety' },
-        { section: 'Safety & Sea Conditions', title: 'Wind Speed',              sub: 'Current wind speed reading in knots',              icon: 'fa-wind',            url: BASE + 'user/safety#marisense-section' },
-        { section: 'Safety & Sea Conditions', title: 'Wave Height',             sub: 'Live buoy wave height in meters',                  icon: 'fa-water',           url: BASE + 'user/safety#marisense-section' },
-        { section: 'Safety & Sea Conditions', title: 'Wave Period',             sub: 'Wave frequency measured in seconds',               icon: 'fa-wave-square',     url: BASE + 'user/safety#marisense-section' },
-        { section: 'Safety & Sea Conditions', title: 'Safety Status',           sub: 'Safe / Moderate / Unsafe activity indicator',      icon: 'fa-shield-halved',   url: BASE + 'user/safety' },
-        { section: 'Safety & Sea Conditions', title: 'About MARISENSE',         sub: 'Smart marine monitoring system overview',          icon: 'fa-circle-info',     url: BASE + 'user/safety' },
-        { section: 'Safety & Sea Conditions', title: 'Safety Protocol',         sub: 'Wind and wave thresholds for activity suspension', icon: 'fa-triangle-exclamation', url: BASE + 'user/safety' },
-        /* REVIEWS */
-        { section: 'Reviews', title: 'Read Reviews',    sub: 'Browse feedback from fellow adventurers',              icon: 'fa-star',          url: BASE + 'user/reviews' },
-        { section: 'Reviews', title: 'Write a Review',  sub: 'Share your experience after completing an activity',   icon: 'fa-pen-to-square', url: BASE + 'user/reviews' },
-        { section: 'Reviews', title: 'Star Rating',     sub: 'Rate your activity experience from 1 to 5 stars',      icon: 'fa-star-half-stroke', url: BASE + 'user/reviews' },
-        { section: 'Reviews', title: 'Felt Safe',       sub: 'Indicate whether you felt safe during the activity',   icon: 'fa-shield-halved', url: BASE + 'user/reviews' },
+    var BASE = (typeof CI_BASE_URL !== 'undefined') ? CI_BASE_URL : '/';
+    var SEARCH_INDEX = [
+        { section: 'Home', title: 'Home Dashboard',     sub: 'Activities, sea conditions & reviews at a glance', icon: 'fa-house',                url: BASE + 'user/home' },
+        { section: 'Home', title: 'Live Buoy Data',     sub: 'Real-time MARISENSE buoy monitoring widget',       icon: 'fa-satellite-dish',       url: BASE + 'user/home' },
+        { section: 'Home', title: 'Find Us on Map',     sub: 'Matabungkay Beach, Lian, Batangas',                icon: 'fa-location-dot',         url: BASE + 'user/home' },
+        { section: 'Activities', title: 'Jet Ski',      sub: 'High-speed water adventure',                        icon: 'fa-water',                url: BASE + 'user/activities' },
+        { section: 'Activities', title: 'Banana Boat',  sub: 'Fun group ride for families and friends',           icon: 'fa-ship',                 url: BASE + 'user/activities' },
+        { section: 'Activities', title: 'Kayaking',     sub: 'Explore calm coastal waters peacefully',            icon: 'fa-sailboat',             url: BASE + 'user/activities' },
+        { section: 'Activities', title: 'Flying Saucer',sub: 'Glide and spin thrillingly on the water surface',   icon: 'fa-circle-radiation',     url: BASE + 'user/activities' },
+        { section: 'Book & Reserve', title: 'Book an Activity',   sub: 'Select your water sport and reserve a slot', icon: 'fa-calendar-check', url: BASE + 'user/booking' },
+        { section: 'Book & Reserve', title: 'Choose Date & Time', sub: 'Pick an available date and time slot',       icon: 'fa-clock',          url: BASE + 'user/booking' },
+        { section: 'Book & Reserve', title: 'GCash Payment',      sub: 'Pay 50% down payment or full via GCash',     icon: 'fa-peso-sign',      url: BASE + 'user/booking' },
+        { section: 'My Bookings', title: 'My Reservations', sub: 'View all your active and past bookings',          icon: 'fa-list-check',     url: BASE + 'user/my-bookings' },
+        { section: 'My Bookings', title: 'Booking Status',  sub: 'Pending, Confirmed, Completed, Cancelled',        icon: 'fa-circle-check',   url: BASE + 'user/my-bookings' },
+        { section: 'My Bookings', title: 'Pay Balance',     sub: 'Pay remaining balance via GCash',                 icon: 'fa-credit-card',    url: BASE + 'user/my-bookings' },
+        { section: 'Safety & Sea Conditions', title: 'Sea Conditions', sub: 'Full MARISENSE live data dashboard',   icon: 'fa-tower-broadcast',url: BASE + 'user/safety' },
+        { section: 'Safety & Sea Conditions', title: 'Safety Status', sub: 'Safe / Moderate / Unsafe indicator',    icon: 'fa-shield-halved',  url: BASE + 'user/safety' },
+        { section: 'Reviews', title: 'Read Reviews',   sub: 'Browse feedback from fellow adventurers',              icon: 'fa-star',           url: BASE + 'user/reviews' },
+        { section: 'Reviews', title: 'Write a Review', sub: 'Share your experience after completing an activity',   icon: 'fa-pen-to-square',  url: BASE + 'user/reviews' },
     ];
-
     function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
-
-    function hl(text, q) {
-        if (!q) return text;
-        return text.replace(new RegExp('(' + escRe(q) + ')', 'gi'),
-            '<span class="sdn-highlight">$1</span>');
-    }
-
-    window.openSearch = function () {
+    function hl(text, q) { if (!q) return text; return text.replace(new RegExp('(' + escRe(q) + ')', 'gi'), '<span class="sdn-highlight">$1</span>'); }
+    window.openSearch = function() {
         document.getElementById('searchOverlay').classList.remove('d-none');
-        setTimeout(function () {
-            var inp = document.getElementById('globalSearchInput');
-            if (inp) { inp.value = ''; inp.focus(); }
-            document.getElementById('searchResultsBox').innerHTML =
-                '<div class="sdn-hint"><i class="fa-solid fa-magnifying-glass me-2"></i>Start typing to search the entire system…</div>';
-        }, 60);
+        setTimeout(function() { var i = document.getElementById('globalSearchInput'); if (i) { i.value=''; i.focus(); } document.getElementById('searchResultsBox').innerHTML='<div class="sdn-hint"><i class="fa-solid fa-magnifying-glass me-2"></i>Start typing to search the entire system…</div>'; }, 60);
     };
-
-    window.closeSearch = function () {
-        document.getElementById('searchOverlay').classList.add('d-none');
-    };
-
-    window.runGlobalSearch = function (q) {
+    window.closeSearch = function() { document.getElementById('searchOverlay').classList.add('d-none'); };
+    window.runGlobalSearch = function(q) {
         var box = document.getElementById('searchResultsBox');
         q = q.trim();
-
-        if (!q) {
-            box.innerHTML = '<div class="sdn-hint"><i class="fa-solid fa-magnifying-glass me-2"></i>Start typing to search the entire system…</div>';
-            return;
-        }
-
-        var hits = SEARCH_INDEX.filter(function (it) {
-            return (it.title + ' ' + it.sub + ' ' + it.section)
-                .toLowerCase().includes(q.toLowerCase());
-        }).slice(0, 14);
-
-        if (!hits.length) {
-            box.innerHTML = '<div class="sdn-no-result"><i class="fa-solid fa-circle-xmark me-2" style="color:rgba(255,100,100,0.6);"></i>No results found for <strong>"' + q + '"</strong></div>';
-            return;
-        }
-
-        var sections = [...new Set(hits.map(function (h) { return h.section; }))];
+        if (!q) { box.innerHTML = '<div class="sdn-hint"><i class="fa-solid fa-magnifying-glass me-2"></i>Start typing…</div>'; return; }
+        var hits = SEARCH_INDEX.filter(function(it) { return (it.title+' '+it.sub+' '+it.section).toLowerCase().includes(q.toLowerCase()); }).slice(0,14);
+        if (!hits.length) { box.innerHTML = '<div class="sdn-no-result"><i class="fa-solid fa-circle-xmark me-2"></i>No results for "'+q+'"</div>'; return; }
+        var sections = [...new Set(hits.map(function(h){return h.section;}))];
         var html = '';
-        sections.forEach(function (sec) {
+        sections.forEach(function(sec) {
             html += '<div class="sdn-section-label"><i class="fa-solid fa-folder-open me-1"></i>' + sec + '</div>';
-            hits.filter(function (h) { return h.section === sec; }).forEach(function (it) {
-                html += '<a class="sdn-item" href="' + it.url + '" onclick="closeSearch()">'
-                      + '<div class="sdn-icon"><i class="fa-solid ' + it.icon + '" style="font-size:13px;"></i></div>'
-                      + '<div><div class="sdn-title">' + hl(it.title, q) + '</div>'
-                      + '<div class="sdn-sub">' + hl(it.sub, q) + '</div></div>'
-                      + '</a>';
+            hits.filter(function(h){return h.section===sec;}).forEach(function(it) {
+                html += '<a class="sdn-item" href="'+it.url+'" onclick="closeSearch()">'
+                      + '<div class="sdn-icon"><i class="fa-solid '+it.icon+'" style="font-size:13px;"></i></div>'
+                      + '<div><div class="sdn-title">'+hl(it.title,q)+'</div><div class="sdn-sub">'+hl(it.sub,q)+'</div></div></a>';
             });
         });
-
         box.innerHTML = html;
     };
-
-    /* Close on Escape or clicking the backdrop */
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closeSearch();
-    });
-
-    document.getElementById('searchOverlay').addEventListener('click', function (e) {
-        if (e.target === this) closeSearch();
-    });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSearch(); });
+    document.getElementById('searchOverlay').addEventListener('click', function(e){ if(e.target===this) closeSearch(); });
 })();
 </script>
-<script>const CI_BASE_URL = "<?= base_url() ?>";</script>
-<!-- GLOBAL SEARCH OVERLAY -->
+
 <div id="searchOverlay" class="d-none">
     <div class="search-overlay-inner">
         <div class="search-overlay-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input class="search-overlay-input"
-                   id="globalSearchInput"
-                   type="text"
+            <input class="search-overlay-input" id="globalSearchInput" type="text"
                    placeholder="Search activities, bookings, sea conditions…"
-                   autocomplete="off"
-                   oninput="runGlobalSearch(this.value)">
+                   autocomplete="off" oninput="runGlobalSearch(this.value)">
             <button class="btn-close-search" onclick="closeSearch()">
                 <i class="fa-solid fa-xmark me-1"></i> Close
             </button>
         </div>
         <div id="searchResultsBox" class="search-results-box">
-            <div class="sdn-hint">
-                <i class="fa-solid fa-magnifying-glass me-2"></i>
-                Start typing to search the entire system…
-            </div>
+            <div class="sdn-hint"><i class="fa-solid fa-magnifying-glass me-2"></i>Start typing to search the entire system…</div>
         </div>
     </div>
 </div>
-<!-- END GLOBAL SEARCH OVERLAY -->
 </body>
 </html>

@@ -92,7 +92,6 @@
         .day-box.today    { outline: 2px solid var(--accent-cyan); outline-offset: 1px; }
         .day-box.selected { background: var(--accent-cyan) !important; color: var(--deep-blue) !important; border: none !important; font-weight: 700 !important; box-shadow: 0 4px 12px rgba(72,202,228,0.4) !important; outline: none !important; }
 
-        /* ── Fixed calendar legend ── */
         .cal-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: rgba(255,255,255,0.6); }
         .cal-legend-item { display: flex; align-items: center; gap: 6px; }
         .cal-dot { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
@@ -102,7 +101,7 @@
         .cal-dot.past    { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); }
         .cal-dot.today   { background: transparent; border: 2px solid var(--accent-cyan); }
 
-        /* Time slots — single activity (1-hour blocks, unchanged) */
+        /* Time slots */
         .time-slots-wrapper { max-height: 260px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 10px; background: rgba(255,255,255,0.03); }
         .time-slot-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 11px 14px; margin-bottom: 7px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: white; cursor: pointer; transition: 0.2s; font-size: 0.86rem; font-weight: 500; }
         .time-slot-btn:last-child { margin-bottom: 0; }
@@ -116,7 +115,7 @@
         .slot-status.lunch  { background: rgba(255,193,7,0.15); color: #ffc107; }
         .slots-loading { text-align: center; padding: 20px; opacity: 0.5; font-size: 0.85rem; }
 
-        /* ── Multi-activity time slot section ── */
+        /* Multi-activity time slot section */
         .multi-slot-section { margin-bottom: 18px; }
         .multi-slot-header { display: flex; align-items: center; gap: 9px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-cyan); margin-bottom: 8px; }
         .multi-slot-header i { width: 16px; text-align: center; }
@@ -267,6 +266,11 @@ foreach (($activities ?? []) as $act) {
     ];
 }
 $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['price_type'] === 'per_person'));
+
+// ── KEY: server-side Philippine Time (UTC+8) for accurate slot filtering ──
+$phtNow        = new \DateTime('now', new \DateTimeZone('Asia/Manila'));
+$phpNowDate    = $phtNow->format('Y-m-d');        // e.g. "2026-05-04"
+$phpNowMinutes = (int)$phtNow->format('H') * 60 + (int)$phtNow->format('i'); // minutes since midnight
 ?>
 
 <script>
@@ -278,9 +282,13 @@ $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['pric
     const ACTIVITY_DURATION     = <?= json_encode($durations) ?>;
     const PER_PERSON_ACTIVITIES = <?= json_encode($perPersonActivities) ?>;
 
+    // ── Philippine Time anchors (from server — no browser timezone guessing) ──
+    const PHT_TODAY_STR   = "<?= $phpNowDate ?>";          // "YYYY-MM-DD" in PHT
+    const PHT_NOW_MINUTES = <?= $phpNowMinutes ?>;         // minutes since midnight in PHT
+
     let selectedActivity  = "<?= esc($selectedActivity) ?>";
     let bookedDates       = <?= json_encode($bookedDates) ?>;
-    let partialDates      = <?= json_encode($partialDates ?? []) ?>;  // dates with some slots taken
+    let partialDates      = <?= json_encode($partialDates ?? []) ?>;
     let selectedDate      = '';
     let selectedTime      = '';
 
@@ -358,7 +366,6 @@ $perPersonActivities = array_keys(array_filter($jsActivities, fn($a) => $a['pric
             <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
         </div>
         <div class="calendar-days-grid" id="calendar-days"></div>
-        <!-- Fixed legend: colours exactly match the day-box classes -->
         <div class="cal-legend">
             <div class="cal-legend-item"><div class="cal-dot avail"></div> Available</div>
             <div class="cal-legend-item"><div class="cal-dot partial"></div> Partially Booked</div>
@@ -562,45 +569,75 @@ function minsToValue(mins) {
 }
 
 /**
+ * Returns true if this slot has already passed in Philippine Time.
+ * Only applies when the selected date is today (PHT_TODAY_STR).
+ * A slot at `slotStartMins` is past if its START time <= current PHT minute.
+ */
+function isSlotPastPHT(slotStartMins) {
+    if (selectedDate !== PHT_TODAY_STR) return false;
+    return slotStartMins <= PHT_NOW_MINUTES;
+}
+
+/**
  * Build all slots for one activity on the selected date.
  * - Start: 7:00 AM (420 mins)
  * - End:   5:00 PM (1020 mins) — last slot must finish by 17:00
  * - Skip:  12:00 PM – 1:00 PM (720–780) lunch break
  * - Step:  activity duration in minutes
+ * - HIDDEN: past slots when date === today (PHT)
  *
- * Returns array of { label, value, isLunch, isTaken }
+ * Returns array of { label, value, startMins, isLunch, isTaken }
+ * Past slots are simply not included in the returned array.
  */
 function buildSlotsForActivity(actName, durationMins, takenSet) {
     var slots   = [];
     var step    = durationMins > 0 ? durationMins : 60;
     var start   = 7 * 60;   // 7:00 AM
     var end     = 17 * 60;  // 5:00 PM
+    var lunchStart = 12 * 60;
+    var lunchEnd   = 13 * 60;
+    var lunchShown = false;
 
     var cur = start;
     while (cur < end) {
         var next = cur + step;
         if (next > end) break; // slot would go past 5 PM — skip
 
-        var fromLabel = minsToLabel(cur);
-        var toLabel   = minsToLabel(next);
-        var label     = fromLabel + ' – ' + toLabel;
-        var value     = minsToValue(cur);
-
-        // Lunch break: any slot that overlaps 12:00–13:00
-        var lunchStart = 12 * 60;
-        var lunchEnd   = 13 * 60;
+        // Lunch break: any slot whose start falls in the lunch window
         var overlapsLunch = cur < lunchEnd && next > lunchStart;
-
         if (overlapsLunch) {
-            slots.push({ label: '12:00 PM – 1:00 PM — Lunch Break', value: '12:00', isLunch: true, isTaken: false });
+            // Show the lunch break row only once, and only if it hasn't passed yet
+            if (!lunchShown && !isSlotPastPHT(lunchStart)) {
+                slots.push({
+                    label:      '12:00 PM – 1:00 PM — Lunch Break',
+                    value:      '12:00',
+                    startMins:  lunchStart,
+                    isLunch:    true,
+                    isTaken:    false
+                });
+                lunchShown = true;
+            }
             // Jump past lunch
             cur = lunchEnd;
             continue;
         }
 
+        // ── SKIP past slots entirely (PHT-aware) ──
+        if (isSlotPastPHT(cur)) {
+            cur += step;
+            continue;
+        }
+
+        var value   = minsToValue(cur);
         var isTaken = takenSet.has(value + ':00') || takenSet.has(value);
-        slots.push({ label: label, value: value, isLunch: false, isTaken: isTaken });
-        cur = next;
+        slots.push({
+            label:     minsToLabel(cur) + ' – ' + minsToLabel(next),
+            value:     value,
+            startMins: cur,
+            isLunch:   false,
+            isTaken:   isTaken
+        });
+        cur += step;
     }
 
     return slots;
@@ -798,7 +835,8 @@ function renderCalendar() {
     document.getElementById('cal-month-year').textContent = monthNames[mo] + ' ' + yr;
     var firstDay    = new Date(yr, mo, 1).getDay();
     var daysInMonth = new Date(yr, mo + 1, 0).getDate();
-    var todayStr    = formatDate(new Date());
+    // Use server-side PHT date string as "today" — no timezone guessing
+    var todayStr    = PHT_TODAY_STR;
     var grid        = document.getElementById('calendar-days');
     grid.innerHTML  = '';
 
@@ -812,17 +850,17 @@ function renderCalendar() {
         var dateStr = yr + '-' + String(mo + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
         var isToday = dateStr === todayStr;
         var isPast  = dateStr < todayStr;
-        var allSlotsPast = isToday && new Date().getHours() >= 17;
 
-        if (isPast || allSlotsPast) {
+        // Today is only disabled if ALL slots are past (i.e. it's after 5 PM PHT)
+        var allSlotsPastToday = isToday && PHT_NOW_MINUTES >= 17 * 60;
+
+        if (isPast || allSlotsPastToday) {
             d.classList.add('past');
-            d.title = isPast ? 'Past date' : 'No more slots today';
+            d.title = isPast ? 'Past date' : 'No more slots available today';
         } else if (bookedDates.includes(dateStr)) {
-            // Fully booked
             d.classList.add('booked');
             d.title = 'Fully booked';
         } else if (partialDates.includes(dateStr)) {
-            // Some slots taken — show as partial/yellow
             d.classList.add('partial');
             if (isToday) d.classList.add('today');
             d.title = 'Partially booked — some slots available';
@@ -834,7 +872,6 @@ function renderCalendar() {
                 });
             })(dateStr, d);
         } else {
-            // Fully available
             d.classList.add('available');
             if (isToday) d.classList.add('today');
             d.title = 'Available — Click to select';
@@ -850,17 +887,12 @@ function renderCalendar() {
     }
 }
 
-function formatDate(dt) {
-    return dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0');
-}
-
 function selectDate(dateStr) {
     selectedDate = dateStr;
     document.getElementById('f_date').value = dateStr;
     var opts = { year: 'numeric', month: 'long', day: 'numeric' };
     document.getElementById('summary-date').textContent = new Date(dateStr + 'T00:00:00').toLocaleDateString('en-PH', opts);
 
-    /* Reset time selections */
     selectedTime = '';
     multiSelectedTimes = {};
     document.getElementById('f_time').value = '';
@@ -872,8 +904,11 @@ function selectDate(dateStr) {
 }
 
 document.getElementById('prev-month').addEventListener('click', function() {
-    var now = new Date();
-    if (currentDate.getFullYear() === now.getFullYear() && currentDate.getMonth() === now.getMonth()) return;
+    // Don't navigate to months before the current PHT month
+    var phtParts = PHT_TODAY_STR.split('-');
+    var phtYear  = parseInt(phtParts[0]);
+    var phtMonth = parseInt(phtParts[1]) - 1; // 0-indexed
+    if (currentDate.getFullYear() === phtYear && currentDate.getMonth() === phtMonth) return;
     currentDate.setMonth(currentDate.getMonth() - 1);
     renderCalendar();
 });
@@ -897,11 +932,6 @@ function resetTimeSlots() {
     document.getElementById('slots-count-hint').textContent = '';
 }
 
-/**
- * Load time slots for the selected date.
- * Single activity  → original 1-hour slot list (buttons).
- * Multi-activity   → one dropdown per activity, slots sized to activity duration.
- */
 function loadTimeSlots(date) {
     if (selectedActivities.length === 0) {
         document.getElementById('time-slots-area').innerHTML =
@@ -913,13 +943,17 @@ function loadTimeSlots(date) {
     area.innerHTML = '<div class="slots-loading"><i class="fa-solid fa-spinner fa-spin me-2"></i>Loading slots…</div>';
     document.getElementById('slots-count-hint').textContent = '';
 
-    /* Fetch taken slots for the primary activity on this date */
     var primaryAct = selectedActivities[0];
     fetch(BOOKING_SLOTS_URL + '?activity=' + encodeURIComponent(primaryAct) + '&date=' + date)
         .then(function(r) { return r.json(); })
         .then(function(data) {
+            // Build the taken set from the server response
+            // (server already excludes past slots via its own check, but we re-filter
+            //  client-side using PHT_NOW_MINUTES for extra accuracy on today)
             var takenSet = new Set();
-            (data.slots || []).forEach(function(s) { if (!s.available) takenSet.add(s.value); });
+            (data.slots || []).forEach(function(s) {
+                if (!s.available) takenSet.add(s.value);
+            });
             renderTimeSlotArea(takenSet);
         })
         .catch(function() {
@@ -932,18 +966,22 @@ function renderTimeSlotArea(takenSet) {
     area.innerHTML = '';
 
     if (selectedActivities.length === 1) {
-        /* ── SINGLE ACTIVITY: original 1-hour button list ── */
         renderSingleActivitySlots(area, selectedActivities[0], takenSet);
     } else {
-        /* ── MULTI-ACTIVITY: one dropdown per activity ── */
         renderMultiActivitySlots(area, takenSet);
     }
 }
 
-/* ── Single activity: 1-hour clickable buttons (original behaviour) ── */
+/* ── Single activity: clickable slot buttons; past slots are hidden ── */
 function renderSingleActivitySlots(area, actName, takenSet) {
     var duration = (ACTIVITY_DATA[actName] && ACTIVITY_DATA[actName].duration) ? ACTIVITY_DATA[actName].duration : 60;
     var slots    = buildSlotsForActivity(actName, duration, takenSet);
+
+    if (slots.length === 0) {
+        area.innerHTML = '<div class="slots-loading" style="color:#ff9999;"><i class="fa-solid fa-circle-xmark me-2"></i>No available slots for this date.</div>';
+        document.getElementById('slots-count-hint').textContent = '';
+        return;
+    }
 
     var wrapper = document.createElement('div');
     wrapper.className = 'time-slots-wrapper';
@@ -974,11 +1012,11 @@ function renderSingleActivitySlots(area, actName, takenSet) {
     area.appendChild(wrapper);
 
     document.getElementById('slots-count-hint').innerHTML = avail === 0
-        ? '<i class="fas fa-circle-xmark me-1 text-danger"></i> No slots available for this date.'
+        ? '<i class="fas fa-circle-xmark me-1 text-danger"></i> All remaining slots are taken for this date.'
         : '<i class="fas fa-circle-info me-1" style="color:var(--accent-cyan);"></i> ' + avail + ' slot' + (avail !== 1 ? 's' : '') + ' available';
 }
 
-/* ── Multi-activity: one dropdown per activity ── */
+/* ── Multi-activity: one dropdown per activity; past slots excluded ── */
 function renderMultiActivitySlots(area, takenSet) {
     selectedActivities.forEach(function(actName, idx) {
         var duration = (ACTIVITY_DATA[actName] && ACTIVITY_DATA[actName].duration) ? ACTIVITY_DATA[actName].duration : 60;
@@ -988,22 +1026,19 @@ function renderMultiActivitySlots(area, takenSet) {
         var section = document.createElement('div');
         section.className = 'multi-slot-section';
 
-        /* Header */
         var header = document.createElement('div');
         header.className = 'multi-slot-header';
         header.innerHTML = '<i class="fa-solid ' + icon + '"></i> ' + actName
             + ' <span style="opacity:0.45;font-weight:400;text-transform:none;letter-spacing:0;font-size:0.7rem;margin-left:4px;">(' + duration + ' min slots)</span>';
         section.appendChild(header);
 
-        /* Dropdown */
         var sel = document.createElement('select');
         sel.className = 'multi-slot-select';
         sel.setAttribute('data-activity', actName);
 
-        /* Placeholder option */
         var ph = document.createElement('option');
         ph.value = '';
-        ph.textContent = '— Select a time —';
+        ph.textContent = slots.length === 0 ? '— No slots available —' : '— Select a time —';
         ph.disabled = true;
         ph.selected = true;
         sel.appendChild(ph);
@@ -1035,7 +1070,6 @@ function renderMultiActivitySlots(area, takenSet) {
 
         section.appendChild(sel);
 
-        /* Divider between activities */
         if (idx < selectedActivities.length - 1) {
             var div = document.createElement('hr');
             div.className = 'multi-slot-divider';
@@ -1057,17 +1091,14 @@ function selectSingleTime(value, display) {
 }
 
 function updateMultiTimeSummary() {
-    /* f_time = first activity's time (for backward compat with DB) */
     var firstAct = selectedActivities[0];
     selectedTime = multiSelectedTimes[firstAct] || '';
     document.getElementById('f_time').value = selectedTime;
     document.getElementById('f_time_per_activity').value = JSON.stringify(multiSelectedTimes);
 
-    /* Summary label */
     var parts = selectedActivities.map(function(act) {
         var t = multiSelectedTimes[act];
         if (!t) return act + ': —';
-        /* Convert HH:MM to display label */
         var dur   = (ACTIVITY_DATA[act] && ACTIVITY_DATA[act].duration) ? ACTIVITY_DATA[act].duration : 60;
         var hh    = parseInt(t.split(':')[0]);
         var mm    = parseInt(t.split(':')[1]);
@@ -1095,7 +1126,6 @@ function checkConfirmReady() {
     if (selectedActivities.length === 1) {
         if (!selectedTime) { btn.disabled = true; hint.textContent = 'Please select a time slot.'; return; }
     } else {
-        /* All activities must have a time selected */
         var missing = selectedActivities.filter(function(act) { return !multiSelectedTimes[act]; });
         if (missing.length > 0) {
             btn.disabled = true;
