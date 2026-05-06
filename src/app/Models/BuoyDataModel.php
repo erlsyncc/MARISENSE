@@ -29,6 +29,9 @@ class BuoyDataModel extends Model
         'water_temp_min',
         'water_temp_max',
         'water_temp_valid_samples',
+        'avg_wave_height',
+        'avg_wind_speed',
+        'max_wind_speed',
         'recorded_at',
     ];
     protected $useTimestamps = true;

@@ -320,63 +320,12 @@
     <section class="py-5">
         <div class="container">
             <div class="section-header">
-                <h1 class="fw-bold">Real-Time Sea Conditions</h1>
+                <h1 class="fw-bold">Real-Time Buoy Data</h1>
                 <div class="title-line"></div>
             </div>
             <div class="centered-data-wrapper">
-                <div class="sea-data-container shadow-lg">
-                    <?php
-                    $windSpeed  = isset($seaCondition['wind_speed'])  ? $seaCondition['wind_speed']  . ' knots' : '10 knots';
-                    $waveHeight = isset($seaCondition['wave_height'])  ? $seaCondition['wave_height'] . ' meters' : '0.9 meters';
-                    $wavePeriod = isset($seaCondition['wave_period'])  ? $seaCondition['wave_period'] . ' seconds' : '5 seconds';
-                    $safetyStatus = isset($seaCondition['safety_status']) ? $seaCondition['safety_status'] : 'safe';
-                    $safetyLabel = match($safetyStatus) {
-                        'safe'     => '🟢 SAFE FOR ACTIVITIES',
-                        'moderate' => '🟡 MODERATE CONDITIONS',
-                        'unsafe'   => '🔴 UNSAFE - SUSPENDED',
-                        default    => '🟢 SAFE FOR ACTIVITIES',
-                    };
-                    $safetyColor = match($safetyStatus) {
-                        'safe'     => 'text-success',
-                        'moderate' => 'text-warning',
-                        'unsafe'   => 'text-danger',
-                        default    => 'text-success',
-                    };
-                    ?>
-                    <div class="data-item">
-                        <span class="data-label"><i class="fa-solid fa-wind me-3 text-info"></i> Wind Speed</span>
-                        <span class="data-value"><?= esc($windSpeed) ?></span>
-                    </div>
-                    <div class="data-item">
-                        <span class="data-label"><i class="fa-solid fa-water me-3 text-info"></i> Wave Height</span>
-                        <span class="data-value"><?= esc($waveHeight) ?></span>
-                    </div>
-                    <div class="data-item">
-                        <span class="data-label"><i class="fa-solid fa-stopwatch me-3 text-info"></i> Wave Period</span>
-                        <span class="data-value"><?= esc($wavePeriod) ?></span>
-                    </div>
-                    <div class="data-item">
-                        <span class="data-label"><i class="fa-solid fa-shield-halved me-3 text-info"></i> Safety Status</span>
-                        <span class="data-value <?= $safetyColor ?>"><?= $safetyLabel ?></span>
-                    </div>
-                    <div class="text-center mt-5">
-                        <a href="<?= base_url('user/safety') ?>#marisense-section" class="btn-view-details tooltip-btn" data-tooltip="Click here to see detailed report">
-                            View Full Detailed Report <i class="fa-solid fa-chevron-right ms-2"></i>
-                        </a>
-                    </div>
-                </div>
+                <?php include __DIR__ . '/../components/buoy_widget.php'; ?>
             </div>
-        </div>
-    </section>
-
-    <!-- BUOY LIVE DATA SECTION -->
-    <section style="padding: 80px 40px;">
-        <div class="section-header">
-            <h1 class="fw-bold">🌊 Live Buoy Monitoring</h1>
-            <div class="title-line"></div>
-        </div>
-        <div class="centered-data-wrapper">
-            <?php echo view('components/buoy_widget', ['buoyData' => $buoyData ?? null]); ?>
         </div>
     </section>
 

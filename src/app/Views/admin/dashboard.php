@@ -239,33 +239,11 @@
         </div>
     </div>
 
-    <!-- SEA CONDITIONS + RECENT BOOKINGS -->
+    <!-- BUOY + RECENT BOOKINGS -->
     <div style="display:grid;grid-template-columns:1fr 2.2fr;gap:18px;margin-bottom:24px;">
-        <!-- Sea conditions -->
-        <div class="chart-card">
-            <div class="chart-title"><i class="fa-solid fa-tower-broadcast"></i> Current Sea Conditions</div>
-            <?php if ($latestSea ?? null): ?>
-            <div class="sea-widget">
-                <div class="sea-grid">
-                    <div class="sea-item"><strong><?= esc($latestSea['wind_speed']) ?> kts</strong><span>Wind Speed</span></div>
-                    <div class="sea-item"><strong><?= esc($latestSea['wave_height']) ?> m</strong><span>Wave Height</span></div>
-                    <div class="sea-item"><strong><?= esc($latestSea['wave_period']) ?> s</strong><span>Wave Period</span></div>
-                </div>
-                <?php
-                    $s = strtolower($latestSea['safety_status'] ?? 'safe');
-                    $tagClass = match($s) { 'unsafe' => 'unsafe-tag', 'moderate' => 'moderate-tag', default => 'safe-tag' };
-                    $tagIcon  = match($s) { 'unsafe' => 'fa-triangle-exclamation', 'moderate' => 'fa-circle-exclamation', default => 'fa-circle-check' };
-                ?>
-                <div class="text-center">
-                    <div class="safety-tag <?= $tagClass ?>"><i class="fa-solid <?= $tagIcon ?>"></i> <?= ucfirst($s) ?></div>
-                </div>
-            </div>
-            <p style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:10px;margin-bottom:0;">
-                Updated: <?= date('M d, Y h:i A', strtotime($latestSea['recorded_at'])) ?>
-            </p>
-            <?php else: ?>
-            <p style="opacity:0.4;font-size:0.84rem;margin-top:16px;">No sea data yet.</p>
-            <?php endif; ?>
+        <!-- Buoy data -->
+        <div>
+            <?php include __DIR__ . '/../components/buoy_widget.php'; ?>
         </div>
 
         <!-- Recent Bookings -->

@@ -11,6 +11,8 @@ class Api extends BaseController
 {
     use ResponseTrait;
 
+    private const DEFAULT_WINDOW_DURATION_MS = 60000;
+
     protected $buoyModel;
 
     public function __construct()
@@ -39,6 +41,11 @@ class Api extends BaseController
             $data = $this->parseBuoyPayload($payload);
         } catch (\InvalidArgumentException $e) {
             return $this->jsonError($e->getMessage(), 400);
+        }
+
+        $data = $this->filterPersistableColumns($data);
+        if ($data === []) {
+            return $this->dbError();
         }
 
         try {
@@ -88,71 +95,63 @@ class Api extends BaseController
 
     private function parseBuoyPayload(array $payload): array
     {
-        $windowDurationMs = $this->parseIntField($payload, 'windowDurationMs');
         $sampleCount = $this->parseIntField($payload, 'sampleCount');
-        $expectedSamples = $this->parseIntField($payload, 'expectedSamples');
-        $packetLossPct = $this->parseFloatField($payload, 'packetLossPct');
-        $firstPacketId = $this->parseIntField($payload, 'firstPacketId');
-        $lastPacketId = $this->parseIntField($payload, 'lastPacketId');
-        $hallDetections = $this->parseIntField($payload, 'hallDetections');
-        $avgRssi = $this->parseFloatField($payload, 'avgRssi');
+        $avgWaveHeight = $this->parseFloatField($payload, 'avgWaveHeight');
+        $avgWindSpeed = $this->parseFloatField($payload, 'avgWindSpeed');
+        $maxWindSpeed = $this->parseFloatField($payload, 'maxWindSpeed');
 
-        $pitch = $this->parseNestedStats($payload, 'pitch');
-        $roll = $this->parseNestedStats($payload, 'roll');
-        $waterTemp = $this->parseWaterTemp($payload);
+        $pitch = $this->parseObjectField($payload, 'pitch');
+        $pitchAvg = $this->parseFloatField($pitch, 'avg', 'pitch');
+
+        $waterTemp = $this->parseObjectField($payload, 'waterTemp');
+        $waterTempAvg = $this->parseNullableFloatField($waterTemp, 'avg', 'waterTemp', true);
+        $waterTempSamples = $waterTempAvg === null ? 0 : $sampleCount;
 
         return [
-            'window_duration_ms' => $windowDurationMs,
             'sample_count' => $sampleCount,
-            'expected_samples' => $expectedSamples,
-            'packet_loss_pct' => $packetLossPct,
-            'first_packet_id' => $firstPacketId,
-            'last_packet_id' => $lastPacketId,
-            'hall_detections' => $hallDetections,
-            'avg_rssi' => $avgRssi,
-            'pitch_avg' => $pitch['avg'],
-            'pitch_min' => $pitch['min'],
-            'pitch_max' => $pitch['max'],
-            'roll_avg' => $roll['avg'],
-            'roll_min' => $roll['min'],
-            'roll_max' => $roll['max'],
-            'water_temp_avg' => $waterTemp['avg'],
-            'water_temp_min' => $waterTemp['min'],
-            'water_temp_max' => $waterTemp['max'],
-            'water_temp_valid_samples' => $waterTemp['validSamples'],
+            'expected_samples' => $sampleCount,
+            'packet_loss_pct' => 0.0,
+            'first_packet_id' => 0,
+            'last_packet_id' => 0,
+            'hall_detections' => 0,
+            'avg_rssi' => 0.0,
+            'window_duration_ms' => self::DEFAULT_WINDOW_DURATION_MS,
+            'pitch_avg' => $pitchAvg,
+            'pitch_min' => $pitchAvg,
+            'pitch_max' => $pitchAvg,
+            'roll_avg' => 0.0,
+            'roll_min' => 0.0,
+            'roll_max' => 0.0,
+            'water_temp_avg' => $waterTempAvg,
+            'water_temp_min' => $waterTempAvg,
+            'water_temp_max' => $waterTempAvg,
+            'water_temp_valid_samples' => $waterTempSamples,
+            'avg_wave_height' => $avgWaveHeight,
+            'avg_wind_speed' => $avgWindSpeed,
+            'max_wind_speed' => $maxWindSpeed,
             'recorded_at' => new RawSql('NOW()'),
         ];
     }
 
-    private function parseNestedStats(array $payload, string $key): array
+    private function parseObjectField(array $payload, string $field): array
     {
-        if (! array_key_exists($key, $payload) || ! is_array($payload[$key])) {
-            throw new \InvalidArgumentException("Missing required field: $key");
+        if (! array_key_exists($field, $payload) || ! is_array($payload[$field])) {
+            throw new \InvalidArgumentException("Missing required field: $field");
         }
 
-        $section = $payload[$key];
-
-        return [
-            'avg' => $this->parseFloatField($section, 'avg', $key),
-            'min' => $this->parseFloatField($section, 'min', $key),
-            'max' => $this->parseFloatField($section, 'max', $key),
-        ];
+        return $payload[$field];
     }
 
-    private function parseWaterTemp(array $payload): array
+    private function filterPersistableColumns(array $data): array
     {
-        if (! array_key_exists('waterTemp', $payload) || ! is_array($payload['waterTemp'])) {
-            throw new \InvalidArgumentException('Missing required field: waterTemp');
+        static $fieldMap = null;
+
+        if ($fieldMap === null) {
+            $dbFields = \Config\Database::connect()->getFieldNames('buoy_data');
+            $fieldMap = array_fill_keys($dbFields, true);
         }
 
-        $section = $payload['waterTemp'];
-
-        return [
-            'avg' => $this->parseNullableFloatField($section, 'avg', 'waterTemp'),
-            'min' => $this->parseNullableFloatField($section, 'min', 'waterTemp'),
-            'max' => $this->parseNullableFloatField($section, 'max', 'waterTemp'),
-            'validSamples' => $this->parseIntField($section, 'validSamples', 'waterTemp'),
-        ];
+        return array_intersect_key($data, $fieldMap);
     }
 
     private function parseFloatField(array $payload, string $field, ?string $parent = null): float
@@ -171,9 +170,12 @@ class Api extends BaseController
         return (float) $value;
     }
 
-    private function parseNullableFloatField(array $payload, string $field, ?string $parent = null): ?float
+    private function parseNullableFloatField(array $payload, string $field, ?string $parent = null, bool $allowMissing = false): ?float
     {
         if (! array_key_exists($field, $payload)) {
+            if ($allowMissing) {
+                return null;
+            }
             $name = $parent ? $parent . '.' . $field : $field;
             throw new \InvalidArgumentException("Missing required field: $name");
         }

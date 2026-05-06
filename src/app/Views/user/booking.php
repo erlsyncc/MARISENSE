@@ -412,33 +412,6 @@ $phpNowMinutes = (int)$phtNow->format('H') * 60 + (int)$phtNow->format('i'); // 
         </div>
     </div>
 
-    <!-- STEP 5: Sea Conditions -->
-    <div class="step-card" style="border-color:rgba(72,202,228,0.2);">
-        <div class="step-label"><i class="fa-solid fa-tower-broadcast"></i> Step 5 — Current Sea Conditions (MARISENSE)</div>
-        <div class="section-sep"></div>
-        <div class="conditions-box">
-            <?php
-                $wind   = $seaCondition['wind_speed']   ?? '—';
-                $wave   = $seaCondition['wave_height']  ?? '—';
-                $period = $seaCondition['wave_period']  ?? '—';
-                $safety = strtolower($seaCondition['safety_status'] ?? 'safe');
-                $safetyClass = match($safety) { 'moderate'=>'moderate-bg','unsafe'=>'unsafe-bg',default=>'safe-bg' };
-                $safetyText  = match($safety) { 'moderate'=>'Conditions Moderate — Proceed with Caution','unsafe'=>'Unsafe Conditions — Activity Not Recommended',default=>'Conditions Safe for All Activities' };
-                $safetyIcon  = match($safety) { 'unsafe'=>'fa-triangle-exclamation','moderate'=>'fa-circle-exclamation',default=>'fa-circle-check' };
-            ?>
-            <div class="conditions-grid mb-4">
-                <div class="condition-item"><strong><?= esc($wind) ?> kts</strong><span>Wind Speed</span></div>
-                <div class="condition-item"><strong><?= esc($wave) ?> m</strong><span>Wave Height</span></div>
-                <div class="condition-item"><strong><?= esc($period) ?> s</strong><span>Wave Period</span></div>
-            </div>
-            <div class="text-center">
-                <div class="safety-badge <?= $safetyClass ?>">
-                    <i class="fa-solid <?= $safetyIcon ?>"></i> <?= $safetyText ?>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div><!-- /steps-column -->
 
 <!-- SUMMARY SIDEBAR -->
