@@ -49,6 +49,48 @@
         /* --- SEA CONDITIONS --- */
         .centered-data-wrapper { max-width: 800px; margin: 0 auto; }
         .sea-data-container { background: rgba(255,255,255,0.08); backdrop-filter: blur(15px); border-radius: 30px; padding: 40px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .motif-glass-panel {
+            position: relative;
+            background: linear-gradient(145deg, rgba(72,202,228,0.12), rgba(255,255,255,0.05));
+            border: 1px solid rgba(72,202,228,0.28);
+            border-radius: 28px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.15);
+            overflow: hidden;
+            padding: 14px;
+        }
+        .motif-glass-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 12% 16%, rgba(72,202,228,0.2), transparent 42%);
+            pointer-events: none;
+        }
+        .motif-glass-panel > * { position: relative; z-index: 1; }
+        .motif-glass-panel .buoy-widget.card {
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+            color: var(--soft-white);
+            margin-bottom: 0;
+        }
+        .motif-glass-panel .buoy-widget .card-header {
+            background: rgba(72,202,228,0.16) !important;
+            border: 1px solid rgba(72,202,228,0.34);
+            border-radius: 16px !important;
+            color: #dff8ff !important;
+        }
+        .motif-glass-panel .buoy-widget .card-body { color: var(--soft-white); }
+        .motif-glass-panel .buoy-widget .metric-box {
+            background: rgba(255,255,255,0.08) !important;
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 14px !important;
+            backdrop-filter: blur(8px);
+        }
+        .motif-glass-panel .buoy-widget .metric-box h4 { color: var(--accent-cyan) !important; }
+        .motif-glass-panel .buoy-widget .text-muted { color: rgba(255,255,255,0.72) !important; }
+        .motif-glass-panel .buoy-widget .border-top { border-color: rgba(255,255,255,0.18) !important; }
         .data-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 20px 0; display: flex; justify-content: space-between; align-items: center; }
         .data-item:last-child { border-bottom: none; }
         .data-label { font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1.5px; }
@@ -323,9 +365,14 @@
                 <h1 class="fw-bold">Real-Time Buoy Data</h1>
                 <div class="title-line"></div>
             </div>
-            <div class="centered-data-wrapper">
+            <div class="centered-data-wrapper motif-glass-panel">
                 <?php include __DIR__ . '/../components/buoy_widget.php'; ?>
             </div>
+            <?php if (!$buoyData): ?>
+                <div style="text-align:center;color:rgba(255,255,255,0.7);font-size:0.9rem;padding:40px;">
+                    <i class="fa-solid fa-circle-info me-2"></i>No buoy data available yet. Check back soon!
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 

@@ -36,8 +36,10 @@
         .admin-pill { background: rgba(72,202,228,0.12); border: 1px solid rgba(72,202,228,0.3); color: var(--accent-cyan); border-radius: 50px; padding: 6px 18px; font-size: 0.78rem; font-weight: 600; letter-spacing: 1px; }
         /* KPI cards */
         .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
-        .kpi-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 22px; display: flex; align-items: center; gap: 16px; transition: 0.25s; }
-        .kpi-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+        .kpi-card { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.16); border-radius: 20px; padding: 22px; display: flex; align-items: center; gap: 16px; transition: 0.25s; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 12px 28px rgba(0,0,0,0.2); overflow: hidden; }
+        .kpi-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 12% 12%, rgba(72,202,228,0.18), transparent 42%); pointer-events: none; }
+        .kpi-card > * { position: relative; z-index: 1; }
+        .kpi-card:hover { background: linear-gradient(145deg, rgba(72,202,228,0.16), rgba(255,255,255,0.06)); transform: translateY(-3px); border-color: rgba(72,202,228,0.32); }
         .kpi-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
         .kpi-icon.cyan   { background: rgba(72,202,228,0.15); color: var(--accent-cyan); }
         .kpi-icon.yellow { background: rgba(255,193,7,0.15); color: #ffc107; }
@@ -47,14 +49,28 @@
         .kpi-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.48); margin-top: 3px; }
         /* Charts row */
         .charts-row { display: grid; grid-template-columns: 1fr 1.8fr; gap: 18px; margin-bottom: 24px; }
-        .chart-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 24px; }
+        .chart-card { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.1), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 24px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 12px 28px rgba(0,0,0,0.18); overflow: hidden; }
+        .chart-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 88% 14%, rgba(72,202,228,0.14), transparent 45%); pointer-events: none; }
+        .chart-card > * { position: relative; z-index: 1; }
         .chart-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.55); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
         .chart-title i { color: var(--accent-cyan); }
         .sales-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
         .sales-tab { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); padding: 5px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .sales-tab.active, .sales-tab:hover { background: var(--accent-cyan); color: var(--deep-blue); border-color: var(--accent-cyan); }
         /* Recent bookings table */
-        .recent-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 24px; margin-bottom: 24px; }
+        .recent-card { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.1), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 24px; margin-bottom: 24px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 12px 28px rgba(0,0,0,0.18); overflow: hidden; }
+        .recent-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 14% 86%, rgba(72,202,228,0.12), transparent 48%); pointer-events: none; }
+        .recent-card > * { position: relative; z-index: 1; }
+        .dashboard-buoy-panel { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(72,202,228,0.28); border-radius: 22px; padding: 14px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 16px 34px rgba(0,0,0,0.2); overflow: hidden; }
+        .dashboard-buoy-panel::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 15% 16%, rgba(72,202,228,0.2), transparent 44%); pointer-events: none; }
+        .dashboard-buoy-panel > * { position: relative; z-index: 1; }
+        .dashboard-buoy-panel .buoy-widget.card { background: transparent !important; border: 0 !important; box-shadow: none !important; margin-bottom: 0; }
+        .dashboard-buoy-panel .buoy-widget .card-header { background: rgba(72,202,228,0.16) !important; border: 1px solid rgba(72,202,228,0.32); border-radius: 16px !important; color: #dff8ff !important; }
+        .dashboard-buoy-panel .buoy-widget .card-body { color: var(--soft-white); }
+        .dashboard-buoy-panel .buoy-widget .metric-box { background: rgba(255,255,255,0.08) !important; border: 1px solid rgba(255,255,255,0.16); border-radius: 14px !important; backdrop-filter: blur(8px); }
+        .dashboard-buoy-panel .buoy-widget .metric-box h4 { color: var(--accent-cyan) !important; }
+        .dashboard-buoy-panel .buoy-widget .text-muted { color: rgba(255,255,255,0.72) !important; }
+        .dashboard-buoy-panel .buoy-widget .border-top { border-color: rgba(255,255,255,0.18) !important; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
         .section-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.55); }
         .btn-view-all { background: rgba(72,202,228,0.1); border: 1px solid rgba(72,202,228,0.3); color: var(--accent-cyan); padding: 5px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; text-decoration: none; transition: 0.2s; }
@@ -242,7 +258,7 @@
     <!-- BUOY + RECENT BOOKINGS -->
     <div style="display:grid;grid-template-columns:1fr 2.2fr;gap:18px;margin-bottom:24px;">
         <!-- Buoy data -->
-        <div>
+        <div class="dashboard-buoy-panel">
             <?php include __DIR__ . '/../components/buoy_widget.php'; ?>
         </div>
 

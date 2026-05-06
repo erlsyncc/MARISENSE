@@ -248,13 +248,13 @@
                 <div class="form-row-3">
                     <div>
                         <label class="field-label">Wind Speed (knots)</label>
-                        <input type="number" step="0.1" name="wind_speed" class="form-control-wave" placeholder="e.g. 10" value="<?= esc(set_value('wind_speed', $current['wind_speed'] ?? '')) ?>" required>
+                        <input type="number" step="0.1" name="wind_speed" class="form-control-wave" placeholder="e.g. 10" value="<?= esc($current['wind_speed'] ?? '') ?>" required>
                     </div>
                     <div>
                         <label class="field-label">Wind Direction</label>
                         <select name="wind_direction" class="form-select-wave">
                             <?php
-                                $selectedDirection = set_value('wind_direction', $current['wind_direction'] ?? 'Northeast');
+                                $selectedDirection = $current['wind_direction'] ?? 'Northeast';
                                 $directionOptions = ['North', 'Northeast', 'East', 'Southeast', 'South', 'Southwest', 'West', 'Northwest'];
                             ?>
                             <?php foreach ($directionOptions as $dir): ?>
@@ -264,23 +264,23 @@
                     </div>
                     <div>
                         <label class="field-label">Temperature (°C)</label>
-                        <input type="number" step="0.1" name="temperature" class="form-control-wave" placeholder="e.g. 28" value="<?= esc(set_value('temperature', $current['temperature'] ?? '')) ?>">
+                        <input type="number" step="0.1" name="temperature" class="form-control-wave" placeholder="e.g. 28" value="<?= esc($current['temperature'] ?? '') ?>">
                     </div>
                 </div>
                 <div class="form-row-2">
                     <div>
                         <label class="field-label">Wave Height (meters)</label>
-                        <input type="number" step="0.1" name="wave_height" class="form-control-wave" placeholder="e.g. 0.9" value="<?= esc(set_value('wave_height', $current['wave_height'] ?? '')) ?>" required>
+                        <input type="number" step="0.1" name="wave_height" class="form-control-wave" placeholder="e.g. 0.9" value="<?= esc($current['wave_height'] ?? '') ?>" required>
                     </div>
                     <div>
                         <label class="field-label">Wave Period (seconds)</label>
-                        <input type="number" step="0.1" name="wave_period" class="form-control-wave" placeholder="e.g. 5" value="<?= esc(set_value('wave_period', $current['wave_period'] ?? '')) ?>" required>
+                        <input type="number" step="0.1" name="wave_period" class="form-control-wave" placeholder="e.g. 5" value="<?= esc($current['wave_period'] ?? '') ?>" required>
                     </div>
                 </div>
                 <div style="margin-bottom:18px;">
                     <label class="field-label">Safety Status</label>
                     <select name="safety_status" class="form-select-wave">
-                        <?php $selectedStatus = set_value('safety_status', $current['safety_status'] ?? 'safe'); ?>
+                        <?php $selectedStatus = $current['safety_status'] ?? 'safe'; ?>
                         <option value="safe" <?= $selectedStatus === 'safe' ? 'selected' : '' ?>>🟢 Safe for Activities</option>
                         <option value="moderate" <?= $selectedStatus === 'moderate' ? 'selected' : '' ?>>🟡 Moderate — Proceed with Caution</option>
                         <option value="unsafe" <?= $selectedStatus === 'unsafe' ? 'selected' : '' ?>>🔴 Unsafe — Operations Suspended</option>
@@ -288,7 +288,7 @@
                 </div>
                 <div style="margin-bottom:18px;">
                     <label class="field-label">Admin Notes (Optional)</label>
-                    <textarea name="notes" class="form-control-wave" rows="2" placeholder="e.g. High tide expected at 3PM..."><?= esc(set_value('notes', $current['notes'] ?? '')) ?></textarea>
+                    <textarea name="notes" class="form-control-wave" rows="2" placeholder="e.g. High tide expected at 3PM..."><?= esc($current['notes'] ?? '') ?></textarea>
                 </div>
                 <button type="submit" class="btn-update">
                     <i class="fa-solid fa-satellite-dish me-2"></i> Update Sea Data

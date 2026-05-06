@@ -42,8 +42,28 @@
         .welcome-hero {background: linear-gradient(rgba(5, 44, 57, 0.5), rgba(5, 44, 57, 0.7)), url('<?= base_url('images/marisensebg.png') ?>'); background-size: cover;background-position: center;background-attachment: fixed;padding: 150px 40px; color: white;border-radius: 0 0 80px 80px;margin-bottom: 60px;}
         .activity-line { height: 5px; width: 100px; background: var(--accent-cyan); border-radius: 10px; margin: 10px auto 40px auto; }
         .safety-main-container {background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);  border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px; padding: 40px; margin-bottom: 50px;  max-width: 1100px; margin-left: auto;margin-right: auto;}
+        .live-buoy-panel {
+            position: relative;
+            background: linear-gradient(145deg, rgba(72,202,228,0.13), rgba(255,255,255,0.05));
+            border: 1px solid rgba(72,202,228,0.32);
+            border-radius: 24px;
+            padding: 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.12);
+            overflow: hidden;
+        }
+        .live-buoy-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 14% 14%, rgba(72,202,228,0.22), transparent 40%);
+            pointer-events: none;
+        }
+        .live-buoy-panel > * { position: relative; z-index: 1; }
         .dashboard-grid {display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(2, 140px);gap: 15px;}
-        .data-card {background: rgba(255, 255, 255, 0.08);border-radius: 20px;display: flex;flex-direction: column;justify-content: center;align-items: center;border: 1px solid rgba(255, 255, 255, 0.1);}
+        .data-card {background: rgba(255, 255, 255, 0.09);border-radius: 20px;display: flex;flex-direction: column;justify-content: center;align-items: center;border: 1px solid rgba(255, 255, 255, 0.16);backdrop-filter: blur(8px);box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);transition: transform 0.25s ease, border-color 0.25s ease;}
+        .data-card:hover { transform: translateY(-4px); border-color: rgba(72,202,228,0.45); }
         .data-card i { color: var(--accent-cyan); font-size: 1.5rem; margin-bottom: 5px; }
         .data-card .label { font-size: 0.75rem; text-transform: uppercase; opacity: 0.7; letter-spacing: 1px; }
         .data-card .value { font-size: 1.3rem; font-weight: 700; }
@@ -167,19 +187,46 @@
                 </p>
             </div>
             <div class="col-lg-6">
-                <div class="p-4 bg-white bg-opacity-5 rounded-4 border border-white border-opacity-10">
-                    <h5 class="text-center mb-4 fw-bold"><i class="fa-solid fa-tower-broadcast me-2 text-info"></i> LIVE SEA DASHBOARD</h5>
+                <div class="live-buoy-panel">
+                    <h5 class="text-center mb-4 fw-bold"><i class="fa-solid fa-tower-broadcast me-2 text-info"></i> LIVE BUOY DASHBOARD</h5>
+                    <?php
+                        $buoy = $buoyData ?? [];
+                        $hasBuoy = !empty($buoy);
+                        if (!$hasBuoy) {
+                            echo '<p style="text-align:center;color:rgba(255,255,255,0.6);font-size:0.85rem;">No buoy data available yet.</p>';
+                        } else {
+                    ?>
                     <div class="dashboard-grid">
-                        <div class="data-card"><i class="fa-solid fa-wind"></i><span class="label">Wind Speed</span><span class="value">11 knots</span></div>
-                        <div class="data-card"><i class="fa-solid fa-compass"></i><span class="label">Direction</span><span class="value">Northeast</span></div>
-                        <div class="data-card"><i class="fa-solid fa-water"></i><span class="label">Wave Height</span><span class="value">0.8m</span></div>
-                        <div class="data-card"><i class="fa-solid fa-wave-square"></i><span class="label">Wave Period</span><span class="value">6s</span></div>
+                        <div class="data-card">
+                            <i class="fa-solid fa-water"></i>
+                            <span class="label">Pitch Avg</span>
+                            <span class="value"><?= number_format((float) ($buoy['pitch_avg'] ?? 0), 2) ?>°</span>
+                        </div>
+                        <div class="data-card">
+                            <i class="fa-solid fa-wave-square"></i>
+                            <span class="label">Wave Avg</span>
+                            <span class="value"><?= number_format((float) ($buoy['avg_wave_height'] ?? 0), 2) ?>m</span>
+                        </div>
+                        <div class="data-card">
+                            <i class="fa-solid fa-wind"></i>
+                            <span class="label">Wind Speed</span>
+                            <span class="value"><?= number_format((float) ($buoy['avg_wind_speed'] ?? 0), 1) ?> kts</span>
+                        </div>
+                        <div class="data-card">
+                            <i class="fa-solid fa-thermometer-half"></i>
+                            <span class="label">Water Temp</span>
+                            <span class="value"><?= ($buoy['water_temp_avg'] !== null) ? number_format((float) $buoy['water_temp_avg'], 1) . '°C' : 'N/A' ?></span>
+                        </div>
                     </div>
                     <div class="mt-4 text-center">
                         <div class="status-bar bg-safe">
                             <i class="fa-solid fa-circle-check"></i> STATUS: SAFE FOR ACTIVITIES
                         </div>
+                        <p style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:8px;">
+                            Last updated: <?= $buoy['recorded_at'] ? date('M d, Y h:i A', strtotime($buoy['recorded_at'])) : 'N/A' ?>
+                        </p>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

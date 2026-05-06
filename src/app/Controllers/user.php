@@ -54,7 +54,12 @@ class User extends BaseController
 
     public function safety()
     {
-        return view('user/safety');
+        $buoyModel = new BuoyDataModel();
+        $buoyData  = $buoyModel->getLatestReading();
+
+        return view('user/safety', [
+            'buoyData' => $buoyData,
+        ]);
     }
 
     // -----------------------------------------------------------------------
