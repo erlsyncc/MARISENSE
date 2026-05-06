@@ -96,6 +96,10 @@ class Api extends BaseController
     private function parseBuoyPayload(array $payload): array
     {
         $sampleCount = $this->parseIntField($payload, 'sampleCount');
+        if ($sampleCount < 1) {
+            throw new \InvalidArgumentException('Invalid integer value for sampleCount');
+        }
+
         $avgWaveHeight = $this->parseFloatField($payload, 'avgWaveHeight');
         $avgWindSpeed = $this->parseFloatField($payload, 'avgWindSpeed');
         $maxWindSpeed = $this->parseFloatField($payload, 'maxWindSpeed');
@@ -104,7 +108,7 @@ class Api extends BaseController
         $pitchAvg = $this->parseFloatField($pitch, 'avg', 'pitch');
 
         $waterTemp = $this->parseObjectField($payload, 'waterTemp');
-        $waterTempAvg = $this->parseNullableFloatField($waterTemp, 'avg', 'waterTemp', true);
+        $waterTempAvg = $this->parseNullableFloatField($waterTemp, 'avg', 'waterTemp');
         $waterTempSamples = $waterTempAvg === null ? 0 : $sampleCount;
 
         return [

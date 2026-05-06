@@ -11,14 +11,6 @@ class BuoyDataModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
     protected $allowedFields = [
-        'window_duration_ms',
-        'sample_count',
-        'expected_samples',
-        'packet_loss_pct',
-        'first_packet_id',
-        'last_packet_id',
-        'hall_detections',
-        'avg_rssi',
         'pitch_avg',
         'pitch_min',
         'pitch_max',
@@ -32,6 +24,14 @@ class BuoyDataModel extends Model
         'avg_wave_height',
         'avg_wind_speed',
         'max_wind_speed',
+        'sample_count',
+        'expected_samples',
+        'packet_loss_pct',
+        'hall_detections',
+        'avg_rssi',
+        'window_duration_ms',
+        'first_packet_id',
+        'last_packet_id',
         'recorded_at',
     ];
     protected $useTimestamps = true;

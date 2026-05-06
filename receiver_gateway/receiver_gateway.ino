@@ -141,19 +141,23 @@ void postAggregate(const AggWindow& w, unsigned long windowEnd) {
   if (w.sampleCount == 0 || WiFi.status() != WL_CONNECTED) return;
 
   StaticJsonDocument<1024> doc;
-  doc["sampleCount"] = w.sampleCount;
   
-  // Average calculation
-  doc["avgWaveHeight"] = serialized(String(w.waveSum / w.sampleCount, 2));
-  doc["avgWindSpeed"]  = serialized(String(w.windSum / w.sampleCount, 2));
-  doc["maxWindSpeed"]  = serialized(String(w.windMax, 2));
+  // Basic Fields
+  doc["sampleCount"]     = w.sampleCount;
+  doc["avgWaveHeight"]   = w.waveSum / w.sampleCount;
+  doc["avgWindSpeed"]    = w.windSum / w.sampleCount;
+  doc["maxWindSpeed"]    = w.windMax;
 
+  // Pitch Object (Required by your parseObjectField method)
   JsonObject pitch = doc.createNestedObject("pitch");
-  pitch["avg"] = serialized(String(w.pitchSum / w.sampleCount, 2));
+  pitch["avg"] = w.pitchSum / w.sampleCount;
 
+  // WaterTemp Object (Required by your parseObjectField method)
   JsonObject wtemp = doc.createNestedObject("waterTemp");
   if (w.tempValidCount > 0) {
-    wtemp["avg"] = serialized(String(w.tempSum / w.tempValidCount, 2));
+    wtemp["avg"] = w.tempSum / w.tempValidCount;
+  } else {
+    wtemp["avg"] = nullptr;
   }
 
   String jsonPayload;
@@ -164,10 +168,6 @@ void postAggregate(const AggWindow& w, unsigned long windowEnd) {
   http.addHeader("Content-Type", "application/json");
   
   int httpCode = http.POST(jsonPayload);
-  if (httpCode > 0) {
-    Serial.printf("[HTTP] POST Success: %d\n", httpCode);
-  } else {
-    Serial.printf("[HTTP] POST Failed: %s\n", http.errorToString(httpCode).c_str());
-  }
+  Serial.printf("[HTTP] Code: %d\n", httpCode);
   http.end();
 }

@@ -289,11 +289,6 @@
         </div>
     </div>
 
-    <!-- BUOY DATA WIDGET -->
-    <div style="display:grid;grid-template-columns:1fr;margin-bottom:24px;">
-        <?php echo view('components/buoy_widget', ['buoyData' => $buoyData ?? null]); ?>
-    </div>
-
 </main>
 
 <script>

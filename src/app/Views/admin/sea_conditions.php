@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<?= base_url('bootstrap5/css/bootstrap.min.css') ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; --sidebar-width: 260px; }
         * { box-sizing: border-box; }
@@ -43,6 +44,8 @@
         .panel { background: rgba(255,255,255,0.07); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 28px; }
         .panel-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.6); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
         .panel-title i { color: var(--accent-cyan); }
+        .chart-panel { margin-bottom: 24px; }
+        .chart-meta { font-size: 0.76rem; color: rgba(255,255,255,0.45); margin-top: -8px; margin-bottom: 14px; }
 
         .status-box { border-radius: 20px; padding: 28px; text-align: center; margin-bottom: 24px; }
         .status-safe     { background: rgba(40,167,69,0.12); border: 2px solid rgba(40,167,69,0.35); }
@@ -140,40 +143,100 @@
     <?php if (session()->getFlashdata('success')): ?>
         <div class="alert alert-success rounded-4 mb-3"><?= session()->getFlashdata('success') ?></div>
     <?php endif; ?>
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger rounded-4 mb-3"><?= session()->getFlashdata('error') ?></div>
+    <?php endif; ?>
+
+    <?php
+        $current = $latestSea ?? [];
+        $currentStatus = strtolower($current['safety_status'] ?? 'safe');
+
+        $statusClass = match ($currentStatus) {
+            'moderate' => 'status-moderate',
+            'unsafe' => 'status-unsafe',
+            default => 'status-safe',
+        };
+        $statusIcon = match ($currentStatus) {
+            'moderate' => '🟡',
+            'unsafe' => '🔴',
+            default => '🟢',
+        };
+        $statusTitle = match ($currentStatus) {
+            'moderate' => 'MODERATE CONDITIONS',
+            'unsafe' => 'UNSAFE FOR ACTIVITIES',
+            default => 'SAFE FOR ACTIVITIES',
+        };
+        $statusColor = match ($currentStatus) {
+            'moderate' => '#ffc107',
+            'unsafe' => '#ff6b6b',
+            default => '#5ddb8a',
+        };
+        $statusDesc = match ($currentStatus) {
+            'moderate' => 'Conditions are fair. Activities may proceed with caution and close operator monitoring.',
+            'unsafe' => 'Conditions exceeded safety thresholds. Delay or suspend open-water activities.',
+            default => 'All conditions are within acceptable thresholds. Activities may proceed normally.',
+        };
+
+        $recordedAt = $current['recorded_at'] ?? $current['created_at'] ?? null;
+        $recordedDisplay = $recordedAt ? date('M d, Y h:i A', strtotime($recordedAt)) : 'No updates yet';
+
+        $historyRows = array_reverse($seaHistory ?? []);
+        $trendLabels = [];
+        $trendWind = [];
+        $trendWave = [];
+        foreach ($historyRows as $row) {
+            $timeKey = $row['recorded_at'] ?? $row['created_at'] ?? null;
+            $trendLabels[] = $timeKey ? date('M d H:i', strtotime($timeKey)) : '—';
+            $trendWind[] = isset($row['wind_speed']) ? (float) $row['wind_speed'] : 0.0;
+            $trendWave[] = isset($row['wave_height']) ? (float) $row['wave_height'] : 0.0;
+        }
+    ?>
 
     <!-- LIVE METRICS -->
     <div class="sea-grid">
         <div class="sea-card">
             <div class="card-icon"><i class="fa-solid fa-wind"></i></div>
             <div class="card-label">Wind Speed</div>
-            <div class="card-value">10</div>
+            <div class="card-value"><?= number_format((float) ($current['wind_speed'] ?? 0), 1) ?></div>
             <div class="card-unit">knots</div>
         </div>
         <div class="sea-card">
             <div class="card-icon"><i class="fa-solid fa-compass"></i></div>
             <div class="card-label">Wind Direction</div>
-            <div class="card-value" style="font-size:1.4rem;">NE</div>
-            <div class="card-unit">Northeast</div>
+            <div class="card-value" style="font-size:1.4rem;"><?= esc(substr((string) ($current['wind_direction'] ?? 'N/A'), 0, 3)) ?></div>
+            <div class="card-unit"><?= esc($current['wind_direction'] ?? 'No direction data') ?></div>
         </div>
         <div class="sea-card">
             <div class="card-icon"><i class="fa-solid fa-water"></i></div>
             <div class="card-label">Wave Height</div>
-            <div class="card-value">0.9</div>
+            <div class="card-value"><?= number_format((float) ($current['wave_height'] ?? 0), 2) ?></div>
             <div class="card-unit">meters</div>
         </div>
         <div class="sea-card">
             <div class="card-icon"><i class="fa-solid fa-wave-square"></i></div>
             <div class="card-label">Wave Period</div>
-            <div class="card-value">5</div>
+            <div class="card-value"><?= number_format((float) ($current['wave_period'] ?? 0), 1) ?></div>
             <div class="card-unit">seconds</div>
         </div>
     </div>
 
     <!-- STATUS DISPLAY -->
-    <div class="status-box status-safe">
-        <div class="status-icon">🟢</div>
-        <div class="status-label" style="color:#5ddb8a;">SAFE FOR ACTIVITIES</div>
-        <div class="status-desc">All conditions are within acceptable thresholds. Activities may proceed normally.</div>
+    <div class="status-box <?= $statusClass ?>">
+        <div class="status-icon"><?= $statusIcon ?></div>
+        <div class="status-label" style="color:<?= $statusColor ?>;"><?= $statusTitle ?></div>
+        <div class="status-desc"><?= esc($statusDesc) ?></div>
+        <div style="font-size:0.76rem;color:rgba(255,255,255,0.6);margin-top:10px;">
+            Last update: <?= esc($recordedDisplay) ?>
+        </div>
+    </div>
+
+    <div class="panel chart-panel">
+        <div class="panel-title"><i class="fa-solid fa-chart-line"></i> Condition Trend (Recent 20 Updates)</div>
+        <p class="chart-meta">Wind speed and wave height over time.</p>
+        <canvas id="seaTrendChart" style="height: 280px;"></canvas>
+        <?php if (empty($seaHistory)): ?>
+            <p style="text-align:center; color: rgba(255,255,255,0.7); font-size: 0.82rem; margin-top: 16px;">No trend data yet.</p>
+        <?php endif; ?>
     </div>
 
     <div class="panels-row">
@@ -185,47 +248,47 @@
                 <div class="form-row-3">
                     <div>
                         <label class="field-label">Wind Speed (knots)</label>
-                        <input type="number" step="0.1" name="wind_speed" class="form-control-wave" placeholder="e.g. 10" required>
+                        <input type="number" step="0.1" name="wind_speed" class="form-control-wave" placeholder="e.g. 10" value="<?= esc(set_value('wind_speed', $current['wind_speed'] ?? '')) ?>" required>
                     </div>
                     <div>
                         <label class="field-label">Wind Direction</label>
                         <select name="wind_direction" class="form-select-wave">
-                            <option value="North">North</option>
-                            <option value="Northeast" selected>Northeast</option>
-                            <option value="East">East</option>
-                            <option value="Southeast">Southeast</option>
-                            <option value="South">South</option>
-                            <option value="Southwest">Southwest</option>
-                            <option value="West">West</option>
-                            <option value="Northwest">Northwest</option>
+                            <?php
+                                $selectedDirection = set_value('wind_direction', $current['wind_direction'] ?? 'Northeast');
+                                $directionOptions = ['North', 'Northeast', 'East', 'Southeast', 'South', 'Southwest', 'West', 'Northwest'];
+                            ?>
+                            <?php foreach ($directionOptions as $dir): ?>
+                                <option value="<?= esc($dir) ?>" <?= $selectedDirection === $dir ? 'selected' : '' ?>><?= esc($dir) ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div>
                         <label class="field-label">Temperature (°C)</label>
-                        <input type="number" step="0.1" name="temperature" class="form-control-wave" placeholder="e.g. 28">
+                        <input type="number" step="0.1" name="temperature" class="form-control-wave" placeholder="e.g. 28" value="<?= esc(set_value('temperature', $current['temperature'] ?? '')) ?>">
                     </div>
                 </div>
                 <div class="form-row-2">
                     <div>
                         <label class="field-label">Wave Height (meters)</label>
-                        <input type="number" step="0.1" name="wave_height" class="form-control-wave" placeholder="e.g. 0.9" required>
+                        <input type="number" step="0.1" name="wave_height" class="form-control-wave" placeholder="e.g. 0.9" value="<?= esc(set_value('wave_height', $current['wave_height'] ?? '')) ?>" required>
                     </div>
                     <div>
                         <label class="field-label">Wave Period (seconds)</label>
-                        <input type="number" step="0.1" name="wave_period" class="form-control-wave" placeholder="e.g. 5" required>
+                        <input type="number" step="0.1" name="wave_period" class="form-control-wave" placeholder="e.g. 5" value="<?= esc(set_value('wave_period', $current['wave_period'] ?? '')) ?>" required>
                     </div>
                 </div>
                 <div style="margin-bottom:18px;">
                     <label class="field-label">Safety Status</label>
                     <select name="safety_status" class="form-select-wave">
-                        <option value="safe">🟢 Safe for Activities</option>
-                        <option value="moderate">🟡 Moderate — Proceed with Caution</option>
-                        <option value="unsafe">🔴 Unsafe — Operations Suspended</option>
+                        <?php $selectedStatus = set_value('safety_status', $current['safety_status'] ?? 'safe'); ?>
+                        <option value="safe" <?= $selectedStatus === 'safe' ? 'selected' : '' ?>>🟢 Safe for Activities</option>
+                        <option value="moderate" <?= $selectedStatus === 'moderate' ? 'selected' : '' ?>>🟡 Moderate — Proceed with Caution</option>
+                        <option value="unsafe" <?= $selectedStatus === 'unsafe' ? 'selected' : '' ?>>🔴 Unsafe — Operations Suspended</option>
                     </select>
                 </div>
                 <div style="margin-bottom:18px;">
                     <label class="field-label">Admin Notes (Optional)</label>
-                    <textarea name="notes" class="form-control-wave" rows="2" placeholder="e.g. High tide expected at 3PM..."></textarea>
+                    <textarea name="notes" class="form-control-wave" rows="2" placeholder="e.g. High tide expected at 3PM..."><?= esc(set_value('notes', $current['notes'] ?? '')) ?></textarea>
                 </div>
                 <button type="submit" class="btn-update">
                     <i class="fa-solid fa-satellite-dish me-2"></i> Update Sea Data
@@ -243,7 +306,7 @@
                     <span style="color:white;">
                         ≤ 15 kts = <span style="color:#5ddb8a;">Safe </span>
                         &nbsp;|&nbsp; 
-                        {'>'} 15 kts = <span style="color:#ff6b6b;">Unsafe</span>
+                        &gt; 15 kts = <span style="color:#ff6b6b;">Unsafe</span>
                     </span>
                 </div>
 
@@ -252,7 +315,7 @@
                     <span style="color:white;">
                         ≤ 1.5 m =<span style="color:#5ddb8a;"> Safe </span>
                         &nbsp;|&nbsp; 
-                        {'>'} 1.5 m = <span style="color:#ff6b6b;">Unsafe</span>
+                        &gt; 1.5 m = <span style="color:#ff6b6b;">Unsafe</span>
                     </span>
                 </div>
 
@@ -269,6 +332,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- HISTORY LOG -->
     <div class="panel">
@@ -312,12 +376,82 @@
                 </table>
             </div>
         <?php else: ?>
-            <p style="text-align:center; color: white; opacity: 0.7; font-size: 0.85rem;">No sea data history yet.</p>        <?php endif; ?>
+            <p style="text-align:center; color: white; opacity: 0.7; font-size: 0.85rem;">No sea data history yet.</p>
+        <?php endif; ?>
     </div>
 
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const trendLabels = <?= json_encode($trendLabels ?? []) ?>;
+const trendWind = <?= json_encode($trendWind ?? []) ?>;
+const trendWave = <?= json_encode($trendWave ?? []) ?>;
+
+if (trendLabels.length > 0) {
+    const ctx = document.getElementById('seaTrendChart').getContext('2d');
+    const waveGradient = ctx.createLinearGradient(0, 0, 0, 260);
+    waveGradient.addColorStop(0, 'rgba(72,202,228,0.22)');
+    waveGradient.addColorStop(1, 'rgba(72,202,228,0)');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: trendLabels,
+            datasets: [
+                {
+                    label: 'Wind Speed (kts)',
+                    data: trendWind,
+                    borderColor: '#ffc107',
+                    backgroundColor: 'rgba(255,193,7,0.12)',
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    tension: 0.35,
+                },
+                {
+                    label: 'Wave Height (m)',
+                    data: trendWave,
+                    borderColor: '#48cae4',
+                    backgroundColor: waveGradient,
+                    borderWidth: 2.4,
+                    pointRadius: 2,
+                    fill: true,
+                    tension: 0.35,
+                    yAxisID: 'y1',
+                },
+            ],
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'rgba(255,255,255,0.72)',
+                        font: { family: 'Poppins', size: 11 },
+                    },
+                },
+            },
+            scales: {
+                x: {
+                    ticks: { color: 'rgba(255,255,255,0.5)', maxRotation: 0, autoSkip: true, maxTicksLimit: 8 },
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                },
+                y: {
+                    title: { display: true, text: 'kts', color: 'rgba(255,255,255,0.45)' },
+                    ticks: { color: 'rgba(255,255,255,0.5)' },
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                },
+                y1: {
+                    position: 'right',
+                    title: { display: true, text: 'm', color: 'rgba(255,255,255,0.45)' },
+                    ticks: { color: 'rgba(255,255,255,0.5)' },
+                    grid: { drawOnChartArea: false },
+                },
+            },
+        },
+    });
+}
+</script>
 <!-- HELP MODAL -->
 <div class="help-overlay" id="helpOverlay" onclick="if(event.target===this) this.classList.remove('open')">
     <div class="help-modal">
