@@ -1,226 +1,173 @@
-// =============================================================================
-//  SMART BUOY — ESP32 (Gateway / Receiver)
-//  Role   : Stay awake, receive LoRa packets → POST JSON to Web API via WiFi
-//  Author : Senior Embedded Systems & IoT Engineer
-//  Board  : ESP32 Dev Module
-// =============================================================================
-
 #include <SPI.h>
-#include <LoRa.h>       // Sandeep Mistry  https://github.com/sandeepmistry/arduino-LoRa
+#include <LoRa.h>
 #include <WiFi.h>
+#include <WiFiMulti.h> // Added for multiple WiFi networks
 #include <HTTPClient.h>
-#include <ArduinoJson.h> 
+#include <ArduinoJson.h>
+
+WiFiMulti wifiMulti; // Create instance
 
 // ---------------------------------------------------------------------------
-// WiFi Credentials  — REPLACE with your network details
-// ---------------------------------------------------------------------------
-const char* WIFI_SSID     = "HUAWEI-2.4G-V6aF";
-const char* WIFI_PASSWORD = "WCKT9Q8f";
-
-// ---------------------------------------------------------------------------
-// API Endpoint  — REPLACE with your server URL
+// API Endpoint
 // ---------------------------------------------------------------------------
 const char* API_ENDPOINT  = "http://192.168.100.51:5000/api/buoy-data";
-// const char* API_ENDPOINT  = "http://marisense.networq.online/api/buoy-data";
 
-// ---------------------------------------------------------------------------
-// LoRa Pin Mapping  (ESP32)
-// ---------------------------------------------------------------------------
+// LoRa Pin Mapping (ESP32)
 #define LORA_SCK   18
 #define LORA_MISO  19
 #define LORA_MOSI  23
-#define LORA_SS     5   // Chip Select
+#define LORA_SS     5
 #define LORA_RST   14
-#define LORA_DIO0   2   // IRQ
+#define LORA_DIO0   2
+#define LORA_FREQ  433E6
+#define AGGREGATE_WINDOW_MS  60000UL
 
 // ---------------------------------------------------------------------------
-// LoRa Settings  — Must match the sender!
-// ---------------------------------------------------------------------------
-#define LORA_FREQ  433E6   // 433 MHz — change to 915E6 for North America / AU
-
-// ---------------------------------------------------------------------------
-// Timing constants
-// ---------------------------------------------------------------------------
-#define WIFI_TIMEOUT_MS      15000   // Max time to wait for WiFi connection
-#define WIFI_RETRY_INTERVAL  30000   // Re-attempt WiFi if disconnected (ms)
-#define HTTP_TIMEOUT_MS       8000   // HTTP request timeout
-
-// ---------------------------------------------------------------------------
-// Shared Data Structure (must be IDENTICAL in both sketches)
+// UPDATED Shared Data Structure — MATCHES TRANSMITTER
 // ---------------------------------------------------------------------------
 struct BuoyData {
   float pitch;
   float roll;
-  int   hallState;
+  float waveHeight;  // New
+  float waterTemp;
+  float windSpeed;   // New
   int   packetID;
 };
 
 // ---------------------------------------------------------------------------
-// State tracking
+// UPDATED Aggregation buffer
 // ---------------------------------------------------------------------------
-unsigned long lastWifiRetry = 0;
-int           packetsReceived = 0;
-int           packetsPosted   = 0;
+struct AggWindow {
+  double pitchSum, rollSum, tempSum, rssiSum;
+  double waveSum, windSum; // New tracking
+  
+  float pitchMin, pitchMax, rollMin, rollMax;
+  float tempMin, tempMax, waveMin, waveMax, windMin, windMax;
 
-// ===========================================================================
-//  connectWiFi()  — Attempt to connect/reconnect; non-blocking with timeout
-//  Returns: true if connected, false if timed out
-// ===========================================================================
-bool connectWiFi() {
-  if (WiFi.status() == WL_CONNECTED) return true;
+  int sampleCount;
+  int tempValidCount;
+  unsigned long windowStart;
 
-  Serial.printf("[WiFi]    Connecting to '%s'", WIFI_SSID);
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-
-  unsigned long start = millis();
-  while (WiFi.status() != WL_CONNECTED) {
-    if (millis() - start > WIFI_TIMEOUT_MS) {
-      Serial.println(F("\n[WiFi]    Timeout! Will retry later."));
-      return false;
-    }
-    delay(500);
-    Serial.print('.');
+  void reset(unsigned long now) {
+    pitchSum = rollSum = tempSum = rssiSum = waveSum = windSum = 0;
+    sampleCount = tempValidCount = 0;
+    windowStart = now;
+    // Reset Min/Max logic handled in first ingest
   }
 
-  Serial.printf("\n[WiFi]    Connected — IP: %s  RSSI: %d dBm\n",
-                WiFi.localIP().toString().c_str(), WiFi.RSSI());
-  return true;
-}
+  void ingest(const BuoyData& d, int rssi) {
+    sampleCount++;
+    pitchSum += d.pitch;
+    rollSum  += d.roll;
+    waveSum  += d.waveHeight;
+    windSum  += d.windSpeed;
+    rssiSum  += rssi;
 
-// ===========================================================================
-//  postToAPI()  — Serialize BuoyData + RSSI to JSON and POST to API endpoint
-//  Returns: HTTP response code, or negative on error
-// ===========================================================================
-int postToAPI(const BuoyData& data, int rssi) {
-  if (WiFi.status() != WL_CONNECTED) {
-    Serial.println(F("[HTTP]    Not connected — skipping POST"));
-    return -1;
-  }
-
-  // ── Build JSON payload ────────────────────────────────────────────────────
-  // Using ArduinoJson for safe, well-formed JSON (avoids manual sprintf bugs)
-  StaticJsonDocument<256> doc;
-  doc["pitch"]     = serialized(String(data.pitch,  2));
-  doc["roll"]      = serialized(String(data.roll,   2));
-  doc["hall"]      = data.hallState;
-  doc["packetId"]  = data.packetID;
-  doc["rssi"]      = rssi;
-
-  String jsonPayload;
-  serializeJson(doc, jsonPayload);
-  Serial.printf("[HTTP]    Payload: %s\n", jsonPayload.c_str());
-
-  // ── Send HTTP POST ────────────────────────────────────────────────────────
-  HTTPClient http;
-  http.begin(API_ENDPOINT);
-  http.addHeader("Content-Type", "application/json");
-  http.setTimeout(HTTP_TIMEOUT_MS);
-
-  int httpCode = http.POST(jsonPayload);
-
-  // ── Handle response ───────────────────────────────────────────────────────
-  if (httpCode > 0) {
-    // Positive code = valid HTTP response from server
-    String responseBody = http.getString();
-    if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_CREATED) {
-      packetsPosted++;
-      Serial.printf("[HTTP]    SUCCESS %d — Server: %s\n",
-                    httpCode, responseBody.c_str());
+    if (sampleCount == 1) {
+      pitchMin = pitchMax = d.pitch;
+      rollMin  = rollMax  = d.roll;
+      waveMin  = waveMax  = d.waveHeight;
+      windMin  = windMax  = d.windSpeed;
     } else {
-      // Server returned an error status (4xx / 5xx)
-      Serial.printf("[HTTP]    Server error %d — Body: %s\n",
-                    httpCode, responseBody.c_str());
+      if (d.pitch < pitchMin) pitchMin = d.pitch; if (d.pitch > pitchMax) pitchMax = d.pitch;
+      if (d.waveHeight < waveMin) waveMin = d.waveHeight; if (d.waveHeight > waveMax) waveMax = d.waveHeight;
+      if (d.windSpeed < windMin) windMin = d.windSpeed; if (d.windSpeed > windMax) windMax = d.windSpeed;
     }
-  } else {
-    // Negative code = client-side / transport error
-    Serial.printf("[HTTP]    Request failed — Error: %s\n",
-                  http.errorToString(httpCode).c_str());
+
+    if (d.waterTemp > -100.0f) {
+      tempSum += d.waterTemp;
+      tempValidCount++;
+      if (tempValidCount == 1) { tempMin = tempMax = d.waterTemp; }
+      else {
+        if (d.waterTemp < tempMin) tempMin = d.waterTemp;
+        if (d.waterTemp > tempMax) tempMax = d.waterTemp;
+      }
+    }
   }
+};
 
-  http.end();
-  return httpCode;
-}
+AggWindow agg;
+int totalReceived = 0;
 
-// ===========================================================================
-//  setup()
-// ===========================================================================
 void setup() {
   Serial.begin(115200);
-  delay(200);
-  Serial.println(F("\n[GATEWAY] Smart Buoy Gateway starting up..."));
-
-  // ── WiFi ──────────────────────────────────────────────────────────────────
-  connectWiFi();
-
-  // ── LoRa Initialisation ───────────────────────────────────────────────────
+  
+  // --- MULTI-WIFI SETUP ---
+  wifiMulti.addAP("HUAWEI-2.4G-V6aF", "WCKT9Q8f"); // Home
+  wifiMulti.addAP("iphone", "hotspot0123");       // Hotspot
+  
+  Serial.println("[WiFi] Connecting...");
+  
   SPI.begin(LORA_SCK, LORA_MISO, LORA_MOSI, LORA_SS);
   LoRa.setPins(LORA_SS, LORA_RST, LORA_DIO0);
 
-  while (!LoRa.begin(LORA_FREQ)) {
-    Serial.println(F("[LoRa]    Init failed — retrying in 2 s..."));
-    delay(2000);
+  if (!LoRa.begin(LORA_FREQ)) {
+    Serial.println("[LoRa] Critical Failure!");
+    while (1);
   }
 
-  // Optional: match sender's spreading factor if you changed it
-  // LoRa.setSpreadingFactor(10);
-
-  Serial.println(F("[LoRa]    Initialized — listening for packets"));
-  Serial.println(F("[GATEWAY] Ready.\n"));
+  agg.reset(millis());
+  Serial.println("[GATEWAY] Listening for Marisense Packets...");
 }
 
-// ===========================================================================
-//  loop()  — Non-blocking: check LoRa, handle WiFi drops, print stats
-// ===========================================================================
 void loop() {
+  unsigned long now = millis();
 
-  // ── 1. Attempt WiFi reconnection if disconnected ──────────────────────────
-  if (WiFi.status() != WL_CONNECTED) {
-    unsigned long now = millis();
-    if (now - lastWifiRetry > WIFI_RETRY_INTERVAL) {
-      lastWifiRetry = now;
-      Serial.println(F("[WiFi]    Disconnected — attempting reconnect..."));
-      connectWiFi();
-    }
+  // 1. WiFi Multi Check (Handles reconnection automatically)
+  if (wifiMulti.run() != WL_CONNECTED) {
+    // We are offline, but wifiMulti.run() will keep trying APs in background
   }
 
-  // ── 2. Poll LoRa for incoming packets (non-blocking) ─────────────────────
+  // 2. Window Check
+  if (now - agg.windowStart >= AGGREGATE_WINDOW_MS) {
+    postAggregate(agg, now);
+    agg.reset(now);
+  }
+
+  // 3. LoRa Poll
   int packetSize = LoRa.parsePacket();
+  if (packetSize == sizeof(BuoyData)) {
+    BuoyData rxData;
+    LoRa.readBytes((uint8_t*)&rxData, sizeof(rxData));
+    agg.ingest(rxData, LoRa.packetRssi());
+    totalReceived++;
+    
+    Serial.printf("[LoRa] Pkt#%d Rx (Wave: %.2fm, Wind: %.2fm/s)\n", 
+                  rxData.packetID, rxData.waveHeight, rxData.windSpeed);
+  }
+}
 
-  if (packetSize == 0) {
-    // Nothing arrived — yield and return immediately
-    yield();
-    return;
+void postAggregate(const AggWindow& w, unsigned long windowEnd) {
+  if (w.sampleCount == 0 || WiFi.status() != WL_CONNECTED) return;
+
+  StaticJsonDocument<1024> doc;
+  
+  // Basic Fields
+  doc["sampleCount"]     = w.sampleCount;
+  doc["avgWaveHeight"]   = w.waveSum / w.sampleCount;
+  doc["avgWindSpeed"]    = w.windSum / w.sampleCount;
+  doc["maxWindSpeed"]    = w.windMax;
+
+  // Pitch Object (Required by your parseObjectField method)
+  JsonObject pitch = doc.createNestedObject("pitch");
+  pitch["avg"] = w.pitchSum / w.sampleCount;
+
+  // WaterTemp Object (Required by your parseObjectField method)
+  JsonObject wtemp = doc.createNestedObject("waterTemp");
+  if (w.tempValidCount > 0) {
+    wtemp["avg"] = w.tempSum / w.tempValidCount;
+  } else {
+    wtemp["avg"] = nullptr;
   }
 
-  // ── 3. Validate packet size matches expected struct ───────────────────────
-  if (packetSize != sizeof(BuoyData)) {
-    Serial.printf("[LoRa]    WARN: Unexpected packet size %d (expected %d) — discarding\n",
-                  packetSize, (int)sizeof(BuoyData));
-    // Drain the buffer
-    while (LoRa.available()) LoRa.read();
-    return;
-  }
+  String jsonPayload;
+  serializeJson(doc, jsonPayload);
 
-  // ── 4. Read raw bytes into struct ─────────────────────────────────────────
-  BuoyData rxData;
-  LoRa.readBytes((uint8_t*)&rxData, sizeof(rxData));
-  int rssi = LoRa.packetRssi();
-  float snr = LoRa.packetSnr();
-  packetsReceived++;
-
-  // ── 5. Print to Serial Monitor ────────────────────────────────────────────
-  Serial.println(F("─────────────────────────────────────────"));
-  Serial.printf("[LoRa]    Packet #%d received\n",       rxData.packetID);
-  Serial.printf("          Pitch    : %.2f °\n",         rxData.pitch);
-  Serial.printf("          Roll     : %.2f °\n",         rxData.roll);
-  Serial.printf("          Hall     : %d\n",             rxData.hallState);
-  Serial.printf("          RSSI     : %d dBm\n",         rssi);
-  Serial.printf("          SNR      : %.1f dB\n",        snr);
-  Serial.printf("          Stats    : Rx=%d  Posted=%d\n",
-                packetsReceived, packetsPosted);
-  Serial.println(F("─────────────────────────────────────────"));
-
-  // ── 6. POST to API ────────────────────────────────────────────────────────
-  postToAPI(rxData, rssi);
+  HTTPClient http;
+  http.begin(API_ENDPOINT);
+  http.addHeader("Content-Type", "application/json");
+  
+  int httpCode = http.POST(jsonPayload);
+  Serial.printf("[HTTP] Code: %d\n", httpCode);
+  http.end();
 }

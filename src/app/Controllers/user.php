@@ -23,19 +23,12 @@ class User extends BaseController
                       ->get()
                       ->getResultArray();
 
-        $seaCondition = $db->table('sea_conditions')
-                           ->orderBy('recorded_at', 'DESC')
-                           ->limit(1)
-                           ->get()
-                           ->getRowArray();
-
         $buoyModel = new BuoyDataModel();
         $buoyData  = $buoyModel->getLatestReading();
 
         return view('user/home', [
-            'reviews'      => $reviews,
-            'seaCondition' => $seaCondition,
-            'buoyData'     => $buoyData,
+            'reviews'  => $reviews,
+            'buoyData' => $buoyData,
         ]);
     }
 
@@ -61,15 +54,12 @@ class User extends BaseController
 
     public function safety()
     {
-        $db = \Config\Database::connect();
+        $buoyModel = new BuoyDataModel();
+        $buoyData  = $buoyModel->getLatestReading();
 
-        $seaCondition = $db->table('sea_conditions')
-                           ->orderBy('recorded_at', 'DESC')
-                           ->limit(1)
-                           ->get()
-                           ->getRowArray();
-
-        return view('user/safety', ['seaCondition' => $seaCondition]);
+        return view('user/safety', [
+            'buoyData' => $buoyData,
+        ]);
     }
 
     // -----------------------------------------------------------------------
@@ -121,12 +111,6 @@ class User extends BaseController
             $activity = ! empty($activities) ? $activities[0]['name'] : '';
         }
 
-        $seaCondition = $db->table('sea_conditions')
-                           ->orderBy('recorded_at', 'DESC')
-                           ->limit(1)
-                           ->get()
-                           ->getRowArray();
-
         return view('user/booking', [
             'selectedActivity' => $activity,
             'pricing'          => $pricing,
@@ -134,7 +118,6 @@ class User extends BaseController
             'durations'        => $durations,
             'activities'       => $activities,
             'bookedDates'      => $activity ? $bookingModel->getBookedDates($activity) : [],
-            'seaCondition'     => $seaCondition,
         ]);
     }
 

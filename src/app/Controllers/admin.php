@@ -36,11 +36,6 @@ class Admin extends BaseController
             ->limit(5)
             ->get()->getResultArray();
 
-        $latestSea = $db->table('sea_conditions')
-            ->orderBy('recorded_at', 'DESC')
-            ->limit(1)
-            ->get()->getRowArray();
-
         $buoyModel = new BuoyDataModel();
         $buoyData  = $buoyModel->getLatestReading();
 
@@ -49,7 +44,6 @@ class Admin extends BaseController
             'pendingBookings' => $pendingBookings,
             'totalUsers'      => $totalUsers,
             'recentBookings'  => $recentBookings,
-            'latestSea'       => $latestSea,
             'buoyData'        => $buoyData,
         ]);
     }
