@@ -103,6 +103,15 @@
         .pending-note { background: rgba(255,193,7,0.07); border: 1px solid rgba(255,193,7,0.25); border-radius: 12px; padding: 10px 16px; font-size: 0.76rem; color: rgba(255,193,7,0.8); display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
         .pending-note i { flex-shrink: 0; }
 
+        /* ── View All button ── */
+        .view-all-wrap { text-align: center; padding: 16px 0 4px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 4px; }
+        .view-all-btn { border-radius: 50px; font-size: 0.78rem; font-weight: 700; cursor: pointer; font-family: 'Poppins', sans-serif; transition: 0.2s; padding: 9px 32px; display: inline-flex; align-items: center; gap: 8px; }
+        .view-all-btn-cyan { background: rgba(72,202,228,0.08); border: 1px solid rgba(72,202,228,0.3); color: #48cae4; }
+        .view-all-btn-cyan:hover { background: rgba(72,202,228,0.18); }
+        .view-all-btn-yellow { background: rgba(255,193,7,0.08); border: 1px solid rgba(255,193,7,0.3); color: #ffc107; }
+        .view-all-btn-yellow:hover { background: rgba(255,193,7,0.18); }
+        .view-all-count { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 1px 8px; font-size: 0.68rem; }
+
         /* ── Help ── */
         .help-btn { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-radius: 12px; color: var(--accent-cyan); text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(72,202,228,0.25); transition: 0.25s; cursor: pointer; background: none; width: 100%; margin-top: 8px; }
         .help-btn:hover { background: rgba(72,202,228,0.15); color: white; }
@@ -139,14 +148,6 @@ $db = \Config\Database::connect();
  * ═══════════════════════════════════════════════════════════════════
  */
 
-/**
- * Sum the "collected" amount from the bookings table.
- * - Fully paid  → total_amount
- * - Half paid   → down_payment
- * - Unpaid      → 0 (excluded)
- *
- * We use a CASE expression so the DB does one pass.
- */
 function salesSum($db, array $extraWhere = []): float
 {
     $builder = $db->table('bookings')
@@ -167,10 +168,6 @@ function salesSum($db, array $extraWhere = []): float
     return (float)($row['collected'] ?? 0);
 }
 
-/**
- * The "pending" figure: total_amount of confirmed/pending bookings
- * that have NOT paid anything yet.
- */
 function pendingSum($db): float
 {
     $row = $db->table('bookings')
@@ -186,7 +183,7 @@ function pendingSum($db): float
 $totalRevenue  = salesSum($db);
 $monthRevenue  = salesSum($db, ["DATE_FORMAT(created_at,'%Y-%m')" => date('Y-m')]);
 $weekRevenue   = salesSum($db, ['created_at >=' => date('Y-m-d', strtotime('-7 days'))]);
-$pendingValue  = pendingSum($db);   // money not yet collected
+$pendingValue  = pendingSum($db);
 
 $paidCount     = $db->table('bookings')->where('payment_status', 'paid')->countAllResults();
 $halfPaidCount = $db->table('bookings')
@@ -477,71 +474,77 @@ $unpaidTransactions = $db->table('bookings b')
         </div>
 
         <div style="overflow-x:auto;">
-        <table class="data-table" id="txTable">
-            <thead>
-                <tr>
-                    <th>Booking Code</th>
-                    <th>User</th>
-                    <th>Activity</th>
-                    <th>Date</th>
-                    <th>Pax</th>
-                    <th>Total Value</th>
-                    <th>Collected</th>
-                    <th>Status</th>
-                    <th>Payment</th>
-                    <th>Booked On</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($paidTransactions as $tx):
-                    $sc = match(strtolower($tx['status'])) {
-                        'pending'   => 'status-pending',
-                        'confirmed' => 'status-confirmed',
-                        'completed' => 'status-completed',
-                        'cancelled' => 'status-cancelled',
-                        default     => '',
-                    };
-                    $isFullyPaid = $tx['payment_status'] === 'paid';
-                    $isHalfPaid  = !$isFullyPaid && ($tx['down_payment_status'] ?? '') === 'paid';
+            <table class="data-table" id="txTable">
+                <thead>
+                    <tr>
+                        <th>Booking Code</th>
+                        <th>User</th>
+                        <th>Activity</th>
+                        <th>Date</th>
+                        <th>Pax</th>
+                        <th>Total Value</th>
+                        <th>Collected</th>
+                        <th>Status</th>
+                        <th>Payment</th>
+                        <th>Booked On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($paidTransactions as $tx):
+                        $sc = match(strtolower($tx['status'])) {
+                            'pending'   => 'status-pending',
+                            'confirmed' => 'status-confirmed',
+                            'completed' => 'status-completed',
+                            'cancelled' => 'status-cancelled',
+                            default     => '',
+                        };
+                        $isFullyPaid = $tx['payment_status'] === 'paid';
+                        $isHalfPaid  = !$isFullyPaid && ($tx['down_payment_status'] ?? '') === 'paid';
+                        $collected   = $isFullyPaid
+                            ? (float)$tx['total_amount']
+                            : (float)($tx['down_payment'] ?? ceil($tx['total_amount'] / 2));
+                        $payClass = $isFullyPaid ? 'pay-paid' : 'pay-half';
+                        $payText  = $isFullyPaid ? 'Fully Paid' : '50% Down';
+                        $txFilter = $isFullyPaid ? 'full' : 'half';
+                        $amtClass = $isFullyPaid ? 'amt-full' : 'amt-partial';
+                    ?>
+                    <tr data-search="<?= strtolower(($tx['booking_code'] ?? '') . ' ' . ($tx['username'] ?? '') . ' ' . ($tx['activity_name'] ?? '')) ?>"
+                        data-paytype="<?= $txFilter ?>">
+                        <td style="font-size:0.76rem;opacity:0.8;">#<?= esc($tx['booking_code']) ?></td>
+                        <td style="font-weight:600;"><?= esc($tx['username'] ?? '—') ?></td>
+                        <td><?= esc($tx['all_activities'] ?? $tx['activity_name']) ?></td>
+                        <td style="opacity:0.7;"><?= date('M d, Y', strtotime($tx['date'])) ?></td>
+                        <td style="text-align:center;"><?= esc($tx['participants']) ?></td>
+                        <td style="opacity:0.6;">₱<?= number_format($tx['total_amount'], 2) ?></td>
+                        <td>
+                            <div class="<?= $amtClass ?>">₱<?= number_format($collected, 2) ?></div>
+                            <?php if ($isHalfPaid): ?>
+                            <div class="amt-counted">50% of ₱<?= number_format($tx['total_amount'], 2) ?></div>
+                            <?php endif; ?>
+                        </td>
+                        <td><span class="badge-status <?= $sc ?>"><?= ucfirst($tx['status']) ?></span></td>
+                        <td><span class="<?= $payClass ?>"><?= $payText ?></span></td>
+                        <td style="opacity:0.6;font-size:0.76rem;"><?= date('M d, Y', strtotime($tx['created_at'])) ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                    <?php if (empty($paidTransactions)): ?>
+                    <tr><td colspan="10" style="text-align:center;opacity:0.4;padding:24px;">No paid transactions yet.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
 
-                    // Amount actually collected
-                    $collected = $isFullyPaid
-                        ? (float)$tx['total_amount']
-                        : (float)($tx['down_payment'] ?? ceil($tx['total_amount'] / 2));
-
-                    $payClass = $isFullyPaid ? 'pay-paid' : 'pay-half';
-                    $payText  = $isFullyPaid ? 'Fully Paid' : '50% Down';
-                    $txFilter = $isFullyPaid ? 'full' : 'half';
-                    $amtClass = $isFullyPaid ? 'amt-full' : 'amt-partial';
-                ?>
-                <tr data-search="<?= strtolower(($tx['booking_code'] ?? '') . ' ' . ($tx['username'] ?? '') . ' ' . ($tx['activity_name'] ?? '')) ?>"
-                    data-paytype="<?= $txFilter ?>">
-                    <td style="font-size:0.76rem;opacity:0.8;">#<?= esc($tx['booking_code']) ?></td>
-                    <td style="font-weight:600;"><?= esc($tx['username'] ?? '—') ?></td>
-                    <td><?= esc($tx['all_activities'] ?? $tx['activity_name']) ?></td>
-                    <td style="opacity:0.7;"><?= date('M d, Y', strtotime($tx['date'])) ?></td>
-                    <td style="text-align:center;"><?= esc($tx['participants']) ?></td>
-                    <td style="opacity:0.6;">₱<?= number_format($tx['total_amount'], 2) ?></td>
-                    <td>
-                        <div class="<?= $amtClass ?>">₱<?= number_format($collected, 2) ?></div>
-                        <?php if ($isHalfPaid): ?>
-                        <div class="amt-counted">50% of ₱<?= number_format($tx['total_amount'], 2) ?></div>
-                        <?php endif; ?>
-                    </td>
-                    <td><span class="badge-status <?= $sc ?>"><?= ucfirst($tx['status']) ?></span></td>
-                    <td><span class="<?= $payClass ?>"><?= $payText ?></span></td>
-                    <td style="opacity:0.6;font-size:0.76rem;"><?= date('M d, Y', strtotime($tx['created_at'])) ?></td>
-                </tr>
-                <?php endforeach; ?>
-                <?php if (empty($paidTransactions)): ?>
-                <tr><td colspan="10" style="text-align:center;opacity:0.4;padding:24px;">No paid transactions yet.</td></tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+        <!-- View All — Paid Transactions -->
+        <div class="view-all-wrap" id="txViewAllWrap" style="display:none;">
+            <button class="view-all-btn view-all-btn-cyan" onclick="viewAllTx()">
+                <i class="fa-solid fa-chevron-down"></i>
+                View All Transactions
+                <span class="view-all-count" id="txHiddenCount"></span>
+            </button>
         </div>
     </div>
 
-    <!-- AWAITING PAYMENT (informational, not counted in revenue) -->
+    <!-- AWAITING PAYMENT -->
     <?php if (!empty($unpaidTransactions)): ?>
     <div class="data-card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
@@ -558,48 +561,58 @@ $unpaidTransactions = $db->table('bookings b')
         </div>
 
         <div style="overflow-x:auto;">
-        <table class="data-table" id="pendingTable">
-            <thead>
-                <tr>
-                    <th>Booking Code</th>
-                    <th>User</th>
-                    <th>Activity</th>
-                    <th>Date</th>
-                    <th>Pax</th>
-                    <th>Expected Amount</th>
-                    <th>Status</th>
-                    <th>Booked On</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($unpaidTransactions as $tx):
-                    $sc = match(strtolower($tx['status'])) {
-                        'pending'   => 'status-pending',
-                        'confirmed' => 'status-confirmed',
-                        default     => 'status-pending',
-                    };
-                ?>
-                <tr>
-                    <td style="font-size:0.76rem;opacity:0.8;">#<?= esc($tx['booking_code']) ?></td>
-                    <td style="font-weight:600;"><?= esc($tx['username'] ?? '—') ?></td>
-                    <td><?= esc($tx['all_activities'] ?? $tx['activity_name']) ?></td>
-                    <td style="opacity:0.7;"><?= date('M d, Y', strtotime($tx['date'])) ?></td>
-                    <td style="text-align:center;"><?= esc($tx['participants']) ?></td>
-                    <td style="color:#ffc107;font-weight:700;opacity:0.75;">₱<?= number_format($tx['total_amount'], 2) ?></td>
-                    <td><span class="badge-status <?= $sc ?>"><?= ucfirst($tx['status']) ?></span></td>
-                    <td style="opacity:0.6;font-size:0.76rem;"><?= date('M d, Y', strtotime($tx['created_at'])) ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+            <table class="data-table" id="pendingTable">
+                <thead>
+                    <tr>
+                        <th>Booking Code</th>
+                        <th>User</th>
+                        <th>Activity</th>
+                        <th>Date</th>
+                        <th>Pax</th>
+                        <th>Expected Amount</th>
+                        <th>Status</th>
+                        <th>Booked On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($unpaidTransactions as $tx):
+                        $sc = match(strtolower($tx['status'])) {
+                            'pending'   => 'status-pending',
+                            'confirmed' => 'status-confirmed',
+                            default     => 'status-pending',
+                        };
+                    ?>
+                    <tr>
+                        <td style="font-size:0.76rem;opacity:0.8;">#<?= esc($tx['booking_code']) ?></td>
+                        <td style="font-weight:600;"><?= esc($tx['username'] ?? '—') ?></td>
+                        <td><?= esc($tx['all_activities'] ?? $tx['activity_name']) ?></td>
+                        <td style="opacity:0.7;"><?= date('M d, Y', strtotime($tx['date'])) ?></td>
+                        <td style="text-align:center;"><?= esc($tx['participants']) ?></td>
+                        <td style="color:#ffc107;font-weight:700;opacity:0.75;">₱<?= number_format($tx['total_amount'], 2) ?></td>
+                        <td><span class="badge-status <?= $sc ?>"><?= ucfirst($tx['status']) ?></span></td>
+                        <td style="opacity:0.6;font-size:0.76rem;"><?= date('M d, Y', strtotime($tx['created_at'])) ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- View All — Awaiting Payment -->
+        <div class="view-all-wrap" id="pendingViewAllWrap" style="display:none;">
+            <button class="view-all-btn view-all-btn-yellow" onclick="viewAllPending()">
+                <i class="fa-solid fa-chevron-down"></i>
+                View All Awaiting Payment
+                <span class="view-all-count" id="pendingHiddenCount"></span>
+            </button>
         </div>
     </div>
     <?php endif; ?>
 
 </main>
 
-<!-- ════ CHARTS ════ -->
+<!-- ════ CHARTS & LOGIC ════ -->
 <script>
+/* ── Chart data ── */
 const salesData = {
     weekly:  { labels: <?= json_encode(array_column($weeklySales,  'label')) ?>, values: <?= json_encode(array_column($weeklySales,  'amount')) ?> },
     monthly: { labels: <?= json_encode(array_column($monthlySales, 'label')) ?>, values: <?= json_encode(array_column($monthlySales, 'amount')) ?> },
@@ -659,26 +672,143 @@ new Chart(document.getElementById('barChart'), {
     }
 });
 
-/* ── Transaction filters ── */
+/* ════════════════════════════════════════
+   PAID TRANSACTIONS — preview + filters
+════════════════════════════════════════ */
+const TX_PREVIEW = 5;
 let currentTxFilter = 'all';
+let txExpanded = false;
+
+function applyTxFilters() {
+    const q = document.getElementById('txSearch').value.toLowerCase().trim();
+    const rows = Array.from(document.querySelectorAll('#txTable tbody tr'));
+    let visibleCount = 0;
+
+    rows.forEach(row => {
+        const matchSearch  = !q || row.dataset.search.includes(q);
+        const matchPayType = currentTxFilter === 'all' || row.dataset.paytype === currentTxFilter;
+        row._matches = matchSearch && matchPayType;
+    });
+
+    const matched = rows.filter(r => r._matches);
+    matched.forEach((row, i) => {
+        row.style.display = (txExpanded || i < TX_PREVIEW) ? '' : 'none';
+    });
+    rows.filter(r => !r._matches).forEach(r => r.style.display = 'none');
+
+    const hidden = matched.length - TX_PREVIEW;
+    const wrap   = document.getElementById('txViewAllWrap');
+    const count  = document.getElementById('txHiddenCount');
+
+    if (hidden > 0 || txExpanded) {
+        wrap.style.display = 'block';
+    } else {
+        wrap.style.display = 'none';
+    }
+    const btn = document.querySelector('#txViewAllWrap .view-all-btn');
+
+    if (txExpanded) {
+        btn.innerHTML = `
+            <i class="fa-solid fa-chevron-up"></i>
+            Show Less
+        `;
+    } else if (hidden > 0) {
+        btn.innerHTML = `
+            <i class="fa-solid fa-chevron-down"></i>
+            View All Transactions
+            <span class="view-all-count">+${hidden} more</span>
+        `;
+    }
+}
 
 function setTxFilter(type, btn) {
     currentTxFilter = type;
+    txExpanded = false;
     document.querySelectorAll('.tx-filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     applyTxFilters();
 }
 
-function filterTx() { applyTxFilters(); }
-
-function applyTxFilters() {
-    const q = document.getElementById('txSearch').value.toLowerCase().trim();
-    document.querySelectorAll('#txTable tbody tr').forEach(row => {
-        const matchSearch  = !q || row.dataset.search.includes(q);
-        const matchPayType = currentTxFilter === 'all' || row.dataset.paytype === currentTxFilter;
-        row.style.display  = (matchSearch && matchPayType) ? '' : 'none';
-    });
+function filterTx() {
+    txExpanded = false;
+    applyTxFilters();
 }
+
+function viewAllTx() {
+    txExpanded = !txExpanded;
+
+    const btn = document.querySelector('#txViewAllWrap .view-all-btn');
+
+    if (txExpanded) {
+        btn.innerHTML = `
+            <i class="fa-solid fa-chevron-up"></i>
+            Show Less
+        `;
+    } else {
+        const rows = Array.from(document.querySelectorAll('#txTable tbody tr'))
+            .filter(r => r._matches);
+
+        const hidden = rows.length - TX_PREVIEW;
+
+        btn.innerHTML = `
+            <i class="fa-solid fa-chevron-down"></i>
+            View All Transactions
+            <span class="view-all-count">+${hidden} more</span>
+        `;
+    }
+
+    applyTxFilters();
+}
+
+/* ════════════════════════════════════════
+   AWAITING PAYMENT — preview
+════════════════════════════════════════ */
+let pendingExpanded = false;
+
+function initPendingPreview() {
+    const rows  = Array.from(document.querySelectorAll('#pendingTable tbody tr'));
+    const wrap  = document.getElementById('pendingViewAllWrap');
+    const count = document.getElementById('pendingHiddenCount');
+    const btn   = document.querySelector('#pendingViewAllWrap .view-all-btn');
+
+    if (!wrap || rows.length <= TX_PREVIEW) return;
+
+    rows.forEach((row, i) => {
+        row.style.display = (pendingExpanded || i < TX_PREVIEW) ? '' : 'none';
+    });
+
+    const hidden = rows.length - TX_PREVIEW;
+
+    if (hidden > 0 || pendingExpanded) {
+        wrap.style.display = 'block';
+    } else {
+        wrap.style.display = 'none';
+    }
+
+    if (pendingExpanded) {
+        btn.innerHTML = `
+            <i class="fa-solid fa-chevron-up"></i>
+            Show Less
+        `;
+    } else {
+        count.textContent = '+' + hidden + ' more';
+
+        btn.innerHTML = `
+            <i class="fa-solid fa-chevron-down"></i>
+            View All Awaiting Payment
+            <span class="view-all-count">+${hidden} more</span>
+        `;
+    }
+}
+
+function viewAllPending() {
+    pendingExpanded = !pendingExpanded;
+    initPendingPreview();
+}
+
+/* ── Init ── */
+applyTxFilters();
+initPendingPreview();
 </script>
 
 <!-- HELP MODAL -->
