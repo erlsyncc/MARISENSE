@@ -22,7 +22,7 @@
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
         .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
-        .btn-help-custom {color: #48cae4;font-weight: 600;font-size: 0.85rem; padding: 8px 18px;border-radius: 50px;background: rgba(72,202,228,0.08);cursor: pointer;transition: 0.3s;}
+        .btn-help-custom { color: #48cae4;font-weight: 600;font-size: 0.85rem;padding: 8px 18px;border: 1px solid rgba(72,202,228,0.5);border-radius: 50px; background: rgba(72,202,228,0.08);cursor: pointer;transition: 0.3s;}
         .btn-help-custom:hover {background: rgba(72,202,228,0.2);border-color: var(--accent-cyan);}
         #helpModal {position: fixed;top: 0; left: 0;width: 100%; height: 100%;background: rgba(5,44,57,0.88);backdrop-filter: blur(8px); z-index: 9999;display: flex;align-items: center;justify-content: center;padding: 20px;animation: fadeInModal 0.25s ease;}
         #helpModal.d-none { display: none !important; }
@@ -96,11 +96,6 @@
         .text-moderate { color: #ffc107; font-weight: 600; }
         .text-suspended { color: #dc3545; font-weight: 600; }
         .vertical-divider {border-left: 2px solid rgba(255, 255, 255, 0.1);height: 100%;}
-        #scrollBtn {position: fixed;right: 20px;top: 50%;transform: translateY(-50%);z-index: 1000;width: 50px;height: 150px;background: rgba(10, 88, 114, 0.85);backdrop-filter: blur(10px);border: 3px solid var(--accent-cyan);border-radius: 60px;display: flex; align-items: center;justify-content: center;color: var(--accent-cyan);cursor: pointer;transition: all 0.3s ease;box-shadow: 0 15px 35px rgba(0,0,0,0.4);}
-        #scrollBtn:hover {background: var(--accent-cyan);color: var(--deep-blue);right: 25px;}
-        #scrollBtn i {font-size: 2.5rem;transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);margin: 0 auto;}
-        .rotate-up {transform: rotate(180deg);}
-        html {scroll-behavior: smooth;}
         /* ── SEARCH ── */
         .btn-search-custom { color: #48cae4; font-size: 1.1rem; padding: 8px 12px; border: 1px solid rgba(72,202,228,0.5); border-radius: 50px; background: rgba(72,202,228,0.08); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
         .btn-search-custom:hover { background: rgba(72,202,228,0.2); border-color: #48cae4; }
@@ -385,34 +380,6 @@
 <!-- END HELP MODAL -->
 
 <script>
-        function smartScroll() {
-            const scrollIcon = document.getElementById("scrollIcon");
-            const isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 200);
-
-            if (isAtBottom || scrollIcon.classList.contains("rotate-up")) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                window.scrollBy({ top: 600, left: 0, behavior: 'smooth' });
-            }
-        }
-
-        window.addEventListener('scroll', function() {
-            const scrollIcon = document.getElementById("scrollIcon");
-            const scrollBtn = document.getElementById("scrollBtn");
-            
-            const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollValue = window.scrollY / scrollTotal;
-            
-            if (scrollValue > 0.8) {
-                scrollIcon.classList.add("rotate-up");
-                scrollBtn.style.background = "#48cae4";
-                scrollIcon.style.color = "#052c39";
-            } else {
-                scrollIcon.classList.remove("rotate-up");
-                scrollBtn.style.background = "rgba(10, 88, 114, 0.8)";
-                scrollIcon.style.color = "#48cae4";
-            }
-        });
 
         /* ADDED: Close help modal when clicking outside the box */
         document.getElementById('helpModal').addEventListener('click', function(e) {
@@ -533,10 +500,6 @@
     });
 })();
     </script>
-
-    <div id="scrollBtn" onclick="smartScroll()" title="Navigate Page">
-        <i class="fa-solid fa-arrow-down" id="scrollIcon"></i>
-    </div>
 
     <script>const CI_BASE_URL = "<?= base_url() ?>";</script>
 <!-- GLOBAL SEARCH OVERLAY -->
