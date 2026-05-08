@@ -144,7 +144,7 @@ class Auth extends BaseController
         ]);
 
         $email->setTo($identity['secret'])
-              ->setFrom(env('MAIL_FROM_ADDRESS', 'noreply@marisense.local'), 'Waves Water Sports')
+              ->setFrom(env('MAIL_FROM_ADDRESS', 'admin@marisense.networq.online'), 'Waves Water Sports')
               ->setSubject('Verify Your Email Address')
               ->setMessage($message);
 

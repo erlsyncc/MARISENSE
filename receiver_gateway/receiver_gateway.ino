@@ -1,173 +1,371 @@
 #include <SPI.h>
 #include <LoRa.h>
 #include <WiFi.h>
-#include <WiFiMulti.h> // Added for multiple WiFi networks
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
-WiFiMulti wifiMulti; // Create instance
+// =============================================================================
+// WIFI
+// =============================================================================
+// const char* SSID = "iPhone";
+// const char* PASSWORD = "hotspot0123";
+const char* SSID = "HUAWEI-2.4G-V6aF";
+const char* PASSWORD = "WCKT9Q8f";
 
-// ---------------------------------------------------------------------------
-// API Endpoint
-// ---------------------------------------------------------------------------
-const char* API_ENDPOINT  = "http://192.168.100.51:5000/api/buoy-data";
+// =============================================================================
+// API
+// =============================================================================
+const char* API_ENDPOINT =
+  "https://marisense.networq.online/api/buoy-data";
 
-// LoRa Pin Mapping (ESP32)
+// =============================================================================
+// LORA PINS
+// =============================================================================
 #define LORA_SCK   18
 #define LORA_MISO  19
 #define LORA_MOSI  23
 #define LORA_SS     5
 #define LORA_RST   14
 #define LORA_DIO0   2
-#define LORA_FREQ  433E6
-#define AGGREGATE_WINDOW_MS  60000UL
 
-// ---------------------------------------------------------------------------
-// UPDATED Shared Data Structure — MATCHES TRANSMITTER
-// ---------------------------------------------------------------------------
-struct BuoyData {
+#define LORA_FREQ 433E6
+
+// =============================================================================
+// OVERRIDE MODES
+// =============================================================================
+enum OverrideMode {
+  MODE_NORMAL,
+  MODE_MODERATE,
+  MODE_DANGER
+};
+
+OverrideMode currentMode = MODE_NORMAL;
+
+// =============================================================================
+// PACKED STRUCT
+// =============================================================================
+struct __attribute__((packed)) BuoyData {
   float pitch;
   float roll;
-  float waveHeight;  // New
+  float waveHeight;
   float waterTemp;
-  float windSpeed;   // New
-  int   packetID;
+  float windSpeed;
+  int packetID;
 };
 
-// ---------------------------------------------------------------------------
-// UPDATED Aggregation buffer
-// ---------------------------------------------------------------------------
-struct AggWindow {
-  double pitchSum, rollSum, tempSum, rssiSum;
-  double waveSum, windSum; // New tracking
-  
-  float pitchMin, pitchMax, rollMin, rollMax;
-  float tempMin, tempMax, waveMin, waveMax, windMin, windMax;
+// =============================================================================
+// RANDOM FLOAT
+// =============================================================================
+float randomFloat(float minVal, float maxVal) {
 
-  int sampleCount;
-  int tempValidCount;
-  unsigned long windowStart;
+  return minVal +
+    ((float)random(0, 10000) / 10000.0f)
+    * (maxVal - minVal);
+}
 
-  void reset(unsigned long now) {
-    pitchSum = rollSum = tempSum = rssiSum = waveSum = windSum = 0;
-    sampleCount = tempValidCount = 0;
-    windowStart = now;
-    // Reset Min/Max logic handled in first ingest
-  }
+// =============================================================================
+// WIFI CONNECT
+// =============================================================================
+void connectWiFi() {
 
-  void ingest(const BuoyData& d, int rssi) {
-    sampleCount++;
-    pitchSum += d.pitch;
-    rollSum  += d.roll;
-    waveSum  += d.waveHeight;
-    windSum  += d.windSpeed;
-    rssiSum  += rssi;
+  if (WiFi.status() == WL_CONNECTED)
+    return;
 
-    if (sampleCount == 1) {
-      pitchMin = pitchMax = d.pitch;
-      rollMin  = rollMax  = d.roll;
-      waveMin  = waveMax  = d.waveHeight;
-      windMin  = windMax  = d.windSpeed;
-    } else {
-      if (d.pitch < pitchMin) pitchMin = d.pitch; if (d.pitch > pitchMax) pitchMax = d.pitch;
-      if (d.waveHeight < waveMin) waveMin = d.waveHeight; if (d.waveHeight > waveMax) waveMax = d.waveHeight;
-      if (d.windSpeed < windMin) windMin = d.windSpeed; if (d.windSpeed > windMax) windMax = d.windSpeed;
-    }
-
-    if (d.waterTemp > -100.0f) {
-      tempSum += d.waterTemp;
-      tempValidCount++;
-      if (tempValidCount == 1) { tempMin = tempMax = d.waterTemp; }
-      else {
-        if (d.waterTemp < tempMin) tempMin = d.waterTemp;
-        if (d.waterTemp > tempMax) tempMax = d.waterTemp;
-      }
-    }
-  }
-};
-
-AggWindow agg;
-int totalReceived = 0;
-
-void setup() {
-  Serial.begin(115200);
-  
-  // --- MULTI-WIFI SETUP ---
-  wifiMulti.addAP("HUAWEI-2.4G-V6aF", "WCKT9Q8f"); // Home
-  wifiMulti.addAP("iphone", "hotspot0123");       // Hotspot
-  
   Serial.println("[WiFi] Connecting...");
-  
-  SPI.begin(LORA_SCK, LORA_MISO, LORA_MOSI, LORA_SS);
-  LoRa.setPins(LORA_SS, LORA_RST, LORA_DIO0);
+
+  WiFi.begin(SSID, PASSWORD);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println();
+  Serial.println("[WiFi] Connected");
+
+  Serial.print("[WiFi] IP: ");
+  Serial.println(WiFi.localIP());
+}
+
+// =============================================================================
+// PRINT RAW HEX
+// =============================================================================
+void printRawHex(uint8_t* buffer, int len) {
+
+  Serial.println("Raw HEX:");
+
+  for (int i = 0; i < len; i++) {
+
+    if (buffer[i] < 0x10)
+      Serial.print("0");
+
+    Serial.print(buffer[i], HEX);
+    Serial.print(" ");
+  }
+
+  Serial.println();
+}
+
+// =============================================================================
+// SEND TO API
+// =============================================================================
+void sendToAPI(BuoyData data,
+               int rssi,
+               float snr) {
+
+  // --------------------------------------------------------------------------
+  // OVERRIDE MODES
+  // --------------------------------------------------------------------------
+  if (currentMode == MODE_MODERATE) {
+
+    data.waveHeight = randomFloat(0.8, 1.5);
+    data.windSpeed  = randomFloat(7.0, 12.0);
+    data.waterTemp  = randomFloat(28.0, 30.0);
+    data.pitch      = randomFloat(10.0, 25.0);
+
+    Serial.println("[SIMULATION] MODERATE MODE ACTIVE");
+
+  } else if (currentMode == MODE_DANGER) {
+
+    data.waveHeight = randomFloat(2.5, 6.0);
+    data.windSpeed  = randomFloat(18.0, 35.0);
+    data.waterTemp  = randomFloat(29.0, 33.0);
+    data.pitch      = randomFloat(28.0, 50.0);
+
+    Serial.println("[SIMULATION] DANGER MODE ACTIVE");
+  }
+
+  // --------------------------------------------------------------------------
+  // WIFI CHECK
+  // --------------------------------------------------------------------------
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("[HTTP] No WiFi");
+    return;
+  }
+
+  // --------------------------------------------------------------------------
+  // JSON
+  // --------------------------------------------------------------------------
+  StaticJsonDocument<512> doc;
+
+  doc["packetID"]   = data.packetID;
+  doc["pitch"]      = data.pitch;
+  doc["roll"]       = data.roll;
+  doc["waveHeight"] = data.waveHeight;
+  doc["waterTemp"]  = data.waterTemp;
+  doc["windSpeed"]  = data.windSpeed;
+  doc["rssi"]       = rssi;
+  doc["snr"]        = snr;
+
+  // Add mode label
+  doc["mode"] =
+    currentMode == MODE_DANGER   ? "danger" :
+    currentMode == MODE_MODERATE ? "moderate" :
+                                   "normal";
+
+  String payload;
+
+  serializeJson(doc, payload);
+
+  Serial.println("[HTTP] Payload:");
+  Serial.println(payload);
+
+  // --------------------------------------------------------------------------
+  // HTTP POST
+  // --------------------------------------------------------------------------
+  WiFiClient client;
+  HTTPClient http;
+
+  http.begin(client, API_ENDPOINT);
+
+  http.addHeader("Content-Type", "application/json");
+
+  int httpCode = http.POST(payload);
+
+  Serial.printf("[HTTP] Code: %d\n", httpCode);
+
+  if (httpCode > 0) {
+
+    String response = http.getString();
+
+    Serial.println("[HTTP] Response:");
+    Serial.println(response);
+
+  } else {
+
+    Serial.printf("[HTTP] Error: %s\n",
+      http.errorToString(httpCode).c_str());
+  }
+
+  http.end();
+}
+
+// =============================================================================
+// SETUP
+// =============================================================================
+void setup() {
+
+  Serial.begin(115200);
+
+  randomSeed(analogRead(0));
+
+  Serial.println();
+  Serial.println("=================================");
+  Serial.println(" LORA RECEIVER + API");
+  Serial.println("=================================");
+
+  Serial.printf("Struct Size: %d bytes\n",
+    sizeof(BuoyData));
+
+  Serial.println();
+  Serial.println("AVAILABLE COMMANDS:");
+  Serial.println(" danger");
+  Serial.println(" moderate");
+  Serial.println(" normal");
+  Serial.println();
+
+  connectWiFi();
+
+  // --------------------------------------------------------------------------
+  // LORA
+  // --------------------------------------------------------------------------
+  SPI.begin(
+    LORA_SCK,
+    LORA_MISO,
+    LORA_MOSI,
+    LORA_SS
+  );
+
+  LoRa.setPins(
+    LORA_SS,
+    LORA_RST,
+    LORA_DIO0
+  );
 
   if (!LoRa.begin(LORA_FREQ)) {
-    Serial.println("[LoRa] Critical Failure!");
+
+    Serial.println("[ERROR] LoRa init failed!");
+
     while (1);
   }
 
-  agg.reset(millis());
-  Serial.println("[GATEWAY] Listening for Marisense Packets...");
+  LoRa.setSyncWord(0xF3);
+
+  Serial.println("[OK] LoRa initialized");
+  Serial.println("[INFO] Waiting for packets...");
 }
 
+// =============================================================================
+// LOOP
+// =============================================================================
 void loop() {
-  unsigned long now = millis();
 
-  // 1. WiFi Multi Check (Handles reconnection automatically)
-  if (wifiMulti.run() != WL_CONNECTED) {
-    // We are offline, but wifiMulti.run() will keep trying APs in background
+  // --------------------------------------------------------------------------
+  // SERIAL COMMANDS
+  // --------------------------------------------------------------------------
+  if (Serial.available()) {
+
+    String cmd = Serial.readStringUntil('\n');
+
+    cmd.trim();
+
+    if (cmd == "dang") {
+
+      currentMode = MODE_DANGER;
+
+      Serial.println("[MODE] DANGER MODE ENABLED");
+
+    } else if (cmd == "mod") {
+
+      currentMode = MODE_MODERATE;
+
+      Serial.println("[MODE] MODERATE MODE ENABLED");
+
+    } else if (cmd == "norm") {
+
+      currentMode = MODE_NORMAL;
+
+      Serial.println("[MODE] NORMAL MODE ENABLED");
+    }
   }
 
-  // 2. Window Check
-  if (now - agg.windowStart >= AGGREGATE_WINDOW_MS) {
-    postAggregate(agg, now);
-    agg.reset(now);
-  }
-
-  // 3. LoRa Poll
+  // --------------------------------------------------------------------------
+  // RECEIVE LORA
+  // --------------------------------------------------------------------------
   int packetSize = LoRa.parsePacket();
-  if (packetSize == sizeof(BuoyData)) {
-    BuoyData rxData;
-    LoRa.readBytes((uint8_t*)&rxData, sizeof(rxData));
-    agg.ingest(rxData, LoRa.packetRssi());
-    totalReceived++;
-    
-    Serial.printf("[LoRa] Pkt#%d Rx (Wave: %.2fm, Wind: %.2fm/s)\n", 
-                  rxData.packetID, rxData.waveHeight, rxData.windSpeed);
+
+  if (packetSize) {
+
+    Serial.println();
+    Serial.println("========== RECEIVED ==========");
+
+    Serial.printf("Packet Size : %d\n", packetSize);
+
+    Serial.printf("RSSI        : %d dBm\n",
+      LoRa.packetRssi());
+
+    Serial.printf("SNR         : %.2f\n",
+      LoRa.packetSnr());
+
+    uint8_t rawBuffer[64];
+
+    int index = 0;
+
+    while (LoRa.available() && index < 64) {
+
+      rawBuffer[index++] =
+        LoRa.read();
+    }
+
+    printRawHex(rawBuffer, index);
+
+    // ------------------------------------------------------------------------
+    // DECODE
+    // ------------------------------------------------------------------------
+    if (index == sizeof(BuoyData)) {
+
+      BuoyData data;
+
+      memcpy(&data,
+             rawBuffer,
+             sizeof(BuoyData));
+
+      Serial.println("--------------------------------");
+
+      Serial.printf("Packet ID : %d\n",
+        data.packetID);
+
+      Serial.printf("Pitch     : %.2f\n",
+        data.pitch);
+
+      Serial.printf("Roll      : %.2f\n",
+        data.roll);
+
+      Serial.printf("Wave      : %.2f m\n",
+        data.waveHeight);
+
+      Serial.printf("Temp      : %.2f C\n",
+        data.waterTemp);
+
+      Serial.printf("Wind      : %.2f m/s\n",
+        data.windSpeed);
+
+      Serial.println("--------------------------------");
+
+      // ----------------------------------------------------------------------
+      // SEND TO API
+      // ----------------------------------------------------------------------
+      sendToAPI(
+        data,
+        LoRa.packetRssi(),
+        LoRa.packetSnr()
+      );
+
+    } else {
+
+      Serial.println("[WARNING] Size mismatch!");
+    }
+
+    Serial.println("==============================");
   }
-}
-
-void postAggregate(const AggWindow& w, unsigned long windowEnd) {
-  if (w.sampleCount == 0 || WiFi.status() != WL_CONNECTED) return;
-
-  StaticJsonDocument<1024> doc;
-  
-  // Basic Fields
-  doc["sampleCount"]     = w.sampleCount;
-  doc["avgWaveHeight"]   = w.waveSum / w.sampleCount;
-  doc["avgWindSpeed"]    = w.windSum / w.sampleCount;
-  doc["maxWindSpeed"]    = w.windMax;
-
-  // Pitch Object (Required by your parseObjectField method)
-  JsonObject pitch = doc.createNestedObject("pitch");
-  pitch["avg"] = w.pitchSum / w.sampleCount;
-
-  // WaterTemp Object (Required by your parseObjectField method)
-  JsonObject wtemp = doc.createNestedObject("waterTemp");
-  if (w.tempValidCount > 0) {
-    wtemp["avg"] = w.tempSum / w.tempValidCount;
-  } else {
-    wtemp["avg"] = nullptr;
-  }
-
-  String jsonPayload;
-  serializeJson(doc, jsonPayload);
-
-  HTTPClient http;
-  http.begin(API_ENDPOINT);
-  http.addHeader("Content-Type", "application/json");
-  
-  int httpCode = http.POST(jsonPayload);
-  Serial.printf("[HTTP] Code: %d\n", httpCode);
-  http.end();
 }
