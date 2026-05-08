@@ -120,6 +120,23 @@ body {
   0% { transform: translate3d(-90px, 0, 0); }
   100% { transform: translate3d(85px, 0, 0); }
 }
+.highlight-brand {
+  color: #48cae4; /* main color from button */
+  font-weight: 700;
+  position: relative;
+}
+
+/* subtle glow lang */
+.highlight-brand::after {
+  content: "MARISENSE";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #0077b6;
+  opacity: 0.25;
+  filter: blur(6px);
+  z-index: -1;
+}
 </style>
 </head>
 

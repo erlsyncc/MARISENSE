@@ -80,14 +80,6 @@
         .yellow-line-move {height: 4px; width: 80px;background: #ffc107; margin: 15px auto;border-radius: 10px;position: relative;overflow: hidden;}
         .yellow-line-move::after {content: ""; position: absolute;top: 0; left: -100%;width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);animation: shine 2s infinite;}
         @keyframes shine { 0% { left: -100%; }100% { left: 100%; }}
-        #scrollBtn {position: fixed;right: 20px;top: 50%; transform: translateY(-50%); z-index: 1000;  width: 50px;height: 150px; background: rgba(10, 88, 114, 0.85);backdrop-filter: blur(10px);border: 3px solid var(--accent-cyan);border-radius: 60px;display: flex; align-items: center;justify-content: center;color: var(--accent-cyan);cursor: pointer;transition: all 0.3s ease;box-shadow: 0 15px 35px rgba(0,0,0,0.4);}
-        #scrollBtn:hover { background: var(--accent-cyan);color: var(--deep-blue);right: 25px;}
-        #scrollBtn i {font-size: 2.5rem;transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); margin: 0 auto; }
-        .rotate-up {transform: rotate(180deg);}
-        html {scroll-behavior: smooth;}
-        .tooltip-btn { position: relative; cursor: pointer;}
-        .tooltip-btn::after { content: attr(data-tooltip);position: absolute;bottom: 120%; left: 50%;transform: translateX(-50%); background: var(--deep-blue); color: white;padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; white-space: nowrap;opacity: 0;visibility: hidden;transition: 0.3s ease; pointer-events: none;border: 1px solid var(--accent-cyan);z-index: 1050;box-shadow: 0 5px 15px rgba(0,0,0,0.3);}
-        .tooltip-btn:hover::after { opacity: 1; visibility: visible; }
         /* ── SEARCH ICON BUTTON ── */
         .btn-search-custom {color: #48cae4;  font-size: 1.1rem; padding: 8px 12px;border: 1px solid rgba(72,202,228,0.5);border-radius: 50px;background: rgba(72,202,228,0.08);cursor: pointer;transition: 0.3s; display: flex;align-items: center;justify-content: center;}
         .btn-search-custom:hover {background: rgba(72,202,228,0.2); border-color: #48cae4;}
@@ -113,6 +105,7 @@
         .sdn-no-result {text-align: center;padding: 30px;color: rgba(255,255,255,0.4);font-size: 0.88rem;}
         .sdn-hint {text-align: center; padding: 20px;color: rgba(255,255,255,0.3);font-size: 0.8rem;}
         .sdn-highlight {background: rgba(72,202,228,0.25);color: #48cae4;border-radius: 2px;padding: 0 2px;}
+        .price-badge {background: rgba(40, 167, 69, 0.15) !important; border: 1px solid #28a745 !important;          color: #2da94f !important;                   font-size: 1.1rem;font-weight: 700;}
     </style>
 </head>
 <body>
@@ -212,7 +205,7 @@
 
                         <!-- Price Badge -->
                         <div class="mb-3">
-                            <span class="detail-badge" style="font-size:1rem; font-weight:700;">
+                            <span class="detail-badge price-badge">
                                 <i class="fa-solid fa-peso-sign me-1"></i><?= $priceLabel ?>
                             </span>
                         </div>
@@ -321,34 +314,6 @@
 <script src="<?= base_url('bootstrap5/js/bootstrap.bundle.min.js') ?>"></script>
 
 <script>
-        function smartScroll() {
-            const scrollIcon = document.getElementById("scrollIcon");
-            const isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 200);
-
-            if (isAtBottom || scrollIcon.classList.contains("rotate-up")) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                window.scrollBy({ top: 600, left: 0, behavior: 'smooth' });
-            }
-        }
-
-        window.addEventListener('scroll', function() {
-            const scrollIcon = document.getElementById("scrollIcon");
-            const scrollBtn = document.getElementById("scrollBtn");
-            
-            const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollValue = window.scrollY / scrollTotal;
-            
-            if (scrollValue > 0.8) {
-                scrollIcon.classList.add("rotate-up");
-                scrollBtn.style.background = "#48cae4";
-                scrollIcon.style.color = "#052c39";
-            } else {
-                scrollIcon.classList.remove("rotate-up");
-                scrollBtn.style.background = "rgba(10, 88, 114, 0.8)";
-                scrollIcon.style.color = "#48cae4";
-            }
-        });
 
         /* ADDED: Close help modal when clicking outside the box */
         document.getElementById('helpModal').addEventListener('click', function(e) {
@@ -469,11 +434,6 @@
     });
 })();
     </script>
-    
-
-<div id="scrollBtn" onclick="smartScroll()" title="Navigate Page">
-    <i class="fa-solid fa-arrow-down" id="scrollIcon"></i>
-</div>
 
 <script>const CI_BASE_URL = "<?= base_url() ?>";</script>
 <!-- GLOBAL SEARCH OVERLAY -->

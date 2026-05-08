@@ -136,13 +136,6 @@
         .social-icons i { color: rgba(255,255,255,0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
         .social-icons i:hover { color: var(--accent-cyan); transform: scale(1.2); }
 
-        /* --- SCROLL BUTTON --- */
-        #scrollBtn { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 1000; width: 50px; height: 150px; background: rgba(10,88,114,0.85); backdrop-filter: blur(10px); border: 3px solid var(--accent-cyan); border-radius: 60px; display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
-        #scrollBtn:hover { background: var(--accent-cyan); color: var(--deep-blue); right: 25px; }
-        #scrollBtn i { font-size: 2.5rem; transition: transform 0.5s cubic-bezier(0.68,-0.55,0.27,1.55); margin: 0 auto; }
-        .rotate-up { transform: rotate(180deg); }
-        html { scroll-behavior: smooth; }
-
         /* ===== FEATURES SECTION ===== */
         .features { padding:90px 0; color: white; text-align: center; }
         .features .row { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 40px; }
@@ -584,32 +577,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function smartScroll() {
-        const scrollIcon = document.getElementById("scrollIcon");
-        const isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 200);
-        if (isAtBottom || scrollIcon.classList.contains("rotate-up")) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            window.scrollBy({ top: 600, left: 0, behavior: 'smooth' });
-        }
-    }
-
-    window.addEventListener('scroll', function() {
-        const scrollIcon = document.getElementById("scrollIcon");
-        const scrollBtn  = document.getElementById("scrollBtn");
-        const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollValue = scrollTotal > 0 ? window.scrollY / scrollTotal : 0;
-
-        if (scrollValue > 0.8) {
-            scrollIcon.classList.add("rotate-up");
-            scrollBtn.style.background = "#48cae4";
-            scrollIcon.style.color = "#052c39";
-        } else {
-            scrollIcon.classList.remove("rotate-up");
-            scrollBtn.style.background = "rgba(10, 88, 114, 0.8)";
-            scrollIcon.style.color = "#48cae4";
-        }
-    });
 
     /* ============================================================
        NEW: Close help modal when clicking outside the box
@@ -734,10 +701,6 @@
 })();
     /* ============================================================ */
 </script>
-
-<div id="scrollBtn" onclick="smartScroll()" title="Navigate Page">
-    <i class="fa-solid fa-arrow-down" id="scrollIcon"></i>
-</div>
 <!-- GLOBAL SEARCH OVERLAY -->
 <div id="searchOverlay" class="d-none">
     <div class="search-overlay-inner">
