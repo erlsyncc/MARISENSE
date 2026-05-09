@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <LoRa.h>
+#include <WiFiClientSecure.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
@@ -52,6 +53,12 @@ struct __attribute__((packed)) BuoyData {
   float windSpeed;
   int packetID;
 };
+
+// =============================================================================
+// RANDOM FLOAT
+// =============================================================================
+unsigned long lastSendTime = 0;
+const unsigned long SEND_INTERVAL = 60000;
 
 // =============================================================================
 // RANDOM FLOAT
@@ -109,75 +116,70 @@ void printRawHex(uint8_t* buffer, int len) {
 // =============================================================================
 // SEND TO API
 // =============================================================================
-void sendToAPI(BuoyData data,
-               int rssi,
-               float snr) {
+void sendToAPI(BuoyData data, int rssi, float snr) {
 
   // --------------------------------------------------------------------------
-  // OVERRIDE MODES
+  // OVERRIDE MODES (Simulation Logic)
   // --------------------------------------------------------------------------
   if (currentMode == MODE_MODERATE) {
-
     data.waveHeight = randomFloat(0.8, 1.5);
     data.windSpeed  = randomFloat(7.0, 12.0);
     data.waterTemp  = randomFloat(28.0, 30.0);
     data.pitch      = randomFloat(10.0, 25.0);
-
     Serial.println("[SIMULATION] MODERATE MODE ACTIVE");
-
   } else if (currentMode == MODE_DANGER) {
-
     data.waveHeight = randomFloat(2.5, 6.0);
     data.windSpeed  = randomFloat(18.0, 35.0);
     data.waterTemp  = randomFloat(29.0, 33.0);
     data.pitch      = randomFloat(28.0, 50.0);
-
     Serial.println("[SIMULATION] DANGER MODE ACTIVE");
   }
 
-  // --------------------------------------------------------------------------
-  // WIFI CHECK
-  // --------------------------------------------------------------------------
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("[HTTP] No WiFi");
     return;
   }
 
   // --------------------------------------------------------------------------
-  // JSON
+  // JSON - Restructured for CodeIgniter Controller Requirements
   // --------------------------------------------------------------------------
-  StaticJsonDocument<512> doc;
+  StaticJsonDocument<768> doc; // Increased size for nested objects
 
-  doc["packetID"]   = data.packetID;
-  doc["pitch"]      = data.pitch;
-  doc["roll"]       = data.roll;
-  doc["waveHeight"] = data.waveHeight;
-  doc["waterTemp"]  = data.waterTemp;
-  doc["windSpeed"]  = data.windSpeed;
-  doc["rssi"]       = rssi;
-  doc["snr"]        = snr;
+  // 1. Mandatory Top-Level Fields for parseBuoyPayload()
+  doc["sampleCount"]    = 1; 
+  doc["avgWaveHeight"]  = data.waveHeight;
+  doc["avgWindSpeed"]   = data.windSpeed;
+  doc["maxWindSpeed"]   = data.windSpeed; 
 
-  // Add mode label
-  doc["mode"] =
-    currentMode == MODE_DANGER   ? "danger" :
-    currentMode == MODE_MODERATE ? "moderate" :
-                                   "normal";
+  // 2. Nested Objects for parseObjectField()
+  JsonObject pitchObj = doc.createNestedObject("pitch");
+  pitchObj["avg"] = data.pitch;
+
+  JsonObject waterTempObj = doc.createNestedObject("waterTemp");
+  waterTempObj["avg"] = data.waterTemp;
+
+  // 3. Metadata for logging/debugging (Optional but helpful)
+  doc["packetID"] = data.packetID;
+  doc["rssi"]     = rssi;
+  doc["snr"]      = snr;
+  doc["mode"]     = (currentMode == MODE_DANGER)   ? "danger" :
+                    (currentMode == MODE_MODERATE) ? "moderate" : "normal";
 
   String payload;
-
   serializeJson(doc, payload);
 
-  Serial.println("[HTTP] Payload:");
+  Serial.println("[HTTP] Sending Payload:");
   Serial.println(payload);
 
   // --------------------------------------------------------------------------
   // HTTP POST
   // --------------------------------------------------------------------------
-  WiFiClient client;
+  WiFiClientSecure client;      // Use WiFiClientSecure for HTTPS
+  client.setInsecure();         // Simplifies testing on ESP32 by skipping SSL cert check
   HTTPClient http;
 
-  http.begin(client, API_ENDPOINT);
-
+  // Ensure API_ENDPOINT is "https://marisense.networq.online/api/buoy-data"
+  http.begin(client, API_ENDPOINT); 
   http.addHeader("Content-Type", "application/json");
 
   int httpCode = http.POST(payload);
@@ -185,16 +187,16 @@ void sendToAPI(BuoyData data,
   Serial.printf("[HTTP] Code: %d\n", httpCode);
 
   if (httpCode > 0) {
-
     String response = http.getString();
-
     Serial.println("[HTTP] Response:");
     Serial.println(response);
-
   } else {
+    Serial.printf("[HTTP] Error: %s\n", http.errorToString(httpCode).c_str());
+  }
 
-    Serial.printf("[HTTP] Error: %s\n",
-      http.errorToString(httpCode).c_str());
+  // Debugging redirects if they still occur
+  if (httpCode == 301 || httpCode == 302) {
+      Serial.printf("[HTTP] Redirected to: %s\n", http.getLocation().c_str());
   }
 
   http.end();
@@ -286,6 +288,24 @@ void loop() {
       currentMode = MODE_NORMAL;
 
       Serial.println("[MODE] NORMAL MODE ENABLED");
+    }
+  }
+
+  if (currentMode != MODE_NORMAL) {
+    if (millis() - lastSendTime >= SEND_INTERVAL) {
+      lastSendTime = millis();
+
+      Serial.println("\n[SIMULATION] Triggering scheduled update...");
+      
+      BuoyData simData;
+      simData.packetID   = 888; // Use 888 to identify simulated interval data
+      simData.pitch      = 0;   // These will be overwritten by randomFloat 
+      simData.roll       = 0;   // inside the sendToAPI function
+      simData.waveHeight = 0;
+      simData.waterTemp  = 0;
+      simData.windSpeed  = 0;
+
+      sendToAPI(simData, -40, 9.5); 
     }
   }
 

@@ -6,11 +6,10 @@
 #include <math.h>
 
 // =============================================================================
-// PINS
+// PINS & CONFIG
 // =============================================================================
 #define ONE_WIRE_BUS  D3
 #define HALL_PIN      A0
-
 #define LORA_SCK      D5
 #define LORA_MISO     D6
 #define LORA_MOSI     D7
@@ -21,16 +20,17 @@
 #define MPU_ADDR      0x68
 
 // =============================================================================
-// CONSTANTS
+// CONSTANTS & CALIBRATION
 // =============================================================================
-const float alpha = 0.97;
-const int sampleRate = 50;
-const float radius = 0.04;
-const float anemFactor = 2.5;
+const float alpha = 0.97;       // High-pass filter coefficient
+const int sampleRate = 50;      // 50ms = 20Hz
+const float radius = 0.04;      // Anemometer radius in meters
+const float anemFactor = 2.5;   // Calibration factor for wind
 const int hallThreshold = 512;
+const float accelDeadzone = 0.05; // Ignore acceleration noise below 0.05 m/s^2
 
 // =============================================================================
-// PACKED STRUCT (IMPORTANT)
+// DATA STRUCTURE
 // =============================================================================
 struct __attribute__((packed)) BuoyData {
   float pitch;
@@ -42,33 +42,36 @@ struct __attribute__((packed)) BuoyData {
 };
 
 // =============================================================================
-// OBJECTS
+// GLOBALS
 // =============================================================================
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature ds18b20(&oneWire);
 
-// =============================================================================
-// GLOBALS
-// =============================================================================
 int packetCounter = 0;
-
 unsigned long lastSampleTime = 0;
 unsigned long lastTxTime = 0;
 
-float accelZPrev = 0;
-float filtAccelPrev = 0;
+// Calibration Offsets
+float azOffset = 0;
+float axOffset = 0;
+float ayOffset = 0;
 
+// Integration Variables
 float velocity = 0;
 float displacement = 0;
-
 float maxDisp = -999;
 float minDisp = 999;
 
+// Filtering Variables
+float accelZPrev = 0;
+float filtAccelPrev = 0;
+
+// Anemometer
 int pulseCount = 0;
 bool magnetDetected = false;
 
 // =============================================================================
-// MPU FUNCTIONS
+// MPU HELPER FUNCTIONS
 // =============================================================================
 void mpu_writeRegister(uint8_t reg, uint8_t value) {
   Wire.beginTransmission(MPU_ADDR);
@@ -78,18 +81,13 @@ void mpu_writeRegister(uint8_t reg, uint8_t value) {
 }
 
 bool mpu_readMotion(int16_t &ax, int16_t &ay, int16_t &az) {
-
   Wire.beginTransmission(MPU_ADDR);
   Wire.write(0x3B);
   Wire.endTransmission(false);
-
-  if (Wire.requestFrom((uint8_t)MPU_ADDR, (uint8_t)6) != 6)
-    return false;
-
+  if (Wire.requestFrom((uint8_t)MPU_ADDR, (uint8_t)6) != 6) return false;
   ax = (Wire.read() << 8) | Wire.read();
   ay = (Wire.read() << 8) | Wire.read();
   az = (Wire.read() << 8) | Wire.read();
-
   return true;
 }
 
@@ -97,176 +95,131 @@ bool mpu_readMotion(int16_t &ax, int16_t &ay, int16_t &az) {
 // SETUP
 // =============================================================================
 void setup() {
-
   Serial.begin(115200);
-
-  Serial.println();
-  Serial.println("=================================");
-  Serial.println(" SMART BUOY TRANSMITTER");
-  Serial.println("=================================");
-
-  Serial.printf("Struct Size: %d bytes\n", sizeof(BuoyData));
-
-  // I2C
   Wire.begin(D2, D1);
 
-  // MPU6050
-  mpu_writeRegister(0x6B, 0x00);
-  mpu_writeRegister(0x1C, 0x00);
+  // Initialize MPU6050
+  mpu_writeRegister(0x6B, 0x00); // Wake up
+  mpu_writeRegister(0x1C, 0x00); // Set Accel to +/- 2g
+  delay(100);
 
-  // Temperature Sensor
+  // --- CALIBRATION ROUTINE ---
+  Serial.println("Calibrating MPU6050... Keep Buoy Still");
+  long sumX = 0, sumY = 0, sumZ = 0;
+  int samples = 200;
+  for(int i = 0; i < samples; i++) {
+    int16_t ax, ay, az;
+    if(mpu_readMotion(ax, ay, az)) {
+      sumX += ax; sumY += ay; sumZ += az;
+    }
+    delay(5);
+  }
+  axOffset = sumX / (float)samples;
+  ayOffset = sumY / (float)samples;
+  azOffset = (sumZ / (float)samples) - 16384.0f; // Expecting 1g (16384) at rest
+  Serial.println("Calibration Done.");
+
+  // Initialize Sensors
   ds18b20.begin();
   ds18b20.setResolution(12);
-  ds18b20.setWaitForConversion(false);
   ds18b20.requestTemperatures();
 
-  // LoRa
+  // LoRa Setup
   SPI.pins(LORA_SCK, LORA_MISO, LORA_MOSI, LORA_CS);
-
   LoRa.setPins(LORA_CS, LORA_RST, -1);
-
   if (!LoRa.begin(LORA_FREQ)) {
-    Serial.println("[ERROR] LoRa init failed!");
+    Serial.println("LoRa Failed!");
     while (1);
   }
-
-  // IMPORTANT
   LoRa.setSyncWord(0xF3);
-
-  Serial.println("[OK] LoRa initialized");
 }
 
 // =============================================================================
 // LOOP
 // =============================================================================
 void loop() {
-
   unsigned long now = millis();
 
-  // --------------------------------------------------------------------------
-  // HIGH SPEED SAMPLING
-  // --------------------------------------------------------------------------
+  // 1. HIGH SPEED SAMPLING (MPU & ANEMOMETER)
   if (now - lastSampleTime >= sampleRate) {
-
     float dt = (now - lastSampleTime) / 1000.0f;
-
     lastSampleTime = now;
 
-    // ------------------------------------------------------------------------
-    // ANEMOMETER
-    // ------------------------------------------------------------------------
+    // Wind Speed Pulse Counting
     int hallVal = analogRead(HALL_PIN);
-
     if (hallVal < hallThreshold) {
-
-      if (!magnetDetected) {
-        pulseCount++;
-        magnetDetected = true;
-      }
-
+      if (!magnetDetected) { pulseCount++; magnetDetected = true; }
     } else {
-
       magnetDetected = false;
     }
 
-    // ------------------------------------------------------------------------
-    // MPU6050
-    // ------------------------------------------------------------------------
-    int16_t ax, ay, az;
-
-    if (mpu_readMotion(ax, ay, az)) {
-
-      float rawZ = (az / 16384.0f) * 9.81;
-
-      float filtAccel =
-        alpha * (filtAccelPrev + rawZ - accelZPrev);
-
-      accelZPrev = rawZ;
+    // MPU Processing
+    int16_t rawX, rawY, rawZ;
+    if (mpu_readMotion(rawX, rawY, rawZ)) {
+      
+      // Apply Offsets
+      float calibratedZ = (rawZ - azOffset) / 16384.0f * 9.81;
+      
+      // DC Block / High Pass Filter (Removes gravity 9.81 component)
+      float filtAccel = alpha * (filtAccelPrev + calibratedZ - accelZPrev);
+      accelZPrev = calibratedZ;
       filtAccelPrev = filtAccel;
 
+      // Apply Deadzone to stop drift when stationary
+      if (abs(filtAccel) < accelDeadzone) filtAccel = 0;
+
+      // Double Integration
       velocity += filtAccel * dt;
       displacement += velocity * dt;
 
-      if (displacement > maxDisp)
-        maxDisp = displacement;
-
-      if (displacement < minDisp)
-        minDisp = displacement;
+      if (displacement > maxDisp) maxDisp = displacement;
+      if (displacement < minDisp) minDisp = displacement;
     }
   }
 
-  // --------------------------------------------------------------------------
-  // TRANSMIT EVERY 1 SECOND
-  // --------------------------------------------------------------------------
+  // 2. TRANSMIT DATA (EVERY 1 SECOND)
   if (now - lastTxTime >= 1000) {
-
     lastTxTime = now;
 
-    float rps = (float)pulseCount;
-
+    // Calculate Wind Speed
+    float rps = (float)pulseCount; 
     pulseCount = 0;
+    float windSpeed = (rps * (2.0 * PI * radius)) * anemFactor;
 
-    float windSpeed =
-      (rps * (2.0 * PI * radius)) * anemFactor;
+    // Calculate Wave Height
+    float currentWaveHeight = (maxDisp == -999) ? 0 : (maxDisp - minDisp);
 
-    float currentWaveHeight =
-      (maxDisp == -999) ? 0 : (maxDisp - minDisp);
-
-    float waterTemp =
-      ds18b20.getTempCByIndex(0);
-
+    // Get Temperature
+    float waterTemp = ds18b20.getTempCByIndex(0);
     ds18b20.requestTemperatures();
 
-    // ------------------------------------------------------------------------
-    // CREATE DATA
-    // ------------------------------------------------------------------------
+    // Orientation (Pitch/Roll)
+    int16_t rx, ry, rz;
+    mpu_readMotion(rx, ry, rz);
+    float ax = (rx - axOffset) / 16384.0;
+    float ay = (ry - ayOffset) / 16384.0;
+    float az = (rz - azOffset) / 16384.0;
+
     BuoyData txData;
-
-    txData.pitch =
-      atan2f(0, accelZPrev) * (180.0f / PI);
-
-    txData.roll = 0;
-
+    txData.pitch = atan2(ay, az) * 180.0 / PI;
+    txData.roll  = atan2(-ax, sqrt(ay * ay + az * az)) * 180.0 / PI;
     txData.waveHeight = currentWaveHeight;
-
-    txData.waterTemp =
-      (waterTemp < -50) ? -99.0 : waterTemp;
-
+    txData.waterTemp = (waterTemp < -50) ? -99.0 : waterTemp;
     txData.windSpeed = windSpeed;
+    txData.packetID = packetCounter++;
 
-    txData.packetID =
-      packetCounter++;
-
-    // ------------------------------------------------------------------------
-    // SEND
-    // ------------------------------------------------------------------------
+    // LoRa Transmit
     LoRa.beginPacket();
-
     LoRa.write((uint8_t*)&txData, sizeof(txData));
-
     LoRa.endPacket();
 
-    // ------------------------------------------------------------------------
-    // DEBUG
-    // ------------------------------------------------------------------------
-    Serial.println();
-    Serial.println("========== SENT ==========");
+    // Serial Debug
+    Serial.printf("ID: %d | Pitch: %.1f | Roll: %.1f | Wave: %.2f m | Temp: %.1f C | Wind: %.1f m/s\n", 
+                  txData.packetID, txData.pitch, txData.roll, txData.waveHeight, txData.waterTemp, txData.windSpeed);
 
-    Serial.printf("Packet ID  : %d\n", txData.packetID);
-    Serial.printf("Pitch      : %.2f\n", txData.pitch);
-    Serial.printf("Roll       : %.2f\n", txData.roll);
-    Serial.printf("Wave       : %.2f m\n", txData.waveHeight);
-    Serial.printf("Temp       : %.2f C\n", txData.waterTemp);
-    Serial.printf("Wind       : %.2f m/s\n", txData.windSpeed);
-
-    Serial.println("==========================");
-
-    // ------------------------------------------------------------------------
-    // RESET WAVE WINDOW
-    // ------------------------------------------------------------------------
+    // RESET Integration to prevent long-term drift
     velocity = 0;
     displacement = 0;
-
     maxDisp = -999;
     minDisp = 999;
   }

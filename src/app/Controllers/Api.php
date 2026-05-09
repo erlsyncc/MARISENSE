@@ -3,11 +3,12 @@
 namespace App\Controllers;
 
 use App\Models\BuoyDataModel;
+use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\Database\RawSql;
-use CodeIgniter\API\ResponseTrait;
+use CodeIgniter\RESTful\ResourceController;
 
-class Api extends BaseController
+class Api extends ResourceController
 {
     use ResponseTrait;
 
@@ -27,7 +28,9 @@ class Api extends BaseController
     public function buoyData()
     {
         if ($this->request->getMethod() !== 'post') {
-            return $this->failMethodNotAllowed('POST method required');
+            return $this->response
+                ->setStatusCode(405)
+                ->setJSON(['ok' => false, 'error' => 'POST method required']);
         }
 
         $payload = $this->request->getJSON(true);
@@ -49,13 +52,14 @@ class Api extends BaseController
         }
 
         try {
-            $insertId = $this->buoyModel->insert($data);
+            // Replace the $this->buoyModel->insert($data) line with this:
+            $db = \Config\Database::connect();
+            $builder = $db->table('buoy_data');
+            
+            $result = $builder->insert($data);
+            $insertId = $db->insertID();
         } catch (DatabaseException $e) {
             log_message('error', 'Failed to store buoy data: {message}', ['message' => $e->getMessage()]);
-            return $this->dbError();
-        }
-
-        if ($insertId === false) {
             return $this->dbError();
         }
 
@@ -112,28 +116,30 @@ class Api extends BaseController
         $waterTempSamples = $waterTempAvg === null ? 0 : $sampleCount;
 
         return [
-            'sample_count' => $sampleCount,
-            'expected_samples' => $sampleCount,
-            'packet_loss_pct' => 0.0,
-            'first_packet_id' => 0,
-            'last_packet_id' => 0,
-            'hall_detections' => 0,
-            'avg_rssi' => 0.0,
-            'window_duration_ms' => self::DEFAULT_WINDOW_DURATION_MS,
-            'pitch_avg' => $pitchAvg,
-            'pitch_min' => $pitchAvg,
-            'pitch_max' => $pitchAvg,
-            'roll_avg' => 0.0,
-            'roll_min' => 0.0,
-            'roll_max' => 0.0,
-            'water_temp_avg' => $waterTempAvg,
-            'water_temp_min' => $waterTempAvg,
-            'water_temp_max' => $waterTempAvg,
+            'sample_count'             => $sampleCount,
+            'expected_samples'         => $sampleCount,
+            'packet_loss_pct'          => 0.0,
+            'first_packet_id'          => 0,
+            'last_packet_id'           => 0,
+            'hall_detections'          => 0,
+            'avg_rssi'                 => 0.0,
+            'window_duration_ms'       => self::DEFAULT_WINDOW_DURATION_MS,
+            'pitch_avg'                => $pitchAvg,
+            'pitch_min'                => $pitchAvg,
+            'pitch_max'                => $pitchAvg,
+            'roll_avg'                 => 0.0,
+            'roll_min'                 => 0.0,
+            'roll_max'                 => 0.0,
+            'water_temp_avg'           => $waterTempAvg,
+            'water_temp_min'           => $waterTempAvg,
+            'water_temp_max'           => $waterTempAvg,
             'water_temp_valid_samples' => $waterTempSamples,
-            'avg_wave_height' => $avgWaveHeight,
-            'avg_wind_speed' => $avgWindSpeed,
-            'max_wind_speed' => $maxWindSpeed,
-            'recorded_at' => new RawSql('NOW()'),
+            'avg_wave_height'          => $avgWaveHeight,
+            'avg_wind_speed'           => $avgWindSpeed,
+            'max_wind_speed'           => $maxWindSpeed,
+            'recorded_at'              => date('Y-m-d H:i:s'),
+            // Note: recorded_at and created_at have defaults in your DB, 
+            // so you can actually omit them here if you want the DB to handle it.
         ];
     }
 
@@ -148,14 +154,22 @@ class Api extends BaseController
 
     private function filterPersistableColumns(array $data): array
     {
-        static $fieldMap = null;
-
-        if ($fieldMap === null) {
-            $dbFields = \Config\Database::connect()->getFieldNames('buoy_data');
-            $fieldMap = array_fill_keys($dbFields, true);
+        // Use the model's allowedFields directly to ensure a match
+        $allowedFields = $this->buoyModel->allowedFields;
+        
+        $filtered = [];
+        foreach ($allowedFields as $field) {
+            if (array_key_exists($field, $data)) {
+                $filtered[$field] = $data[$field];
+            }
         }
 
-        return array_intersect_key($data, $fieldMap);
+        // DEBUG: If the result is empty, something is wrong with the keys in parseBuoyPayload
+        if (empty($filtered)) {
+            log_message('error', 'Filter result is empty. Data keys: ' . implode(', ', array_keys($data)));
+        }
+
+        return $filtered;
     }
 
     private function parseFloatField(array $payload, string $field, ?string $parent = null): float
