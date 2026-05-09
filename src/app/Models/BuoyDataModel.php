@@ -38,6 +38,11 @@ class BuoyDataModel extends Model
     protected $createdField = 'created_at';
     protected $updatedField = null;
 
+    public function getPersistableFields(): array
+    {
+        return $this->allowedFields;
+    }
+
     /**
      * Get the latest buoy reading
      */
@@ -53,8 +58,9 @@ class BuoyDataModel extends Model
      */
     public function getRecentReadings($limit = 10)
     {
+        $safeLimit = max(1, (int) $limit);
         return $this->orderBy('recorded_at', 'DESC')
-                    ->limit($limit)
+                    ->limit($safeLimit)
                     ->findAll();
     }
 

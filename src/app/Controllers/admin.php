@@ -351,6 +351,12 @@ class Admin extends BaseController
         $buoyModel = new BuoyDataModel();
         $latestBuoy = $buoyModel->getLatestReading();
         $buoyHistory = $buoyModel->getRecentReadings(40);
+        if (! is_array($buoyHistory)) {
+            $buoyHistory = [];
+        }
+        if (empty($latestBuoy) && ! empty($buoyHistory)) {
+            $latestBuoy = $buoyHistory[0];
+        }
 
         return view('admin/sea_conditions', [
             'latestBuoy'  => $latestBuoy,

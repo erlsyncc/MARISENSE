@@ -52,11 +52,9 @@ class Api extends ResourceController
         }
 
         try {
-            // Replace the $this->buoyModel->insert($data) line with this:
             $db = \Config\Database::connect();
             $builder = $db->table('buoy_data');
-            
-            $result = $builder->insert($data);
+            $builder->insert($data);
             $insertId = $db->insertID();
         } catch (DatabaseException $e) {
             log_message('error', 'Failed to store buoy data: {message}', ['message' => $e->getMessage()]);
@@ -154,17 +152,16 @@ class Api extends ResourceController
 
     private function filterPersistableColumns(array $data): array
     {
-        // Use the model's allowedFields directly to ensure a match
-        $allowedFields = $this->buoyModel->allowedFields;
-        
+        $allowedFields = $this->buoyModel->getPersistableFields();
+        $tableColumns = array_flip(\Config\Database::connect()->getFieldNames('buoy_data'));
+
         $filtered = [];
         foreach ($allowedFields as $field) {
-            if (array_key_exists($field, $data)) {
+            if (isset($tableColumns[$field]) && array_key_exists($field, $data)) {
                 $filtered[$field] = $data[$field];
             }
         }
 
-        // DEBUG: If the result is empty, something is wrong with the keys in parseBuoyPayload
         if (empty($filtered)) {
             log_message('error', 'Filter result is empty. Data keys: ' . implode(', ', array_keys($data)));
         }

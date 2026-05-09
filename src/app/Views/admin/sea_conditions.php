@@ -29,6 +29,9 @@
         .help-btn:hover { background: rgba(72,202,228,0.15); color: white; }
 
         .main-content { margin-left: var(--sidebar-width); padding: 32px 36px; min-height: 100vh; }
+        .sidebar-toggle { display: none; position: fixed; top: 14px; left: 14px; width: 42px; height: 42px; border-radius: 10px; border: 1px solid rgba(72,202,228,0.35); background: rgba(5,44,57,0.92); color: var(--accent-cyan); z-index: 1101; align-items: center; justify-content: center; font-size: 1rem; cursor: pointer; }
+        .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(5,44,57,0.55); z-index: 1099; }
+        .sidebar-backdrop.open { display: block; }
         .page-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 26px; }
         .page-title { font-size: 1.6rem; font-weight: 700; color: white; margin: 0; }
         .page-subtitle { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin: 2px 0 0; }
@@ -92,11 +95,23 @@
         .help-tip strong { color: var(--accent-cyan); }
         @keyframes wave-motion { 0% { transform: translateY(0); } 50% { transform: translateY(-3px); } 100% { transform: translateY(0); } }
         .brand-icon i { animation: wave-motion 3s ease-in-out infinite; display: inline-block; }
+
+        @media (max-width: 991.98px) {
+            .sidebar { transform: translateX(-100%); transition: transform 0.22s ease; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; padding: 78px 16px 20px; }
+            .sidebar-toggle { display: inline-flex; }
+        }
     </style>
 </head>
 <body>
 
-<aside class="sidebar">
+<button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+    <i class="fa-solid fa-bars"></i>
+</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<aside class="sidebar" id="adminSidebar">
     <div class="sidebar-brand">
         <div class="brand-icon"><i class="fa-solid fa-water"></i></div>
         <div class="brand-title">Waves Admin</div>
@@ -139,8 +154,12 @@
     <?php endif; ?>
 
     <?php
-        $latest = $latestBuoy ?? ($buoyData ?? []);
-        $historyDesc = $buoyHistory ?? [];
+        $latestRaw = $latestBuoy ?? ($buoyData ?? []);
+        $latest = is_array($latestRaw) ? $latestRaw : [];
+        $historyDesc = is_array($buoyHistory ?? null) ? $buoyHistory : [];
+        if (empty($latest) && ! empty($historyDesc) && is_array($historyDesc[0])) {
+            $latest = $historyDesc[0];
+        }
         $historyAsc = array_reverse($historyDesc);
         $hasBuoyData = ! empty($latest);
 
@@ -298,6 +317,41 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+const adminSidebar = document.getElementById('adminSidebar');
+const sidebarToggleBtn = document.getElementById('sidebarToggle');
+const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+function setSidebarOpen(nextOpen) {
+    if (!adminSidebar || !sidebarBackdrop) return;
+    adminSidebar.classList.toggle('open', nextOpen);
+    sidebarBackdrop.classList.toggle('open', nextOpen);
+}
+
+if (sidebarToggleBtn) {
+    sidebarToggleBtn.addEventListener('click', () => {
+        const isOpen = adminSidebar.classList.contains('open');
+        setSidebarOpen(!isOpen);
+    });
+}
+
+if (sidebarBackdrop) {
+    sidebarBackdrop.addEventListener('click', () => setSidebarOpen(false));
+}
+
+document.querySelectorAll('#adminSidebar .nav-item').forEach((item) => {
+    item.addEventListener('click', () => {
+        if (window.innerWidth <= 991) {
+            setSidebarOpen(false);
+        }
+    });
+});
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 991) {
+        setSidebarOpen(false);
+    }
+});
+
 const trendLabels = <?= json_encode($trendLabels ?? []) ?>;
 const trendSeries = <?= json_encode($trendSeries ?? []) ?>;
 const metricMeta = <?= json_encode($metricConfig ?? []) ?>;

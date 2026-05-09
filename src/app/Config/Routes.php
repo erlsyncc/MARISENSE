@@ -62,6 +62,7 @@ $routes->group('', ['filter' => 'session'], function($routes) {
         // Bookings Management
         $routes->get('bookings',       'Admin::bookings');
         $routes->post('bookings/update-status', 'Admin::updateBookingStatus');
+        $routes->post('bookings/update-payment', 'Admin::updatePayment');
 
         // User Management
         $routes->get('users',           'Admin::users');
