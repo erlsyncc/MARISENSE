@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Libraries\BookingSafetyMonitor;
 use App\Models\BookingModel;
 use App\Models\BuoyDataModel;
 
@@ -94,6 +95,8 @@ class User extends BaseController
     {
         $bookingModel = new BookingModel();
         BookingModel::loadFromDB();
+        $safetyMonitor = new BookingSafetyMonitor();
+        $bookingBlocked = $safetyMonitor->isBookingBlocked();
 
         $pricing   = BookingModel::getPricing();
         $maxRiders = BookingModel::getMaxRiders();
@@ -118,6 +121,8 @@ class User extends BaseController
             'durations'        => $durations,
             'activities'       => $activities,
             'bookedDates'      => $activity ? $bookingModel->getBookedDates($activity) : [],
+            'bookingBlocked'   => $bookingBlocked,
+            'bookingBlockedMessage' => $safetyMonitor->getBookingBlockedMessage(),
         ]);
     }
 
@@ -127,6 +132,13 @@ class User extends BaseController
 
     public function storeBooking()
     {
+        $safetyMonitor = new BookingSafetyMonitor();
+        if ($safetyMonitor->isBookingBlocked()) {
+            return redirect()->to(base_url('user/booking'))
+                             ->withInput()
+                             ->with('error', $safetyMonitor->getBookingBlockedMessage());
+        }
+
         $bookingModel = new BookingModel();
         BookingModel::loadFromDB();
 

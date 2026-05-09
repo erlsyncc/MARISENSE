@@ -281,6 +281,8 @@ $phpNowMinutes = (int)$phtNow->format('H') * 60 + (int)$phtNow->format('i'); // 
     const ACTIVITY_MAX          = <?= json_encode($maxRiders) ?>;
     const ACTIVITY_DURATION     = <?= json_encode($durations) ?>;
     const PER_PERSON_ACTIVITIES = <?= json_encode($perPersonActivities) ?>;
+    const BOOKING_BLOCKED       = <?= ! empty($bookingBlocked) ? 'true' : 'false' ?>;
+    const BOOKING_BLOCKED_MSG   = <?= json_encode($bookingBlockedMessage ?? '') ?>;
 
     // ── Philippine Time anchors (from server — no browser timezone guessing) ──
     const PHT_TODAY_STR   = "<?= $phpNowDate ?>";          // "YYYY-MM-DD" in PHT
@@ -314,6 +316,11 @@ $phpNowMinutes = (int)$phtNow->format('H') * 60 + (int)$phtNow->format('i'); // 
     <?php endif; ?>
     <?php if (session()->getFlashdata('errors')): ?>
     <div class="alert-wave alert-wave-danger"><?php foreach(session()->getFlashdata('errors') as $e): ?><div><i class="fa-solid fa-circle-exclamation me-2"></i><?= esc($e) ?></div><?php endforeach; ?></div>
+    <?php endif; ?>
+    <?php if (! empty($bookingBlocked)): ?>
+    <div class="alert-wave alert-wave-danger">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i><?= esc($bookingBlockedMessage ?? 'Booking is temporarily unavailable due to unsafe maritime conditions.') ?>
+    </div>
     <?php endif; ?>
 
     <!-- STEP 1: Activity -->
@@ -1089,6 +1096,12 @@ function checkConfirmReady() {
     var btn  = document.getElementById('confirm-btn');
     var hint = document.getElementById('confirm-hint');
 
+    if (BOOKING_BLOCKED) {
+        btn.disabled = true;
+        hint.textContent = BOOKING_BLOCKED_MSG || 'New bookings are temporarily paused due to unsafe maritime conditions.';
+        return;
+    }
+
     if (selectedActivities.length === 0) {
         btn.disabled = true; hint.textContent = 'Please select at least one activity.'; return;
     }
@@ -1115,6 +1128,12 @@ function checkConfirmReady() {
 // FORM SUBMIT GUARD
 // ============================================================
 document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    if (BOOKING_BLOCKED) {
+        e.preventDefault();
+        alert(BOOKING_BLOCKED_MSG || 'New bookings are temporarily paused due to unsafe maritime conditions.');
+        return;
+    }
+
     var contact = document.getElementById('f_contact').value.trim();
     if (!contact) { e.preventDefault(); alert('Please provide your contact number.'); return; }
     if (selectedActivities.length === 0 || !selectedDate) {

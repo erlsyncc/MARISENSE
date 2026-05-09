@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Libraries\BookingSafetyMonitor;
 use App\Models\BuoyDataModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Database\Exceptions\DatabaseException;
@@ -60,6 +61,9 @@ class Api extends ResourceController
             log_message('error', 'Failed to store buoy data: {message}', ['message' => $e->getMessage()]);
             return $this->dbError();
         }
+
+        $safetyMonitor = new BookingSafetyMonitor();
+        $safetyMonitor->processLatestReading();
 
         return $this->respondCreated([
             'ok' => true,

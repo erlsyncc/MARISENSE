@@ -164,6 +164,7 @@ class Admin extends BaseController
 
         $id     = (int) $this->request->getPost('id');
         $status = $this->request->getPost('status');
+        $cancelReason = trim((string) ($this->request->getPost('cancel_reason') ?? ''));
 
         $allowed = ['confirmed', 'completed', 'cancelled'];
         if (! $id || ! in_array($status, $allowed)) {
@@ -171,7 +172,18 @@ class Admin extends BaseController
         }
 
         $db = \Config\Database::connect();
-        $db->table('bookings')->where('id', $id)->update(['status' => $status]);
+        $updateData = [
+            'status'     => $status,
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+
+        if ($status === 'cancelled') {
+            $updateData['cancel_reason'] = $cancelReason !== '' ? $cancelReason : 'Cancelled by admin';
+        } else {
+            $updateData['cancel_reason'] = null;
+        }
+
+        $db->table('bookings')->where('id', $id)->update($updateData);
 
         return redirect()->to(base_url('admin/bookings'))
                          ->with('success', 'Booking status updated to ' . ucfirst($status) . '.');
@@ -530,7 +542,7 @@ class Admin extends BaseController
 
         $totalRevenue = array_sum(array_column($sales, 'total_amount'));
 
-        return view('admin/sales', [
+        return view( 'admin/sales', [
             'sales'        => $sales,
             'totalRevenue' => $totalRevenue,
         ]);

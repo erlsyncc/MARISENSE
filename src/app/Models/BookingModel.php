@@ -30,6 +30,7 @@ class BookingModel extends Model
         'down_payment_status',
         'down_payment_paid_at',
         'status',
+        'cancel_reason',
         'payment_status',
     ];
 

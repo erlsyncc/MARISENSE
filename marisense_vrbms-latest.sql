@@ -1032,6 +1032,47 @@ ALTER TABLE `auth_permissions_users`
 --
 ALTER TABLE `auth_remember_tokens`
   ADD CONSTRAINT `auth_remember_tokens_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Booking safety automation structures
+--
+ALTER TABLE `bookings`
+  ADD COLUMN IF NOT EXISTS `cancel_reason` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL AFTER `status`;
+
+CREATE TABLE IF NOT EXISTS `sea_safety_state` (
+  `id` tinyint UNSIGNED NOT NULL,
+  `status` enum('safe','unsafe') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'safe',
+  `booking_blocked` tinyint UNSIGNED NOT NULL DEFAULT '0',
+  `last_unsafe_confirmed_at` datetime DEFAULT NULL,
+  `last_safe_confirmed_at` datetime DEFAULT NULL,
+  `last_wave_height` decimal(6,2) DEFAULT NULL,
+  `last_wind_speed` decimal(6,2) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `sea_safety_state` (`id`, `status`, `booking_blocked`, `last_unsafe_confirmed_at`, `last_safe_confirmed_at`, `last_wave_height`, `last_wind_speed`, `created_at`, `updated_at`)
+VALUES (1, 'safe', 0, NULL, NULL, NULL, NULL, NOW(), NOW())
+ON DUPLICATE KEY UPDATE `id` = `id`;
+
+CREATE TABLE IF NOT EXISTS `sea_safety_events` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `event_type` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `message` text COLLATE utf8mb4_general_ci,
+  `wave_height` decimal(6,2) DEFAULT NULL,
+  `wind_speed` decimal(6,2) DEFAULT NULL,
+  `threshold_wave_height` decimal(6,2) NOT NULL DEFAULT '1.20',
+  `threshold_wind_speed` decimal(6,2) NOT NULL DEFAULT '20.00',
+  `consecutive_packets` int UNSIGNED NOT NULL DEFAULT '0',
+  `duration_seconds` int UNSIGNED NOT NULL DEFAULT '0',
+  `affected_bookings` int UNSIGNED NOT NULL DEFAULT '0',
+  `details` longtext COLLATE utf8mb4_general_ci,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_event_type_created_at` (`event_type`,`created_at`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
