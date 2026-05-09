@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; --sidebar-width: 260px; }
+        :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --sidebar-width: 260px; }
         * { box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 60%, var(--deep-blue) 100%);}
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 60%, var(--deep-blue) 100%); margin: 0; }
         .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100vh; background: rgba(5,44,57,0.95); backdrop-filter: blur(20px); border-right: 1px solid rgba(255,255,255,0.1); z-index: 1000; display: flex; flex-direction: column; overflow-y: auto; }
         .sidebar-brand { padding: 28px 24px 22px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .sidebar-brand .brand-icon { font-size: 2rem; color: var(--accent-cyan); margin-bottom: 6px; }
@@ -25,65 +25,56 @@
         .sidebar-footer { margin-top: auto; padding: 16px 12px; border-top: 1px solid rgba(255,255,255,0.08); }
         .logout-btn { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-radius: 12px; color: #ff6b6b; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,107,107,0.25); transition: 0.25s; }
         .logout-btn:hover { background: #ff6b6b; color: white; text-decoration: none; }
+        .help-btn { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-radius: 12px; color: var(--accent-cyan); text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(72,202,228,0.25); transition: 0.25s; cursor: pointer; background: none; width: 100%; margin-top: 8px; }
+        .help-btn:hover { background: rgba(72,202,228,0.15); color: white; }
 
         .main-content { margin-left: var(--sidebar-width); padding: 32px 36px; min-height: 100vh; }
-        .page-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+        .page-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 26px; }
         .page-title { font-size: 1.6rem; font-weight: 700; color: white; margin: 0; }
         .page-subtitle { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin: 2px 0 0; }
         .admin-pill { background: rgba(72,202,228,0.12); border: 1px solid rgba(72,202,228,0.3); color: var(--accent-cyan); border-radius: 50px; padding: 6px 18px; font-size: 0.78rem; font-weight: 600; letter-spacing: 1px; }
 
-        .sea-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 28px; }
-        .sea-card { background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 26px 22px; text-align: center; transition: 0.3s; }
-        .sea-card:hover { transform: translateY(-4px); border-color: rgba(72,202,228,0.3); }
-        .sea-card .card-icon { font-size: 2rem; color: var(--accent-cyan); margin-bottom: 12px; }
-        .sea-card .card-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
-        .sea-card .card-value { font-size: 2.2rem; font-weight: 700; color: white; line-height: 1; }
-        .sea-card .card-unit { font-size: 0.8rem; color: var(--accent-cyan); margin-top: 4px; }
+        .status-box { border-radius: 20px; padding: 24px; margin-bottom: 22px; border: 2px solid transparent; background: rgba(255,255,255,0.06); color: white; }
+        .status-safe { border-color: rgba(40,167,69,0.45); }
+        .status-moderate { border-color: rgba(255,193,7,0.45); }
+        .status-unsafe { border-color: rgba(220,53,69,0.45); }
+        .status-top { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .status-badge { font-weight: 700; border-radius: 999px; padding: 8px 14px; font-size: 0.84rem; }
+        .badge-safe { background: rgba(40,167,69,0.2); color: #5ddb8a; }
+        .badge-moderate { background: rgba(255,193,7,0.2); color: #ffd24d; }
+        .badge-unsafe { background: rgba(220,53,69,0.2); color: #ff9fa9; }
+        .status-desc { margin-top: 10px; font-size: 0.84rem; color: rgba(255,255,255,0.75); }
+        .status-time { font-size: 0.78rem; color: rgba(255,255,255,0.55); }
 
-        .panels-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
-        .panel { background: rgba(255,255,255,0.07); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 28px; }
-        .panel-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.6); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 22px; }
+        .metric-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; padding: 18px; transition: 0.2s; color: white; }
+        .metric-card:hover { transform: translateY(-3px); border-color: rgba(72,202,228,0.35); }
+        .metric-icon { color: var(--accent-cyan); margin-bottom: 8px; font-size: 1rem; }
+        .metric-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.3px; color: rgba(255,255,255,0.58); margin-bottom: 5px; }
+        .metric-value { font-size: 1.18rem; font-weight: 700; line-height: 1.2; }
+        .metric-unit { font-size: 0.72rem; color: rgba(72,202,228,0.9); margin-top: 2px; min-height: 14px; }
+
+        .panel { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; padding: 24px; margin-bottom: 22px; }
+        .panel-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.65); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
         .panel-title i { color: var(--accent-cyan); }
-        .chart-panel { margin-bottom: 24px; }
-        .chart-meta { font-size: 0.76rem; color: rgba(255,255,255,0.45); margin-top: -8px; margin-bottom: 14px; }
+        .panel-sub { font-size: 0.78rem; color: rgba(255,255,255,0.48); margin-bottom: 16px; }
 
-        .status-box { border-radius: 20px; padding: 28px; text-align: center; margin-bottom: 24px; }
-        .status-safe     { background: rgba(40,167,69,0.12); border: 2px solid rgba(40,167,69,0.35); }
-        .status-moderate { background: rgba(255,193,7,0.12); border: 2px solid rgba(255,193,7,0.35); }
-        .status-unsafe   { background: rgba(220,53,69,0.12); border: 2px solid rgba(220,53,69,0.35); }
-        .status-icon { font-size: 3rem; margin-bottom: 10px; }
-        .status-label { font-size: 1.4rem; font-weight: 700; }
-        .status-desc { font-size: 0.85rem; opacity: 0.7; margin-top: 6px; color: white; }
+        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+        .chart-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 14px; min-height: 210px; }
+        .chart-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.75); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .chart-title i { color: var(--accent-cyan); }
+        .chart-wrap { height: 155px; }
+        .chart-empty { font-size: 0.76rem; color: rgba(255,255,255,0.5); margin-top: 8px; }
 
-        /* Update form */
-        .form-panel { background: rgba(255,255,255,0.07); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; padding: 30px; margin-bottom: 24px; }
-        .field-label { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-cyan); margin-bottom: 8px; }
-        .form-control-wave { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: white; padding: 12px 16px; font-size: 0.9rem; font-family: 'Poppins', sans-serif; transition: border-color 0.3s; outline: none; }
-        .form-control-wave:focus { border-color: rgba(72,202,228,0.6); background: rgba(255,255,255,0.1); }
-        .form-control-wave::placeholder { color: rgba(255,255,255,0.3); }
-        .form-select-wave { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: white; padding: 12px 16px; font-size: 0.9rem; font-family: 'Poppins', sans-serif; outline: none; -webkit-appearance: none; }
-        .form-select-wave option { background: #073d52; color: white; }
-        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-        .btn-update { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 700; border: none; border-radius: 14px; padding: 14px 36px; font-size: 0.95rem; cursor: pointer; transition: 0.3s; }
-        .btn-update:hover { background: white; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(72,202,228,0.3); }
+        .table-wrap { overflow-x: auto; }
+        .history-table { width: 100%; border-collapse: separate; border-spacing: 0 6px; color: white; min-width: 1600px; }
+        .history-table th { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 1.3px; color: rgba(255,255,255,0.5); padding: 7px 11px; font-weight: 600; border: none; white-space: nowrap; }
+        .history-table td { font-size: 0.76rem; padding: 9px 11px; border: none; white-space: nowrap; background: rgba(255,255,255,0.04); }
+        .history-table tr:hover td { background: rgba(255,255,255,0.08); }
+        .history-table td:first-child { border-radius: 8px 0 0 8px; }
+        .history-table td:last-child { border-radius: 0 8px 8px 0; }
+        .text-soft { color: rgba(255,255,255,0.55); }
 
-        /* History table */
-        .history-table { width: 100%; color: white; border-collapse: separate; border-spacing: 0 6px; }
-        .history-table thead th { border: none; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 1.5px; opacity: 0.5; padding: 6px 14px; font-weight: 600; }
-        .history-table tbody tr { background: rgba(255,255,255,0.04); }
-        .history-table tbody tr:hover { background: rgba(255,255,255,0.08); }
-        .history-table td { padding: 10px 14px; vertical-align: middle; font-size: 0.82rem; border: none; }
-        .history-table td:first-child { border-radius: 10px 0 0 10px; }
-        .history-table td:last-child { border-radius: 0 10px 10px 0; }
-        .dot-safe { color: #5ddb8a; }
-        .dot-moderate { color: #ffc107; }
-        .dot-unsafe { color: #ff6b6b; }
-        @keyframes wave-motion {0% { transform: translateY(0); }50% { transform: translateY(-3px); }100% { transform: translateY(0); }}
-        .brand-icon i { animation: wave-motion 3s ease-in-out infinite;display: inline-block;}
-        /* Help Button & Modal */
-        .help-btn { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-radius: 12px; color: var(--accent-cyan); text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(72,202,228,0.25); transition: 0.25s; cursor: pointer; background: none; width: 100%; margin-top: 8px; }
-        .help-btn:hover { background: rgba(72,202,228,0.15); color: white; }
         .help-overlay { display: none; position: fixed; inset: 0; background: rgba(5,44,57,0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; }
         .help-overlay.open { display: flex; }
         .help-modal { background: linear-gradient(145deg, #0a3d52, #052c39); border: 1px solid rgba(72,202,228,0.25); border-radius: 28px; padding: 36px; max-width: 560px; width: 90%; max-height: 85vh; overflow-y: auto; position: relative; }
@@ -99,14 +90,15 @@
         .help-item-desc { font-size: 0.76rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
         .help-tip { background: rgba(72,202,228,0.07); border: 1px solid rgba(72,202,228,0.2); border-radius: 12px; padding: 12px 16px; font-size: 0.78rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
         .help-tip strong { color: var(--accent-cyan); }
+        @keyframes wave-motion { 0% { transform: translateY(0); } 50% { transform: translateY(-3px); } 100% { transform: translateY(0); } }
+        .brand-icon i { animation: wave-motion 3s ease-in-out infinite; display: inline-block; }
     </style>
 </head>
 <body>
 
 <aside class="sidebar">
     <div class="sidebar-brand">
-        <div class="brand-icon">
-            <i class="fa-solid fa-water"></i> </div>
+        <div class="brand-icon"><i class="fa-solid fa-water"></i></div>
         <div class="brand-title">Waves Admin</div>
         <div class="brand-sub">Control Panel</div>
     </div>
@@ -121,21 +113,20 @@
     <a href="<?= base_url('admin/activities') ?>" class="nav-item"><i class="fa-solid fa-person-swimming"></i> Activities</a>
     <a href="<?= base_url('admin/sales') ?>" class="nav-item"><i class="fa-solid fa-peso-sign"></i> Sales</a>
     <div class="sidebar-footer">
-    <button class="help-btn" onclick="document.getElementById('helpOverlay').classList.add('open')">
-        <i class="fa-solid fa-circle-question"></i> Help & Guide
-    </button>
-    
-    <a href="<?= base_url('logout') ?>" class="logout-btn">
-        <i class="fa-solid fa-power-off"></i> Logout
-    </a>
-</div>
+        <button class="help-btn" onclick="document.getElementById('helpOverlay').classList.add('open')">
+            <i class="fa-solid fa-circle-question"></i> Help & Guide
+        </button>
+        <a href="<?= base_url('logout') ?>" class="logout-btn">
+            <i class="fa-solid fa-power-off"></i> Logout
+        </a>
+    </div>
 </aside>
 
 <main class="main-content">
     <div class="page-topbar">
         <div>
             <h1 class="page-title">Sea Conditions</h1>
-            <p class="page-subtitle">MARISENSE live data — monitor and update sea safety status.</p>
+            <p class="page-subtitle">Live telemetry from buoy_data with full animated metric trends.</p>
         </div>
         <span class="admin-pill"><i class="fa-solid fa-satellite-dish me-2"></i>MARISENSE</span>
     </div>
@@ -148,311 +139,246 @@
     <?php endif; ?>
 
     <?php
-        $current = $latestSea ?? [];
-        $currentStatus = strtolower($current['safety_status'] ?? 'safe');
+        $latest = $latestBuoy ?? [];
+        $historyDesc = $buoyHistory ?? [];
+        $historyAsc = array_reverse($historyDesc);
+        $hasBuoyData = ! empty($latest);
 
-        $statusClass = match ($currentStatus) {
-            'moderate' => 'status-moderate',
-            'unsafe' => 'status-unsafe',
-            default => 'status-safe',
-        };
-        $statusIcon = match ($currentStatus) {
-            'moderate' => '🟡',
-            'unsafe' => '🔴',
-            default => '🟢',
-        };
-        $statusTitle = match ($currentStatus) {
-            'moderate' => 'MODERATE CONDITIONS',
-            'unsafe' => 'UNSAFE FOR ACTIVITIES',
-            default => 'SAFE FOR ACTIVITIES',
-        };
-        $statusColor = match ($currentStatus) {
-            'moderate' => '#ffc107',
-            'unsafe' => '#ff6b6b',
-            default => '#5ddb8a',
-        };
-        $statusDesc = match ($currentStatus) {
-            'moderate' => 'Conditions are fair. Activities may proceed with caution and close operator monitoring.',
-            'unsafe' => 'Conditions exceeded safety thresholds. Delay or suspend open-water activities.',
-            default => 'All conditions are within acceptable thresholds. Activities may proceed normally.',
+        $metricConfig = [
+            'pitch_avg' => ['label' => 'Pitch Avg', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-chart-line'],
+            'pitch_min' => ['label' => 'Pitch Min', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-arrow-down'],
+            'pitch_max' => ['label' => 'Pitch Max', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-arrow-up'],
+            'roll_avg' => ['label' => 'Roll Avg', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-chart-simple'],
+            'roll_min' => ['label' => 'Roll Min', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-arrow-down'],
+            'roll_max' => ['label' => 'Roll Max', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-arrow-up'],
+            'water_temp_avg' => ['label' => 'Water Temp Avg', 'unit' => '°C', 'precision' => 2, 'icon' => 'fa-solid fa-temperature-half'],
+            'water_temp_min' => ['label' => 'Water Temp Min', 'unit' => '°C', 'precision' => 2, 'icon' => 'fa-solid fa-temperature-empty'],
+            'water_temp_max' => ['label' => 'Water Temp Max', 'unit' => '°C', 'precision' => 2, 'icon' => 'fa-solid fa-temperature-full'],
+            'water_temp_valid_samples' => ['label' => 'Temp Valid Samples', 'unit' => 'count', 'precision' => 0, 'icon' => 'fa-solid fa-vial'],
+            'avg_wave_height' => ['label' => 'Avg Wave Height', 'unit' => 'm', 'precision' => 2, 'icon' => 'fa-solid fa-water'],
+            'avg_wind_speed' => ['label' => 'Avg Wind Speed', 'unit' => 'kts', 'precision' => 1, 'icon' => 'fa-solid fa-wind'],
+            'max_wind_speed' => ['label' => 'Max Wind Speed', 'unit' => 'kts', 'precision' => 1, 'icon' => 'fa-solid fa-wind'],
+            'sample_count' => ['label' => 'Sample Count', 'unit' => 'count', 'precision' => 0, 'icon' => 'fa-solid fa-list-ol'],
+            'expected_samples' => ['label' => 'Expected Samples', 'unit' => 'count', 'precision' => 0, 'icon' => 'fa-solid fa-check-double'],
+            'packet_loss_pct' => ['label' => 'Packet Loss', 'unit' => '%', 'precision' => 2, 'icon' => 'fa-solid fa-triangle-exclamation'],
+            'hall_detections' => ['label' => 'Hall Detections', 'unit' => 'count', 'precision' => 0, 'icon' => 'fa-solid fa-magnet'],
+            'avg_rssi' => ['label' => 'Average RSSI', 'unit' => 'dBm', 'precision' => 2, 'icon' => 'fa-solid fa-tower-broadcast'],
+            'window_duration_ms' => ['label' => 'Window Duration', 'unit' => 'ms', 'precision' => 0, 'icon' => 'fa-solid fa-stopwatch'],
+            'first_packet_id' => ['label' => 'First Packet ID', 'unit' => '', 'precision' => 0, 'icon' => 'fa-solid fa-inbox'],
+            'last_packet_id' => ['label' => 'Last Packet ID', 'unit' => '', 'precision' => 0, 'icon' => 'fa-solid fa-inbox'],
+        ];
+
+        $formatMetric = static function ($value, int $precision = 2): string {
+            if ($value === null || $value === '') {
+                return 'N/A';
+            }
+            return number_format((float) $value, $precision);
         };
 
-        $recordedAt = $current['recorded_at'] ?? $current['created_at'] ?? null;
-        $recordedDisplay = $recordedAt ? date('M d, Y h:i A', strtotime($recordedAt)) : 'No updates yet';
+        $status = 'safe';
+        $statusBadge = 'SAFE FOR ACTIVITIES';
+        $statusDesc = 'Wave and wind indicators are within normal operating range.';
+        $statusClass = 'status-safe';
+        $badgeClass = 'badge-safe';
+        $waveHeight = (float) ($latest['avg_wave_height'] ?? 0.0);
+        $windSpeed = (float) ($latest['avg_wind_speed'] ?? 0.0);
+        if ($waveHeight > 1.2 || $windSpeed > 20.0) {
+            $status = 'unsafe';
+            $statusBadge = 'UNSAFE CONDITIONS';
+            $statusDesc = 'Buoy thresholds exceeded (wave > 1.2m or wind > 20kts).';
+            $statusClass = 'status-unsafe';
+            $badgeClass = 'badge-unsafe';
+        } elseif ($waveHeight >= 0.7 || $windSpeed >= 12.0) {
+            $status = 'moderate';
+            $statusBadge = 'MODERATE CONDITIONS';
+            $statusDesc = 'Conditions are acceptable with caution and close monitoring.';
+            $statusClass = 'status-moderate';
+            $badgeClass = 'badge-moderate';
+        }
 
-        $historyRows = array_reverse($seaHistory ?? []);
+        $recordedAt = $latest['recorded_at'] ?? $latest['created_at'] ?? null;
+        $recordedDisplay = $recordedAt ? date('M d, Y h:i A', strtotime($recordedAt)) : 'No buoy data yet';
+
         $trendLabels = [];
-        $trendWind = [];
-        $trendWave = [];
-        foreach ($historyRows as $row) {
+        $trendSeries = [];
+        foreach ($metricConfig as $field => $meta) {
+            $trendSeries[$field] = [];
+        }
+        foreach ($historyAsc as $row) {
             $timeKey = $row['recorded_at'] ?? $row['created_at'] ?? null;
             $trendLabels[] = $timeKey ? date('M d H:i', strtotime($timeKey)) : '—';
-            $trendWind[] = isset($row['wind_speed']) ? (float) $row['wind_speed'] : 0.0;
-            $trendWave[] = isset($row['wave_height']) ? (float) $row['wave_height'] : 0.0;
+            foreach ($metricConfig as $field => $meta) {
+                $raw = $row[$field] ?? null;
+                $trendSeries[$field][] = ($raw === null || $raw === '') ? null : (float) $raw;
+            }
         }
     ?>
 
-    <!-- LIVE METRICS -->
-    <div class="sea-grid">
-        <div class="sea-card">
-            <div class="card-icon"><i class="fa-solid fa-wind"></i></div>
-            <div class="card-label">Wind Speed</div>
-            <div class="card-value"><?= number_format((float) ($current['wind_speed'] ?? 0), 1) ?></div>
-            <div class="card-unit">knots</div>
-        </div>
-        <div class="sea-card">
-            <div class="card-icon"><i class="fa-solid fa-compass"></i></div>
-            <div class="card-label">Wind Direction</div>
-            <div class="card-value" style="font-size:1.4rem;"><?= esc(substr((string) ($current['wind_direction'] ?? 'N/A'), 0, 3)) ?></div>
-            <div class="card-unit"><?= esc($current['wind_direction'] ?? 'No direction data') ?></div>
-        </div>
-        <div class="sea-card">
-            <div class="card-icon"><i class="fa-solid fa-water"></i></div>
-            <div class="card-label">Wave Height</div>
-            <div class="card-value"><?= number_format((float) ($current['wave_height'] ?? 0), 2) ?></div>
-            <div class="card-unit">meters</div>
-        </div>
-        <div class="sea-card">
-            <div class="card-icon"><i class="fa-solid fa-wave-square"></i></div>
-            <div class="card-label">Wave Period</div>
-            <div class="card-value"><?= number_format((float) ($current['wave_period'] ?? 0), 1) ?></div>
-            <div class="card-unit">seconds</div>
-        </div>
-    </div>
-
-    <!-- STATUS DISPLAY -->
-    <div class="status-box <?= $statusClass ?>">
-        <div class="status-icon"><?= $statusIcon ?></div>
-        <div class="status-label" style="color:<?= $statusColor ?>;"><?= $statusTitle ?></div>
-        <div class="status-desc"><?= esc($statusDesc) ?></div>
-        <div style="font-size:0.76rem;color:rgba(255,255,255,0.6);margin-top:10px;">
-            Last update: <?= esc($recordedDisplay) ?>
-        </div>
-    </div>
-
-    <div class="panel chart-panel">
-        <div class="panel-title"><i class="fa-solid fa-chart-line"></i> Condition Trend (Recent 20 Updates)</div>
-        <p class="chart-meta">Wind speed and wave height over time.</p>
-        <canvas id="seaTrendChart" style="height: 280px;"></canvas>
-        <?php if (empty($seaHistory)): ?>
-            <p style="text-align:center; color: rgba(255,255,255,0.7); font-size: 0.82rem; margin-top: 16px;">No trend data yet.</p>
-        <?php endif; ?>
-    </div>
-
-    <div class="panels-row">
-        <!-- UPDATE FORM -->
-        <div class="form-panel">
-            <div class="panel-title" style="margin-bottom:20px;"><i class="fa-solid fa-pen-to-square"></i> Update Sea Data</div>
-            <form method="POST" action="<?= base_url('admin/sea-conditions/update') ?>">
-                <?= csrf_field() ?>
-                <div class="form-row-3">
-                    <div>
-                        <label class="field-label">Wind Speed (knots)</label>
-                        <input type="number" step="0.1" name="wind_speed" class="form-control-wave" placeholder="e.g. 10" value="<?= esc($current['wind_speed'] ?? '') ?>" required>
-                    </div>
-                    <div>
-                        <label class="field-label">Wind Direction</label>
-                        <select name="wind_direction" class="form-select-wave">
-                            <?php
-                                $selectedDirection = $current['wind_direction'] ?? 'Northeast';
-                                $directionOptions = ['North', 'Northeast', 'East', 'Southeast', 'South', 'Southwest', 'West', 'Northwest'];
-                            ?>
-                            <?php foreach ($directionOptions as $dir): ?>
-                                <option value="<?= esc($dir) ?>" <?= $selectedDirection === $dir ? 'selected' : '' ?>><?= esc($dir) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="field-label">Temperature (°C)</label>
-                        <input type="number" step="0.1" name="temperature" class="form-control-wave" placeholder="e.g. 28" value="<?= esc($current['temperature'] ?? '') ?>">
-                    </div>
+    <?php if (! $hasBuoyData): ?>
+        <div class="alert alert-info rounded-4">No buoy data available yet.</div>
+    <?php else: ?>
+        <div class="status-box <?= esc($statusClass) ?>">
+            <div class="status-top">
+                <div class="status-badge <?= esc($badgeClass) ?>">
+                    <i class="fa-solid fa-circle me-2" style="font-size:0.5rem;vertical-align:middle;"></i><?= esc($statusBadge) ?>
                 </div>
-                <div class="form-row-2">
-                    <div>
-                        <label class="field-label">Wave Height (meters)</label>
-                        <input type="number" step="0.1" name="wave_height" class="form-control-wave" placeholder="e.g. 0.9" value="<?= esc($current['wave_height'] ?? '') ?>" required>
-                    </div>
-                    <div>
-                        <label class="field-label">Wave Period (seconds)</label>
-                        <input type="number" step="0.1" name="wave_period" class="form-control-wave" placeholder="e.g. 5" value="<?= esc($current['wave_period'] ?? '') ?>" required>
-                    </div>
-                </div>
-                <div style="margin-bottom:18px;">
-                    <label class="field-label">Safety Status</label>
-                    <select name="safety_status" class="form-select-wave">
-                        <?php $selectedStatus = $current['safety_status'] ?? 'safe'; ?>
-                        <option value="safe" <?= $selectedStatus === 'safe' ? 'selected' : '' ?>>🟢 Safe for Activities</option>
-                        <option value="moderate" <?= $selectedStatus === 'moderate' ? 'selected' : '' ?>>🟡 Moderate — Proceed with Caution</option>
-                        <option value="unsafe" <?= $selectedStatus === 'unsafe' ? 'selected' : '' ?>>🔴 Unsafe — Operations Suspended</option>
-                    </select>
-                </div>
-                <div style="margin-bottom:18px;">
-                    <label class="field-label">Admin Notes (Optional)</label>
-                    <textarea name="notes" class="form-control-wave" rows="2" placeholder="e.g. High tide expected at 3PM..."><?= esc($current['notes'] ?? '') ?></textarea>
-                </div>
-                <button type="submit" class="btn-update">
-                    <i class="fa-solid fa-satellite-dish me-2"></i> Update Sea Data
-                </button>
-            </form>
+                <div class="status-time">Last buoy packet: <?= esc($recordedDisplay) ?></div>
+            </div>
+            <div class="status-desc"><?= esc($statusDesc) ?></div>
         </div>
 
-        <!-- SAFETY THRESHOLDS -->
+        <div class="metrics-grid">
+            <?php foreach ($metricConfig as $field => $meta): ?>
+                <?php
+                    $display = $formatMetric($latest[$field] ?? null, (int) $meta['precision']);
+                    $unitText = $meta['unit'];
+                ?>
+                <div class="metric-card">
+                    <div class="metric-icon"><i class="<?= esc($meta['icon']) ?>"></i></div>
+                    <div class="metric-label"><?= esc($meta['label']) ?></div>
+                    <div class="metric-value"><?= esc($display) ?></div>
+                    <div class="metric-unit"><?= esc($unitText) ?></div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
         <div class="panel">
-            <div class="panel-title"><i class="fa-solid fa-shield-halved"></i> Safety Thresholds</div>
-            <div style="font-size:0.85rem;line-height:2.2;">
-                
-                <div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:10px;margin-bottom:10px;">
-                    <span style="color:rgba(255,255,255,0.6);"><i class="fa-solid fa-wind me-2" style="color:var(--accent-cyan);"></i>Wind Speed</span>
-                    <span style="color:white;">
-                        ≤ 15 kts = <span style="color:#5ddb8a;">Safe </span>
-                        &nbsp;|&nbsp; 
-                        &gt; 15 kts = <span style="color:#ff6b6b;">Unsafe</span>
-                    </span>
-                </div>
-
-                <div style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:10px;margin-bottom:10px;">
-                    <span style="color:rgba(255,255,255,0.6);"><i class="fa-solid fa-water me-2" style="color:var(--accent-cyan);"></i>Wave Height</span>
-                    <span style="color:white;">
-                        ≤ 1.5 m =<span style="color:#5ddb8a;"> Safe </span>
-                        &nbsp;|&nbsp; 
-                        &gt; 1.5 m = <span style="color:#ff6b6b;">Unsafe</span>
-                    </span>
-                </div>
-
-                <div style="display:flex;justify-content:space-between;padding-bottom:10px;margin-bottom:10px;">
-                    <span style="color:rgba(255,255,255,0.6);"><i class="fa-solid fa-stopwatch me-2" style="color:var(--accent-cyan);"></i>Wave Period</span>
-                    <span style="color:white;">
-                        ≥ 4 s = <span style="color:#5ddb8a;">Acceptable</span>
-                    </span>
-                </div>
-
-                <div style="background:rgba(255,193,7,0.08);border:1px dashed rgba(255,193,7,0.3);border-radius:12px;padding:14px;margin-top:14px;font-size:0.8rem;color:white;">
-                    <i class="fa-solid fa-circle-exclamation text-warning me-2"></i>
-                    Operations are automatically flagged when thresholds are exceeded. Always use your judgment for final decisions.
-                </div>
+            <div class="panel-title"><i class="fa-solid fa-chart-area"></i> Animated Buoy Metric Graphs</div>
+            <p class="panel-sub">Each buoy_data metric is plotted from the most recent packets.</p>
+            <div class="charts-grid">
+                <?php foreach ($metricConfig as $field => $meta): ?>
+                    <div class="chart-card">
+                        <div class="chart-title"><i class="<?= esc($meta['icon']) ?>"></i> <?= esc($meta['label']) ?></div>
+                        <div class="chart-wrap">
+                            <canvas id="chart_<?= esc($field) ?>"></canvas>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
-    </div>
 
-    <!-- HISTORY LOG -->
-    <div class="panel">
-        <div class="panel-title" style="margin-bottom:20px;"><i class="fa-solid fa-clock-rotate-left"></i> Recent Sea Data Log</div>
-        <?php if (!empty($seaHistory)): ?>
-            <div style="overflow-x:auto;">
-                <table class="history-table">
-                    <thead>
-                        <tr>
-                            <th>Timestamp</th>
-                            <th>Wind Speed</th>
-                            <th>Direction</th>
-                            <th>Wave Height</th>
-                            <th>Wave Period</th>
-                            <th>Status</th>
-                            <th>Updated By</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($seaHistory as $h): ?>
-                        <?php
-                            $dotClass = match($h['safety_status'] ?? 'safe') {
-                                'safe'     => 'dot-safe',
-                                'moderate' => 'dot-moderate',
-                                'unsafe'   => 'dot-unsafe',
-                                default    => 'dot-safe'
-                            };
-                            $dot = match($h['safety_status'] ?? 'safe') { 'safe'=>'🟢','moderate'=>'🟡','unsafe'=>'🔴',default=>'🟢' };
-                        ?>
-                        <tr>
-                            <td style="color:rgba(255,255,255,0.6);"><?= date('M d, Y h:i A', strtotime($h['recorded_at'] ?? $h['created_at'])) ?></td>
-                            <td><?= esc($h['wind_speed']) ?> kts</td>
-                            <td><?= esc($h['wind_direction'] ?? 'N/A') ?></td>
-                            <td><?= esc($h['wave_height']) ?> m</td>
-                            <td><?= esc($h['wave_period']) ?> s</td>
-                            <td><span class="<?= $dotClass ?>"><?= $dot ?> <?= ucfirst($h['safety_status'] ?? 'safe') ?></span></td>
-                            <td style="color:rgba(255,255,255,0.5);"><?= esc($h['admin_username'] ?? 'System') ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php else: ?>
-            <p style="text-align:center; color: white; opacity: 0.7; font-size: 0.85rem;">No sea data history yet.</p>
-        <?php endif; ?>
-    </div>
-
+        <div class="panel">
+            <div class="panel-title"><i class="fa-solid fa-table"></i> Raw Buoy Data Log (Latest 40)</div>
+            <?php if (! empty($historyDesc)): ?>
+                <div class="table-wrap">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Timestamp</th>
+                                <?php foreach ($metricConfig as $meta): ?>
+                                    <th><?= esc($meta['label']) ?></th>
+                                <?php endforeach; ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($historyDesc as $row): ?>
+                                <?php $rowTime = $row['recorded_at'] ?? $row['created_at'] ?? null; ?>
+                                <tr>
+                                    <td class="text-soft"><?= esc($row['id'] ?? '—') ?></td>
+                                    <td class="text-soft"><?= $rowTime ? esc(date('M d, Y h:i A', strtotime($rowTime))) : '—' ?></td>
+                                    <?php foreach ($metricConfig as $field => $meta): ?>
+                                        <?php
+                                            $value = $formatMetric($row[$field] ?? null, (int) $meta['precision']);
+                                            $cell = $value === 'N/A' ? 'N/A' : trim($value . ' ' . $meta['unit']);
+                                        ?>
+                                        <td><?= esc($cell) ?></td>
+                                    <?php endforeach; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <p class="text-soft mb-0">No buoy history available yet.</p>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 const trendLabels = <?= json_encode($trendLabels ?? []) ?>;
-const trendWind = <?= json_encode($trendWind ?? []) ?>;
-const trendWave = <?= json_encode($trendWave ?? []) ?>;
+const trendSeries = <?= json_encode($trendSeries ?? []) ?>;
+const metricMeta = <?= json_encode($metricConfig ?? []) ?>;
+const palette = [
+    { line: 'rgba(72,202,228,1)', fill: 'rgba(72,202,228,0.2)' },
+    { line: 'rgba(255,193,7,1)', fill: 'rgba(255,193,7,0.2)' },
+    { line: 'rgba(93,219,138,1)', fill: 'rgba(93,219,138,0.2)' },
+    { line: 'rgba(255,107,107,1)', fill: 'rgba(255,107,107,0.2)' },
+    { line: 'rgba(155,89,182,1)', fill: 'rgba(155,89,182,0.2)' },
+    { line: 'rgba(86,204,242,1)', fill: 'rgba(86,204,242,0.2)' }
+];
 
-if (trendLabels.length > 0) {
-    const ctx = document.getElementById('seaTrendChart').getContext('2d');
-    const waveGradient = ctx.createLinearGradient(0, 0, 0, 260);
-    waveGradient.addColorStop(0, 'rgba(72,202,228,0.22)');
-    waveGradient.addColorStop(1, 'rgba(72,202,228,0)');
+Object.entries(trendSeries).forEach(([field, values], index) => {
+    const canvas = document.getElementById(`chart_${field}`);
+    if (!canvas) return;
+
+    const hasData = Array.isArray(values) && values.some((v) => v !== null && !Number.isNaN(v));
+    if (!hasData || trendLabels.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'chart-empty';
+        empty.textContent = 'No trend data yet.';
+        canvas.parentElement.appendChild(empty);
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    const color = palette[index % palette.length];
+    const meta = metricMeta[field] || { label: field, unit: '', precision: 2 };
 
     new Chart(ctx, {
         type: 'line',
         data: {
             labels: trendLabels,
-            datasets: [
-                {
-                    label: 'Wind Speed (kts)',
-                    data: trendWind,
-                    borderColor: '#ffc107',
-                    backgroundColor: 'rgba(255,193,7,0.12)',
-                    borderWidth: 2,
-                    pointRadius: 2,
-                    tension: 0.35,
-                },
-                {
-                    label: 'Wave Height (m)',
-                    data: trendWave,
-                    borderColor: '#48cae4',
-                    backgroundColor: waveGradient,
-                    borderWidth: 2.4,
-                    pointRadius: 2,
-                    fill: true,
-                    tension: 0.35,
-                    yAxisID: 'y1',
-                },
-            ],
+            datasets: [{
+                label: meta.label,
+                data: values,
+                borderColor: color.line,
+                backgroundColor: color.fill,
+                borderWidth: 2,
+                fill: true,
+                tension: 0.35,
+                pointRadius: 0,
+                pointHoverRadius: 3,
+            }],
         },
         options: {
             maintainAspectRatio: false,
+            animation: {
+                duration: 1300,
+                easing: 'easeOutQuart',
+            },
             plugins: {
-                legend: {
-                    labels: {
-                        color: 'rgba(255,255,255,0.72)',
-                        font: { family: 'Poppins', size: 11 },
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label(context) {
+                            const value = context.parsed.y;
+                            if (value === null) return `${meta.label}: N/A`;
+                            const precision = Number.isInteger(meta.precision) ? meta.precision : 2;
+                            const formatted = Number(value).toFixed(precision);
+                            const unit = meta.unit ? ` ${meta.unit}` : '';
+                            return `${meta.label}: ${formatted}${unit}`;
+                        },
                     },
                 },
             },
             scales: {
                 x: {
-                    ticks: { color: 'rgba(255,255,255,0.5)', maxRotation: 0, autoSkip: true, maxTicksLimit: 8 },
+                    ticks: { color: 'rgba(255,255,255,0.48)', maxTicksLimit: 6 },
                     grid: { color: 'rgba(255,255,255,0.05)' },
                 },
                 y: {
-                    title: { display: true, text: 'kts', color: 'rgba(255,255,255,0.45)' },
-                    ticks: { color: 'rgba(255,255,255,0.5)' },
-                    grid: { color: 'rgba(255,255,255,0.05)' },
-                },
-                y1: {
-                    position: 'right',
-                    title: { display: true, text: 'm', color: 'rgba(255,255,255,0.45)' },
-                    ticks: { color: 'rgba(255,255,255,0.5)' },
-                    grid: { drawOnChartArea: false },
+                    ticks: { color: 'rgba(255,255,255,0.48)' },
+                    grid: { color: 'rgba(255,255,255,0.06)' },
                 },
             },
         },
     });
-}
+});
 </script>
-<!-- HELP MODAL -->
+
 <div class="help-overlay" id="helpOverlay" onclick="if(event.target===this) this.classList.remove('open')">
     <div class="help-modal">
         <button class="help-close" onclick="document.getElementById('helpOverlay').classList.remove('open')">
@@ -492,7 +418,7 @@ if (trendLabels.length > 0) {
                 <div class="help-item-icon"><i class="fa-solid fa-tower-broadcast"></i></div>
                 <div>
                     <div class="help-item-title">Sea Conditions</div>
-                    <div class="help-item-desc">Post live sea condition updates (wave height, wind speed, safety status) visible to customers before booking.</div>
+                    <div class="help-item-desc">Review every sensor value from buoy_data and monitor animated historical trends from live telemetry.</div>
                 </div>
             </div>
             <div class="help-item">
@@ -523,7 +449,7 @@ if (trendLabels.length > 0) {
         </div>
 
         <div class="help-tip">
-            <strong>💡 Tip:</strong> Sea conditions you post are shown to customers on the booking page — always keep them updated before opening hours to help guests make informed decisions.
+            <strong>💡 Tip:</strong> Keep this panel open during operations to watch each buoy metric trend before approving activity schedules.
         </div>
     </div>
 </div>

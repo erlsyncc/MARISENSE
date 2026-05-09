@@ -348,23 +348,13 @@ class Admin extends BaseController
     {
         if ($r = $this->requireAdmin()) return $r;
 
-        $db = \Config\Database::connect();
-
-        $latestSea  = $db->table('sea_conditions')
-            ->orderBy('recorded_at', 'DESC')
-            ->limit(1)
-            ->get()->getRowArray();
-
-        $seaHistory = $db->table('sea_conditions sc')
-            ->select('sc.*, u.username AS admin_username')
-            ->join('users u', 'u.id = sc.updated_by', 'left')
-            ->orderBy('sc.recorded_at', 'DESC')
-            ->limit(20)
-            ->get()->getResultArray();
+        $buoyModel = new BuoyDataModel();
+        $latestBuoy = $buoyModel->getLatestReading();
+        $buoyHistory = $buoyModel->getRecentReadings(40);
 
         return view('admin/sea_conditions', [
-            'latestSea'  => $latestSea,
-            'seaHistory' => $seaHistory,
+            'latestBuoy'  => $latestBuoy,
+            'buoyHistory' => $buoyHistory,
         ]);
     }
 

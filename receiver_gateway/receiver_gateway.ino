@@ -8,10 +8,10 @@
 // =============================================================================
 // WIFI
 // =============================================================================
-// const char* SSID = "iPhone";
-// const char* PASSWORD = "hotspot0123";
-const char* SSID = "HUAWEI-2.4G-V6aF";
-const char* PASSWORD = "WCKT9Q8f";
+const char* SSID = "iPhone";
+const char* PASSWORD = "hotspot0123";
+// const char* SSID = "HUAWEI-2.4G-V6aF";
+// const char* PASSWORD = "WCKT9Q8f";
 
 // =============================================================================
 // API
