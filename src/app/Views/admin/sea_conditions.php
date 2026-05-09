@@ -139,7 +139,7 @@
     <?php endif; ?>
 
     <?php
-        $latest = $latestBuoy ?? [];
+        $latest = $latestBuoy ?? ($buoyData ?? []);
         $historyDesc = $buoyHistory ?? [];
         $historyAsc = array_reverse($historyDesc);
         $hasBuoyData = ! empty($latest);

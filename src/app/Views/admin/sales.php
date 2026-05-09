@@ -838,7 +838,7 @@ initPendingPreview();
             <div class="help-section-title">⚙️ Operations</div>
             <div class="help-item">
                 <div class="help-item-icon"><i class="fa-solid fa-tower-broadcast"></i></div>
-                <div><div class="help-item-title">Sea Conditions</div><div class="help-item-desc">Post live sea condition updates visible to customers before booking.</div></div>
+                <div><div class="help-item-title">Sea Conditions</div><div class="help-item-desc">View live buoy_data telemetry and trend charts used for customer-facing sea condition status.</div></div>
             </div>
             <div class="help-item">
                 <div class="help-item-icon"><i class="fa-solid fa-star"></i></div>

@@ -354,6 +354,7 @@ class Admin extends BaseController
 
         return view('admin/sea_conditions', [
             'latestBuoy'  => $latestBuoy,
+            'buoyData'    => $latestBuoy,
             'buoyHistory' => $buoyHistory,
         ]);
     }
@@ -361,35 +362,8 @@ class Admin extends BaseController
     public function updateSeaConditions()
     {
         if ($r = $this->requireAdmin()) return $r;
-
-        $rules = [
-            'wind_speed'     => 'required|numeric',
-            'wave_height'    => 'required|numeric',
-            'wave_period'    => 'required|numeric',
-            'wind_direction' => 'required|string',
-            'safety_status'  => 'required|in_list[safe,moderate,unsafe]',
-        ];
-
-        if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()
-                             ->with('error', implode(' ', $this->validator->getErrors()));
-        }
-
-        $data = [
-            'wind_speed'     => $this->request->getPost('wind_speed'),
-            'wind_direction' => $this->request->getPost('wind_direction'),
-            'wave_height'    => $this->request->getPost('wave_height'),
-            'wave_period'    => $this->request->getPost('wave_period'),
-            'temperature'    => $this->request->getPost('temperature') ?: null,
-            'safety_status'  => $this->request->getPost('safety_status'),
-            'notes'          => $this->request->getPost('notes') ?: null,
-            'updated_by'     => auth()->id(),
-            'recorded_at'    => date('Y-m-d H:i:s'),
-        ];
-
-        \Config\Database::connect()->table('sea_conditions')->insert($data);
-
-        return redirect()->to(base_url('admin/sea-conditions'))->with('success', 'Sea conditions updated successfully.');
+        return redirect()->to(base_url('admin/sea-conditions'))
+            ->with('error', 'Manual sea condition updates are disabled. Live data now comes from buoy_data only.');
     }
 
     // =========================================================

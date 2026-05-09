@@ -68,7 +68,6 @@ $routes->group('', ['filter' => 'session'], function($routes) {
 
         // MARISENSE / Sea Conditions
         $routes->get('sea-conditions', 'Admin::seaConditions');
-        $routes->post('sea-conditions/update', 'Admin::updateSeaConditions');
 
         // Reviews Moderation
         $routes->get('reviews',        'Admin::reviews');
