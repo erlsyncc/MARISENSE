@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookings | Waves Admin</title>
-    <link rel="stylesheet" href="<?= base_url('bootstrap5/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -202,6 +202,16 @@
         .center-toast-box.toast-success { background: rgba(13,50,38,0.97); border: 1px solid rgba(40,167,69,0.6); color: #5ddb8a; }
         .center-toast-box.toast-error   { background: rgba(50,13,13,0.97);  border: 1px solid rgba(220,53,69,0.6);  color: #ff8888; }
         .center-toast-box i { font-size: 1.4rem; }
+
+        /* Pagination */
+        .table-paginator { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+        .table-paginator .page-info { font-size: 0.74rem; color: rgba(255,255,255,0.5); }
+        .table-paginator .page-size { font-size: 0.74rem; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 5px 10px; outline: none; cursor: pointer; }
+        .table-paginator .page-btn { font-size: 0.74rem; color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 5px 12px; cursor: pointer; transition: 0.2s; min-width: 34px; }
+        .table-paginator .page-btn:hover:not(:disabled) { background: rgba(72,202,228,0.15); color: var(--accent-cyan); border-color: rgba(72,202,228,0.35); }
+        .table-paginator .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .table-paginator .page-btn.active { background: var(--accent-cyan); color: var(--deep-blue); border-color: var(--accent-cyan); font-weight: 700; }
+        .table-paginator .page-nav { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
     </style>
 </head>
 <body>
@@ -470,6 +480,18 @@ $flashError   = session()->getFlashdata('error');
             <?php endif; ?>
             </tbody>
         </table>
+        <div class="table-paginator" id="bookingsPaginator">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <span class="page-info" id="bookingsPageInfo"></span>
+                <select class="page-size" id="bookingsPageSize">
+                    <option value="10" selected>10 / page</option>
+                    <option value="25">25 / page</option>
+                    <option value="50">50 / page</option>
+                    <option value="100">100 / page</option>
+                </select>
+            </div>
+            <div class="page-nav" id="bookingsPageNav"></div>
+        </div>
     </div>
 </main>
 
@@ -1019,6 +1041,67 @@ document.addEventListener('keydown', e => {
         document.getElementById('helpOverlay').classList.remove('open');
     }
 });
+
+/* ══════════════ BOOKINGS TABLE PAGINATION ══════════════ */
+(function () {
+    const table = document.getElementById('bookingsTable');
+    if (!table) return;
+    const tbody = table.querySelector('tbody');
+    const allRows = Array.from(tbody.querySelectorAll('tr')).filter(r => !r.querySelector('.empty-state'));
+    if (!allRows.length) return;
+
+    const pageInfo = document.getElementById('bookingsPageInfo');
+    const pageNav = document.getElementById('bookingsPageNav');
+    const pageSizeSelect = document.getElementById('bookingsPageSize');
+    let currentPage = 1;
+    let pageSize = parseInt(pageSizeSelect?.value || '10', 10);
+
+    function renderPage() {
+        const total = allRows.length;
+        const totalPages = Math.max(1, Math.ceil(total / pageSize));
+        currentPage = Math.min(currentPage, totalPages);
+        const start = (currentPage - 1) * pageSize;
+        const end = Math.min(start + pageSize, total);
+
+        allRows.forEach((row, i) => {
+            row.style.display = (i >= start && i < end) ? '' : 'none';
+        });
+
+        if (pageInfo) pageInfo.textContent = `Showing ${start + 1}–${end} of ${total} entries`;
+
+        if (pageNav) {
+            const maxButtons = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+            let endPage = startPage + maxButtons - 1;
+            if (endPage > totalPages) { endPage = totalPages; startPage = Math.max(1, endPage - maxButtons + 1); }
+            let html = '';
+            html += `<button type="button" class="page-btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>`;
+            for (let p = startPage; p <= endPage; p++) {
+                html += `<button type="button" class="page-btn${p === currentPage ? ' active' : ''}" data-page="${p}">${p}</button>`;
+            }
+            html += `<button type="button" class="page-btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
+            pageNav.innerHTML = html;
+            pageNav.querySelectorAll('button[data-page]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const action = btn.getAttribute('data-page');
+                    if (action === 'prev') { if (currentPage > 1) currentPage--; }
+                    else if (action === 'next') { if (currentPage < totalPages) currentPage++; }
+                    else { currentPage = parseInt(action, 10); }
+                    renderPage();
+                });
+            });
+        }
+    }
+
+    if (pageSizeSelect) {
+        pageSizeSelect.addEventListener('change', () => {
+            pageSize = parseInt(pageSizeSelect.value, 10);
+            currentPage = 1;
+            renderPage();
+        });
+    }
+    renderPage();
+})();
 </script>
 
 <?php

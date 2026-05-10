@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Waves Admin</title>
-    <link rel="stylesheet" href="<?= base_url('bootstrap5/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -34,57 +34,56 @@
         .page-title { font-size: 1.6rem; font-weight: 700; color: white; margin: 0; }
         .page-subtitle { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin: 2px 0 0; }
         .admin-pill { background: rgba(72,202,228,0.12); border: 1px solid rgba(72,202,228,0.3); color: var(--accent-cyan); border-radius: 50px; padding: 6px 18px; font-size: 0.78rem; font-weight: 600; letter-spacing: 1px; }
+        /* Unified clean card style */
+        .panel { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 22px; transition: 0.25s; }
+        .panel:hover { border-color: rgba(72,202,228,0.25); }
+
         /* KPI cards */
         .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
-        .kpi-card { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.16); border-radius: 20px; padding: 22px; display: flex; align-items: center; gap: 16px; transition: 0.25s; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 12px 28px rgba(0,0,0,0.2); overflow: hidden; }
-        .kpi-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 12% 12%, rgba(72,202,228,0.18), transparent 42%); pointer-events: none; }
-        .kpi-card > * { position: relative; z-index: 1; }
-        .kpi-card:hover { background: linear-gradient(145deg, rgba(72,202,228,0.16), rgba(255,255,255,0.06)); transform: translateY(-3px); border-color: rgba(72,202,228,0.32); }
-        .kpi-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
-        .kpi-icon.cyan   { background: rgba(72,202,228,0.15); color: var(--accent-cyan); }
-        .kpi-icon.yellow { background: rgba(255,193,7,0.15); color: #ffc107; }
-        .kpi-icon.green  { background: rgba(40,167,69,0.15); color: #5ddb8a; }
-        .kpi-icon.blue   { background: rgba(13,110,253,0.15); color: #74b4ff; }
-        .kpi-value { font-size: 1.6rem; font-weight: 700; color: white; line-height: 1; }
-        .kpi-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.48); margin-top: 3px; }
+        .kpi-card { display: flex; align-items: center; gap: 14px; }
+        .kpi-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+        .kpi-icon.cyan   { background: rgba(72,202,228,0.12); color: var(--accent-cyan); }
+        .kpi-icon.yellow { background: rgba(255,193,7,0.12); color: #ffc107; }
+        .kpi-icon.green  { background: rgba(40,167,69,0.12); color: #5ddb8a; }
+        .kpi-icon.blue   { background: rgba(13,110,253,0.12); color: #74b4ff; }
+        .kpi-value { font-size: 1.5rem; font-weight: 700; color: white; line-height: 1; }
+        .kpi-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
         /* Charts row */
         .charts-row { display: grid; grid-template-columns: 1fr 1.8fr; gap: 18px; margin-bottom: 24px; }
-        .chart-card { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.1), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 24px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 12px 28px rgba(0,0,0,0.18); overflow: hidden; }
-        .chart-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 88% 14%, rgba(72,202,228,0.14), transparent 45%); pointer-events: none; }
-        .chart-card > * { position: relative; z-index: 1; }
-        .chart-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.55); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .chart-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.55); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
         .chart-title i { color: var(--accent-cyan); }
         .sales-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
         .sales-tab { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); padding: 5px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .sales-tab.active, .sales-tab:hover { background: var(--accent-cyan); color: var(--deep-blue); border-color: var(--accent-cyan); }
+
         /* Recent bookings table */
-        .recent-card { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.1), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 24px; margin-bottom: 24px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 12px 28px rgba(0,0,0,0.18); overflow: hidden; }
-        .recent-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 14% 86%, rgba(72,202,228,0.12), transparent 48%); pointer-events: none; }
-        .recent-card > * { position: relative; z-index: 1; }
-        .dashboard-buoy-panel { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(72,202,228,0.28); border-radius: 22px; padding: 14px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 16px 34px rgba(0,0,0,0.2); overflow: hidden; }
-        .dashboard-buoy-panel::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 15% 16%, rgba(72,202,228,0.2), transparent 44%); pointer-events: none; }
-        .dashboard-buoy-panel > * { position: relative; z-index: 1; }
-        .dashboard-buoy-panel .buoy-widget.card { background: transparent !important; border: 0 !important; box-shadow: none !important; margin-bottom: 0; }
-        .dashboard-buoy-panel .buoy-widget .card-header { background: rgba(72,202,228,0.16) !important; border: 1px solid rgba(72,202,228,0.32); border-radius: 16px !important; color: #dff8ff !important; }
-        .dashboard-buoy-panel .buoy-widget .card-body { color: var(--soft-white); }
-        .dashboard-buoy-panel .buoy-widget .metric-box { background: rgba(255,255,255,0.08) !important; border: 1px solid rgba(255,255,255,0.16); border-radius: 14px !important; backdrop-filter: blur(8px); }
-        .dashboard-buoy-panel .buoy-widget .metric-box h4 { color: var(--accent-cyan) !important; }
-        .dashboard-buoy-panel .buoy-widget .text-muted { color: rgba(255,255,255,0.72) !important; }
-        .dashboard-buoy-panel .buoy-widget .border-top { border-color: rgba(255,255,255,0.18) !important; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-        .section-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.55); }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.55); }
         .btn-view-all { background: rgba(72,202,228,0.1); border: 1px solid rgba(72,202,228,0.3); color: var(--accent-cyan); padding: 5px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; text-decoration: none; transition: 0.2s; }
         .btn-view-all:hover { background: var(--accent-cyan); color: var(--deep-blue); }
         .recent-table { width: 100%; color: white; border-collapse: collapse; }
-        .recent-table thead th { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); white-space: nowrap; }
-        .recent-table tbody td { padding: 12px 12px; font-size: 0.84rem; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+        .recent-table thead th { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); white-space: nowrap; }
+        .recent-table tbody td { padding: 10px 12px; font-size: 0.82rem; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
         .recent-table tbody tr:last-child td { border-bottom: none; }
         .recent-table tbody tr:hover td { background: rgba(255,255,255,0.03); }
+
         .badge-status { padding: 4px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 700; border: 1px solid transparent; }
         .status-pending   { background: rgba(255,193,7,0.1); color: #ffc107; border-color: #ffc107; }
         .status-confirmed { background: rgba(40,167,69,0.1); color: #28a745; border-color: #28a745; }
         .status-completed { background: rgba(72,202,228,0.1); color: #48cae4; border-color: #48cae4; }
         .status-cancelled { background: rgba(220,53,69,0.1); color: #dc3545; border-color: #dc3545; }
+
+        /* Buoy panel */
+        .dashboard-buoy-panel { background: rgba(255,255,255,0.06); border: 1px solid rgba(72,202,228,0.22); border-radius: 18px; padding: 14px; }
+        .dashboard-buoy-panel .buoy-widget.card { background: transparent !important; border: 0 !important; box-shadow: none !important; margin-bottom: 0; }
+        .dashboard-buoy-panel .buoy-widget .card-header { background: rgba(72,202,228,0.12) !important; border: 1px solid rgba(72,202,228,0.25); border-radius: 14px !important; color: #dff8ff !important; }
+        .dashboard-buoy-panel .buoy-widget .card-body { color: var(--soft-white); }
+        .dashboard-buoy-panel .buoy-widget .metric-box { background: rgba(255,255,255,0.06) !important; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px !important; }
+        .dashboard-buoy-panel .buoy-widget .metric-box h4 { color: var(--accent-cyan) !important; }
+        .dashboard-buoy-panel .buoy-widget .text-muted { color: rgba(255,255,255,0.65) !important; }
+        .dashboard-buoy-panel .buoy-widget .border-top { border-color: rgba(255,255,255,0.12) !important; }
+
         /* Sea condition widget */
         .sea-widget { background: rgba(72,202,228,0.06); border: 1px solid rgba(72,202,228,0.18); border-radius: 16px; padding: 18px 22px; }
         .sea-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 10px; text-align: center; }
@@ -94,7 +93,8 @@
         .safe-tag { background: rgba(40,167,69,0.12); color: #5ddb8a; border: 1px solid rgba(40,167,69,0.3); }
         .moderate-tag { background: rgba(255,193,7,0.12); color: #ffc107; border: 1px solid rgba(255,193,7,0.3); }
         .unsafe-tag { background: rgba(220,53,69,0.12); color: #ff9999; border: 1px solid rgba(220,53,69,0.3); }
-        @keyframes wave-motion {0% { transform: translateY(0); }50% { transform: translateY(-3px); }100% { transform: translateY(0); }}
+
+        @keyframes wave-motion {0% { transform: translateY(0); }50% { transform: translateY(-3px); }100% { transform: translateY(0); }}}
         .brand-icon i { animation: wave-motion 3s ease-in-out infinite;display: inline-block;}
         /* Help Button & Modal */
         .help-btn { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-radius: 12px; color: var(--accent-cyan); text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(72,202,228,0.25); transition: 0.25s; cursor: pointer; background: none; width: 100%; margin-top: 8px; }
@@ -166,28 +166,28 @@
         $totalRevenue = $db->table('bookings')->where('status !=', 'cancelled')->selectSum('total_amount','total')->get()->getRowArray()['total'] ?? 0;
     ?>
     <div class="kpi-row">
-        <div class="kpi-card">
+        <div class="panel kpi-card">
             <div class="kpi-icon cyan"><i class="fa-solid fa-calendar-check"></i></div>
             <div>
                 <div class="kpi-value"><?= $totalBookings ?? 0 ?></div>
                 <div class="kpi-label">Total Bookings</div>
             </div>
         </div>
-        <div class="kpi-card">
+        <div class="panel kpi-card">
             <div class="kpi-icon yellow"><i class="fa-solid fa-clock-rotate-left"></i></div>
             <div>
                 <div class="kpi-value" style="color:#ffc107;"><?= $pendingBookings ?? 0 ?></div>
                 <div class="kpi-label">Pending</div>
             </div>
         </div>
-        <div class="kpi-card">
+        <div class="panel kpi-card">
             <div class="kpi-icon green"><i class="fa-solid fa-users"></i></div>
             <div>
                 <div class="kpi-value" style="color:#5ddb8a;"><?= $totalUsers ?? 0 ?></div>
                 <div class="kpi-label">Registered Users</div>
             </div>
         </div>
-        <div class="kpi-card">
+        <div class="panel kpi-card">
             <div class="kpi-icon blue"><i class="fa-solid fa-peso-sign"></i></div>
             <div>
                 <div class="kpi-value" style="color:#74b4ff;font-size:1.2rem;">₱<?= number_format($totalRevenue, 0) ?></div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users | Waves Admin</title>
-    <link rel="stylesheet" href="<?= base_url('bootstrap5/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -107,6 +107,16 @@
         .help-item-desc { font-size: 0.76rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
         .help-tip { background: rgba(72,202,228,0.07); border: 1px solid rgba(72,202,228,0.2); border-radius: 12px; padding: 12px 16px; font-size: 0.78rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
         .help-tip strong { color: var(--accent-cyan); }
+
+        /* Pagination */
+        .table-paginator { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+        .table-paginator .page-info { font-size: 0.74rem; color: rgba(255,255,255,0.5); }
+        .table-paginator .page-size { font-size: 0.74rem; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 5px 10px; outline: none; cursor: pointer; }
+        .table-paginator .page-btn { font-size: 0.74rem; color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 5px 12px; cursor: pointer; transition: 0.2s; min-width: 34px; }
+        .table-paginator .page-btn:hover:not(:disabled) { background: rgba(72,202,228,0.15); color: var(--accent-cyan); border-color: rgba(72,202,228,0.35); }
+        .table-paginator .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .table-paginator .page-btn.active { background: var(--accent-cyan); color: var(--deep-blue); border-color: var(--accent-cyan); font-weight: 700; }
+        .table-paginator .page-nav { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
     </style>
 </head>
 <body>
@@ -194,6 +204,18 @@
             </div>
         <?php endif; ?>
     </div>
+    <div class="table-paginator" id="usersPaginator">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <span class="page-info" id="usersPageInfo"></span>
+            <select class="page-size" id="usersPageSize">
+                <option value="8" selected>8 / page</option>
+                <option value="16">16 / page</option>
+                <option value="32">32 / page</option>
+                <option value="64">64 / page</option>
+            </select>
+        </div>
+        <div class="page-nav" id="usersPageNav"></div>
+    </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -204,6 +226,59 @@ function searchUsers() {
         c.style.display = (!q || c.dataset.search.includes(q)) ? '' : 'none';
     });
 }
+
+/* ══════════════ USERS PAGINATION ══════════════ */
+(function () {
+    const grid = document.getElementById('usersGrid');
+    if (!grid) return;
+    const allCards = Array.from(grid.querySelectorAll('.user-card'));
+    if (!allCards.length) return;
+    const pageInfo = document.getElementById('usersPageInfo');
+    const pageNav = document.getElementById('usersPageNav');
+    const pageSizeSelect = document.getElementById('usersPageSize');
+    let currentPage = 1;
+    let pageSize = parseInt(pageSizeSelect?.value || '8', 10);
+
+    function renderPage() {
+        const total = allCards.length;
+        const totalPages = Math.max(1, Math.ceil(total / pageSize));
+        currentPage = Math.min(currentPage, totalPages);
+        const start = (currentPage - 1) * pageSize;
+        const end = Math.min(start + pageSize, total);
+        allCards.forEach((card, i) => { card.style.display = (i >= start && i < end) ? '' : 'none'; });
+        if (pageInfo) pageInfo.textContent = `Showing ${start + 1}–${end} of ${total} entries`;
+        if (pageNav) {
+            const maxButtons = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+            let endPage = startPage + maxButtons - 1;
+            if (endPage > totalPages) { endPage = totalPages; startPage = Math.max(1, endPage - maxButtons + 1); }
+            let html = '';
+            html += `<button type="button" class="page-btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>`;
+            for (let p = startPage; p <= endPage; p++) {
+                html += `<button type="button" class="page-btn${p === currentPage ? ' active' : ''}" data-page="${p}">${p}</button>`;
+            }
+            html += `<button type="button" class="page-btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
+            pageNav.innerHTML = html;
+            pageNav.querySelectorAll('button[data-page]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const action = btn.getAttribute('data-page');
+                    if (action === 'prev') { if (currentPage > 1) currentPage--; }
+                    else if (action === 'next') { if (currentPage < totalPages) currentPage++; }
+                    else { currentPage = parseInt(action, 10); }
+                    renderPage();
+                });
+            });
+        }
+    }
+    if (pageSizeSelect) {
+        pageSizeSelect.addEventListener('change', () => {
+            pageSize = parseInt(pageSizeSelect.value, 10);
+            currentPage = 1;
+            renderPage();
+        });
+    }
+    renderPage();
+})();
 </script>
 <!-- HELP MODAL -->
 <div class="help-overlay" id="helpOverlay" onclick="if(event.target===this) this.classList.remove('open')">

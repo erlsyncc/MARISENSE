@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sea Conditions | Waves Admin</title>
-    <link rel="stylesheet" href="<?= base_url('bootstrap5/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -67,6 +67,19 @@
         .chart-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.75); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
         .chart-title i { color: var(--accent-cyan); }
         .chart-wrap { height: 155px; }
+        .chart-wrap-lg { height: 320px; }
+
+        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 22px; }
+        .dash-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 18px; color: white; display: flex; flex-direction: column; justify-content: space-between; }
+        .dash-card-header { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.3px; color: rgba(255,255,255,0.55); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .dash-card-header i { color: var(--accent-cyan); }
+        .dash-stat-row { display: flex; gap: 14px; }
+        .dash-stat { flex: 1; }
+        .dash-stat-label { font-size: 0.62rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+        .dash-stat-value { font-size: 1.05rem; font-weight: 700; }
+        .dash-stat-value.min { color: #5ddb8a; }
+        .dash-stat-value.max { color: #ff9fa9; }
+        .dash-stat-value.avg { color: #ffd24d; }
         .chart-empty { font-size: 0.76rem; color: rgba(255,255,255,0.5); margin-top: 8px; }
 
         .table-wrap { overflow-x: auto; }
@@ -77,6 +90,24 @@
         .history-table td:first-child { border-radius: 8px 0 0 8px; }
         .history-table td:last-child { border-radius: 0 8px 8px 0; }
         .text-soft { color: rgba(255,255,255,0.55); }
+
+        .table-paginator { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+        .table-paginator .page-info { font-size: 0.74rem; color: rgba(255,255,255,0.5); }
+        .table-paginator .page-size { font-size: 0.74rem; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 5px 10px; outline: none; cursor: pointer; }
+        .table-paginator .page-btn { font-size: 0.74rem; color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 5px 12px; cursor: pointer; transition: 0.2s; min-width: 34px; }
+        .table-paginator .page-btn:hover:not(:disabled) { background: rgba(72,202,228,0.15); color: var(--accent-cyan); border-color: rgba(72,202,228,0.35); }
+        .table-paginator .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .table-paginator .page-btn.active { background: var(--accent-cyan); color: var(--deep-blue); border-color: var(--accent-cyan); font-weight: 700; }
+        .table-paginator .page-nav { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+        .toggle-wrap { text-align: center; margin: 10px 0 18px; }
+        .toggle-btn { display: inline-flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 600; color: var(--accent-cyan); background: rgba(72,202,228,0.1); border: 1px solid rgba(72,202,228,0.3); border-radius: 12px; padding: 8px 18px; cursor: pointer; transition: 0.2s; }
+        .toggle-btn:hover { background: rgba(72,202,228,0.2); }
+        .toggle-btn i { transition: transform 0.25s; }
+        .toggle-btn.open i { transform: rotate(180deg); }
+        .detail-section { display: none; }
+        .detail-section.open { display: block; animation: fadeIn 0.35s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
 
         .help-overlay { display: none; position: fixed; inset: 0; background: rgba(5,44,57,0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; }
         .help-overlay.open { display: flex; }
@@ -163,29 +194,34 @@
         $historyAsc = array_reverse($historyDesc);
         $hasBuoyData = ! empty($latest);
 
-        $metricConfig = [
+        $primaryMetrics = [
+            'avg_wave_height' => ['label' => 'Avg Wave Height', 'unit' => 'm', 'precision' => 2, 'icon' => 'fa-solid fa-water'],
+            'avg_wind_speed' => ['label' => 'Avg Wind Speed', 'unit' => 'kts', 'precision' => 1, 'icon' => 'fa-solid fa-wind'],
+            'water_temp_avg' => ['label' => 'Water Temp Avg', 'unit' => '°C', 'precision' => 2, 'icon' => 'fa-solid fa-temperature-half'],
             'pitch_avg' => ['label' => 'Pitch Avg', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-chart-line'],
+            'roll_avg' => ['label' => 'Roll Avg', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-chart-simple'],
+            'avg_rssi' => ['label' => 'Average RSSI', 'unit' => 'dBm', 'precision' => 2, 'icon' => 'fa-solid fa-tower-broadcast'],
+        ];
+
+        $detailMetrics = [
             'pitch_min' => ['label' => 'Pitch Min', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-arrow-down'],
             'pitch_max' => ['label' => 'Pitch Max', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-arrow-up'],
-            'roll_avg' => ['label' => 'Roll Avg', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-chart-simple'],
             'roll_min' => ['label' => 'Roll Min', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-arrow-down'],
             'roll_max' => ['label' => 'Roll Max', 'unit' => '°', 'precision' => 2, 'icon' => 'fa-solid fa-arrow-up'],
-            'water_temp_avg' => ['label' => 'Water Temp Avg', 'unit' => '°C', 'precision' => 2, 'icon' => 'fa-solid fa-temperature-half'],
             'water_temp_min' => ['label' => 'Water Temp Min', 'unit' => '°C', 'precision' => 2, 'icon' => 'fa-solid fa-temperature-empty'],
             'water_temp_max' => ['label' => 'Water Temp Max', 'unit' => '°C', 'precision' => 2, 'icon' => 'fa-solid fa-temperature-full'],
             'water_temp_valid_samples' => ['label' => 'Temp Valid Samples', 'unit' => 'count', 'precision' => 0, 'icon' => 'fa-solid fa-vial'],
-            'avg_wave_height' => ['label' => 'Avg Wave Height', 'unit' => 'm', 'precision' => 2, 'icon' => 'fa-solid fa-water'],
-            'avg_wind_speed' => ['label' => 'Avg Wind Speed', 'unit' => 'kts', 'precision' => 1, 'icon' => 'fa-solid fa-wind'],
             'max_wind_speed' => ['label' => 'Max Wind Speed', 'unit' => 'kts', 'precision' => 1, 'icon' => 'fa-solid fa-wind'],
             'sample_count' => ['label' => 'Sample Count', 'unit' => 'count', 'precision' => 0, 'icon' => 'fa-solid fa-list-ol'],
             'expected_samples' => ['label' => 'Expected Samples', 'unit' => 'count', 'precision' => 0, 'icon' => 'fa-solid fa-check-double'],
             'packet_loss_pct' => ['label' => 'Packet Loss', 'unit' => '%', 'precision' => 2, 'icon' => 'fa-solid fa-triangle-exclamation'],
             'hall_detections' => ['label' => 'Hall Detections', 'unit' => 'count', 'precision' => 0, 'icon' => 'fa-solid fa-magnet'],
-            'avg_rssi' => ['label' => 'Average RSSI', 'unit' => 'dBm', 'precision' => 2, 'icon' => 'fa-solid fa-tower-broadcast'],
             'window_duration_ms' => ['label' => 'Window Duration', 'unit' => 'ms', 'precision' => 0, 'icon' => 'fa-solid fa-stopwatch'],
             'first_packet_id' => ['label' => 'First Packet ID', 'unit' => '', 'precision' => 0, 'icon' => 'fa-solid fa-inbox'],
             'last_packet_id' => ['label' => 'Last Packet ID', 'unit' => '', 'precision' => 0, 'icon' => 'fa-solid fa-inbox'],
         ];
+
+        $metricConfig = $primaryMetrics + $detailMetrics;
 
         $formatMetric = static function ($value, int $precision = 2): string {
             if ($value === null || $value === '') {
@@ -218,6 +254,26 @@
         $recordedAt = $latest['recorded_at'] ?? $latest['created_at'] ?? null;
         $recordedDisplay = $recordedAt ? date('M d, Y h:i A', strtotime($recordedAt)) : 'No buoy data yet';
 
+        // 24h summary stats helper
+        $summaryFields = ['avg_wave_height','avg_wind_speed','water_temp_avg'];
+        $summaryStats = [];
+        foreach ($summaryFields as $sf) {
+            $vals = [];
+            foreach ($historyDesc as $hrow) {
+                $v = $hrow[$sf] ?? null;
+                if ($v !== null && $v !== '') $vals[] = (float) $v;
+            }
+            if (count($vals)) {
+                $summaryStats[$sf] = [
+                    'min' => min($vals),
+                    'max' => max($vals),
+                    'avg' => array_sum($vals) / count($vals),
+                ];
+            } else {
+                $summaryStats[$sf] = ['min' => null, 'max' => null, 'avg' => null];
+            }
+        }
+
         $trendLabels = [];
         $trendSeries = [];
         foreach ($metricConfig as $field => $meta) {
@@ -246,8 +302,8 @@
             <div class="status-desc"><?= esc($statusDesc) ?></div>
         </div>
 
-        <div class="metrics-grid">
-            <?php foreach ($metricConfig as $field => $meta): ?>
+        <div class="metrics-grid" id="primaryMetrics">
+            <?php foreach ($primaryMetrics as $field => $meta): ?>
                 <?php
                     $display = $formatMetric($latest[$field] ?? null, (int) $meta['precision']);
                     $unitText = $meta['unit'];
@@ -261,11 +317,128 @@
             <?php endforeach; ?>
         </div>
 
+        <div class="toggle-wrap">
+            <button type="button" class="toggle-btn" id="detailToggle" onclick="document.getElementById('detailMetrics').classList.toggle('open');this.classList.toggle('open');">
+                <i class="fa-solid fa-chevron-down"></i>
+                <span>Show Detailed Metrics</span>
+            </button>
+        </div>
+
+        <div class="detail-section" id="detailMetrics">
+            <div class="metrics-grid">
+                <?php foreach ($detailMetrics as $field => $meta): ?>
+                    <?php
+                        $display = $formatMetric($latest[$field] ?? null, (int) $meta['precision']);
+                        $unitText = $meta['unit'];
+                    ?>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="<?= esc($meta['icon']) ?>"></i></div>
+                        <div class="metric-label"><?= esc($meta['label']) ?></div>
+                        <div class="metric-value"><?= esc($display) ?></div>
+                        <div class="metric-unit"><?= esc($unitText) ?></div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <div class="dash-grid">
+            <div class="dash-card">
+                <div class="dash-card-header"><i class="fa-solid fa-water"></i> Wave Height (24h)</div>
+                <div class="dash-stat-row">
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Min</div>
+                        <div class="dash-stat-value min"><?= $summaryStats['avg_wave_height']['min'] !== null ? number_format($summaryStats['avg_wave_height']['min'], 2) . ' m' : 'N/A' ?></div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Max</div>
+                        <div class="dash-stat-value max"><?= $summaryStats['avg_wave_height']['max'] !== null ? number_format($summaryStats['avg_wave_height']['max'], 2) . ' m' : 'N/A' ?></div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Avg</div>
+                        <div class="dash-stat-value avg"><?= $summaryStats['avg_wave_height']['avg'] !== null ? number_format($summaryStats['avg_wave_height']['avg'], 2) . ' m' : 'N/A' ?></div>
+                    </div>
+                </div>
+            </div>
+            <div class="dash-card">
+                <div class="dash-card-header"><i class="fa-solid fa-wind"></i> Wind Speed (24h)</div>
+                <div class="dash-stat-row">
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Min</div>
+                        <div class="dash-stat-value min"><?= $summaryStats['avg_wind_speed']['min'] !== null ? number_format($summaryStats['avg_wind_speed']['min'], 1) . ' kts' : 'N/A' ?></div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Max</div>
+                        <div class="dash-stat-value max"><?= $summaryStats['avg_wind_speed']['max'] !== null ? number_format($summaryStats['avg_wind_speed']['max'], 1) . ' kts' : 'N/A' ?></div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Avg</div>
+                        <div class="dash-stat-value avg"><?= $summaryStats['avg_wind_speed']['avg'] !== null ? number_format($summaryStats['avg_wind_speed']['avg'], 1) . ' kts' : 'N/A' ?></div>
+                    </div>
+                </div>
+            </div>
+            <div class="dash-card">
+                <div class="dash-card-header"><i class="fa-solid fa-temperature-half"></i> Water Temp (24h)</div>
+                <div class="dash-stat-row">
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Min</div>
+                        <div class="dash-stat-value min"><?= $summaryStats['water_temp_avg']['min'] !== null ? number_format($summaryStats['water_temp_avg']['min'], 2) . ' °C' : 'N/A' ?></div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Max</div>
+                        <div class="dash-stat-value max"><?= $summaryStats['water_temp_avg']['max'] !== null ? number_format($summaryStats['water_temp_avg']['max'], 2) . ' °C' : 'N/A' ?></div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Avg</div>
+                        <div class="dash-stat-value avg"><?= $summaryStats['water_temp_avg']['avg'] !== null ? number_format($summaryStats['water_temp_avg']['avg'], 2) . ' °C' : 'N/A' ?></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"><i class="fa-solid fa-chart-line"></i> Critical Conditions Overview</div>
+            <p class="panel-sub">Wave height, wind speed, and water temperature trends combined.</p>
+            <div class="chart-wrap-lg">
+                <canvas id="chart_overview"></canvas>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title"><i class="fa-solid fa-server"></i> System Health & Connectivity</div>
+            <p class="panel-sub">Packet loss percentage and average RSSI per transmission window.</p>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-title"><i class="fa-solid fa-triangle-exclamation"></i> Packet Loss %</div>
+                    <div class="chart-wrap">
+                        <canvas id="chart_packet_loss"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-title"><i class="fa-solid fa-tower-broadcast"></i> Average RSSI (dBm)</div>
+                    <div class="chart-wrap">
+                        <canvas id="chart_rssi"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-title"><i class="fa-solid fa-arrows-up-down"></i> Pitch vs Roll Average</div>
+                    <div class="chart-wrap">
+                        <canvas id="chart_motion"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-title"><i class="fa-solid fa-database"></i> Sample Count vs Expected</div>
+                    <div class="chart-wrap">
+                        <canvas id="chart_samples"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="panel">
             <div class="panel-title"><i class="fa-solid fa-chart-area"></i> Animated Buoy Metric Graphs</div>
             <p class="panel-sub">Each buoy_data metric is plotted from the most recent packets.</p>
             <div class="charts-grid">
-                <?php foreach ($metricConfig as $field => $meta): ?>
+                <?php foreach ($primaryMetrics as $field => $meta): ?>
                     <div class="chart-card">
                         <div class="chart-title"><i class="<?= esc($meta['icon']) ?>"></i> <?= esc($meta['label']) ?></div>
                         <div class="chart-wrap">
@@ -274,13 +447,31 @@
                     </div>
                 <?php endforeach; ?>
             </div>
+            <div class="toggle-wrap">
+                <button type="button" class="toggle-btn" id="chartToggle" onclick="document.getElementById('detailCharts').classList.toggle('open');this.classList.toggle('open');">
+                    <i class="fa-solid fa-chevron-down"></i>
+                    <span>Show Detailed Metric Graphs</span>
+                </button>
+            </div>
+            <div class="detail-section" id="detailCharts">
+                <div class="charts-grid">
+                    <?php foreach ($detailMetrics as $field => $meta): ?>
+                        <div class="chart-card">
+                            <div class="chart-title"><i class="<?= esc($meta['icon']) ?>"></i> <?= esc($meta['label']) ?></div>
+                            <div class="chart-wrap">
+                                <canvas id="chart_<?= esc($field) ?>"></canvas>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
         </div>
 
         <div class="panel">
             <div class="panel-title"><i class="fa-solid fa-table"></i> Raw Buoy Data Log (Latest 40)</div>
             <?php if (! empty($historyDesc)): ?>
-                <div class="table-wrap">
-                    <table class="history-table">
+                <div class="table-wrap" id="buoyTableWrap">
+                    <table class="history-table" id="buoyTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -308,6 +499,18 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="table-paginator" id="buoyPaginator">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span class="page-info" id="buoyPageInfo"></span>
+                        <select class="page-size" id="buoyPageSize">
+                            <option value="5">5 / page</option>
+                            <option value="10" selected>10 / page</option>
+                            <option value="20">20 / page</option>
+                            <option value="50">50 / page</option>
+                        </select>
+                    </div>
+                    <div class="page-nav" id="buoyPageNav"></div>
+                </div>
             <?php else: ?>
                 <p class="text-soft mb-0">No buoy history available yet.</p>
             <?php endif; ?>
@@ -317,6 +520,78 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+(function () {
+    const table = document.getElementById('buoyTable');
+    if (!table) return;
+    const tbody = table.querySelector('tbody');
+    const allRows = Array.from(tbody.querySelectorAll('tr'));
+    const pageInfo = document.getElementById('buoyPageInfo');
+    const pageNav = document.getElementById('buoyPageNav');
+    const pageSizeSelect = document.getElementById('buoyPageSize');
+    if (!allRows.length) return;
+
+    let currentPage = 1;
+    let pageSize = parseInt(pageSizeSelect?.value || '10', 10);
+
+    function renderPage() {
+        const total = allRows.length;
+        const totalPages = Math.max(1, Math.ceil(total / pageSize));
+        currentPage = Math.min(currentPage, totalPages);
+        const start = (currentPage - 1) * pageSize;
+        const end = Math.min(start + pageSize, total);
+
+        allRows.forEach((row, i) => {
+            row.style.display = (i >= start && i < end) ? '' : 'none';
+        });
+
+        if (pageInfo) {
+            pageInfo.textContent = `Showing ${start + 1}–${end} of ${total} entries`;
+        }
+
+        if (pageNav) {
+            const maxButtons = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+            let endPage = startPage + maxButtons - 1;
+            if (endPage > totalPages) {
+                endPage = totalPages;
+                startPage = Math.max(1, endPage - maxButtons + 1);
+            }
+
+            let html = '';
+            html += `<button type="button" class="page-btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>`;
+            for (let p = startPage; p <= endPage; p++) {
+                html += `<button type="button" class="page-btn${p === currentPage ? ' active' : ''}" data-page="${p}">${p}</button>`;
+            }
+            html += `<button type="button" class="page-btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
+            pageNav.innerHTML = html;
+
+            pageNav.querySelectorAll('button[data-page]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const action = btn.getAttribute('data-page');
+                    if (action === 'prev') {
+                        if (currentPage > 1) currentPage--;
+                    } else if (action === 'next') {
+                        if (currentPage < totalPages) currentPage++;
+                    } else {
+                        currentPage = parseInt(action, 10);
+                    }
+                    renderPage();
+                });
+            });
+        }
+    }
+
+    if (pageSizeSelect) {
+        pageSizeSelect.addEventListener('change', () => {
+            pageSize = parseInt(pageSizeSelect.value, 10);
+            currentPage = 1;
+            renderPage();
+        });
+    }
+
+    renderPage();
+})();
+
 const adminSidebar = document.getElementById('adminSidebar');
 const sidebarToggleBtn = document.getElementById('sidebarToggle');
 const sidebarBackdrop = document.getElementById('sidebarBackdrop');
@@ -430,6 +705,97 @@ Object.entries(trendSeries).forEach(([field, values], index) => {
             },
         },
     });
+});
+
+/* ══════════════ DASHBOARD OVERVIEW CHARTS ══════════════ */
+
+function initChart(canvasId, type, datasetConfig, options = {}) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return null;
+    const hasAny = datasetConfig.datasets.some((ds) => Array.isArray(ds.data) && ds.data.some((v) => v !== null && !Number.isNaN(v)));
+    if (!hasAny || trendLabels.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'chart-empty';
+        empty.textContent = 'No trend data yet.';
+        canvas.parentElement.appendChild(empty);
+        return null;
+    }
+    const ctx = canvas.getContext('2d');
+    return new Chart(ctx, {
+        type: type,
+        data: { labels: trendLabels, datasets: datasetConfig.datasets },
+        options: {
+            maintainAspectRatio: false,
+            animation: { duration: 1300, easing: 'easeOutQuart' },
+            plugins: {
+                legend: { labels: { color: 'rgba(255,255,255,0.75)', font: { size: 11 } } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label(context) {
+                            const value = context.parsed.y;
+                            if (value === null) return `${context.dataset.label}: N/A`;
+                            const formatted = Number(value).toFixed(context.dataset.precision || 2);
+                            const unit = context.dataset.unit || '';
+                            return `${context.dataset.label}: ${formatted}${unit}`;
+                        },
+                    },
+                },
+            },
+            scales: {
+                x: { ticks: { color: 'rgba(255,255,255,0.48)', maxTicksLimit: 8 }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                y: { ticks: { color: 'rgba(255,255,255,0.48)' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+            },
+            ...options,
+        },
+    });
+}
+
+initChart('chart_overview', 'line', {
+    datasets: [
+        { label: 'Wave Height', data: trendSeries['avg_wave_height'] || [], borderColor: 'rgba(72,202,228,1)', backgroundColor: 'rgba(72,202,228,0.08)', borderWidth: 2, fill: true, tension: 0.35, pointRadius: 0, pointHoverRadius: 4, unit: ' m', precision: 2, yAxisID: 'y' },
+        { label: 'Wind Speed', data: trendSeries['avg_wind_speed'] || [], borderColor: 'rgba(255,193,7,1)', backgroundColor: 'rgba(255,193,7,0.08)', borderWidth: 2, fill: true, tension: 0.35, pointRadius: 0, pointHoverRadius: 4, unit: ' kts', precision: 1, yAxisID: 'y' },
+        { label: 'Water Temp', data: trendSeries['water_temp_avg'] || [], borderColor: 'rgba(93,219,138,1)', backgroundColor: 'rgba(93,219,138,0.08)', borderWidth: 2, fill: true, tension: 0.35, pointRadius: 0, pointHoverRadius: 4, unit: ' °C', precision: 2, yAxisID: 'y1' },
+    ],
+}, {
+    scales: {
+        x: { ticks: { color: 'rgba(255,255,255,0.48)', maxTicksLimit: 8 }, grid: { color: 'rgba(255,255,255,0.05)' } },
+        y: { type: 'linear', display: true, position: 'left', ticks: { color: 'rgba(255,255,255,0.48)' }, grid: { color: 'rgba(255,255,255,0.06)' }, title: { display: true, text: 'Height (m) / Wind (kts)', color: 'rgba(255,255,255,0.5)', font: { size: 10 } } },
+        y1: { type: 'linear', display: true, position: 'right', ticks: { color: 'rgba(93,219,138,0.9)' }, grid: { drawOnChartArea: false }, title: { display: true, text: 'Temp (°C)', color: 'rgba(93,219,138,0.9)', font: { size: 10 } } },
+    },
+});
+
+initChart('chart_packet_loss', 'bar', {
+    datasets: [
+        { label: 'Packet Loss %', data: trendSeries['packet_loss_pct'] || [], borderColor: 'rgba(255,107,107,1)', backgroundColor: 'rgba(255,107,107,0.35)', borderWidth: 1, borderRadius: 4, unit: '%', precision: 2 },
+    ],
+}, {
+    plugins: { legend: { display: false } },
+});
+
+initChart('chart_rssi', 'line', {
+    datasets: [
+        { label: 'Avg RSSI', data: trendSeries['avg_rssi'] || [], borderColor: 'rgba(155,89,182,1)', backgroundColor: 'rgba(155,89,182,0.1)', borderWidth: 2, fill: true, tension: 0.35, pointRadius: 0, pointHoverRadius: 4, unit: ' dBm', precision: 2 },
+    ],
+}, {
+    plugins: { legend: { display: false } },
+});
+
+initChart('chart_motion', 'line', {
+    datasets: [
+        { label: 'Pitch Avg', data: trendSeries['pitch_avg'] || [], borderColor: 'rgba(72,202,228,1)', backgroundColor: 'rgba(72,202,228,0.08)', borderWidth: 2, fill: false, tension: 0.35, pointRadius: 0, pointHoverRadius: 4, unit: '°', precision: 2 },
+        { label: 'Roll Avg', data: trendSeries['roll_avg'] || [], borderColor: 'rgba(255,193,7,1)', backgroundColor: 'rgba(255,193,7,0.08)', borderWidth: 2, fill: false, tension: 0.35, pointRadius: 0, pointHoverRadius: 4, unit: '°', precision: 2 },
+    ],
+});
+
+initChart('chart_samples', 'bar', {
+    datasets: [
+        { label: 'Sample Count', data: trendSeries['sample_count'] || [], borderColor: 'rgba(72,202,228,1)', backgroundColor: 'rgba(72,202,228,0.35)', borderWidth: 1, borderRadius: 4, unit: '', precision: 0 },
+        { label: 'Expected', data: trendSeries['expected_samples'] || [], borderColor: 'rgba(255,255,255,0.5)', backgroundColor: 'rgba(255,255,255,0.15)', borderWidth: 1, borderRadius: 4, unit: '', precision: 0 },
+    ],
+}, {
+    plugins: { legend: { labels: { color: 'rgba(255,255,255,0.75)', font: { size: 11 } } } },
 });
 </script>
 

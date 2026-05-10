@@ -6,37 +6,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Waves Water Sports | Matabungkay, Lian, Batangas</title>
-
-  <link rel="stylesheet" href="<?= base_url('bootstrap5/css/bootstrap.min.css') ?>">
+  <!-- bootstrap cdn -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
 <style>
+/* ===== GLOBAL ===== */
 body {
   font-family: 'Poppins', sans-serif;
-  margin:0;
-  overflow-x:hidden;
-  /* Soft blue background to compliment the ocean theme */
-  background: #f0f8ff; 
+  margin: 0;
+  overflow-x: hidden;
+  background: #f0f8ff;
 }
 
-/* ===== HERO SECTION ===== */
+/* ===== HERO ===== */
 .hero {
-  height:100vh;
+  height: 100vh;
   background:
     linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.6)),
     url('<?= base_url("images/cover.png") ?>') center/cover no-repeat;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  color:white;
-  position:relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  position: relative;
   overflow: hidden;
 }
 
 @keyframes fadeIn {
-  from {opacity:0; transform:translateY(30px);}
-  to {opacity:1; transform:translateY(0);}
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .hero-content {
@@ -46,51 +47,99 @@ body {
 }
 
 .hero h1 {
-  font-size:3.8rem;
-  font-weight:700;
-  letter-spacing:1px;
-  margin-top:15px;
+  font-size: 3.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-top: 15px;
   margin-bottom: 1px;
 }
 
 .hero p {
-  font-size:1.2rem;
-  margin-top:10px;
-  opacity:0.9;
-}
-
-.small-caption {
-  font-size: 0.75rem; /* Smallest readable font */
-  opacity: 0.7;
-  font-weight: 300;
-  letter-spacing: 0.5px;
+  font-size: 1.2rem;
   margin-top: 10px;
+  opacity: 0.9;
 }
 
-/* Button */
+.highlight-brand {
+  color: #48cae4;
+  font-weight: 700;
+  position: relative;
+}
+
+.highlight-brand::after {
+  content: "MARISENSE";
+  position: absolute;
+  left: 0; top: 0;
+  color: #0077b6;
+  opacity: 0.25;
+  filter: blur(6px);
+  z-index: -1;
+}
+
+/* ===== BUTTON ===== */
 .btn-ocean {
-  background: linear-gradient(45deg,#48cae4,#0077b6);
-  border:none;
-  color:white;
-  padding: 12px 60px; /* Wider button for a premium feel */
+  background: linear-gradient(45deg, #48cae4, #0077b6);
+  border: none;
+  color: white;
+  padding: 12px 60px;
   font-size: 1.1rem;
-  border-radius:50px;
-  font-weight:600;
-  transition:0.3s;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: 0.3s;
   position: relative;
   z-index: 11;
   text-decoration: none;
   display: inline-block;
-
 }
 
 .btn-ocean:hover {
   transform: scale(1.08);
-  box-shadow:0 10px 25px rgba(0,140,200,0.5);
+  box-shadow: 0 10px 25px rgba(0,140,200,0.5);
   color: white;
 }
 
-/* ===== ANIMATED WAVE SYSTEM ===== */
+/* ===== SCROLL CUE ===== */
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  z-index: 12;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 0.78rem;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.scroll-cue .scroll-arrow {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255,255,255,0.45);
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.16);
+  animation: floatDown 1.8s ease-in-out infinite;
+}
+
+.scroll-cue .scroll-arrow::before {
+  content: "↓";
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+@keyframes floatDown {
+  0%, 100% { transform: translateY(0);  opacity: 0.82; }
+  50%       { transform: translateY(5px); opacity: 1; }
+}
+
+/* ===== ANIMATED WAVES ===== */
 .wave-wrapper {
   position: absolute;
   bottom: 0;
@@ -117,370 +166,309 @@ body {
 .parallax > use:nth-child(4) { animation-delay: -5s; animation-duration: 20s; }
 
 @keyframes move-forever {
-  0% { transform: translate3d(-90px, 0, 0); }
+  0%   { transform: translate3d(-90px, 0, 0); }
   100% { transform: translate3d(85px, 0, 0); }
-}
-.highlight-brand {
-  color: #48cae4; /* main color from button */
-  font-weight: 700;
-  position: relative;
-}
-
-/* subtle glow lang */
-.highlight-brand::after {
-  content: "MARISENSE";
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: #0077b6;
-  opacity: 0.25;
-  filter: blur(6px);
-  z-index: -1;
-}
-
-.scroll-cue {
-  position: absolute;
-  left: 50%;
-  bottom: 26px;
-  transform: translateX(-50%);
-  z-index: 12;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: rgba(255, 255, 255, 0.85);
-  text-decoration: none;
-  font-size: 0.78rem;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-}
-
-.scroll-cue .scroll-arrow {
-  width: 34px;
-  height: 34px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
-  animation: floatDown 1.8s ease-in-out infinite;
-}
-
-.scroll-cue .scroll-arrow::before {
-  content: "↓";
-  font-size: 0.95rem;
-  line-height: 1;
-}
-
-@keyframes floatDown {
-  0%, 100% { transform: translateY(0); opacity: 0.82; }
-  50% { transform: translateY(5px); opacity: 1; }
-}
-
-/* ===== KEYFRAMES ===== */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-16px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(16px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes liftUp {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-@keyframes shimmerWave {
-  0% { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
 }
 
 /* ===== LANDING SNAPSHOT ===== */
 .landing-snapshot {
-  padding: 86px 0 108px;
-  background: linear-gradient(180deg, 
-    rgba(240,248,255,0) 0%, 
-    rgba(72, 202, 228, 0.06) 25%,
-    rgba(0, 119, 182, 0.03) 50%,
-    rgba(240,248,255,0.95) 100%);
+  padding: 80px 0 100px;
+  background: linear-gradient(180deg, #f0f8ff 0%, #e0f4fb 100%);
   position: relative;
 }
 
 .landing-snapshot::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(72, 202, 228, 0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(72,202,228,0.4), transparent);
 }
 
-.snapshot-card {
+/* Section heading */
+.snap-section-heading {
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+.snap-section-heading .eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #048fb9;
+  margin-bottom: 10px;
+}
+
+.snap-section-heading h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #052c39;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.snap-section-heading h2 span {
+  color: #048fb9;
+}
+
+/* Cards */
+.snap-card {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid rgba(10,88,114,0.1);
+  padding: 32px 28px 28px;
   position: relative;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(10, 88, 114, 0.1);
-  border-radius: 28px;
-  padding: 30px;
-  box-shadow: 0 20px 45px rgba(5, 44, 57, 0.08);
+  box-shadow: 0 8px 32px rgba(5,44,57,0.07);
   height: 100%;
-  animation: fadeUp 0.6s ease-out both;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  animation: snapFadeUp 0.6s ease-out both;
 }
 
-.snapshot-card:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 40px 80px rgba(5, 44, 57, 0.18), 
-              0 0 30px rgba(72, 202, 228, 0.18);
-  border-color: rgba(72, 202, 228, 0.3);
-  background: rgba(255, 255, 255, 0.98);
+.snap-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 28px 60px rgba(5,44,57,0.14);
 }
 
-.col-lg-4:nth-child(1) .snapshot-card { animation-delay: 0.1s; }
-.col-lg-4:nth-child(2) .snapshot-card { animation-delay: 0.2s; }
-.col-lg-4:nth-child(3) .snapshot-card { animation-delay: 0.3s; }
+.col-lg-4:nth-child(1) .snap-card { animation-delay: 0.1s; }
+.col-lg-4:nth-child(2) .snap-card { animation-delay: 0.2s; }
+.col-lg-4:nth-child(3) .snap-card { animation-delay: 0.3s; }
 
-.snapshot-card::before {
+@keyframes snapFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Accent bar */
+.snap-card::before {
   content: "";
   position: absolute;
-  inset: 0 auto auto 0;
-  width: 100%;
-  height: 6px;
-  background: linear-gradient(90deg, #48cae4, #0077b6, #048fb9);
-  transform-origin: left;
-  animation: slideInLeft 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  animation-delay: 0.2s;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #48cae4, #0077b6);
+  border-radius: 24px 24px 0 0;
 }
 
-.section-label {
+/* Decorative background icon */
+.card-bg-icon {
+  position: absolute;
+  bottom: -14px;
+  right: -8px;
+  font-size: 96px;
+  color: rgba(72,202,228,0.07);
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Chip / label */
+.snap-chip {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 12px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(72, 202, 228, 0.15), rgba(0, 119, 182, 0.08));
-  border: 1px solid rgba(72, 202, 228, 0.2);
-  font-size: 0.7rem;
-  letter-spacing: 1.8px;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #0a5872;
-  font-weight: 700;
-  margin-bottom: 12px;
-  animation: slideInLeft 0.6s ease-out both;
-  animation-delay: 0.1s;
+  background: rgba(72,202,228,0.13);
+  border: 1px solid rgba(72,202,228,0.28);
+  border-radius: 999px;
+  padding: 5px 13px;
+  margin-bottom: 16px;
 }
 
-.col-lg-4:nth-child(1) .section-label { color: #0a5872; border-color: rgba(72, 202, 228, 0.3); }
-.col-lg-4:nth-child(2) .section-label { color: #0a5872; border-color: rgba(72, 202, 228, 0.3); }
-.col-lg-4:nth-child(3) .section-label { color: #0a5872; border-color: rgba(72, 202, 228, 0.3); }
+.snap-chip i {
+  font-size: 13px;
+}
 
-.snapshot-card h2 {
-  font-size: 1.35rem;
-  margin-bottom: 10px;
+.snap-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
   color: #052c39;
-  font-weight: 700;
-  animation: slideInLeft 0.6s ease-out both;
-  animation-delay: 0.15s;
+  margin: 0 0 8px;
 }
 
-.col-lg-4:nth-child(1) .snapshot-card h2 { color: #0a5872; }
-.col-lg-4:nth-child(2) .snapshot-card h2 { color: #052c39; }
-.col-lg-4:nth-child(3) .snapshot-card h2 { color: #048fb9; }
-
-.snapshot-card p {
-  color: rgba(5, 44, 57, 0.72);
+.snap-card .snap-sub {
+  font-size: 0.87rem;
+  color: rgba(5,44,57,0.62);
   line-height: 1.7;
-  margin-bottom: 0;
+  margin: 0 0 20px;
 }
 
-.snapshot-note {
-  margin-top: 16px;
-  font-size: 0.92rem;
-  color: rgba(5, 44, 57, 0.6);
-  line-height: 1.6;
-  animation: slideInLeft 0.6s ease-out both;
-  animation-delay: 0.2s;
+/* ===== ABOUT CARD — feature list ===== */
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.price-list {
-  margin-top: 18px;
-  border-top: 2px solid rgba(72, 202, 228, 0.15);
-  padding-top: 16px;
+.feat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: #052c39;
+}
+
+.feat-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(72,202,228,0.14);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: #048fb9;
+  font-size: 15px;
+}
+
+/* ===== PRICES CARD ===== */
+.price-divider {
+  border: none;
+  border-top: 1px solid rgba(10,88,114,0.08);
+  margin: 0 0 16px;
 }
 
 .price-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 12px;
-  border-radius: 10px;
-  margin-bottom: 6px;
-  animation: slideInRight 0.5s ease-out both;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  background: rgba(72, 202, 228, 0.02);
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(10,88,114,0.07);
+  gap: 12px;
 }
 
-.price-row:hover {
-  background: linear-gradient(90deg, rgba(72, 202, 228, 0.12), rgba(72, 202, 228, 0.04));
-  border-left: 3px solid #48cae4;
-  padding-left: 14px;
+.price-row:last-child {
+  border-bottom: none;
 }
 
-.price-row:nth-child(1) { animation-delay: 0.25s; }
-.price-row:nth-child(2) { animation-delay: 0.3s; }
-.price-row:nth-child(3) { animation-delay: 0.35s; }
-.price-row:nth-child(4) { animation-delay: 0.4s; }
-
-.price-row span {
+.price-row .pname {
+  font-size: 0.88rem;
   font-weight: 600;
   color: #052c39;
 }
 
-.price-row strong {
-  color: #048fb9;
-  font-size: 1rem;
-  white-space: nowrap;
+.price-badge {
+  background: linear-gradient(135deg, rgba(72,202,228,0.15), rgba(0,119,182,0.1));
+  color: #0a5872;
+  font-size: 0.8rem;
   font-weight: 700;
+  padding: 4px 13px;
+  border-radius: 999px;
+  white-space: nowrap;
+  border: 1px solid rgba(72,202,228,0.25);
 }
 
-.price-row small {
-  color: rgba(5, 44, 57, 0.52);
-  font-weight: 500;
-}
-
-.sea-pill {
+/* ===== SEA CONDITIONS CARD ===== */
+.sea-status-pill {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
-  border-radius: 999px;
-  font-weight: 700;
+  gap: 8px;
   font-size: 0.82rem;
-  margin: 12px 0 18px;
-  animation: slideInLeft 0.6s ease-out both;
-  animation-delay: 0.25s;
-  position: relative;
-  letter-spacing: 0.3px;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 999px;
+  margin-bottom: 14px;
   border: 1.5px solid;
 }
 
-.sea-pill::before {
-  content: "●";
-  font-size: 0.5rem;
-  animation: pulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  display: inline-block;
+.sea-safe {
+  background: rgba(40,167,69,0.12);
+  color: #1a6b30;
+  border-color: rgba(40,167,69,0.3);
 }
 
-.sea-pill.sea-safe {
-  background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(40, 167, 69, 0.08));
-  color: #1f7a3f;
-  border-color: rgba(40, 167, 69, 0.35);
+.sea-moderate {
+  background: rgba(255,193,7,0.15);
+  color: #8a6300;
+  border-color: rgba(255,193,7,0.38);
 }
 
-.sea-pill.sea-moderate {
-  background: linear-gradient(135deg, rgba(255, 193, 7, 0.18), rgba(255, 193, 7, 0.1));
-  color: #a57c00;
-  border-color: rgba(255, 193, 7, 0.4);
+.sea-unsafe {
+  background: rgba(220,53,69,0.12);
+  color: #9b2030;
+  border-color: rgba(220,53,69,0.3);
 }
 
-.sea-pill.sea-unsafe {
-  background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(220, 53, 69, 0.08));
-  color: #b02a37;
-  border-color: rgba(220, 53, 69, 0.35);
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulseDot 2s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.6; }
+.sea-safe     .pulse-dot { background: #28a745; }
+.sea-moderate .pulse-dot { background: #ffc107; }
+.sea-unsafe   .pulse-dot { background: #dc3545; }
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
 }
 
-.metric-grid {
+.metric-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 24px;
-  background: linear-gradient(135deg, rgba(72, 202, 228, 0.08), rgba(72, 202, 228, 0.02));
-  padding: 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(72, 202, 228, 0.12);
+  gap: 10px;
+  margin-top: 18px;
 }
 
-.metric {
-  background: linear-gradient(180deg, #fafcfe 0%, #f3f8fc 100%);
-  border-radius: 16px;
-  padding: 18px 12px;
+.metric-box {
+  background: linear-gradient(180deg, #f4fbfe 0%, #eaf7fc 100%);
+  border: 1px solid rgba(72,202,228,0.18);
+  border-radius: 14px;
+  padding: 14px 8px;
   text-align: center;
-  border: 1.5px solid rgba(72, 202, 228, 0.15);
-  animation: fadeUp 0.6s ease-out both;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
-.metric::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(72, 202, 228, 0.1), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+.metric-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(72,202,228,0.15);
 }
 
-.metric:hover {
-  transform: translateY(-6px);
-  background: linear-gradient(180deg, #f0f9fd 0%, #e0f4fb 100%);
-  border-color: rgba(72, 202, 228, 0.35);
-  box-shadow: 0 12px 28px rgba(72, 202, 228, 0.15);
-}
-
-.metric:hover::before {
-  opacity: 1;
-}
-
-.metric:nth-child(1) { animation-delay: 0.3s; }
-.metric:nth-child(2) { animation-delay: 0.35s; }
-.metric:nth-child(3) { animation-delay: 0.4s; }
-
-.metric span {
+.metric-box .mlabel {
   display: block;
-  font-size: 0.68rem;
-  text-transform: uppercase;
+  font-size: 0.62rem;
+  font-weight: 700;
   letter-spacing: 1.2px;
+  text-transform: uppercase;
   color: #0a5872;
-  margin-bottom: 8px;
-  font-weight: 700;
+  margin-bottom: 6px;
 }
 
-.metric strong {
+.metric-box .mval {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
   color: #048fb9;
-  font-size: 1.1rem;
-  font-weight: 700;
 }
 
+.updated-note {
+  font-size: 0.75rem;
+  color: rgba(5,44,57,0.45);
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ===== CTA ===== */
+.snap-cta {
+  text-align: center;
+  margin-top: 52px;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 767px) {
-  .scroll-cue {
-    bottom: 18px;
-    font-size: 0.68rem;
-  }
-
-  .metric-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .snapshot-card {
-    padding: 24px;
-  }
+  .hero h1 { font-size: 2.4rem; }
+  .snap-section-heading h2 { font-size: 1.5rem; }
+  .metric-row { grid-template-columns: 1fr; }
+  .snap-card { padding: 26px 20px 22px; }
+  .scroll-cue { bottom: 18px; font-size: 0.68rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -495,14 +483,14 @@ body {
 
 <body>
 
+<!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-content container">
     <h1>Waves Water Sports</h1>
-    <p>Smart Water Adventure Booking with Real-Time Safety Monitoring 
+    <p>Smart Water Adventure Booking with Real-Time Safety Monitoring
        Powered by <span class="highlight-brand">MARISENSE</span>
     </p>
-    
-    <a href="<?= base_url('login') ?>" class="btn btn-ocean">
+    <a href="<?= base_url('login') ?>" class="btn btn-ocean mt-3">
       Login to Continue
     </a>
   </div>
@@ -514,107 +502,227 @@ body {
 
   <div class="wave-wrapper">
     <svg class="waves" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-      <defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" /></defs>
+      <defs>
+        <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+      </defs>
       <g class="parallax">
-        <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(10, 88, 114, 0.7)" />
-        <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(10, 88, 114, 0.5)" />
-        <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(10, 88, 114, 0.3)" />
+        <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(10,88,114,0.7)" />
+        <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(10,88,114,0.5)" />
+        <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(10,88,114,0.3)" />
         <use xlink:href="#gentle-wave" x="48" y="7" fill="#0a5872" />
       </g>
     </svg>
   </div>
 </section>
 
+<!-- ===== LANDING SNAPSHOT ===== -->
 <section class="landing-snapshot" id="landing-snapshot">
   <div class="container">
+
+    <!-- Section heading -->
+    <div class="snap-section-heading">
+      <span class="eyebrow">Discover Matabungkay</span>
+      <h2>Everything you need to <span>dive in</span></h2>
+    </div>
+
     <div class="row g-4">
+
+      <!-- ABOUT CARD -->
       <div class="col-lg-4">
-        <div class="snapshot-card">
-          <span class="section-label">About</span>
-          <h2>Smart booking, safer seas.</h2>
-          <p>Waves Water Sports brings water adventures at Matabungkay Beach with real-time safety monitoring powered by MARISENSE.</p>
-          <p class="snapshot-note">Plan the day, check conditions, then book with confidence.</p>
+        <div class="snap-card">
+          <i class="ti ti-wave-sine card-bg-icon" aria-hidden="true"></i>
+          <span class="snap-chip">
+            <i class="ti ti-info-circle" aria-hidden="true"></i> About
+          </span>
+          <h3>Smart booking, safer seas.</h3>
+          <p class="snap-sub">Waves Water Sports brings water adventures at Matabungkay Beach with real-time safety monitoring powered by MARISENSE.</p>
+          <div class="feature-list">
+            <div class="feat-item">
+              <div class="feat-dot"><i class="ti ti-calendar-check" aria-hidden="true"></i></div>
+              Real-time activity booking
+            </div>
+            <div class="feat-item">
+              <div class="feat-dot"><i class="ti ti-radar" aria-hidden="true"></i></div>
+              Live marine safety monitoring
+            </div>
+            <div class="feat-item">
+              <div class="feat-dot"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
+              Matabungkay Beach, Lian, Batangas
+            </div>
+          </div>
         </div>
       </div>
 
+      <!-- PRICES CARD -->
       <div class="col-lg-4">
-        <div class="snapshot-card">
-          <span class="section-label">Prices</span>
-          <h2>Simple rates</h2>
-          <?php if (! empty($featuredActivities)): ?>
-            <div class="price-list">
-              <?php foreach ($featuredActivities as $activity): ?>
-                <?php
-                  $price = number_format((float) ($activity['price'] ?? 0), 2);
-                  $suffix = (($activity['price_type'] ?? 'flat') === 'per_person') ? '/ person' : '/ session';
-                ?>
-                <div class="price-row">
-                  <span><?= esc($activity['name']) ?></span>
-                  <strong>₱<?= $price ?> <small><?= $suffix ?></small></strong>
-                </div>
-              <?php endforeach; ?>
-            </div>
+        <div class="snap-card">
+          <i class="ti ti-tag card-bg-icon" aria-hidden="true"></i>
+          <span class="snap-chip">
+            <i class="ti ti-cash" aria-hidden="true"></i> Rates
+          </span>
+          <h3>Simple, transparent pricing</h3>
+          <p class="snap-sub">No hidden fees — what you see is what you pay.</p>
+
+          <?php if (!empty($featuredActivities)): ?>
+            <hr class="price-divider">
+            <?php foreach ($featuredActivities as $activity): ?>
+              <?php
+                $price  = number_format((float)($activity['price'] ?? 0), 2);
+                $suffix = (($activity['price_type'] ?? 'flat') === 'per_person') ? '/ person' : '/ session';
+              ?>
+              <div class="price-row">
+                <span class="pname"><?= esc($activity['name']) ?></span>
+                <span class="price-badge">₱<?= $price ?> <small><?= $suffix ?></small></span>
+              </div>
+            <?php endforeach; ?>
           <?php else: ?>
-            <p>Pricing details will appear here once activities are loaded.</p>
+            <p class="snap-sub">Pricing details will appear here once activities are loaded.</p>
           <?php endif; ?>
         </div>
       </div>
 
+      <!-- SEA CONDITIONS CARD -->
       <div class="col-lg-4">
-        <div class="snapshot-card">
-          <span class="section-label">Sea Conditions</span>
-          <h2>Current marine snapshot</h2>
+        <div class="snap-card">
+          <i class="ti ti-droplet card-bg-icon" aria-hidden="true"></i>
+          <span class="snap-chip">
+            <i class="ti ti-antenna" aria-hidden="true"></i> Conditions
+          </span>
+          <h3>Current marine snapshot</h3>
+
           <?php if ($seaSnapshot): ?>
-            <div class="sea-pill <?= esc($seaSnapshot['class']) ?>">
+            <div class="sea-status-pill <?= esc($seaSnapshot['class']) ?>">
+              <span class="pulse-dot"></span>
               <?= esc($seaSnapshot['label']) ?>
             </div>
-            <p><?= esc($seaSnapshot['note']) ?></p>
-            <div class="metric-grid">
-              <div class="metric">
-                <span>Wind</span>
-                <strong><?= esc($seaSnapshot['wind']) ?></strong>
+            <p class="snap-sub" style="margin-bottom:0"><?= esc($seaSnapshot['note']) ?></p>
+            <div class="metric-row">
+              <div class="metric-box">
+                <span class="mlabel">Wind</span>
+                <span class="mval"><?= esc($seaSnapshot['wind']) ?></span>
               </div>
-              <div class="metric">
-                <span>Wave</span>
-                <strong><?= esc($seaSnapshot['wave']) ?></strong>
+              <div class="metric-box">
+                <span class="mlabel">Wave</span>
+                <span class="mval"><?= esc($seaSnapshot['wave']) ?></span>
               </div>
-              <div class="metric">
-                <span>Temp</span>
-                <strong><?= esc($seaSnapshot['temp']) ?></strong>
+              <div class="metric-box">
+                <span class="mlabel">Temp</span>
+                <span class="mval"><?= esc($seaSnapshot['temp']) ?></span>
               </div>
             </div>
-            <p class="snapshot-note">Updated <?= esc($seaSnapshot['updated']) ?></p>
+            <p class="updated-note">
+              <i class="ti ti-clock" aria-hidden="true"></i>
+              Updated <?= esc($seaSnapshot['updated']) ?>
+            </p>
           <?php else: ?>
-            <p>No buoy reading available yet.</p>
+            <p class="snap-sub">No buoy reading available yet.</p>
           <?php endif; ?>
         </div>
       </div>
-    </div>
 
-    <div class="text-center mt-5">
+    </div><!-- /.row -->
+
+    <!-- Bottom CTA -->
+    <div class="snap-cta">
       <a href="<?= base_url('login') ?>" class="btn btn-ocean">Login to Continue</a>
     </div>
-  </div>
+
+  </div><!-- /.container -->
 </section>
 
-<script src="<?= base_url('bootstrap5/js/bootstrap.bundle.min.js') ?>"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
   const waveLayers = document.querySelectorAll('.parallax > use');
-  
   document.addEventListener('mousemove', (e) => {
-    let moveX = (e.clientX / window.innerWidth);
-    
+    const moveX = e.clientX / window.innerWidth;
     waveLayers.forEach((wave, index) => {
-      let shift = (moveX * 20) * (index + 1);
-      wave.style.transform = `translateX(${shift}px)`;
-      
-      let baseSpeed = 20 - (index * 4);
-      let dynamicSpeed = baseSpeed + (moveX * 10);
-      wave.style.animationDuration = `${dynamicSpeed}s`;
+      wave.style.transform = `translateX(${moveX * 20 * (index + 1)}px)`;
+      const baseSpeed = 20 - (index * 4);
+      wave.style.animationDuration = `${baseSpeed + (moveX * 10)}s`;
     });
   });
 </script>
+
+<!-- ========== FOOTER ========== -->
+<footer class="landing-footer">
+  <div class="container">
+    <div class="footer-brand">
+      <i class="fa-solid fa-water"></i>
+      <span>Waves Water Sports</span>
+    </div>
+    <p class="footer-tagline">Experience the thrill of Matabungkay Beach</p>
+    <div class="footer-socials">
+      <a href="https://www.facebook.com/profile.php?id=100077368436521" target="_blank" title="Facebook">
+        <i class="fa-brands fa-facebook-f"></i>
+      </a>
+      <a href="https://instagram.com" target="_blank" title="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://twitter.com" target="_blank" title="Twitter">
+        <i class="fa-brands fa-twitter"></i>
+      </a>
+    </div>
+    <div class="footer-copy">
+      &copy; 2026 Waves Water Sports | Tech by
+      <span class="text-info fw-bold" style="letter-spacing: 1px;">MARISENSE</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+.landing-footer {
+  background: linear-gradient(180deg, #052c39 0%, #0a5872 100%);
+  color: rgba(255,255,255,0.85);
+  padding: 50px 20px 30px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+.landing-footer .container { max-width: 600px; margin: 0 auto; }
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+}
+.footer-brand i { color: #48cae4; font-size: 1.4rem; }
+.footer-tagline {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 20px;
+}
+.footer-socials {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.footer-socials a {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.7);
+  font-size: 1rem;
+  text-decoration: none;
+  transition: 0.25s;
+}
+.footer-socials a:hover {
+  background: rgba(72,202,228,0.15);
+  color: #48cae4;
+  border-color: rgba(72,202,228,0.4);
+  transform: translateY(-2px);
+}
+.footer-copy {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.45);
+}
+.footer-copy .text-info { color: #48cae4 !important; }
+</style>
 
 </body>
 </html>
