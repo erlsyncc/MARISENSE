@@ -106,6 +106,30 @@
         .sdn-hint {text-align: center; padding: 20px;color: rgba(255,255,255,0.3);font-size: 0.8rem;}
         .sdn-highlight {background: rgba(72,202,228,0.25);color: #48cae4;border-radius: 2px;padding: 0 2px;}
         .price-badge {background: rgba(40, 167, 69, 0.15) !important; border: 1px solid #28a745 !important;          color: #2da94f !important;                   font-size: 1.1rem;font-weight: 700;}
+        @media (max-width: 991.98px) {
+            .waves-navbar { padding: 14px 0; }
+            .header-container { flex-wrap: wrap; gap: 10px; padding: 0 14px; }
+            .user-greeting { flex: 1 1 100%; font-size: 0.95rem; }
+            .nav-menu-center.d-none.d-lg-flex {
+                display: flex !important;
+                flex: 1 1 100%;
+                justify-content: flex-start;
+                overflow-x: auto;
+                white-space: nowrap;
+                gap: 8px;
+                padding-bottom: 4px;
+            }
+            .logout-wrapper { flex: 1 1 100%; justify-content: flex-end; }
+            .nav-link-custom { font-size: 0.82rem; padding: 6px 12px; }
+            .welcome-hero { padding: 84px 16px; border-radius: 0 0 36px 36px; margin-bottom: 32px; }
+            .welcome-hero h1 { font-size: 2rem; }
+            .activities-wrapper { padding-left: 0; padding-right: 0; margin-top: 24px; }
+            .activity-container { padding: 18px; border-radius: 20px; }
+            .vertical-gallery { grid-template-columns: 1fr; grid-template-rows: none; }
+            .detail-badge { font-size: 0.78rem; padding: 7px 14px; }
+            .btn-book-now { width: 100%; text-align: center; padding: 12px 20px; }
+            .safety-wrapper { padding: 26px 16px; margin: 36px auto; }
+        }
     </style>
 </head>
 <body>

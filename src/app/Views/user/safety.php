@@ -85,7 +85,7 @@
         .activity-line { height: 5px;  width: 100px; background: var(--accent-cyan); border-radius: 10px; margin: 10px auto 40px auto;}
         .safety-wrapper-final {width: 100%;max-width: 1100px; margin: 60px auto !important;text-align: center !important;padding: 60px 40px;border: 3px dashed #ffc107 !important; border-radius: 40px;background: rgba(255, 193, 7, 0.05);display: block;}
         .yellow-line-move {height: 4px; width: 100px;background: #ffc107;margin: 20px auto !important;border-radius: 10px;position: relative;overflow: hidden;}
-        .yellow-line-move::after {content: "";: absolute;top: 0;left: -100%;width: 100%;height: 100%;background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);animation: shine 2s infinite;}
+        .yellow-line-move::after {content: "";position: absolute;top: 0;left: -100%;width: 100%;height: 100%;background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);animation: shine 2s infinite;}
         @keyframes shine {0% { left: -100%; }100% { left: 100%; }}
         .safety-content-box {display: inline-block;text-align: left;vertical-align: top;}
         .dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-right: 10px; }
@@ -120,6 +120,30 @@
         .sdn-no-result { text-align: center; padding: 30px; color: rgba(255,255,255,0.4); font-size: 0.88rem; }
         .sdn-hint { text-align: center; padding: 20px; color: rgba(255,255,255,0.3); font-size: 0.8rem; }
         .sdn-highlight { background: rgba(72,202,228,0.25); color: #48cae4; border-radius: 2px; padding: 0 2px; }
+        @media (max-width: 991.98px) {
+            .waves-navbar { padding: 14px 0; }
+            .header-container { flex-wrap: wrap; gap: 10px; padding: 0 14px; }
+            .user-greeting { flex: 1 1 100%; font-size: 0.95rem; }
+            .nav-menu-center.d-none.d-lg-flex {
+                display: flex !important;
+                flex: 1 1 100%;
+                justify-content: flex-start;
+                overflow-x: auto;
+                white-space: nowrap;
+                gap: 8px;
+                padding-bottom: 4px;
+            }
+            .logout-wrapper { flex: 1 1 100%; justify-content: flex-end; }
+            .nav-link-custom { font-size: 0.82rem; padding: 6px 12px; }
+            .welcome-hero { padding: 84px 16px; border-radius: 0 0 36px 36px; margin-bottom: 32px; }
+            .welcome-hero h1 { font-size: 2rem; }
+            .safety-main-container { padding: 22px 16px; }
+            .dashboard-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .system-features-wrapper { padding: 0 12px; margin: 36px 0; }
+            .system-grid-layout { grid-template-columns: 1fr; gap: 16px; }
+            .feature-box { padding: 26px 18px; }
+            .safety-wrapper-final { padding: 32px 18px; border-radius: 24px; margin: 28px auto !important; }
+        }
     </style>
 </head>
 <body>
@@ -187,6 +211,29 @@
                     <?php
                         $buoy = $buoyData ?? [];
                         $hasBuoy = !empty($buoy);
+                        $statusClass = 'bg-safe';
+                        $statusIcon = 'fa-circle-check';
+                        $statusText = 'SAFE FOR ACTIVITIES';
+                        $statusDescription = 'Wave and wind indicators are within normal operating range.';
+
+                        if ($hasBuoy) {
+                            $waveHeight = (float) ($buoy['avg_wave_height'] ?? 0);
+                            $windSpeedKts = (float) ($buoy['avg_wind_speed'] ?? 0);
+                            $windSpeedMs = $windSpeedKts * 0.514444;
+
+                            if ($waveHeight > 1.2 || $windSpeedMs > 10.3) {
+                                $statusClass = 'bg-unsafe';
+                                $statusIcon = 'fa-triangle-exclamation';
+                                $statusText = 'UNSAFE CONDITIONS';
+                                $statusDescription = 'Buoy thresholds exceeded (wave > 1.2m or wind > 10.3 m/s).';
+                            } elseif ($waveHeight >= 0.7 || $windSpeedMs >= 6.2) {
+                                $statusClass = 'bg-moderate';
+                                $statusIcon = 'fa-circle-exclamation';
+                                $statusText = 'MODERATE CONDITIONS';
+                                $statusDescription = 'Conditions are acceptable with caution and close monitoring.';
+                            }
+                        }
+
                         if (!$hasBuoy) {
                             echo '<p style="text-align:center;color:rgba(255,255,255,0.6);font-size:0.85rem;">No buoy data available yet.</p>';
                         } else {
@@ -205,7 +252,7 @@
                         <div class="data-card">
                             <i class="fa-solid fa-wind"></i>
                             <span class="label">Wind Speed</span>
-                            <span class="value"><?= number_format((float) ($buoy['avg_wind_speed'] ?? 0), 1) ?> kts</span>
+                            <span class="value"><?= number_format(((float) ($buoy['avg_wind_speed'] ?? 0)) * 0.514444, 1) ?> m/s</span>
                         </div>
                         <div class="data-card">
                             <i class="fa-solid fa-thermometer-half"></i>
@@ -214,9 +261,12 @@
                         </div>
                     </div>
                     <div class="mt-4 text-center">
-                        <div class="status-bar bg-safe">
-                            <i class="fa-solid fa-circle-check"></i> STATUS: SAFE FOR ACTIVITIES
+                        <div class="status-bar <?= esc($statusClass) ?>">
+                            <i class="fa-solid <?= esc($statusIcon) ?>"></i> STATUS: <?= esc($statusText) ?>
                         </div>
+                        <p style="font-size:0.75rem;color:rgba(255,255,255,0.7);margin-top:8px;margin-bottom:0;">
+                            <?= esc($statusDescription) ?>
+                        </p>
                         <p style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:8px;">
                             Last updated: <?= $buoy['recorded_at'] ? date('M d, Y h:i A', strtotime($buoy['recorded_at'])) : 'N/A' ?>
                         </p>
@@ -245,12 +295,6 @@
             <i class="fa-solid fa-water"></i>
             <h5>Wave Monitoring</h5>
             <p>Measures height and movement using onboard motion sensors to ensure guest safety.</p>
-        </div>
-
-        <div class="feature-box">
-            <i class="fa-solid fa-location-crosshairs"></i>
-            <h5>GPS Tracking</h5>
-            <p>Ensures data is collected from the exact activity zone for precise marine updates.</p>
         </div>
 
         <div class="feature-box">
@@ -299,16 +343,16 @@
                 <h4 class="fw-bold text-warning mb-4">Activity Safety Guide</h4>
                 <div class="ps-2">
                     <div class="mb-3">
-                        <i class="fa-solid fa-wind text-info me-2"></i> 
-                        Wind > 15 knots = <strong style="color: #ff4d4d;">UNSAFE</strong>
+                        <i class="fa-solid fa-check-circle text-success me-2"></i>
+                        <strong class="text-safe">SAFE:</strong> Wave &lt; 0.7m and Wind &lt; 6.2 m/s
                     </div>
                     <div class="mb-3">
-                        <i class="fa-solid fa-water text-info me-2"></i> 
-                        Wave Height > 1.5m = <strong style="color: #ff4d4d;">UNSAFE</strong>
+                        <i class="fa-solid fa-circle-exclamation text-warning me-2"></i>
+                        <strong class="text-moderate">MODERATE:</strong> Wave 0.7-1.2m or Wind 6.2-10.3 m/s (proceed with caution)
                     </div>
                     <div class="mb-0">
-                        <i class="fa-solid fa-circle-exclamation text-info me-2"></i> 
-                        Operations may pause during high tide.
+                        <i class="fa-solid fa-triangle-exclamation text-danger me-2"></i>
+                        <strong class="text-suspended">UNSAFE:</strong> Wave &gt; 1.2m or Wind &gt; 10.3 m/s (activities suspended)
                     </div>
                 </div>
             </div>
@@ -420,7 +464,7 @@
         { section: 'My Bookings', title: 'Cancel Booking',   sub: 'Free cancellation up to 24 hrs before schedule',   icon: 'fa-ban',             url: BASE + 'user/my-bookings' },
         /* SAFETY */
         { section: 'Safety & Sea Conditions', title: 'Sea Conditions Overview', sub: 'Full MARISENSE live data dashboard',              icon: 'fa-tower-broadcast', url: BASE + 'user/safety' },
-        { section: 'Safety & Sea Conditions', title: 'Wind Speed',              sub: 'Current wind speed reading in knots',              icon: 'fa-wind',            url: BASE + 'user/safety#marisense-section' },
+        { section: 'Safety & Sea Conditions', title: 'Wind Speed',              sub: 'Current wind speed reading in m/s',                icon: 'fa-wind',            url: BASE + 'user/safety#marisense-section' },
         { section: 'Safety & Sea Conditions', title: 'Wave Height',             sub: 'Live buoy wave height in meters',                  icon: 'fa-water',           url: BASE + 'user/safety#marisense-section' },
         { section: 'Safety & Sea Conditions', title: 'Wave Period',             sub: 'Wave frequency measured in seconds',               icon: 'fa-wave-square',     url: BASE + 'user/safety#marisense-section' },
         { section: 'Safety & Sea Conditions', title: 'Safety Status',           sub: 'Safe / Moderate / Unsafe activity indicator',      icon: 'fa-shield-halved',   url: BASE + 'user/safety' },

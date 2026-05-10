@@ -193,6 +193,32 @@
         .sdn-no-result { text-align: center; padding: 30px; color: rgba(255,255,255,0.4); font-size: 0.88rem; }
         .sdn-hint { text-align: center; padding: 20px; color: rgba(255,255,255,0.3); font-size: 0.8rem; }
         .sdn-highlight { background: rgba(72,202,228,0.25); color: #48cae4; border-radius: 2px; padding: 0 2px; }
+        @media (max-width: 991.98px) {
+            .waves-navbar { padding: 14px 0; }
+            .header-container { flex-wrap: wrap; gap: 10px; padding: 0 14px; }
+            .user-greeting { flex: 1 1 100%; font-size: 0.95rem; }
+            .nav-menu-center.d-none.d-lg-flex {
+                display: flex !important;
+                flex: 1 1 100%;
+                justify-content: flex-start;
+                overflow-x: auto;
+                white-space: nowrap;
+                gap: 8px;
+                padding-bottom: 4px;
+            }
+            .logout-wrapper { flex: 1 1 100%; justify-content: flex-end; }
+            .nav-link-custom { font-size: 0.82rem; padding: 6px 12px; }
+            .welcome-hero { padding: 84px 16px; border-radius: 0 0 36px 36px; margin-bottom: 32px; }
+            .welcome-hero h1 { font-size: 2rem; }
+            .page-container { padding: 0 12px; margin-bottom: 42px; }
+            .stats-strip { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .bookings-panel { padding: 18px; }
+            .booking-card { padding: 16px; }
+            .search-bar { flex-wrap: wrap; }
+            .search-input { min-width: 0; width: 100%; }
+            .bc-time-act-name { min-width: 78px; }
+            #toast-notification { top: auto; bottom: 18px; max-width: calc(100% - 24px); padding: 12px 16px; white-space: normal; border-radius: 16px; }
+        }
     </style>
 </head>
 <body>

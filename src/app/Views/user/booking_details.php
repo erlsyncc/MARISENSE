@@ -132,6 +132,32 @@
         .center-toast-box.toast-success { background: rgba(13,50,38,0.97); border: 1px solid rgba(40,167,69,0.6); color: #5ddb8a; }
         .center-toast-box.toast-error   { background: rgba(50,13,13,0.97);  border: 1px solid rgba(220,53,69,0.6);  color: #ff8888; }
         .center-toast-box i { font-size: 1.4rem; }
+        @media (max-width: 991.98px) {
+            .waves-navbar { padding: 14px 0; }
+            .header-container { flex-wrap: wrap; gap: 10px; padding: 0 14px; }
+            .user-greeting { flex: 1 1 100%; font-size: 0.95rem; }
+            .nav-menu-center.d-none.d-lg-flex {
+                display: flex !important;
+                flex: 1 1 100%;
+                justify-content: flex-start;
+                overflow-x: auto;
+                white-space: nowrap;
+                gap: 8px;
+                padding-bottom: 4px;
+            }
+            .logout-wrapper { flex: 1 1 100%; justify-content: flex-end; }
+            .nav-link-custom { font-size: 0.82rem; padding: 6px 12px; }
+            .page-body { margin: 24px auto 46px; padding: 0 12px; }
+            .details-card { padding: 20px 14px; border-radius: 20px; }
+            .booking-header-title { font-size: 1.2rem; }
+            .timeline { gap: 4px; }
+            .tl-label { font-size: 0.55rem; }
+            .cost-row, .payment-row { align-items: flex-start; gap: 10px; }
+            .action-row .btn-back,
+            .action-row .btn-cancel-booking,
+            .action-row .btn-pay-detail { width: 100%; justify-content: center; }
+            .pay-modal-box { padding: 20px 14px; border-radius: 20px; }
+        }
     </style>
 </head>
 <body>
