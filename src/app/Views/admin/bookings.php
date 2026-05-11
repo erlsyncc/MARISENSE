@@ -266,7 +266,12 @@ $flashError   = session()->getFlashdata('error');
             <h1 class="page-title">Manage Bookings</h1>
             <p class="page-subtitle">Review, verify payments, and manage all activity reservations.</p>
         </div>
-        <span class="admin-pill"><i class="fa-solid fa-calendar-check me-2"></i>BOOKINGS</span>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <button class="btn btn-sm" style="background: rgba(72,202,228,0.15); color: #48cae4; border: 1px solid rgba(72,202,228,0.3); border-radius: 8px; font-weight: 600;" onclick="openWalkInModal()">
+                <i class="fa-solid fa-users me-1"></i> Add Walk-In Booking
+            </button>
+            <span class="admin-pill"><i class="fa-solid fa-calendar-check me-2"></i>BOOKINGS</span>
+        </div>
     </div>
 
     <!-- Auto-cancel notice (populated by JS after AJAX) -->
@@ -649,6 +654,69 @@ $flashError   = session()->getFlashdata('error');
     <img id="lightbox-img" src="" alt="Receipt">
 </div>
 
+<!-- Walk-In Booking Modal -->
+<div class="help-overlay" id="walkInOverlay" onclick="if(event.target===this) closeWalkInModal()">
+    <div class="help-modal" style="max-width: 500px;">
+        <button class="help-close" onclick="closeWalkInModal()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="help-modal-title"><i class="fa-solid fa-users me-2" style="color:var(--accent-cyan)"></i>Add Walk-In Booking</div>
+        <div class="help-modal-sub">Create a new booking for a walk-in customer</div>
+        <div id="walkInBlockedMessage" style="display:none; background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); border-radius: 8px; padding: 12px; margin-bottom: 16px; color: #ff8888; font-size: 0.85rem;">
+            <i class="fa-solid fa-circle-exclamation me-2"></i>
+            <span id="walkInBlockedText"></span>
+        </div>
+        <form id="walkInForm" method="POST" action="<?= base_url('admin/create-walk-in-booking') ?>" style="display: flex; flex-direction: column; gap: 14px;">
+            <?= csrf_field() ?>
+            
+            <div>
+                <label style="color: rgba(255,255,255,0.7); font-size: 0.85rem; display: block; margin-bottom: 6px; font-weight: 600;">Activity <span style="color: #ff6b6b;">*</span></label>
+                <select name="activity_name" id="walkInActivity" required style="width: 100%; padding: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: white; font-family: 'Poppins', sans-serif; font-size: 0.85rem;">
+                    <option value="">Select an activity...</option>
+                    <?php
+                    $db = \Config\Database::connect();
+                    $activities = $db->table('activities')->where('status', 'active')->orderBy('name', 'ASC')->get()->getResultArray();
+                    foreach ($activities as $act):
+                    ?>
+                    <option value="<?= esc($act['name']) ?>"><?= esc($act['name']) ?> - ₱<?= number_format($act['price'], 2) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div>
+                    <label style="color: rgba(255,255,255,0.7); font-size: 0.85rem; display: block; margin-bottom: 6px; font-weight: 600;">Date <span style="color: #ff6b6b;">*</span></label>
+                    <input type="date" name="date" id="walkInDate" required min="<?= date('Y-m-d') ?>" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: white; font-family: 'Poppins', sans-serif; font-size: 0.85rem;">
+                </div>
+                <div>
+                    <label style="color: rgba(255,255,255,0.7); font-size: 0.85rem; display: block; margin-bottom: 6px; font-weight: 600;">Time <span style="color: #ff6b6b;">*</span></label>
+                    <input type="time" name="time" id="walkInTime" required style="width: 100%; padding: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: white; font-family: 'Poppins', sans-serif; font-size: 0.85rem;">
+                </div>
+            </div>
+
+            <div>
+                <label style="color: rgba(255,255,255,0.7); font-size: 0.85rem; display: block; margin-bottom: 6px; font-weight: 600;">Number of Participants <span style="color: #ff6b6b;">*</span></label>
+                <input type="number" name="participants" id="walkInParticipants" required min="1" max="20" value="1" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: white; font-family: 'Poppins', sans-serif; font-size: 0.85rem;">
+            </div>
+
+            <div>
+                <label style="color: rgba(255,255,255,0.7); font-size: 0.85rem; display: block; margin-bottom: 6px; font-weight: 600;">Contact Number <span style="color: #ff6b6b;">*</span></label>
+                <input type="tel" name="contact_number" id="walkInContact" required placeholder="09XXXXXXXXX" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: white; font-family: 'Poppins', sans-serif; font-size: 0.85rem;">
+            </div>
+
+            <div>
+                <label style="color: rgba(255,255,255,0.7); font-size: 0.85rem; display: block; margin-bottom: 6px; font-weight: 600;">Special Requests</label>
+                <textarea name="special_requests" id="walkInRequests" maxlength="500" rows="3" placeholder="Any special requests or notes..." style="width: 100%; padding: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: white; font-family: 'Poppins', sans-serif; font-size: 0.85rem; resize: none;"></textarea>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                <button type="button" onclick="closeWalkInModal()" style="padding: 10px; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;">Cancel</button>
+                <button type="submit" id="walkInSubmitBtn" style="padding: 10px; background: rgba(72,202,228,0.15); color: #48cae4; border: 1px solid rgba(72,202,228,0.3); border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;">Create Booking</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- Help Modal -->
 <div class="help-overlay" id="helpOverlay" onclick="if(event.target===this) this.classList.remove('open')">
     <div class="help-modal">
@@ -678,6 +746,52 @@ $flashError   = session()->getFlashdata('error');
 </div>
 
 <script>
+/* ─────────────────────────────────────
+   Walk-In Booking Modal
+───────────────────────────────────── */
+function openWalkInModal() {
+    const walkInOverlay = document.getElementById('walkInOverlay');
+    const blockedMsg = document.getElementById('walkInBlockedMessage');
+    const submitBtn = document.getElementById('walkInSubmitBtn');
+    const form = document.getElementById('walkInForm');
+    
+    // Check if bookings are blocked
+    fetch('<?= base_url("admin/check-booking-blocked") ?>', {
+        method: 'GET',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.blocked) {
+            blockedMsg.style.display = 'block';
+            document.getElementById('walkInBlockedText').textContent = data.message;
+            form.style.opacity = '0.5';
+            submitBtn.disabled = true;
+            submitBtn.style.cursor = 'not-allowed';
+        } else {
+            blockedMsg.style.display = 'none';
+            form.style.opacity = '1';
+            submitBtn.disabled = false;
+            submitBtn.style.cursor = 'pointer';
+        }
+    })
+    .catch(() => {
+        blockedMsg.style.display = 'none';
+        form.style.opacity = '1';
+        submitBtn.disabled = false;
+        submitBtn.style.cursor = 'pointer';
+    });
+    
+    walkInOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeWalkInModal() {
+    document.getElementById('walkInOverlay').classList.remove('open');
+    document.getElementById('walkInForm').reset();
+    document.body.style.overflow = '';
+}
+
 /* ─────────────────────────────────────
    Filter / search
 ───────────────────────────────────── */

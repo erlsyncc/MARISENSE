@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\BookingModel;
 use App\Models\BuoyDataModel;
+use App\Libraries\BookingSafetyMonitor;
 use CodeIgniter\HTTP\RedirectResponse;
 
 class Admin extends BaseController
@@ -546,5 +547,103 @@ class Admin extends BaseController
             'sales'        => $sales,
             'totalRevenue' => $totalRevenue,
         ]);
+    }
+
+    // =========================================================
+    //  WALK-IN BOOKING — create booking for walk-in customers
+    // =========================================================
+    public function checkBookingBlocked()
+    {
+        if (! $this->request->isAJAX()) {
+            return $this->response->setStatusCode(400);
+        }
+        
+        if (! auth()->user() || ! auth()->user()->inGroup('admin')) {
+            return $this->response->setJSON(['blocked' => false]);
+        }
+
+        $safetyMonitor = new BookingSafetyMonitor();
+        
+        return $this->response->setJSON([
+            'blocked' => $safetyMonitor->isBookingBlocked(),
+            'message' => $safetyMonitor->getBookingBlockedMessage(),
+        ]);
+    }
+
+    public function createWalkInBooking()
+    {
+        if ($r = $this->requireAdmin()) return $r;
+
+        $db = \Config\Database::connect();
+        $safetyMonitor = new BookingSafetyMonitor();
+
+        // Check if bookings are blocked due to unsafe conditions
+        if ($safetyMonitor->isBookingBlocked()) {
+            return redirect()->to(base_url('admin/bookings'))
+                ->with('error', 'Cannot create bookings: ' . $safetyMonitor->getBookingBlockedMessage());
+        }
+
+        $rules = [
+            'activity_name'     => 'required|string',
+            'date'              => 'required|valid_date[Y-m-d]',
+            'time'              => 'required|regex_match[/^\d{2}:\d{2}$/]',
+            'participants'      => 'required|integer|greater_than[0]|less_than_equal_to[20]',
+            'contact_number'    => 'required|string|max_length[20]',
+            'special_requests'  => 'string|max_length[500]',
+        ];
+
+        if (! $this->validate($rules)) {
+            return redirect()->back()->withInput()
+                ->with('error', implode(' ', $this->validator->getErrors()));
+        }
+
+        $activityName   = trim($this->request->getPost('activity_name'));
+        $date           = trim($this->request->getPost('date'));
+        $time           = trim($this->request->getPost('time'));
+        $participants   = (int) $this->request->getPost('participants');
+        $contactNumber  = trim($this->request->getPost('contact_number'));
+        $specialRequests = trim($this->request->getPost('special_requests') ?? '');
+
+        // Validate activity exists and is active
+        $activity = $db->table('activities')
+            ->where('name', $activityName)
+            ->where('status', 'active')
+            ->first();
+
+        if (! $activity) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Invalid or inactive activity.');
+        }
+
+        // Calculate total amount
+        $totalAmount = BookingModel::calculateTotal($activityName, $participants);
+
+        // Create a system user record for walk-in if not exists (user_id = 0 for walk-ins)
+        $bookingData = [
+            'user_id'           => 0,  // 0 = walk-in customer
+            'booking_code'      => (new BookingModel())->generateBookingCode(),
+            'activity_id'       => $activity['id'],
+            'activity_name'     => $activityName,
+            'all_activities'    => $activityName,
+            'date'              => $date,
+            'time'              => $time,
+            'participants'      => $participants,
+            'contact_number'    => $contactNumber,
+            'special_requests'  => $specialRequests ?: null,
+            'booking_type'      => 'walk_in',
+            'total_amount'      => $totalAmount,
+            'down_payment'      => $totalAmount * 0.5,
+            'down_payment_status' => 'pending',
+            'status'            => 'confirmed',  // Auto-confirm walk-ins
+            'payment_status'    => 'pending',
+            'created_at'        => date('Y-m-d H:i:s'),
+            'updated_at'        => date('Y-m-d H:i:s'),
+        ];
+
+        $db->table('bookings')->insert($bookingData);
+        $bookingId = $db->insertID();
+
+        return redirect()->to(base_url('admin/bookings'))
+            ->with('success', 'Walk-in booking created: ' . $bookingData['booking_code']);
     }
 }

@@ -6,7 +6,6 @@ use App\Libraries\BookingSafetyMonitor;
 use App\Models\BuoyDataModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Database\Exceptions\DatabaseException;
-use CodeIgniter\Database\RawSql;
 use CodeIgniter\RESTful\ResourceController;
 
 class Api extends ResourceController
@@ -28,7 +27,7 @@ class Api extends ResourceController
      */
     public function buoyData()
     {
-        if ($this->request->getMethod() !== 'post') {
+        if (strtolower($this->request->getMethod()) !== 'post') {
             return $this->response
                 ->setStatusCode(405)
                 ->setJSON(['ok' => false, 'error' => 'POST method required']);
@@ -53,7 +52,7 @@ class Api extends ResourceController
         }
 
         try {
-            $db = \Config\Database::connect();
+            $db      = \Config\Database::connect();
             $builder = $db->table('buoy_data');
             $builder->insert($data);
             $insertId = $db->insertID();
@@ -62,25 +61,35 @@ class Api extends ResourceController
             return $this->dbError();
         }
 
-        $safetyMonitor = new BookingSafetyMonitor();
-        $safetyMonitor->processLatestReading();
+        try {
+    $safetyMonitor = new BookingSafetyMonitor();
+    $safetyMonitor->processLatestReading();
+} catch (\Throwable $e) {
+
+    log_message('error', $e->getMessage());
+
+    return $this->response->setJSON([
+        'error' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine()
+    ])->setStatusCode(500);
+}
 
         return $this->respondCreated([
-            'ok' => true,
-            'id' => (int) $insertId,
+            'ok'         => true,
+            'id'         => (int) $insertId,
             'receivedAt' => $receivedAt,
         ]);
     }
 
     /**
      * GET /api/buoy-data/latest
-     * Retrieve the latest buoy reading
      */
     public function getLatestBuoyData()
     {
         $latest = $this->buoyModel->getLatestReading();
-        
-        if (!$latest) {
+
+        if (! $latest) {
             return $this->failNotFound('No buoy data available');
         }
 
@@ -89,15 +98,18 @@ class Api extends ResourceController
 
     /**
      * GET /api/buoy-data/recent/:limit
-     * Retrieve recent buoy readings
      */
     public function getRecentBuoyData($limit = 10)
     {
-        $limit = min(intval($limit), 100); // Cap at 100 records
+        $limit    = min(intval($limit), 100);
         $readings = $this->buoyModel->getRecentReadings($limit);
-        
+
         return $this->respond($readings);
     }
+
+    // =========================================================================
+    // PARSING
+    // =========================================================================
 
     private function parseBuoyPayload(array $payload): array
     {
@@ -107,31 +119,47 @@ class Api extends ResourceController
         }
 
         $avgWaveHeight = $this->parseFloatField($payload, 'avgWaveHeight');
-        $avgWindSpeed = $this->parseFloatField($payload, 'avgWindSpeed');
-        $maxWindSpeed = $this->parseFloatField($payload, 'maxWindSpeed');
+        $avgWindSpeed  = $this->parseFloatField($payload, 'avgWindSpeed');
+        $maxWindSpeed  = $this->parseFloatField($payload, 'maxWindSpeed');
 
-        $pitch = $this->parseObjectField($payload, 'pitch');
+        // --- pitch ---
+        $pitch    = $this->parseObjectField($payload, 'pitch');
         $pitchAvg = $this->parseFloatField($pitch, 'avg', 'pitch');
 
-        $waterTemp = $this->parseObjectField($payload, 'waterTemp');
-        $waterTempAvg = $this->parseNullableFloatField($waterTemp, 'avg', 'waterTemp');
+        // --- roll (FIX: was never parsed — now read from payload) ---
+        $roll    = $this->parseObjectField($payload, 'roll');
+        $rollAvg = $this->parseFloatField($roll, 'avg', 'roll');
+
+        // --- waterTemp ---
+        $waterTemp        = $this->parseObjectField($payload, 'waterTemp');
+        $waterTempAvg     = $this->parseNullableFloatField($waterTemp, 'avg', 'waterTemp');
         $waterTempSamples = $waterTempAvg === null ? 0 : $sampleCount;
+
+        // --- rssi (FIX: was arriving in payload but hardcoded to 0.0 in the
+        //     returned array — now properly read from the top-level field) ---
+        $avgRssi = $this->parseNullableFloatField($payload, 'rssi', null, true) ?? 0.0;
+
+        // --- packetID (FIX: same — was in payload but mapped to hardcoded 0) ---
+        $firstPacketId = array_key_exists('packetID', $payload)
+            ? (int) $payload['packetID']
+            : 0;
+        $lastPacketId  = $firstPacketId; // single-packet window
 
         return [
             'sample_count'             => $sampleCount,
             'expected_samples'         => $sampleCount,
             'packet_loss_pct'          => 0.0,
-            'first_packet_id'          => 0,
-            'last_packet_id'           => 0,
+            'first_packet_id'          => $firstPacketId,   // FIX: was hardcoded 0
+            'last_packet_id'           => $lastPacketId,    // FIX: was hardcoded 0
             'hall_detections'          => 0,
-            'avg_rssi'                 => 0.0,
+            'avg_rssi'                 => $avgRssi,         // FIX: was hardcoded 0.0
             'window_duration_ms'       => self::DEFAULT_WINDOW_DURATION_MS,
             'pitch_avg'                => $pitchAvg,
             'pitch_min'                => $pitchAvg,
             'pitch_max'                => $pitchAvg,
-            'roll_avg'                 => 0.0,
-            'roll_min'                 => 0.0,
-            'roll_max'                 => 0.0,
+            'roll_avg'                 => $rollAvg,         // FIX: was hardcoded 0.0
+            'roll_min'                 => $rollAvg,         // FIX: was hardcoded 0.0
+            'roll_max'                 => $rollAvg,         // FIX: was hardcoded 0.0
             'water_temp_avg'           => $waterTempAvg,
             'water_temp_min'           => $waterTempAvg,
             'water_temp_max'           => $waterTempAvg,
@@ -140,10 +168,12 @@ class Api extends ResourceController
             'avg_wind_speed'           => $avgWindSpeed,
             'max_wind_speed'           => $maxWindSpeed,
             'recorded_at'              => date('Y-m-d H:i:s'),
-            // Note: recorded_at and created_at have defaults in your DB, 
-            // so you can actually omit them here if you want the DB to handle it.
         ];
     }
+
+    // =========================================================================
+    // HELPERS
+    // =========================================================================
 
     private function parseObjectField(array $payload, string $field): array
     {
@@ -157,7 +187,7 @@ class Api extends ResourceController
     private function filterPersistableColumns(array $data): array
     {
         $allowedFields = $this->buoyModel->getPersistableFields();
-        $tableColumns = array_flip(\Config\Database::connect()->getFieldNames('buoy_data'));
+        $tableColumns  = array_flip(\Config\Database::connect()->getFieldNames('buoy_data'));
 
         $filtered = [];
         foreach ($allowedFields as $field) {
@@ -189,8 +219,12 @@ class Api extends ResourceController
         return (float) $value;
     }
 
-    private function parseNullableFloatField(array $payload, string $field, ?string $parent = null, bool $allowMissing = false): ?float
-    {
+    private function parseNullableFloatField(
+        array $payload,
+        string $field,
+        ?string $parent = null,
+        bool $allowMissing = false
+    ): ?float {
         if (! array_key_exists($field, $payload)) {
             if ($allowMissing) {
                 return null;
