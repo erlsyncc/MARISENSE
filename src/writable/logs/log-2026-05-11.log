@@ -1,0 +1,380 @@
+ERROR - 2026-05-11 13:55:52 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'marisense_db', 3306, '', 0)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Database\BaseConnection.php(654): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\settings\src\Handlers\DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\settings\src\Handlers\DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate(NULL)
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\settings\src\Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has('Config\\Auth', 'sessionConfig', NULL)
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\settings\src\Helpers\setting_helper.php(25): CodeIgniter\Settings\Settings->get('Auth.sessionCon...')
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Authentication\Authenticators\Session.php(682): setting('Auth.sessionCon...')
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Authentication\Authenticators\Session.php(700): CodeIgniter\Shield\Authentication\Authenticators\Session->getSessionUserInfo()
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Authentication\Authenticators\Session.php(387): CodeIgniter\Shield\Authentication\Authenticators\Session->getSessionUserKey('id')
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Authentication\Authenticators\Session.php(371): CodeIgniter\Shield\Authentication\Authenticators\Session->checkUserState()
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Auth.php(189): CodeIgniter\Shield\Authentication\Authenticators\Session->loggedIn()
+#13 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Collectors\Auth.php(76): CodeIgniter\Shield\Auth->__call('loggedIn', Array)
+#14 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Debug\Toolbar\Collectors\BaseCollector.php(228): CodeIgniter\Shield\Collectors\Auth->display()
+#15 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Debug\Toolbar.php(95): CodeIgniter\Debug\Toolbar\Collectors\BaseCollector->getAsArray()
+#16 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Debug\Toolbar.php(392): CodeIgniter\Debug\Toolbar->run(1778507745.4042, 1.5754, Object(CodeIgniter\HTTP\IncomingRequest), Object(CodeIgniter\HTTP\Response))
+#17 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Filters\DebugToolbar.php(44): CodeIgniter\Debug\Toolbar->prepare(Object(CodeIgniter\HTTP\IncomingRequest), Object(CodeIgniter\HTTP\Response))
+#18 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Filters\Filters.php(278): CodeIgniter\Filters\DebugToolbar->after(Object(CodeIgniter\HTTP\IncomingRequest), Object(CodeIgniter\HTTP\Response), NULL)
+#19 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Filters\Filters.php(364): CodeIgniter\Filters\Filters->runAfter(Array)
+#20 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(393): CodeIgniter\Filters\Filters->runRequired('after')
+#21 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->runRequiredAfterFilters(Object(CodeIgniter\Filters\Filters))
+#22 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#23 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#24 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#25 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#26 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php:231
+Stack trace:
+#0 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Database\BaseConnection.php(654): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\settings\src\Handlers\DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\settings\src\Handlers\DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate(NULL)
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\settings\src\Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has('Config\\Auth', 'sessionConfig', NULL)
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\settings\src\Helpers\setting_helper.php(25): CodeIgniter\Settings\Settings->get('Auth.sessionCon...')
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Authentication\Authenticators\Session.php(682): setting('Auth.sessionCon...')
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Authentication\Authenticators\Session.php(700): CodeIgniter\Shield\Authentication\Authenticators\Session->getSessionUserInfo()
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Authentication\Authenticators\Session.php(387): CodeIgniter\Shield\Authentication\Authenticators\Session->getSessionUserKey('id')
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Authentication\Authenticators\Session.php(371): CodeIgniter\Shield\Authentication\Authenticators\Session->checkUserState()
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Auth.php(189): CodeIgniter\Shield\Authentication\Authenticators\Session->loggedIn()
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\shield\src\Collectors\Auth.php(76): CodeIgniter\Shield\Auth->__call('loggedIn', Array)
+#13 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Debug\Toolbar\Collectors\BaseCollector.php(228): CodeIgniter\Shield\Collectors\Auth->display()
+#14 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Debug\Toolbar.php(95): CodeIgniter\Debug\Toolbar\Collectors\BaseCollector->getAsArray()
+#15 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Debug\Toolbar.php(392): CodeIgniter\Debug\Toolbar->run(1778507745.4042, 1.5754, Object(CodeIgniter\HTTP\IncomingRequest), Object(CodeIgniter\HTTP\Response))
+#16 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Filters\DebugToolbar.php(44): CodeIgniter\Debug\Toolbar->prepare(Object(CodeIgniter\HTTP\IncomingRequest), Object(CodeIgniter\HTTP\Response))
+#17 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Filters\Filters.php(278): CodeIgniter\Filters\DebugToolbar->after(Object(CodeIgniter\HTTP\IncomingRequest), Object(CodeIgniter\HTTP\Response), NULL)
+#18 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Filters\Filters.php(364): CodeIgniter\Filters\Filters->runAfter(Array)
+#19 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(393): CodeIgniter\Filters\Filters->runRequired('after')
+#20 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->runRequiredAfterFilters(Object(CodeIgniter\Filters\Filters))
+#21 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#22 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#23 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#24 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#25 {main}
+CRITICAL - 2026-05-11 13:55:52 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+[Method: GET, Route: /]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\BaseConnection.php(654): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `settings`
+WHERE `context` IS NULL', [], false)
+ 3 VENDORPATH\codeigniter4\settings\src\Handlers\DatabaseHandler.php(186): CodeIgniter\Database\BaseBuilder->get()
+ 4 VENDORPATH\codeigniter4\settings\src\Handlers\DatabaseHandler.php(51): CodeIgniter\Settings\Handlers\DatabaseHandler->hydrate(null)
+ 5 VENDORPATH\codeigniter4\settings\src\Settings.php(59): CodeIgniter\Settings\Handlers\DatabaseHandler->has('Config\\Auth', 'sessionConfig', null)
+ 6 VENDORPATH\codeigniter4\settings\src\Helpers\setting_helper.php(25): CodeIgniter\Settings\Settings->get('Auth.sessionConfig')
+ 7 VENDORPATH\codeigniter4\shield\src\Authentication\Authenticators\Session.php(682): setting('Auth.sessionConfig')
+ 8 VENDORPATH\codeigniter4\shield\src\Authentication\Authenticators\Session.php(700): CodeIgniter\Shield\Authentication\Authenticators\Session->getSessionUserInfo()
+ 9 VENDORPATH\codeigniter4\shield\src\Authentication\Authenticators\Session.php(387): CodeIgniter\Shield\Authentication\Authenticators\Session->getSessionUserKey('id')
+10 VENDORPATH\codeigniter4\shield\src\Authentication\Authenticators\Session.php(371): CodeIgniter\Shield\Authentication\Authenticators\Session->checkUserState()
+11 VENDORPATH\codeigniter4\shield\src\Auth.php(189): CodeIgniter\Shield\Authentication\Authenticators\Session->loggedIn()
+12 VENDORPATH\codeigniter4\shield\src\Collectors\Auth.php(76): CodeIgniter\Shield\Auth->__call('loggedIn', [])
+13 SYSTEMPATH\Debug\Toolbar\Collectors\BaseCollector.php(228): CodeIgniter\Shield\Collectors\Auth->display()
+14 SYSTEMPATH\Debug\Toolbar.php(95): CodeIgniter\Debug\Toolbar\Collectors\BaseCollector->getAsArray()
+15 SYSTEMPATH\Debug\Toolbar.php(392): CodeIgniter\Debug\Toolbar->run(1778507745.404154, 1.5754, Object(CodeIgniter\HTTP\IncomingRequest), Object(CodeIgniter\HTTP\Response))
+16 SYSTEMPATH\Filters\DebugToolbar.php(44): CodeIgniter\Debug\Toolbar->prepare(Object(CodeIgniter\HTTP\IncomingRequest), Object(CodeIgniter\HTTP\Response))
+17 SYSTEMPATH\Filters\Filters.php(278): CodeIgniter\Filters\DebugToolbar->after(Object(CodeIgniter\HTTP\IncomingRequest), Object(CodeIgniter\HTTP\Response), null)
+18 SYSTEMPATH\Filters\Filters.php(364): CodeIgniter\Filters\Filters->runAfter([...])
+19 SYSTEMPATH\CodeIgniter.php(393): CodeIgniter\Filters\Filters->runRequired('after')
+20 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->runRequiredAfterFilters(Object(CodeIgniter\Filters\Filters))
+21 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+22 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+23 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+24 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-05-11 13:59:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 21:59:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:00:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:00:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:00:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:00:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:00:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:00:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-11 22:00:34 --> Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:00:34 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+[Method: GET, Route: user/booking]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 2 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 4 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 5 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 6 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:00:34 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 4 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 6 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 7 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 8 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:00:34 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-05-11 22:00:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-11 22:00:39 --> Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:00:39 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+[Method: GET, Route: user/booking]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 2 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 4 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 5 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 6 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:00:39 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 4 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 6 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 7 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 8 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:00:39 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-05-11 22:00:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:00:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:00:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-11 22:00:56 --> Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:00:56 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+[Method: GET, Route: user/booking]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 2 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 4 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 5 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 6 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:00:56 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 4 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 6 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 7 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 8 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:00:56 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-05-11 22:12:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
