@@ -14,8 +14,10 @@ class BookingSafetyMonitor
     private const UNSAFE_CONSECUTIVE_PACKETS = 5;
     private const UNSAFE_MIN_DURATION_SECONDS = 240;
 
-    private const RECOVERY_CONSECUTIVE_PACKETS = 5;
-    private const RECOVERY_MIN_DURATION_SECONDS = 240;
+    private const RECOVERY_CONSECUTIVE_PACKETS = 180;
+    private const RECOVERY_MIN_DURATION_SECONDS = 10800;
+
+    private const UNSAFE_BLOCKED_DATES = 1;
 
     private const AUTO_CANCEL_WINDOW_HOURS = 2;
     private const AUTO_CANCEL_REASON = 'Unsafe Maritime Conditions';
@@ -85,6 +87,29 @@ class BookingSafetyMonitor
     public function getBookingBlockedMessage(): string
     {
         return 'New bookings are temporarily paused due to unsafe maritime conditions. Refunds or rescheduling options for affected bookings are being processed.';
+    }
+
+    public function getUnsafeBookingAllowedFromDate(): string
+    {
+        return (new \DateTimeImmutable('today'))
+            ->modify('+' . self::UNSAFE_BLOCKED_DATES . ' day')
+            ->format('Y-m-d');
+    }
+
+    public function canBookForDate(string $date): bool
+    {
+        if (! $this->isBookingBlocked()) {
+            return true;
+        }
+
+        $bookingDate = \DateTimeImmutable::createFromFormat('!Y-m-d', $date);
+        $errors      = \DateTimeImmutable::getLastErrors();
+        if (! $bookingDate || ($errors['warning_count'] ?? 0) > 0 || ($errors['error_count'] ?? 0) > 0) {
+            return false;
+        }
+
+        $allowedFrom = \DateTimeImmutable::createFromFormat('!Y-m-d', $this->getUnsafeBookingAllowedFromDate());
+        return $allowedFrom !== false && $bookingDate >= $allowedFrom;
     }
 
     private function markUnsafe(array $latestReading, array $evaluation): void

@@ -563,10 +563,26 @@ class Admin extends BaseController
         }
 
         $safetyMonitor = new BookingSafetyMonitor();
-        
+        $requestedDate = trim((string) ($this->request->getGet('date') ?? ''));
+        $isBlocked     = $safetyMonitor->isBookingBlocked();
+        $allowedFrom   = $safetyMonitor->getUnsafeBookingAllowedFromDate();
+
+        if ($isBlocked && $requestedDate !== '' && $safetyMonitor->canBookForDate($requestedDate)) {
+            return $this->response->setJSON([
+                'blocked'     => false,
+                'message'     => '',
+                'unsafe_now'  => true,
+                'allowed_from'=> $allowedFrom,
+            ]);
+        }
+
         return $this->response->setJSON([
-            'blocked' => $safetyMonitor->isBookingBlocked(),
-            'message' => $safetyMonitor->getBookingBlockedMessage(),
+            'blocked'      => $isBlocked,
+            'message'      => $isBlocked
+                ? 'Unsafe sea conditions are active. Bookings for today are paused. You can still create bookings from ' . $allowedFrom . ' onward.'
+                : '',
+            'unsafe_now'   => $isBlocked,
+            'allowed_from' => $allowedFrom,
         ]);
     }
 
@@ -576,12 +592,6 @@ class Admin extends BaseController
 
         $db = \Config\Database::connect();
         $safetyMonitor = new BookingSafetyMonitor();
-
-        // Check if bookings are blocked due to unsafe conditions
-        if ($safetyMonitor->isBookingBlocked()) {
-            return redirect()->to(base_url('admin/bookings'))
-                ->with('error', 'Cannot create bookings: ' . $safetyMonitor->getBookingBlockedMessage());
-        }
 
         $rules = [
             'activity_name'     => 'required|string',
@@ -603,6 +613,11 @@ class Admin extends BaseController
         $participants   = (int) $this->request->getPost('participants');
         $contactNumber  = trim($this->request->getPost('contact_number'));
         $specialRequests = trim($this->request->getPost('special_requests') ?? '');
+
+        if (! $safetyMonitor->canBookForDate($date)) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Unsafe sea conditions are active. Bookings for today are paused. You can still create bookings from ' . $safetyMonitor->getUnsafeBookingAllowedFromDate() . ' onward.');
+        }
 
         // Validate activity exists and is active
         $activity = $db->table('activities')

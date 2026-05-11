@@ -95,8 +95,9 @@ class User extends BaseController
     {
         $bookingModel = new BookingModel();
         BookingModel::loadFromDB();
-        $safetyMonitor = new BookingSafetyMonitor();
-        $bookingBlocked = $safetyMonitor->isBookingBlocked();
+        $safetyMonitor      = new BookingSafetyMonitor();
+        $bookingBlocked     = $safetyMonitor->isBookingBlocked();
+        $bookingAllowedFrom = $safetyMonitor->getUnsafeBookingAllowedFromDate();
 
         $pricing   = BookingModel::getPricing();
         $maxRiders = BookingModel::getMaxRiders();
@@ -122,7 +123,10 @@ class User extends BaseController
             'activities'       => $activities,
             'bookedDates'      => $activity ? $bookingModel->getBookedDates($activity) : [],
             'bookingBlocked'   => $bookingBlocked,
-            'bookingBlockedMessage' => $safetyMonitor->getBookingBlockedMessage(),
+            'bookingAllowedFrom' => $bookingAllowedFrom,
+            'bookingBlockedMessage' => $bookingBlocked
+                ? 'Unsafe sea conditions are active. Reservations for today are paused. You can still reserve from ' . $bookingAllowedFrom . ' onward.'
+                : '',
         ]);
     }
 
@@ -133,11 +137,6 @@ class User extends BaseController
     public function storeBooking()
     {
         $safetyMonitor = new BookingSafetyMonitor();
-        if ($safetyMonitor->isBookingBlocked()) {
-            return redirect()->to(base_url('user/booking'))
-                             ->withInput()
-                             ->with('error', $safetyMonitor->getBookingBlockedMessage());
-        }
 
         $bookingModel = new BookingModel();
         BookingModel::loadFromDB();
@@ -187,6 +186,11 @@ class User extends BaseController
             if ($selectedTimestamp <= time()) {
                 return redirect()->back()->withInput()->with('error', 'The selected time has already passed. Please choose a future time slot.');
             }
+        }
+
+        if (! $safetyMonitor->canBookForDate($date)) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Unsafe sea conditions are active. Reservations for today are paused. You can still reserve from ' . $safetyMonitor->getUnsafeBookingAllowedFromDate() . ' onward.');
         }
 
         $allActivities = array_values(array_filter(array_map('trim', explode(',', $allActivitiesRaw))));

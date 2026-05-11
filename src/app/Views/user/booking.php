@@ -308,6 +308,7 @@ $phpNowMinutes = (int)$phtNow->format('H') * 60 + (int)$phtNow->format('i'); // 
     const ACTIVITY_DURATION     = <?= json_encode($durations) ?>;
     const PER_PERSON_ACTIVITIES = <?= json_encode($perPersonActivities) ?>;
     const BOOKING_BLOCKED       = <?= ! empty($bookingBlocked) ? 'true' : 'false' ?>;
+    const BOOKING_ALLOWED_FROM  = "<?= esc($bookingAllowedFrom ?? '') ?>";
     const BOOKING_BLOCKED_MSG   = <?= json_encode($bookingBlockedMessage ?? '') ?>;
 
     // ── Philippine Time anchors (from server — no browser timezone guessing) ──
@@ -860,9 +861,15 @@ function renderCalendar() {
         // Today is only disabled if ALL slots are past (i.e. it's after 5 PM PHT)
         var allSlotsPastToday = isToday && PHT_NOW_MINUTES >= 17 * 60;
 
-        if (isPast || allSlotsPastToday) {
+        var blockedBySafety = BOOKING_BLOCKED && BOOKING_ALLOWED_FROM && dateStr < BOOKING_ALLOWED_FROM;
+
+        if (isPast || allSlotsPastToday || blockedBySafety) {
             d.classList.add('past');
-            d.title = isPast ? 'Past date' : 'No more slots available today';
+            if (blockedBySafety) {
+                d.title = BOOKING_BLOCKED_MSG || ('Temporarily unavailable. You can book from ' + BOOKING_ALLOWED_FROM + ' onward.');
+            } else {
+                d.title = isPast ? 'Past date' : 'No more slots available today';
+            }
         } else if (bookedDates.includes(dateStr)) {
             d.classList.add('booked');
             d.title = 'Fully booked';
@@ -1122,7 +1129,7 @@ function checkConfirmReady() {
     var btn  = document.getElementById('confirm-btn');
     var hint = document.getElementById('confirm-hint');
 
-    if (BOOKING_BLOCKED) {
+    if (BOOKING_BLOCKED && selectedDate && BOOKING_ALLOWED_FROM && selectedDate < BOOKING_ALLOWED_FROM) {
         btn.disabled = true;
         hint.textContent = BOOKING_BLOCKED_MSG || 'New bookings are temporarily paused due to unsafe maritime conditions.';
         return;
@@ -1154,7 +1161,7 @@ function checkConfirmReady() {
 // FORM SUBMIT GUARD
 // ============================================================
 document.getElementById('bookingForm').addEventListener('submit', function(e) {
-    if (BOOKING_BLOCKED) {
+    if (BOOKING_BLOCKED && selectedDate && BOOKING_ALLOWED_FROM && selectedDate < BOOKING_ALLOWED_FROM) {
         e.preventDefault();
         alert(BOOKING_BLOCKED_MSG || 'New bookings are temporarily paused due to unsafe maritime conditions.');
         return;

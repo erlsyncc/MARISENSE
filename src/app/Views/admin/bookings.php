@@ -751,37 +751,15 @@ $flashError   = session()->getFlashdata('error');
 ───────────────────────────────────── */
 function openWalkInModal() {
     const walkInOverlay = document.getElementById('walkInOverlay');
-    const blockedMsg = document.getElementById('walkInBlockedMessage');
-    const submitBtn = document.getElementById('walkInSubmitBtn');
-    const form = document.getElementById('walkInForm');
-    
-    // Check if bookings are blocked
-    fetch('<?= base_url("admin/check-booking-blocked") ?>', {
-        method: 'GET',
-        headers: { 'X-Requested-With': 'XMLHttpRequest' }
-    })
-    .then(r => r.json())
-    .then(data => {
-        if (data.blocked) {
-            blockedMsg.style.display = 'block';
-            document.getElementById('walkInBlockedText').textContent = data.message;
-            form.style.opacity = '0.5';
-            submitBtn.disabled = true;
-            submitBtn.style.cursor = 'not-allowed';
-        } else {
-            blockedMsg.style.display = 'none';
-            form.style.opacity = '1';
-            submitBtn.disabled = false;
-            submitBtn.style.cursor = 'pointer';
-        }
-    })
-    .catch(() => {
-        blockedMsg.style.display = 'none';
-        form.style.opacity = '1';
-        submitBtn.disabled = false;
-        submitBtn.style.cursor = 'pointer';
-    });
-    
+    const dateInput = document.getElementById('walkInDate');
+
+    if (dateInput && !dateInput.dataset.blockListenerBound) {
+        dateInput.addEventListener('change', syncWalkInBlockState);
+        dateInput.addEventListener('input', syncWalkInBlockState);
+        dateInput.dataset.blockListenerBound = '1';
+    }
+
+    syncWalkInBlockState();
     walkInOverlay.classList.add('open');
     document.body.style.overflow = 'hidden';
 }
@@ -790,6 +768,44 @@ function closeWalkInModal() {
     document.getElementById('walkInOverlay').classList.remove('open');
     document.getElementById('walkInForm').reset();
     document.body.style.overflow = '';
+}
+
+function syncWalkInBlockState() {
+    const blockedMsg = document.getElementById('walkInBlockedMessage');
+    const blockedText = document.getElementById('walkInBlockedText');
+    const submitBtn = document.getElementById('walkInSubmitBtn');
+    const form = document.getElementById('walkInForm');
+    const dateValue = document.getElementById('walkInDate')?.value || '';
+    const query = dateValue ? `?date=${encodeURIComponent(dateValue)}` : '';
+
+    fetch(`<?= base_url("admin/check-booking-blocked") ?>${query}`, {
+        method: 'GET',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.blocked) {
+            blockedMsg.style.display = 'block';
+            blockedText.textContent = data.message || 'Booking is temporarily blocked.';
+            form.style.opacity = '0.5';
+            submitBtn.disabled = true;
+            submitBtn.style.cursor = 'not-allowed';
+            return;
+        }
+
+        blockedMsg.style.display = 'none';
+        blockedText.textContent = '';
+        form.style.opacity = '1';
+        submitBtn.disabled = false;
+        submitBtn.style.cursor = 'pointer';
+    })
+    .catch(() => {
+        blockedMsg.style.display = 'none';
+        blockedText.textContent = '';
+        form.style.opacity = '1';
+        submitBtn.disabled = false;
+        submitBtn.style.cursor = 'pointer';
+    });
 }
 
 /* ─────────────────────────────────────

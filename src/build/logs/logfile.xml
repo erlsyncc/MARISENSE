@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/phpunit.xml.dist" tests="5" assertions="7" errors="0" failures="0" skipped="0" time="0.050203">
-    <testsuite name="App" tests="5" assertions="7" errors="0" failures="0" skipped="0" time="0.050203">
-      <testsuite name="ExampleDatabaseTest" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/database/ExampleDatabaseTest.php" tests="2" assertions="3" errors="0" failures="0" skipped="0" time="0.040641">
-        <testcase name="testModelFindAll" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/database/ExampleDatabaseTest.php" line="17" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" assertions="1" time="0.035813"/>
-        <testcase name="testSoftDeleteLeavesRow" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/database/ExampleDatabaseTest.php" line="28" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" assertions="2" time="0.004828"/>
+  <testsuite name="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/phpunit.xml.dist" tests="5" assertions="7" errors="0" failures="0" skipped="0" time="0.065348">
+    <testsuite name="App" tests="5" assertions="7" errors="0" failures="0" skipped="0" time="0.065348">
+      <testsuite name="ExampleDatabaseTest" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/database/ExampleDatabaseTest.php" tests="2" assertions="3" errors="0" failures="0" skipped="0" time="0.053330">
+        <testcase name="testModelFindAll" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/database/ExampleDatabaseTest.php" line="17" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" assertions="1" time="0.045624"/>
+        <testcase name="testSoftDeleteLeavesRow" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/database/ExampleDatabaseTest.php" line="28" class="ExampleDatabaseTest" classname="ExampleDatabaseTest" assertions="2" time="0.007705"/>
       </testsuite>
-      <testsuite name="ExampleSessionTest" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/session/ExampleSessionTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.000670">
-        <testcase name="testSessionSimple" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/session/ExampleSessionTest.php" line="10" class="ExampleSessionTest" classname="ExampleSessionTest" assertions="1" time="0.000670"/>
+      <testsuite name="ExampleSessionTest" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/session/ExampleSessionTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.001027">
+        <testcase name="testSessionSimple" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/session/ExampleSessionTest.php" line="10" class="ExampleSessionTest" classname="ExampleSessionTest" assertions="1" time="0.001027"/>
       </testsuite>
-      <testsuite name="HealthTest" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/unit/HealthTest.php" tests="2" assertions="3" errors="0" failures="0" skipped="0" time="0.008892">
-        <testcase name="testIsDefinedAppPath" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/unit/HealthTest.php" line="12" class="HealthTest" classname="HealthTest" assertions="1" time="0.000520"/>
-        <testcase name="testBaseUrlHasBeenSet" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/unit/HealthTest.php" line="17" class="HealthTest" classname="HealthTest" assertions="2" time="0.008372"/>
+      <testsuite name="HealthTest" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/unit/HealthTest.php" tests="2" assertions="3" errors="0" failures="0" skipped="0" time="0.010992">
+        <testcase name="testIsDefinedAppPath" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/unit/HealthTest.php" line="12" class="HealthTest" classname="HealthTest" assertions="1" time="0.000802"/>
+        <testcase name="testBaseUrlHasBeenSet" file="/Users/magnaye.rp/Documents/GitHub/MARISENSE/src/tests/unit/HealthTest.php" line="17" class="HealthTest" classname="HealthTest" assertions="2" time="0.010190"/>
       </testsuite>
     </testsuite>
   </testsuite>
