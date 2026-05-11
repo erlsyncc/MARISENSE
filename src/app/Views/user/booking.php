@@ -482,6 +482,9 @@ $phpNowMinutes = (int)$phtNow->format('H') * 60 + (int)$phtNow->format('i'); // 
             <i class="fas fa-check-circle me-2"></i> Confirm Reservation
         </button>
         <p class="form-hint text-center mt-2" id="confirm-hint" style="color:rgba(5,44,57,0.5);">Please complete all steps to continue.</p>
+        <div id="block-reason-msg" style="display:none; background:rgba(220,53,69,0.12); border:1px solid rgba(220,53,69,0.35); border-radius:12px; padding:12px 14px; margin-top:12px; font-size:0.82rem; color:#ff9999; text-align:center;">
+            <i class="fa-solid fa-circle-exclamation me-1"></i><span id="block-reason-text"></span>
+        </div>
     </div>
     <div class="slots-info-card">
         <p><i class="fas fa-shield-halved"></i> Safety gear provided for all activities</p>
@@ -1128,33 +1131,39 @@ function updateMultiTimeSummary() {
 function checkConfirmReady() {
     var btn  = document.getElementById('confirm-btn');
     var hint = document.getElementById('confirm-hint');
+    var blockMsg = document.getElementById('block-reason-msg');
+    var blockText = document.getElementById('block-reason-text');
 
     if (BOOKING_BLOCKED && selectedDate && BOOKING_ALLOWED_FROM && selectedDate < BOOKING_ALLOWED_FROM) {
         btn.disabled = true;
-        hint.textContent = BOOKING_BLOCKED_MSG || 'New bookings are temporarily paused due to unsafe maritime conditions.';
+        hint.style.display = 'none';
+        blockMsg.style.display = 'block';
+        blockText.textContent = BOOKING_BLOCKED_MSG || 'Bookings for today are paused due to unsafe maritime conditions.';
         return;
     }
 
     if (selectedActivities.length === 0) {
-        btn.disabled = true; hint.textContent = 'Please select at least one activity.'; return;
+        btn.disabled = true; hint.textContent = 'Please select at least one activity.'; blockMsg.style.display = 'none'; return;
     }
     if (!selectedDate) {
-        btn.disabled = true; hint.textContent = 'Please select a date.'; return;
+        btn.disabled = true; hint.textContent = 'Please select a date.'; blockMsg.style.display = 'none'; return;
     }
 
     if (selectedActivities.length === 1) {
-        if (!selectedTime) { btn.disabled = true; hint.textContent = 'Please select a time slot.'; return; }
+        if (!selectedTime) { btn.disabled = true; hint.textContent = 'Please select a time slot.'; blockMsg.style.display = 'none'; return; }
     } else {
         var missing = selectedActivities.filter(function(act) { return !multiSelectedTimes[act]; });
         if (missing.length > 0) {
             btn.disabled = true;
             hint.textContent = 'Please select a time for: ' + missing.join(', ');
+            blockMsg.style.display = 'none';
             return;
         }
     }
 
     btn.disabled = false;
     hint.textContent = '';
+    blockMsg.style.display = 'none';
 }
 
 // ============================================================

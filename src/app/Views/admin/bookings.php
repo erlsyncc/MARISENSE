@@ -786,7 +786,11 @@ function syncWalkInBlockState() {
     .then(data => {
         if (data.blocked) {
             blockedMsg.style.display = 'block';
-            blockedText.textContent = data.message || 'Booking is temporarily blocked.';
+            let reason = 'Unsafe maritime conditions detected.';
+            if (dateValue) {
+                reason += ' Bookings can resume from ' + (data.allowedFromDate || 'a later date') + '.';
+            }
+            blockedText.textContent = data.message || reason;
             form.style.opacity = '0.5';
             submitBtn.disabled = true;
             submitBtn.style.cursor = 'not-allowed';
