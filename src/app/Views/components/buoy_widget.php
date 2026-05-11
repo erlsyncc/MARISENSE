@@ -1,7 +1,7 @@
 <?php
 /**
  * Buoy Sensor Data Widget
- * Displays current marine safety indicators
+ * Displays current marine safety indicators with theme-matched animations
  */
 
 $formatFloat = static function ($value, int $precision = 2): string {
@@ -9,11 +9,21 @@ $formatFloat = static function ($value, int $precision = 2): string {
 };
 ?>
 
-<div class="buoy-widget card shadow-sm">
-    <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">🌊 Live Buoy Data</h5>
+<div class="buoy-widget">
+    <div class="buoy-header">
+        <div class="buoy-title-section">
+            <div class="buoy-icon">
+                <i class="fa-solid fa-water"></i>
+            </div>
+            <div>
+                <h5 class="buoy-title">Live Buoy Data</h5>
+                <p class="buoy-subtitle">Real-time marine conditions</p>
+            </div>
+        </div>
+        <div class="buoy-status-dot"></div>
     </div>
-    <div class="card-body">
+
+    <div class="buoy-content">
         <?php if ($buoyData): ?>
             <?php
                 $waveHeight = (float) ($buoyData['avg_wave_height'] ?? 0.0);
@@ -22,10 +32,6 @@ $formatFloat = static function ($value, int $precision = 2): string {
                 $waterTempAvg = $buoyData['water_temp_avg'] ?? null;
                 $receivedAt = $buoyData['recorded_at'] ?? null;
 
-                // Traffic-light conclusion:
-                // Red: Waves > 1.2m OR Wind > 20m/s
-                // Amber: Waves 0.6 - 1.2m OR Wind 10 - 20m/s
-                // Green: below those ranges
                 $safetyState = 'green';
                 $safetyLabel = 'SAFE';
                 $safetyReason = 'Waves and wind are within normal operating range.';
@@ -69,157 +75,401 @@ $formatFloat = static function ($value, int $precision = 2): string {
                     }
                 }
             ?>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <div class="metric-box <?= $windState ?>" title="<?= esc($windHover) ?>">
-                        <label class="text-muted small">Wind Speed</label>
-                        <h4 class="mb-0"><?= $formatFloat($windAvg, 1) ?> m/s</h4>
-                        <small class="text-muted">Gust: <?= $formatFloat($windGust, 1) ?> m/s</small>
-                        <div class="hover-indicator"><?= esc($windHover) ?></div>
+
+            <!-- Metrics Grid -->
+            <div class="buoy-metrics">
+                <div class="metric-card <?= $windState ?>" style="animation-delay: 0.05s">
+                    <div class="metric-icon wind">
+                        <i class="fa-solid fa-wind"></i>
+                    </div>
+                    <div class="metric-data">
+                        <div class="metric-label">Wind Speed</div>
+                        <div class="metric-value"><?= $formatFloat($windAvg, 1) ?> <span>m/s</span></div>
+                        <div class="metric-detail">Gust: <?= $formatFloat($windGust, 1) ?> m/s</div>
+                        <div class="metric-tooltip"><?= esc($windHover) ?></div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="metric-box <?= $waveState ?>" title="<?= esc($waveHover) ?>">
-                        <label class="text-muted small">Wave Height</label>
-                        <h4 class="mb-0"><?= $formatFloat($waveHeight, 2) ?> m</h4>
-                        <small class="text-muted">Current avg wave</small>
-                        <div class="hover-indicator"><?= esc($waveHover) ?></div>
+
+                <div class="metric-card <?= $waveState ?>" style="animation-delay: 0.1s">
+                    <div class="metric-icon wave">
+                        <i class="fa-solid fa-water"></i>
+                    </div>
+                    <div class="metric-data">
+                        <div class="metric-label">Wave Height</div>
+                        <div class="metric-value"><?= $formatFloat($waveHeight, 2) ?> <span>m</span></div>
+                        <div class="metric-detail">Current avg wave</div>
+                        <div class="metric-tooltip"><?= esc($waveHover) ?></div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="metric-box <?= $tempState ?>" title="<?= esc($tempHover) ?>">
-                        <label class="text-muted small">Water Temp (°C)</label>
-                        <h4 class="mb-0"><?= $formatFloat($waterTempAvg) ?></h4>
-                        <small class="text-muted"><?= $waterTempAvg === null ? 'Sensor offline' : 'Surface reading' ?></small>
-                        <div class="hover-indicator"><?= esc($tempHover) ?></div>
+
+                <div class="metric-card <?= $tempState ?>" style="animation-delay: 0.15s">
+                    <div class="metric-icon temp">
+                        <i class="fa-solid fa-thermometer"></i>
+                    </div>
+                    <div class="metric-data">
+                        <div class="metric-label">Water Temp</div>
+                        <div class="metric-value"><?= $formatFloat($waterTempAvg) ?> <span>°C</span></div>
+                        <div class="metric-detail"><?= $waterTempAvg === null ? 'Sensor offline' : 'Surface reading' ?></div>
+                        <div class="metric-tooltip"><?= esc($tempHover) ?></div>
                     </div>
                 </div>
             </div>
-            <div class="traffic-light <?= $safetyState ?>">
-                <div class="traffic-dot"></div>
-                <div>
-                    <strong>Safety Status: <?= esc($safetyLabel) ?></strong>
-                    <div class="traffic-reason"><?= esc($safetyReason) ?></div>
+
+            <!-- Safety Status Banner -->
+            <div class="safety-banner <?= $safetyState ?>">
+                <div class="safety-indicator">
+                    <div class="safety-pulse"></div>
+                </div>
+                <div class="safety-content">
+                    <div class="safety-label">Safety Status</div>
+                    <div class="safety-status"><?= esc($safetyLabel) ?></div>
+                    <div class="safety-reason"><?= esc($safetyReason) ?></div>
                 </div>
             </div>
-            <div class="mt-2 pt-2 border-top">
-                <small class="text-muted">
-                    Last update: <?= $receivedAt ? date('M d, Y H:i:s', strtotime($receivedAt)) : 'N/A' ?>
-                </small>
+
+            <!-- Last Updated -->
+            <div class="buoy-footer">
+                <i class="fa-solid fa-clock"></i>
+                <span>Last update: <?= $receivedAt ? date('M d, Y H:i:s', strtotime($receivedAt)) : 'N/A' ?></span>
             </div>
+
         <?php else: ?>
-            <div class="alert alert-info mb-0">
-                <i class="fa-solid fa-circle-info me-1"></i> No buoy data available yet
+            <div class="buoy-empty">
+                <i class="fa-solid fa-tower-broadcast"></i>
+                <p>No buoy data available yet</p>
+                <span>Sensor data will appear here once transmitted</span>
             </div>
         <?php endif; ?>
     </div>
 </div>
 
 <style>
-    .buoy-widget .metric-box {
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.7; } }
+    @keyframes shimmer { from { background-position: -1000px 0; } to { background-position: 1000px 0; } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+    .buoy-widget {
+        background: linear-gradient(145deg, rgba(72, 202, 228, 0.12), rgba(255, 255, 255, 0.05));
+        border: 1px solid rgba(72, 202, 228, 0.28);
+        border-radius: 20px;
+        padding: 24px;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 16px 34px rgba(0, 0, 0, 0.2);
         position: relative;
-        padding: 12px;
-        border-radius: 12px;
-        text-align: center;
-        transition: border-color 0.2s ease, transform 0.2s ease;
-        border: 1px solid transparent;
+        overflow: hidden;
+        animation: fadeUp 0.6s ease-out;
     }
 
-    .buoy-widget .metric-box:hover {
-        transform: translateY(-3px);
-    }
-
-    .buoy-widget .metric-box.normal { border-color: rgba(40, 167, 69, 0.45); }
-    .buoy-widget .metric-box.watch { border-color: rgba(255, 193, 7, 0.5); }
-    .buoy-widget .metric-box.not-normal { border-color: rgba(220, 53, 69, 0.55); }
-
-    .buoy-widget .metric-box label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 4px;
-    }
-
-    .buoy-widget .metric-box h4 {
-        color: #0d6efd;
-        font-weight: 700;
-    }
-
-    .buoy-widget .hover-indicator {
-        opacity: 0;
-        pointer-events: none;
+    .buoy-widget::before {
+        content: '';
         position: absolute;
-        left: 8px;
-        right: 8px;
-        bottom: -8px;
-        transform: translateY(100%);
-        padding: 6px 8px;
-        border-radius: 8px;
-        font-size: 0.72rem;
-        line-height: 1.35;
-        background: rgba(5, 44, 57, 0.92);
-        color: #fff;
-        border: 1px solid rgba(72, 202, 228, 0.35);
-        transition: opacity 0.2s ease;
-        z-index: 5;
+        inset: 0;
+        background: radial-gradient(circle at 15% 16%, rgba(72, 202, 228, 0.2), transparent 44%);
+        pointer-events: none;
     }
 
-    .buoy-widget .metric-box:hover .hover-indicator {
-        opacity: 1;
+    .buoy-widget > * {
+        position: relative;
+        z-index: 1;
     }
 
-    .buoy-widget .traffic-light {
-        margin-top: 14px;
-        border-radius: 12px;
-        padding: 10px 12px;
+    .buoy-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(72, 202, 228, 0.15);
+    }
+
+    .buoy-title-section {
         display: flex;
         align-items: center;
-        gap: 10px;
-        border: 1px solid;
+        gap: 14px;
     }
 
-    .buoy-widget .traffic-dot {
+    .buoy-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: rgba(72, 202, 228, 0.15);
+        color: #48cae4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .buoy-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+        animation: slideIn 0.5s ease-out;
+    }
+
+    .buoy-subtitle {
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin: 4px 0 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .buoy-status-dot {
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        flex-shrink: 0;
+        background: #5ddb8a;
+        box-shadow: 0 0 12px rgba(93, 219, 138, 0.6);
+        animation: pulse 2s ease-in-out infinite;
     }
 
-    .buoy-widget .traffic-light.green {
+    .buoy-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    .metric-card {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 14px;
+        padding: 16px;
+        display: flex;
+        gap: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        animation: fadeUp 0.6s ease-out both;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .metric-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 20% 50%, rgba(72, 202, 228, 0.1), transparent 60%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    .metric-card:hover {
+        background: rgba(255, 255, 255, 0.09);
+        border-color: rgba(72, 202, 228, 0.35);
+        transform: translateY(-4px);
+    }
+
+    .metric-card:hover::before {
+        opacity: 1;
+    }
+
+    .metric-card.normal { border-left: 3px solid rgba(40, 167, 69, 0.6); }
+    .metric-card.watch { border-left: 3px solid rgba(255, 193, 7, 0.7); }
+    .metric-card.not-normal { border-left: 3px solid rgba(220, 53, 69, 0.7); }
+
+    .metric-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+    }
+
+    .metric-card:hover .metric-icon {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .metric-icon.wind { background: rgba(72, 202, 228, 0.15); color: #48cae4; }
+    .metric-icon.wave { background: rgba(72, 202, 228, 0.15); color: #48cae4; }
+    .metric-icon.temp { background: rgba(72, 202, 228, 0.15); color: #48cae4; }
+
+    .metric-data {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+    }
+
+    .metric-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: rgba(255, 255, 255, 0.5);
+        margin-bottom: 4px;
+        font-weight: 600;
+    }
+
+    .metric-value {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: white;
+    }
+
+    .metric-value span {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.6);
+        margin-left: 2px;
+    }
+
+    .metric-detail {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 2px;
+    }
+
+    .metric-tooltip {
+        display: none;
+        font-size: 0.72rem;
+        color: #48cae4;
+        margin-top: 4px;
+        padding-top: 4px;
+        border-top: 1px solid rgba(72, 202, 228, 0.15);
+        line-height: 1.3;
+    }
+
+    .metric-card:hover .metric-tooltip {
+        display: block;
+        animation: fadeUp 0.3s ease-out;
+    }
+
+    .safety-banner {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        margin-bottom: 14px;
+        border: 1px solid;
+        animation: slideIn 0.7s ease-out 0.2s both;
+    }
+
+    .safety-indicator {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        position: relative;
+    }
+
+    .safety-pulse {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    .safety-banner.green {
         background: rgba(40, 167, 69, 0.12);
         border-color: rgba(40, 167, 69, 0.45);
         color: #5ddb8a;
     }
 
-    .buoy-widget .traffic-light.green .traffic-dot {
+    .safety-banner.green .safety-pulse {
         background: #28a745;
-        box-shadow: 0 0 10px rgba(40, 167, 69, 0.7);
+        box-shadow: 0 0 12px rgba(40, 167, 69, 0.7);
     }
 
-    .buoy-widget .traffic-light.amber {
+    .safety-banner.amber {
         background: rgba(255, 193, 7, 0.12);
         border-color: rgba(255, 193, 7, 0.5);
         color: #ffd24d;
     }
 
-    .buoy-widget .traffic-light.amber .traffic-dot {
+    .safety-banner.amber .safety-pulse {
         background: #ffc107;
-        box-shadow: 0 0 10px rgba(255, 193, 7, 0.75);
+        box-shadow: 0 0 12px rgba(255, 193, 7, 0.75);
     }
 
-    .buoy-widget .traffic-light.red {
+    .safety-banner.red {
         background: rgba(220, 53, 69, 0.12);
         border-color: rgba(220, 53, 69, 0.55);
         color: #ff8f9a;
     }
 
-    .buoy-widget .traffic-light.red .traffic-dot {
+    .safety-banner.red .safety-pulse {
         background: #dc3545;
-        box-shadow: 0 0 10px rgba(220, 53, 69, 0.75);
+        box-shadow: 0 0 12px rgba(220, 53, 69, 0.75);
     }
 
-    .buoy-widget .traffic-reason {
-        font-size: 0.75rem;
-        opacity: 0.9;
+    .safety-content {
+        flex: 1;
+    }
+
+    .safety-label {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.85;
+        font-weight: 600;
+    }
+
+    .safety-status {
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin: 2px 0;
+    }
+
+    .safety-reason {
+        font-size: 0.72rem;
+        opacity: 0.8;
+        line-height: 1.3;
         margin-top: 2px;
+    }
+
+    .buoy-footer {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.76rem;
+        color: rgba(255, 255, 255, 0.5);
+        padding-top: 12px;
+        border-top: 1px solid rgba(72, 202, 228, 0.1);
+        animation: fadeUp 0.8s ease-out 0.4s both;
+    }
+
+    .buoy-footer i {
+        color: #48cae4;
+        font-size: 0.9rem;
+    }
+
+    .buoy-empty {
+        text-align: center;
+        padding: 40px 24px;
+        color: rgba(255, 255, 255, 0.4);
+        animation: fadeUp 0.6s ease-out;
+    }
+
+    .buoy-empty i {
+        font-size: 3rem;
+        color: rgba(72, 202, 228, 0.3);
+        margin-bottom: 12px;
+        display: block;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .buoy-empty p {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 4px;
+    }
+
+    .buoy-empty span {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.35);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        * { animation: none !important; transition: none !important; }
     }
 </style>
