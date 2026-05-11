@@ -378,3 +378,340 @@ WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
 15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
 16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
 DEBUG - 2026-05-11 22:12:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:17:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:17:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:17:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:17:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-11 22:17:10 --> Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:17:10 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+[Method: GET, Route: user/booking]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 2 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 4 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 5 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 6 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:17:10 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 4 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 6 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 7 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 8 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:17:10 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-05-11 22:18:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-11 22:18:09 --> Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:18:09 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+[Method: GET, Route: user/booking]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 2 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 4 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 5 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 6 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:18:09 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 4 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 6 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 7 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 8 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:18:09 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-05-11 22:18:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-11 22:18:11 --> Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:18:11 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+[Method: GET, Route: user/booking]
+in SYSTEMPATH\Database\BaseConnection.php on line 724.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 2 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 4 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 5 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 6 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 7 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+ 8 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+ 9 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:18:11 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 2 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 4 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 6 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 7 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 8 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+ 9 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+10 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+11 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+CRITICAL - 2026-05-11 22:18:11 --> [Caused by] mysqli_sql_exception: Table 'marisense_db.sea_safety_state' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `sea_safety_state`
+WHERE `sea_safety_state`.`id` = :sea_safety_state.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(193): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(614): CodeIgniter\Model->doFind(true, 1)
+ 7 APPPATH\Models\SeaSafetyStateModel.php(33): CodeIgniter\BaseModel->find(1)
+ 8 APPPATH\Libraries\BookingSafetyMonitor.php(83): App\Models\SeaSafetyStateModel->getCurrentState()
+ 9 APPPATH\Controllers\user.php(99): App\Libraries\BookingSafetyMonitor->isBookingBlocked()
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\User->booking()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\User))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+DEBUG - 2026-05-11 22:25:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:26:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:26:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:26:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:32:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:32:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:32:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:32:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:32:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:33:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:33:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:33:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:33:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:33:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2026-05-11 22:46:29 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH\Controllers\Auth.php on line 128.
+ 1 APPPATH\Controllers\Auth.php(128): json_decode(null, true)
+ 2 APPPATH\Controllers\Auth.php(50): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+ 3 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Auth->registerAuth()
+ 4 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 5 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 9 SYSTEMPATH\rewrite.php(44): require_once('C:\\Users\\earls\\Documents\\GitHub\\MARISENSE\\src\\public\\index.php')
+ERROR - 2026-05-11 22:46:32 --> Email: sendWithSmtp throwed ErrorException: fsockopen(): SSL operation failed with code 1. OpenSSL Error messages:
+error:0A00010B:SSL routines::wrong version number in C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php:1910
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'fsockopen(): SS...', 'C:\\Users\\earls\\...', 1910)
+#1 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1910): fsockopen('ssl://smtp.gmai...', 587, NULL, NULL, 30)
+#2 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1823): CodeIgniter\Email\Email->SMTPConnect()
+#3 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1708): CodeIgniter\Email\Email->sendWithSmtp()
+#4 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Email\Email.php(1602): CodeIgniter\Email\Email->spoolEmail()
+#5 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(153): CodeIgniter\Email\Email->send()
+#6 C:\Users\earls\Documents\GitHub\MARISENSE\src\app\Controllers\Auth.php(50): App\Controllers\Auth->sendVerificationEmail(Object(CodeIgniter\Shield\Entities\User))
+#7 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(951): App\Controllers\Auth->registerAuth()
+#8 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\Users\earls\Documents\GitHub\MARISENSE\src\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\Users\earls\Documents\GitHub\MARISENSE\src\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\Users\\earls\\...')
+#14 {main}
+ERROR - 2026-05-11 22:46:32 --> Email: Unable to send email using SMTP. Your server might not be configured to send mail using this method.
+ERROR - 2026-05-11 22:46:32 --> 
+ERROR - 2026-05-11 22:46:32 --> Verification email failed to send to combenidoirem@gmail.com: "Unable to send email using SMTP. Your server might not be configured to send mail using this method.<br><pre>Date: Mon, 11 May 2026 22:46:29 +0800\r\nTo: combenidoirem@gmail.com\r\nFrom: &quot;Waves Water Sports&quot; &lt;admin@marisense.networq.online&gt;\r\nReturn-Path: &lt;admin@marisense.networq.online&gt;\r\nSubject: =?UTF-8?Q?Verify=20Your=20Email=20Address?=\r\nReply-To: &lt;admin@marisense.networq.online&gt;\r\nUser-Agent: CodeIgniter\r\nX-Sender: admin@marisense.networq.online\r\nX-Mailer: CodeIgniter\r\nX-Priority: 3 (Normal)\r\nMessage-ID: &lt;6a01ebc5af3ea9.95373684@marisense.networq.online&gt;\r\nMime-Version: 1.0\r\n\n\nContent-Type: multipart\/alternative; boundary=&quot;B_ALT_6a01ebc5af4134.56457078&quot;\r\n\r\nThis is a multi-part message in MIME format.\r\nYour email application may not support this format.\r\n\r\n--B_ALT_6a01ebc5af4134.56457078\r\nContent-Type: text\/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n\ud83c\udf0a Waves\r\n Water Sports Adventures\r\n\r\n\r\n\r\n\r\n Hi Irem123_,\r\n\r\n\r\n\r\n Welcome to Waves Water Sports! We&#039;re excited to have you join our\r\ncommunity.\r\n To get started, please verify your email address by clicking the button\r\nbelow:\r\n\r\n\r\n\r\n\r\n Verify Email Address\r\n\r\n\r\n\r\n\r\n Or copy and paste this link in your browser:\r\n http:\/\/localhost:8080\/auth\/verify-email\/4b3db54f2fff0bab5b260bd1286cc50f34cff8eade97d894a70de2c31236ec39\r\n\r\n\r\n\r\n \u23f1\ufe0f This link expires in 24 hours. If you don&#039;t verify within this time,\r\n you&#039;ll need to request a new verification email.\r\n\r\n\r\n\r\n If you didn&#039;t create this account, please ignore this email.\r\n\r\n\r\n\r\n\r\n \u00a9 2026 Waves Water Sports. All rights reserved.\r\n If you have questions, contact us at support@marisense.local\r\n\r\n\r\n--B_ALT_6a01ebc5af4134.56457078\r\nContent-Type: text\/html; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n&lt;!-- DEBUG-VIEW START 1 APPPATH\\Views\\emails\\verify_email.php --&gt;=0A&lt;!DOCTY=\r\nPE html&gt;=0A&lt;html lang=3D&quot;en&quot;&gt;=0A&lt;head&gt;=0A    &lt;meta charset=3D&quot;UTF-8&quot;&gt;=0A   =\r\n &lt;meta name=3D&quot;viewport&quot; content=3D&quot;width=3Ddevice-width, initial-scale=3D1=\r\n.0&quot;&gt;=0A    &lt;style&gt;=0A        body {=0A            font-family: &#039;Poppins&#039;, -=\r\napple-system, BlinkMacSystemFont, &#039;Segoe UI&#039;, sans-serif;=0A            lin=\r\ne-height: 1.6;=0A            color: #333;=0A        }=0A        .email-cont=\r\nainer {=0A            max-width: 600px;=0A            margin: 0 auto;=0A   =\r\n         background: linear-gradient(135deg, #0a5872, #052c39);=0A         =\r\n   padding: 0;=0A            border-radius: 12px;=0A            overflow: h=\r\nidden;=0A            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);=0A        }=\r\n=0A        .header {=0A            background: linear-gradient(135deg, #0a5=\r\n872, #052c39);=0A            color: white;=0A            padding: 32px 24px=\r\n;=0A            text-align: center;=0A        }=0A        .header h1 {=0A  =\r\n          margin: 0;=0A            font-size: 2rem;=0A            font-weig=\r\nht: 700;=0A            letter-spacing: 1px;=0A        }=0A        .header p=\r\n {=0A            margin: 8px 0 0;=0A            opacity: 0.9;=0A           =\r\n font-size: 0.9rem;=0A        }=0A        .content {=0A            padding:=\r\n 32px 24px;=0A            background: white;=0A        }=0A        .greetin=\r\ng {=0A            margin-bottom: 24px;=0A            font-size: 1.1rem;=0A =\r\n           font-weight: 600;=0A            color: #052c39;=0A        }=0A  =\r\n      .message {=0A            margin-bottom: 28px;=0A            line-heig=\r\nht: 1.8;=0A            color: #555;=0A        }=0A        .verify-button-wr=\r\napper {=0A            text-align: center;=0A            margin: 32px 0;=0A =\r\n       }=0A        .verify-button {=0A            display: inline-block;=0A=\r\n            background: linear-gradient(45deg, #48cae4, #0077b6);=0A       =\r\n     color: white;=0A            padding: 14px 40px;=0A            border-r=\r\nadius: 50px;=0A            text-decoration: none;=0A            font-weight=\r\n: 700;=0A            transition: transform 0.3s, box-shadow 0.3s;=0A       =\r\n     box-shadow: 0 4px 12px rgba(0, 119, 182, 0.2);=0A        }=0A        .=\r\nverify-button:hover {=0A            transform: translateY(-2px);=0A        =\r\n    box-shadow: 0 6px 16px rgba(0, 119, 182, 0.3);=0A        }=0A        .l=\r\nink-text {=0A            margin-top: 20px;=0A            padding-top: 20px;=\r\n=0A            border-top: 1px solid #e9ecef;=0A            font-size: 0.85=\r\nrem;=0A            color: #999;=0A            word-break: break-all;=0A    =\r\n    }=0A        .link-text strong {=0A            color: #555;=0A        }=\r\n=0A        .footer {=0A            background: #f8f9fa;=0A            paddi=\r\nng: 24px;=0A            text-align: center;=0A            color: #999;=0A  =\r\n          font-size: 0.85rem;=0A            border-top: 1px solid #e9ecef;=\r\n=0A        }=0A        .footer p {=0A            margin: 8px 0;=0A        }=\r\n=0A        .warning {=0A            background: #fff3cd;=0A            bord=\r\ner-left: 4px solid #ffc107;=0A            padding: 16px;=0A            marg=\r\nin: 24px 0;=0A            border-radius: 4px;=0A            font-size: 0.9r=\r\nem;=0A            color: #856404;=0A        }=0A    &lt;\/style&gt;=0A&lt;\/head&gt;=0A&lt;b=\r\nody&gt;=0A=0A&lt;div class=3D&quot;email-container&quot;&gt;=0A    &lt;div class=3D&quot;header&quot;&gt;=0A  =\r\n      &lt;h1&gt;&lt;i style=3D&quot;font-size: 1.8rem;&quot;&gt;=F0=9F=8C=8A&lt;\/i&gt; Waves&lt;\/h1&gt;=0A   =\r\n     &lt;p&gt;Water Sports Adventures&lt;\/p&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;con=\r\ntent&quot;&gt;=0A        &lt;div class=3D&quot;greeting&quot;&gt;=0A            Hi Irem123_,=0A    =\r\n    &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;message&quot;&gt;=0A            Welcome to Wa=\r\nves Water Sports! We&#039;re excited to have you join our community. =0A        =\r\n    To get started, please verify your email address by clicking the button=\r\n below:=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;verify-button-wrapper&quot;&gt;=\r\n=0A            &lt;a href=3D&quot;http:\/\/localhost:8080\/auth\/verify-email\/4b3db54f2=\r\nfff0bab5b260bd1286cc50f34cff8eade97d894a70de2c31236ec39&quot; class=3D&quot;verify-bu=\r\ntton&quot;&gt;=0A                Verify Email Address=0A            &lt;\/a&gt;=0A        =\r\n&lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;link-text&quot;&gt;=0A            Or copy and pas=\r\nte this link in your browser:&lt;br&gt;=0A            &lt;strong&gt;http:\/\/localhost:80=\r\n80\/auth\/verify-email\/4b3db54f2fff0bab5b260bd1286cc50f34cff8eade97d894a70de2=\r\nc31236ec39&lt;\/strong&gt;=0A        &lt;\/div&gt;=0A=0A        &lt;div class=3D&quot;warning&quot;&gt;=\r\n=0A            &lt;strong&gt;=E2=8F=B1=EF=B8=8F This link expires in 24 hours.&lt;\/s=\r\ntrong&gt; If you don&#039;t verify within this time, =0A            you&#039;ll need to =\r\nrequest a new verification email.=0A        &lt;\/div&gt;=0A=0A        &lt;div class=\r\n=3D&quot;message&quot;&gt;=0A            If you didn&#039;t create this account, please ignor=\r\ne this email.=0A        &lt;\/div&gt;=0A    &lt;\/div&gt;=0A=0A    &lt;div class=3D&quot;footer&quot;&gt;=\r\n=0A        &lt;p&gt;=C2=A9 2026 Waves Water Sports. All rights reserved.&lt;\/p&gt;=0A  =\r\n      &lt;p&gt;If you have questions, contact us at support@marisense.local&lt;\/p&gt;=\r\n=0A    &lt;\/div&gt;=0A&lt;\/div&gt;=0A=0A&lt;\/body&gt;=0A&lt;\/html&gt;=0A=0A&lt;!-- DEBUG-VIEW ENDED 1 =\r\nAPPPATH\\Views\\emails\\verify_email.php --&gt;\r\n\r\n--B_ALT_6a01ebc5af4134.56457078--<\/pre>"
+DEBUG - 2026-05-11 22:46:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:46:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:47:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:48:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:48:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:48:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-11 22:48:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
