@@ -11,11 +11,13 @@ class BookingSafetyMonitor
     private const WAVE_DANGER_THRESHOLD = 1.2;
     private const WIND_DANGER_THRESHOLD = 20.0;
 
-    private const UNSAFE_CONSECUTIVE_PACKETS = 5;
-    private const UNSAFE_MIN_DURATION_SECONDS = 240;
+    // Trigger unsafe when sustained for ~3 minutes
+    private const UNSAFE_CONSECUTIVE_PACKETS = 3;
+    private const UNSAFE_MIN_DURATION_SECONDS = 180;
 
-    private const RECOVERY_CONSECUTIVE_PACKETS = 180;
-    private const RECOVERY_MIN_DURATION_SECONDS = 10800;
+    // Recover when conditions sustained as safe/moderate for ~5 minutes
+    private const RECOVERY_CONSECUTIVE_PACKETS = 5;
+    private const RECOVERY_MIN_DURATION_SECONDS = 300;
 
     private const UNSAFE_BLOCKED_DATES = 1;
 

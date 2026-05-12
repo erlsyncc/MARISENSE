@@ -125,7 +125,7 @@ void runSimulation() {
     
     if (currentMode == MODE_MODERATE) {
       sWind = 12.0 + (random(0, 500) / 100.0); // 12-17 m/s
-      sWave = 1.5 + (random(0, 150) / 100.0);  // 1.5-3.0 m
+      sWave = 1.5 + (random(0, 100) / 100.0);  // 1.5-3.0 m
       sPitch = random(-10, 10);
       sRoll = random(-15, 15);
     } else { // DANGER

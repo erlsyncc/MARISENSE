@@ -694,7 +694,10 @@ function pickActivity(act) {
     checkConfirmReady();
     resetTimeSlots();
 
-    fetch(BOOKED_DATES_URL + '?activity=' + encodeURIComponent(selectedActivities[0]))
+    fetch(BOOKED_DATES_URL + '?activity=' + encodeURIComponent(selectedActivities[0]) + '&_=' + Date.now(), {
+        cache: 'no-store',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
         .then(function(r) { return r.json(); })
         .then(function(data) {
             bookedDates  = data.bookedDates  || [];
@@ -715,6 +718,9 @@ function removeActivity(act) {
     renderActivityList();
     renderSummaryActivities();
     resetTimeSlots();
+    if (selectedDate && selectedActivities.length > 0) {
+        loadTimeSlots(selectedDate);
+    }
     if (selectedActivities.length === 0) {
         showPicker();
         document.getElementById('btn-add-wrapper').style.display = 'none';
@@ -873,24 +879,18 @@ function renderCalendar() {
             } else {
                 d.title = isPast ? 'Past date' : 'No more slots available today';
             }
-        } else if (bookedDates.includes(dateStr)) {
-            d.classList.add('booked');
-            d.title = 'Fully booked';
-        } else if (partialDates.includes(dateStr)) {
-            d.classList.add('partial');
-            if (isToday) d.classList.add('today');
-            d.title = 'Partially booked — some slots available';
-            (function(ds, el) {
-                el.addEventListener('click', function() {
-                    document.querySelectorAll('.day-box.selected').forEach(function(x) { x.classList.remove('selected'); });
-                    el.classList.add('selected');
-                    selectDate(ds);
-                });
-            })(dateStr, d);
         } else {
-            d.classList.add('available');
+            if (bookedDates.includes(dateStr) || partialDates.includes(dateStr)) {
+                d.classList.add('partial');
+                if (isToday) d.classList.add('today');
+                d.title = bookedDates.includes(dateStr)
+                    ? 'Some time slots are already booked. Select this date to view available times.'
+                    : 'Partially booked — some slots available';
+            } else {
+                d.classList.add('available');
+                d.title = 'Available — Click to select';
+            }
             if (isToday) d.classList.add('today');
-            d.title = 'Available — Click to select';
             (function(ds, el) {
                 el.addEventListener('click', function() {
                     document.querySelectorAll('.day-box.selected').forEach(function(x) { x.classList.remove('selected'); });
@@ -959,32 +959,41 @@ function loadTimeSlots(date) {
     area.innerHTML = '<div class="slots-loading"><i class="fa-solid fa-spinner fa-spin me-2"></i>Loading slots…</div>';
     document.getElementById('slots-count-hint').textContent = '';
 
-    var primaryAct = selectedActivities[0];
-    fetch(BOOKING_SLOTS_URL + '?activity=' + encodeURIComponent(primaryAct) + '&date=' + date)
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-            // Build the taken set from the server response
-            // (server already excludes past slots via its own check, but we re-filter
-            //  client-side using PHT_NOW_MINUTES for extra accuracy on today)
-            var takenSet = new Set();
-            (data.slots || []).forEach(function(s) {
-                if (!s.available) takenSet.add(s.value);
-            });
-            renderTimeSlotArea(takenSet);
+    var requests = selectedActivities.map(function(actName) {
+        return fetch(BOOKING_SLOTS_URL + '?activity=' + encodeURIComponent(actName) + '&date=' + encodeURIComponent(date) + '&_=' + Date.now(), {
+            cache: 'no-store',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
-        .catch(function() {
-            renderTimeSlotArea(new Set());
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                var takenSet = new Set();
+                (data.slots || []).forEach(function(s) {
+                    if (!s.available) takenSet.add(s.value);
+                });
+                return { activity: actName, takenSet: takenSet };
+            })
+            .catch(function() {
+                return { activity: actName, takenSet: new Set() };
+            });
+    });
+
+    Promise.all(requests).then(function(results) {
+        var slotMap = {};
+        results.forEach(function(item) {
+            slotMap[item.activity] = item.takenSet;
         });
+        renderTimeSlotArea(slotMap);
+    });
 }
 
-function renderTimeSlotArea(takenSet) {
+function renderTimeSlotArea(takenMap) {
     var area = document.getElementById('time-slots-area');
     area.innerHTML = '';
 
     if (selectedActivities.length === 1) {
-        renderSingleActivitySlots(area, selectedActivities[0], takenSet);
+        renderSingleActivitySlots(area, selectedActivities[0], takenMap[selectedActivities[0]] || new Set());
     } else {
-        renderMultiActivitySlots(area, takenSet);
+        renderMultiActivitySlots(area, takenMap || {});
     }
 }
 
@@ -1033,10 +1042,10 @@ function renderSingleActivitySlots(area, actName, takenSet) {
 }
 
 /* ── Multi-activity: one dropdown per activity; past slots excluded ── */
-function renderMultiActivitySlots(area, takenSet) {
+function renderMultiActivitySlots(area, takenMap) {
     selectedActivities.forEach(function(actName, idx) {
         var duration = (ACTIVITY_DATA[actName] && ACTIVITY_DATA[actName].duration) ? ACTIVITY_DATA[actName].duration : 60;
-        var slots    = buildSlotsForActivity(actName, duration, takenSet);
+        var slots    = buildSlotsForActivity(actName, duration, takenMap[actName] || new Set());
         var icon     = (ACTIVITY_DATA[actName] && ACTIVITY_DATA[actName].icon) ? ACTIVITY_DATA[actName].icon : 'fa-person-swimming';
 
         var section = document.createElement('div');

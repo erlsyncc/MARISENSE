@@ -873,6 +873,8 @@
     let payTotalAmount = 0;
     let payIsRemainingMode = false;
     let payDownPaid = 0;
+    let CSRF_TOKEN_NAME = '<?= csrf_token() ?>';
+    let CSRF_HASH = '<?= csrf_hash() ?>';
 
     <?php if ($successMsg): ?>
     window.addEventListener('DOMContentLoaded', function () {
@@ -885,6 +887,14 @@
         document.getElementById('toast-msg').textContent = msg;
         toast.classList.add('show');
         setTimeout(function () { toast.classList.remove('show'); }, 4500);
+    }
+
+    function syncCsrfHash(newHash) {
+        if (!newHash) return;
+        CSRF_HASH = newHash;
+        document.querySelectorAll('input[name="' + CSRF_TOKEN_NAME + '"]').forEach(function (input) {
+            input.value = newHash;
+        });
     }
 
     function openPayModal(bookingId, activityName, total, downPayStatus, downPaidAmount) {
@@ -954,15 +964,51 @@
     }
 
     document.getElementById('payForm').addEventListener('submit', function(e) {
+        if (!window.fetch || !window.FormData) {
+            return;
+        }
+
+        e.preventDefault();
+
+        var form = this;
         var fileInput = document.getElementById('gcash-file-input');
         if (!fileInput.files || fileInput.files.length === 0) {
-            e.preventDefault();
             alert('Please attach your GCash receipt screenshot before submitting.');
             return;
         }
         var btn = document.getElementById('pay-submit-btn');
+        var originalHtml = btn.innerHTML;
         btn.classList.add('loading');
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> Uploading…';
+
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            credentials: 'same-origin'
+        })
+        .then(function (response) {
+            return response.json().then(function (data) {
+                return { status: response.status, data: data };
+            });
+        })
+        .then(function (result) {
+            syncCsrfHash(result.data.csrf_hash || CSRF_HASH);
+            if (!result.data.ok) {
+                throw new Error(result.data.message || 'Unable to submit payment.');
+            }
+
+            showToast(result.data.message || 'Payment submitted successfully!');
+            closePayModal();
+            setTimeout(function () {
+                window.location.reload();
+            }, 900);
+        })
+        .catch(function (error) {
+            alert(error.message || 'Unable to submit payment. Please try again.');
+            btn.classList.remove('loading');
+            btn.innerHTML = originalHtml;
+        });
     });
 
     document.getElementById('payModal').addEventListener('click', function(e) {

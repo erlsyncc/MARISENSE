@@ -246,9 +246,26 @@ class User extends BaseController
         $avgResult = $db->table('reviews')->selectAvg('rating', 'avg_rating')->get()->getRowArray();
         $avgRating = $avgResult ? round($avgResult['avg_rating'], 1) : 0;
 
+        $completedBookings = $db->table('bookings b')
+            ->select('b.id, b.booking_code, b.activity_name, b.all_activities, b.date, b.time, b.status, b.payment_status, r.id AS review_id')
+            ->join('reviews r', 'r.booking_id = b.id', 'left')
+            ->where('b.user_id', auth()->user()->id)
+            ->where('b.status', 'completed')
+            ->orderBy('b.date', 'DESC')
+            ->orderBy('b.time', 'DESC')
+            ->get()
+            ->getResultArray();
+
+        $reviewableBookings = array_values(array_filter($completedBookings, static function (array $booking): bool {
+            return empty($booking['review_id']);
+        }));
+
         return view('user/reviews', [
-            'reviews'   => $reviews,
-            'avgRating' => $avgRating,
+            'reviews'             => $reviews,
+            'avgRating'           => $avgRating,
+            'completedBookings'   => $completedBookings,
+            'reviewableBookings'  => $reviewableBookings,
+            'canReview'           => ! empty($reviewableBookings),
         ]);
     }
 
@@ -598,11 +615,21 @@ class User extends BaseController
 
     public function payBooking()
     {
+        $isAjax      = $this->request->isAJAX();
         $bookingId   = (int) $this->request->getPost('booking_id');
-        $paymentType = $this->request->getPost('payment_type'); // 'half' or 'full'
+        $paymentType = $this->request->getPost('payment_type'); // 'half', 'full', or 'remaining'
         $gcashRef    = $this->request->getPost('gcash_ref') ?? '';
 
-        if (! $bookingId || ! in_array($paymentType, ['half', 'full'])) {
+        if (! $bookingId || ! in_array($paymentType, ['half', 'full', 'remaining'])) {
+            if ($isAjax) {
+                return $this->response->setStatusCode(400)->setJSON([
+                    'ok'         => false,
+                    'message'    => 'Invalid payment request.',
+                    'csrf_hash'  => csrf_hash(),
+                    'csrf_token' => csrf_token(),
+                ]);
+            }
+
             return redirect()->to(base_url('user/my-bookings'))->with('error', 'Invalid payment request.');
         }
 
@@ -611,21 +638,57 @@ class User extends BaseController
         $booking      = $bookingModel->getByIdAndUser($bookingId, $userId);
 
         if (! $booking) {
+            if ($isAjax) {
+                return $this->response->setStatusCode(404)->setJSON([
+                    'ok'         => false,
+                    'message'    => 'Booking not found.',
+                    'csrf_hash'  => csrf_hash(),
+                    'csrf_token' => csrf_token(),
+                ]);
+            }
+
             return redirect()->to(base_url('user/my-bookings'))->with('error', 'Booking not found.');
         }
 
         if ($booking['payment_status'] === 'paid') {
+            if ($isAjax) {
+                return $this->response->setStatusCode(409)->setJSON([
+                    'ok'         => false,
+                    'message'    => 'This booking is already fully paid.',
+                    'csrf_hash'  => csrf_hash(),
+                    'csrf_token' => csrf_token(),
+                ]);
+            }
+
             return redirect()->to(base_url('user/my-bookings'))->with('error', 'This booking is already fully paid.');
         }
 
         // Handle file upload
         $file = $this->request->getFile('gcash_receipt');
         if (! $file || ! $file->isValid() || $file->hasMoved()) {
+            if ($isAjax) {
+                return $this->response->setStatusCode(422)->setJSON([
+                    'ok'         => false,
+                    'message'    => 'Please upload your GCash receipt screenshot.',
+                    'csrf_hash'  => csrf_hash(),
+                    'csrf_token' => csrf_token(),
+                ]);
+            }
+
             return redirect()->back()->withInput()->with('error', 'Please upload your GCash receipt screenshot.');
         }
 
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         if (! in_array($file->getMimeType(), $allowedTypes)) {
+            if ($isAjax) {
+                return $this->response->setStatusCode(422)->setJSON([
+                    'ok'         => false,
+                    'message'    => 'Invalid file type. Please upload a JPG or PNG image.',
+                    'csrf_hash'  => csrf_hash(),
+                    'csrf_token' => csrf_token(),
+                ]);
+            }
+
             return redirect()->back()->withInput()->with('error', 'Invalid file type. Please upload a JPG or PNG image.');
         }
 
@@ -635,8 +698,20 @@ class User extends BaseController
         $totalAmount = (float) $booking['total_amount'];
         $halfAmount  = round($totalAmount / 2, 2);
 
-        $amountPaid = ($paymentType === 'full') ? $totalAmount : $halfAmount;
-        $payTypeKey = ($paymentType === 'full') ? 'full_payment' : 'down_payment';
+        // Determine payment amount and type
+        if ($paymentType === 'full') {
+            $amountPaid = $totalAmount;
+            $payTypeKey = 'full_payment';
+        } elseif ($paymentType === 'remaining') {
+            // 2nd half payment after down payment approved
+            $downPaidAmount = (float) ($booking['down_payment'] ?? 0);
+            $amountPaid = round($totalAmount - $downPaidAmount, 2);
+            $payTypeKey = 'full_payment';
+        } else {
+            // 'half' - first down payment
+            $amountPaid = $halfAmount;
+            $payTypeKey = 'down_payment';
+        }
 
         $db = \Config\Database::connect();
 
@@ -660,7 +735,14 @@ class User extends BaseController
                 'payment_status' => 'paid',
                 'updated_at'     => date('Y-m-d H:i:s'),
             ]);
+        } elseif ($paymentType === 'remaining') {
+            // Mark as fully paid after 2nd half submitted
+            $bookingModel->update($bookingId, [
+                'payment_status' => 'paid',
+                'updated_at'     => date('Y-m-d H:i:s'),
+            ]);
         } else {
+            // 'half' - first down payment
             $bookingModel->update($bookingId, [
                 'down_payment'         => $halfAmount,
                 'down_payment_status'  => 'paid',
@@ -669,21 +751,42 @@ class User extends BaseController
             ]);
         }
 
+        $paymentTypeLabel = match($paymentType) {
+            'full' => 'Full Payment',
+            'remaining' => 'Full Payment (2nd Half)',
+            default => 'Down Payment (50%)',
+        };
+
         $this->sendBookingActionNotification(
             $bookingId,
             'Payment Submitted',
             'Your payment submission was received',
             'We received your payment receipt. Our admin team will verify it and send another email once reviewed.',
             [
-                'Payment Type' => $paymentType === 'full' ? 'Full Payment' : 'Down Payment (50%)',
+                'Payment Type' => $paymentTypeLabel,
                 'Amount Submitted' => 'PHP ' . number_format((float) $amountPaid, 2),
                 'GCash Reference' => $gcashRef ?: null,
                 'Verification Status' => 'Pending Admin Verification',
             ]
         );
 
+        $successMessage = 'Payment submitted! Please wait for admin verification.';
+
+        if ($isAjax) {
+            return $this->response->setJSON([
+                'ok'            => true,
+                'message'       => $successMessage,
+                'booking_id'    => $bookingId,
+                'payment_type'  => $paymentType,
+                'payment_label' => $paymentTypeLabel,
+                'amount'        => (float) $amountPaid,
+                'csrf_hash'     => csrf_hash(),
+                'csrf_token'    => csrf_token(),
+            ]);
+        }
+
         return redirect()->to(base_url('user/my-bookings'))
-                         ->with('success', 'Payment submitted! Please wait for admin verification.');
+                         ->with('success', $successMessage);
     }
 
     // -----------------------------------------------------------------------
@@ -716,7 +819,11 @@ class User extends BaseController
             ];
         }, $allSlots);
 
-        return $this->response->setJSON(['slots' => $result]);
+        return $this->response
+            ->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->setHeader('Pragma', 'no-cache')
+            ->setHeader('Expires', '0')
+            ->setJSON(['slots' => $result]);
     }
 
     // -----------------------------------------------------------------------
@@ -729,7 +836,11 @@ class User extends BaseController
         $activity     = $this->request->getGet('activity') ?? '';
         $bookedDates  = $activity ? $bookingModel->getBookedDates($activity) : [];
 
-        return $this->response->setJSON(['bookedDates' => $bookedDates]);
+        return $this->response
+            ->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->setHeader('Pragma', 'no-cache')
+            ->setHeader('Expires', '0')
+            ->setJSON(['bookedDates' => $bookedDates]);
     }
 
     // -----------------------------------------------------------------------
@@ -739,7 +850,7 @@ class User extends BaseController
     public function postReview()
     {
         $rules = [
-            'activity'  => 'required',
+            'booking_id' => 'required|integer',
             'stars'     => 'required|integer|greater_than[0]|less_than[6]',
             'comment'   => 'required|min_length[5]',
             'safe_feel' => 'required|in_list[Yes,No]',
@@ -747,6 +858,29 @@ class User extends BaseController
 
         if (! $this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $bookingId = (int) $this->request->getPost('booking_id');
+        $db        = \Config\Database::connect();
+        $booking   = $db->table('bookings')
+            ->where('id', $bookingId)
+            ->where('user_id', auth()->user()->id)
+            ->where('status', 'completed')
+            ->get()
+            ->getRowArray();
+
+        if (! $booking) {
+            return redirect()->back()->withInput()->with('error', 'Please select a completed booking to review.');
+        }
+
+        $existingReview = $db->table('reviews')
+            ->where('booking_id', $bookingId)
+            ->where('user_id', auth()->user()->id)
+            ->get()
+            ->getRowArray();
+
+        if ($existingReview) {
+            return redirect()->back()->withInput()->with('error', 'You have already reviewed this booking.');
         }
 
         $photoName = null;
@@ -757,12 +891,12 @@ class User extends BaseController
             $file->move(FCPATH . 'uploads/reviews', $photoName);
         }
 
-        $db      = \Config\Database::connect();
         $builder = $db->table('reviews');
 
         $data = [
             'user_id'     => auth()->user()->id,
-            'activity'    => $this->request->getPost('activity'),
+            'booking_id'  => $bookingId,
+            'activity'    => $booking['activity_name'] ?? $this->request->getPost('activity'),
             'rating'      => $this->request->getPost('stars'),
             'review_text' => $this->request->getPost('comment'),
             'safe_feel'   => strtolower($this->request->getPost('safe_feel')),

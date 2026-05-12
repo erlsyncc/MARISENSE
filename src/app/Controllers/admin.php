@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\BookingModel;
 use App\Models\BuoyDataModel;
 use App\Libraries\BookingSafetyMonitor;
 use CodeIgniter\HTTP\RedirectResponse;
@@ -367,6 +366,17 @@ class Admin extends BaseController
             'updated_at' => date('Y-m-d H:i:s'),
         ];
 
+        // Prevent marking as completed if the booking's scheduled datetime hasn't passed yet
+        if ($status === 'completed') {
+            $booking = $db->table('bookings')->where('id', $id)->get()->getRowArray();
+            if ($booking) {
+                $bookDt = strtotime(($booking['date'] ?? '') . ' ' . ($booking['time'] ?? ''));
+                if ($bookDt === false || $bookDt > time()) {
+                    return redirect()->back()->with('error', 'Cannot mark booking as completed before its scheduled date/time has passed.');
+                }
+            }
+        }
+
         if ($status === 'cancelled') {
             $updateData['cancel_reason'] = $cancelReason !== '' ? $cancelReason : 'Cancelled by admin';
         } else {
@@ -562,11 +572,21 @@ class Admin extends BaseController
     {
         if ($r = $this->requireAdmin()) return $r;
 
+        $isAjax       = $this->request->isAJAX();
         $bookingId     = (int) $this->request->getPost('booking_id');
         $paymentAction = $this->request->getPost('payment_action');
 
         $allowedActions = ['down_paid', 'half_paid', 'full_paid', 'reject_receipt'];
         if (! $bookingId || ! in_array($paymentAction, $allowedActions)) {
+            if ($isAjax) {
+                return $this->response->setStatusCode(400)->setJSON([
+                    'ok'         => false,
+                    'message'    => 'Invalid payment request.',
+                    'csrf_hash'  => csrf_hash(),
+                    'csrf_token' => csrf_token(),
+                ]);
+            }
+
             return redirect()->back()->with('error', 'Invalid payment request.');
         }
 
@@ -576,6 +596,15 @@ class Admin extends BaseController
         if ($paymentAction === 'down_paid') {
             $booking = $db->table('bookings')->where('id', $bookingId)->get()->getRowArray();
             if (! $booking) {
+                if ($isAjax) {
+                    return $this->response->setStatusCode(404)->setJSON([
+                        'ok'         => false,
+                        'message'    => 'Booking not found.',
+                        'csrf_hash'  => csrf_hash(),
+                        'csrf_token' => csrf_token(),
+                    ]);
+                }
+
                 return redirect()->back()->with('error', 'Booking not found.');
             }
 
@@ -608,6 +637,17 @@ class Admin extends BaseController
                 'Our admin team verified your receipt and confirmed your 50% down payment.'
             );
 
+            if ($isAjax) {
+                return $this->response->setJSON([
+                    'ok'            => true,
+                    'message'       => '50% down payment confirmed successfully.',
+                    'booking_id'    => $bookingId,
+                    'payment_action'=> $paymentAction,
+                    'csrf_hash'     => csrf_hash(),
+                    'csrf_token'    => csrf_token(),
+                ]);
+            }
+
             return redirect()->to(base_url('admin/bookings'))
                 ->with('success', '50% down payment confirmed successfully.');
 
@@ -615,7 +655,31 @@ class Admin extends BaseController
         } elseif ($paymentAction === 'half_paid') {
             $booking = $db->table('bookings')->where('id', $bookingId)->get()->getRowArray();
             if (! $booking) {
+                if ($isAjax) {
+                    return $this->response->setStatusCode(404)->setJSON([
+                        'ok'         => false,
+                        'message'    => 'Booking not found.',
+                        'csrf_hash'  => csrf_hash(),
+                        'csrf_token' => csrf_token(),
+                    ]);
+                }
+
                 return redirect()->back()->with('error', 'Booking not found.');
+            }
+
+            // Prevent duplicate approval
+            if ($booking['down_payment_status'] === 'paid') {
+                if ($isAjax) {
+                    return $this->response->setStatusCode(409)->setJSON([
+                        'ok'         => false,
+                        'message'    => 'This booking has already been approved as 50% paid.',
+                        'csrf_hash'  => csrf_hash(),
+                        'csrf_token' => csrf_token(),
+                    ]);
+                }
+
+                return redirect()->to(base_url('admin/bookings'))
+                    ->with('error', 'This booking has already been approved as 50% paid.');
             }
 
             $halfAmount = round((float)($booking['total_amount'] ?? 0) / 2, 2);
@@ -660,6 +724,17 @@ class Admin extends BaseController
                 'Our admin team marked your booking as 50% paid.'
             );
 
+            if ($isAjax) {
+                return $this->response->setJSON([
+                    'ok'            => true,
+                    'message'       => 'Booking marked as 50% (half) paid.',
+                    'booking_id'    => $bookingId,
+                    'payment_action'=> $paymentAction,
+                    'csrf_hash'     => csrf_hash(),
+                    'csrf_token'    => csrf_token(),
+                ]);
+            }
+
             return redirect()->to(base_url('admin/bookings'))
                 ->with('success', 'Booking marked as 50% (half) paid.');
 
@@ -691,6 +766,17 @@ class Admin extends BaseController
                 'Our admin team marked your booking payment as fully paid.'
             );
 
+            if ($isAjax) {
+                return $this->response->setJSON([
+                    'ok'            => true,
+                    'message'       => 'Booking marked as fully paid.',
+                    'booking_id'    => $bookingId,
+                    'payment_action'=> $paymentAction,
+                    'csrf_hash'     => csrf_hash(),
+                    'csrf_token'    => csrf_token(),
+                ]);
+            }
+
             return redirect()->to(base_url('admin/bookings'))
                 ->with('success', 'Booking marked as fully paid.');
 
@@ -711,6 +797,17 @@ class Admin extends BaseController
                 'Your payment receipt was rejected',
                 'Our admin team rejected your submitted payment receipt. Please upload a valid GCash receipt for verification.'
             );
+
+            if ($isAjax) {
+                return $this->response->setJSON([
+                    'ok'            => true,
+                    'message'       => 'Receipt rejected. The guest may now re-upload a valid receipt.',
+                    'booking_id'    => $bookingId,
+                    'payment_action'=> $paymentAction,
+                    'csrf_hash'     => csrf_hash(),
+                    'csrf_token'    => csrf_token(),
+                ]);
+            }
 
             return redirect()->to(base_url('admin/bookings'))
                 ->with('success', 'Receipt rejected. The guest may now re-upload a valid receipt.');

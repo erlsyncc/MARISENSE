@@ -279,29 +279,19 @@
         <!-- RIGHT: Write a Review (only for users with completed bookings) -->
         <div>
             <div class="review-form-card">
-                <?php
-                    // Check if this user has any completed bookings
-                    $db = \Config\Database::connect();
-                    $completedBookings = $db->table('bookings')
-                        ->where('user_id', auth()->user()->id)
-                        ->where('status', 'completed')
-                        ->get()->getResultArray();
-                    $canReview = count($completedBookings) > 0;
-                ?>
-
-                <?php if ($canReview): ?>
+                <?php if (!empty($canReview)): ?>
                     <div class="form-title"><i class="fa-solid fa-pen-to-square me-2" style="color:var(--accent-cyan);"></i>Write a Review</div>
                     <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:16px;">Share your adventure experience!</p>
 
                     <?php if (!empty($completedBookings)): ?>
                     <div class="mb-field">
-                        <label class="field-label">Your Completed Activities</label>
+                        <label class="field-label">Your Completed Bookings</label>
                         <div class="completed-list">
                             <?php foreach ($completedBookings as $cb): ?>
                             <div class="completed-item">
                                 <i class="fa-solid fa-circle-check me-2" style="color:#5ddb8a;"></i>
-                                <strong><?= esc($cb['activity_name']) ?></strong>
-                                <span style="opacity:0.6;font-size:0.75rem;"> — <?= date('M d, Y', strtotime($cb['date'])) ?></span>
+                                <strong><?= esc($cb['booking_code'] ?? ('#' . $cb['id'])) ?></strong>
+                                <span style="opacity:0.6;font-size:0.75rem;"> — <?= esc($cb['activity_name'] ?? 'Activity') ?> · <?= date('M d, Y', strtotime($cb['date'])) ?> · <?= date('h:i A', strtotime($cb['time'])) ?></span>
                             </div>
                             <?php endforeach; ?>
                         </div>
@@ -312,16 +302,16 @@
                         <?= csrf_field() ?>
 
                         <div class="mb-field">
-                            <label class="field-label">Activity</label>
-                            <select name="activity" class="form-select-wave" required>
-                                <option value="">— Select activity —</option>
-                                <?php
-                                    $doneActivities = array_unique(array_column($completedBookings, 'activity_name'));
-                                    foreach ($doneActivities as $act):
-                                ?>
-                                <option value="<?= esc($act) ?>"><?= esc($act) ?></option>
+                            <label class="field-label">Completed Booking</label>
+                            <select name="booking_id" class="form-select-wave" required>
+                                <option value="">— Select a completed booking —</option>
+                                <?php foreach (($reviewableBookings ?? []) as $cb): ?>
+                                <option value="<?= (int) $cb['id'] ?>">
+                                    <?= esc($cb['booking_code'] ?? ('#' . $cb['id'])) ?> · <?= esc($cb['activity_name'] ?? 'Activity') ?> · <?= date('M d, Y', strtotime($cb['date'])) ?> · <?= date('h:i A', strtotime($cb['time'])) ?>
+                                </option>
                                 <?php endforeach; ?>
                             </select>
+                            <p class="form-hint mt-2">Choose the exact booking you want to review. This keeps reviews tied to the right trip.</p>
                         </div>
 
                         <div class="mb-field">

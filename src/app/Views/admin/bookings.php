@@ -473,11 +473,13 @@ $flashError   = session()->getFlashdata('error');
                                 </button>
 
                             <?php elseif ($statusRaw === 'confirmed'): ?>
-                                <form method="POST" action="<?= base_url('admin/bookings/update-status') ?>" style="display:inline;">
+                                <?php $isFutureBooking = (strtotime(($b['date'] ?? '') . ' ' . ($b['time'] ?? '')) > time()); ?>
+                                <?php $scheduled = isset($b['date']) && isset($b['time']) ? date('M d, Y h:i A', strtotime($b['date'] . ' ' . $b['time'])) : null; ?>
+                                <form method="POST" action="<?= base_url('admin/bookings/update-status') ?>" style="display:inline;" class="complete-form">
                                     <?= csrf_field() ?>
                                     <input type="hidden" name="id" value="<?= $b['id'] ?>">
                                     <input type="hidden" name="status" value="completed">
-                                    <button type="submit" class="btn-complete"><i class="fa-solid fa-flag-checkered me-1"></i>Complete</button>
+                                    <button type="submit" class="btn-complete" <?= $isFutureBooking ? 'disabled' : '' ?> data-scheduled="<?= esc($scheduled) ?>" title="<?= $isFutureBooking ? 'Cannot complete before scheduled time: ' . esc($scheduled) : '' ?>"><i class="fa-solid fa-flag-checkered me-1"></i>Complete</button>
                                 </form>
                                 <button class="btn-cancel"
                                     onclick="openCancelModal(<?= $b['id'] ?>, '<?= esc(addslashes($b['username'] ?? 'Guest')) ?>', <?= json_encode($wasPaid) ?>)">
@@ -498,6 +500,22 @@ $flashError   = session()->getFlashdata('error');
             <?php endif; ?>
             </tbody>
         </table>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('form.complete-form').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            var btn = form.querySelector('.btn-complete');
+            var scheduled = btn ? btn.getAttribute('data-scheduled') : '';
+            var msg = 'Mark booking as completed?';
+            if (scheduled) msg += '\nScheduled: ' + scheduled;
+            if (!confirm(msg)) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+</script>
         <div class="table-paginator" id="bookingsPaginator">
             <div style="display:flex;align-items:center;gap:10px;">
                 <span class="page-info" id="bookingsPageInfo"></span>
@@ -771,7 +789,39 @@ bookingsMap[<?= (int)$b['id'] ?>] = <?= json_encode($b, JSON_HEX_TAG | JSON_HEX_
 const RECEIPT_BASE_URL  = '<?= base_url('uploads/gcash_receipts/') ?>';
 const REFUND_UPLOAD_URL = '<?= base_url('admin/bookings/process-refund') ?>';
 const CSRF_TOKEN_NAME   = '<?= csrf_token() ?>';
-const CSRF_HASH         = '<?= csrf_hash() ?>';
+let CSRF_HASH           = '<?= csrf_hash() ?>';
+
+function syncCsrfHash(newHash) {
+    if (!newHash) return;
+    CSRF_HASH = newHash;
+    document.querySelectorAll('input[name="' + CSRF_TOKEN_NAME + '"]').forEach(function (input) {
+        input.value = newHash;
+    });
+}
+
+function showAdminToast(message, isSuccess) {
+    const existing = document.getElementById('centerToast');
+    if (existing) existing.remove();
+
+    const wrap = document.createElement('div');
+    wrap.className = 'center-toast-wrap';
+    wrap.id = 'centerToast';
+
+    const box = document.createElement('div');
+    box.className = 'center-toast-box ' + (isSuccess ? 'toast-success' : 'toast-error');
+
+    const icon = document.createElement('i');
+    icon.className = 'fa-solid ' + (isSuccess ? 'fa-circle-check' : 'fa-circle-xmark');
+
+    const text = document.createElement('span');
+    text.textContent = message;
+
+    box.appendChild(icon);
+    box.appendChild(text);
+    wrap.appendChild(box);
+    document.body.appendChild(wrap);
+    setTimeout(() => { const t = document.getElementById('centerToast'); if (t) t.remove(); }, 3300);
+}
 
 /* ── View buttons ── */
 document.querySelectorAll('button[data-view-id]').forEach(btn => {
@@ -836,6 +886,58 @@ function syncWalkInBlockState() {
     })
     .catch(() => { blockedMsg.style.display = 'none'; submitBtn.disabled = false; submitBtn.style.opacity = '1'; });
 }
+
+document.addEventListener('submit', function (e) {
+    const form = e.target;
+    if (!form.matches('form[data-ajax-payment="1"]')) {
+        return;
+    }
+
+    if (!window.fetch || !window.FormData) {
+        return;
+    }
+
+    e.preventDefault();
+
+    const button = form.querySelector('button[type="submit"]');
+    const originalHtml = button ? button.innerHTML : '';
+
+    if (button) {
+        button.disabled = true;
+        button.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Working…';
+    }
+
+    fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        credentials: 'same-origin'
+    })
+    .then(function (response) {
+        return response.json().then(function (data) {
+            return { status: response.status, data: data };
+        });
+    })
+    .then(function (result) {
+        syncCsrfHash(result.data.csrf_hash || CSRF_HASH);
+
+        if (!result.data.ok) {
+            throw new Error(result.data.message || 'Unable to update payment.');
+        }
+
+        showAdminToast(result.data.message || 'Payment updated successfully.', true);
+        setTimeout(function () {
+            window.location.reload();
+        }, 700);
+    })
+    .catch(function (error) {
+        showAdminToast(error.message || 'Unable to update payment.', false);
+        if (button) {
+            button.disabled = false;
+            button.innerHTML = originalHtml;
+        }
+    });
+});
 
 /* ── Filter / search ── */
 let currentFilter = 'all';
@@ -1147,7 +1249,7 @@ function openDetail(b, scrollToRefund = false) {
         } else {
             let btns = '<div class="dm-pay-actions">';
             if (downStatus !== 'paid') {
-                btns += `<form method="POST" action="${payUrl}" style="display:inline;">
+                btns += `<form method="POST" action="${payUrl}" style="display:inline;" data-ajax-payment="1">
                     <input type="hidden" name="${CSRF_TOKEN_NAME}" value="${CSRF_HASH}">
                     <input type="hidden" name="booking_id" value="${b.id}">
                     <input type="hidden" name="payment_action" value="down_paid">
@@ -1155,22 +1257,22 @@ function openDetail(b, scrollToRefund = false) {
                         <i class="fa-solid fa-circle-half-stroke"></i> Mark 50% Down Paid
                     </button></form>`;
             }
-            btns += `<form method="POST" action="${payUrl}" style="display:inline;">
+            btns += `<form method="POST" action="${payUrl}" style="display:inline;" data-ajax-payment="1">
                 <input type="hidden" name="${CSRF_TOKEN_NAME}" value="${CSRF_HASH}">
                 <input type="hidden" name="booking_id" value="${b.id}">
                 <input type="hidden" name="payment_action" value="full_paid">
                 <button type="submit" class="btn-mark-paid" onclick="return confirm('Mark booking #${b.id} as fully paid?')">
                     <i class="fa-solid fa-check-circle"></i> Mark as Fully Paid
                 </button></form>`;
-            if (receiptFilename) {
-                btns += `<form method="POST" action="${payUrl}" style="display:inline;">
+            if (receiptFilename && downStatus !== 'paid') {
+                btns += `<form method="POST" action="${payUrl}" style="display:inline;" data-ajax-payment="1">
                     <input type="hidden" name="${CSRF_TOKEN_NAME}" value="${CSRF_HASH}">
                     <input type="hidden" name="booking_id" value="${b.id}">
                     <input type="hidden" name="payment_action" value="half_paid">
                     <button type="submit" class="btn-mark-down" onclick="return confirm('Approve receipt as 50% half payment for #${b.id}?')">
                         <i class="fa-solid fa-circle-half-stroke"></i> Approve as Half Paid
                     </button></form>
-                    <form method="POST" action="${payUrl}" style="display:inline;">
+                    <form method="POST" action="${payUrl}" style="display:inline;" data-ajax-payment="1">
                     <input type="hidden" name="${CSRF_TOKEN_NAME}" value="${CSRF_HASH}">
                     <input type="hidden" name="booking_id" value="${b.id}">
                     <input type="hidden" name="payment_action" value="reject_receipt">
