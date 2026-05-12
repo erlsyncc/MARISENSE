@@ -111,6 +111,8 @@
         .btn-view-details:hover { background: var(--accent-cyan); color: var(--deep-blue); transform: translateY(-1px); }
         .btn-pay-now { background: rgba(40,167,69,0.12); color: #5ddb8a; border: 1px solid rgba(40,167,69,0.35); padding: 8px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
         .btn-pay-now:hover { background: rgba(40,167,69,0.3); transform: translateY(-1px); }
+        .btn-pay-remaining { background: rgba(255,193,7,0.12); color: #ffc107; border: 1px solid rgba(255,193,7,0.35); padding: 8px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-pay-remaining:hover { background: rgba(255,193,7,0.28); transform: translateY(-1px); }
         .btn-view-refund { background: rgba(168,85,247,0.12); color: #c084fc; border: 1px solid rgba(168,85,247,0.35); padding: 8px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
         .btn-view-refund:hover { background: rgba(168,85,247,0.28); transform: translateY(-1px); }
 
@@ -124,11 +126,10 @@
         .pay-paid    { background: rgba(40,167,69,0.15);   color: #5ddb8a; border: 1px solid rgba(40,167,69,0.4); }
         .pay-half    { background: rgba(255,193,7,0.12);   color: #ffc107; border: 1px solid rgba(255,193,7,0.4); }
         .pay-unpaid  { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.12); }
-        /* ── Refund badges ── */
         .pay-refund-pending  { background: rgba(255,107,107,0.12); color: #ff8888; border: 1px solid rgba(255,107,107,0.4); padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
         .pay-refund-done     { background: rgba(168,85,247,0.12);  color: #c084fc; border: 1px solid rgba(168,85,247,0.4); padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
 
-        /* ── Refund info block inside cancelled card ── */
+        /* Refund info block inside cancelled card */
         .bc-refund-block { border-radius: 14px; padding: 16px 18px; margin-bottom: 14px; }
         .bc-refund-block.pending   { background: rgba(255,107,107,0.05); border: 1px solid rgba(255,107,107,0.22); }
         .bc-refund-block.processed { background: rgba(168,85,247,0.05); border: 1px solid rgba(168,85,247,0.22); }
@@ -143,11 +144,13 @@
         .bc-refund-meta-item { font-size: 0.75rem; color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 5px; }
         .bc-refund-meta-item i { color: #c084fc; font-size: 0.68rem; }
         .bc-refund-meta-item span { color: white; font-weight: 600; }
-
-        /* ── Refund receipt preview inside card ── */
         .bc-refund-receipt-thumb { width: 100%; max-height: 200px; object-fit: contain; background: rgba(0,0,0,0.3); border-radius: 10px; cursor: zoom-in; display: block; transition: 0.2s; margin-top: 12px; border: 1px solid rgba(168,85,247,0.2); }
         .bc-refund-receipt-thumb:hover { transform: scale(1.01); border-color: rgba(168,85,247,0.5); }
         .bc-refund-receipt-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: rgba(168,85,247,0.7); margin-top: 12px; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+
+        /* Second payment pending notice */
+        .bc-second-pay-notice { background: rgba(255,193,7,0.07); border: 1px solid rgba(255,193,7,0.25); border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; font-size: 0.78rem; color: #ffc107; display: flex; align-items: flex-start; gap: 10px; }
+        .bc-second-pay-notice i { margin-top: 2px; flex-shrink: 0; }
 
         /* Empty state */
         .empty-state { text-align: center; padding: 50px 20px; }
@@ -165,7 +168,10 @@
         #payModal.d-none { display: none !important; }
         .pay-modal-box { background: #0a3d52; border: 1px solid rgba(72,202,228,0.35); border-radius: 28px; padding: 36px; max-width: 520px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
         .pay-modal-title { color: #48cae4; font-size: 1.2rem; font-weight: 700; margin-bottom: 2px; }
-        .pay-modal-subtitle { color: rgba(255,255,255,0.5); font-size: 0.82rem; margin-bottom: 22px; }
+        .pay-modal-subtitle { color: rgba(255,255,255,0.5); font-size: 0.82rem; margin-bottom: 4px; }
+        /* Remaining balance notice banner inside modal */
+        .pay-remaining-notice { background: rgba(255,193,7,0.08); border: 1px solid rgba(255,193,7,0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 18px; font-size: 0.82rem; color: #ffc107; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+        .pay-remaining-notice i { margin-top: 2px; flex-shrink: 0; }
         .pay-opt-row { display: flex; gap: 10px; margin-bottom: 18px; }
         .pay-opt { flex: 1; border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 14px; text-align: center; cursor: pointer; transition: 0.2s; font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.04); }
         .pay-opt:hover { border-color: var(--accent-cyan); }
@@ -186,7 +192,7 @@
         .btn-close-pay { background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); border-radius: 50px; padding: 6px 18px; cursor: pointer; font-size: 0.82rem; transition: 0.3s; }
         .btn-close-pay:hover { background: rgba(255,255,255,0.1); color: white; }
 
-        /* ── Refund receipt lightbox ── */
+        /* Refund receipt lightbox */
         #refundLightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.93); z-index: 99999; align-items: center; justify-content: center; cursor: zoom-out; flex-direction: column; gap: 16px; padding: 24px; }
         #refundLightbox.open { display: flex; }
         #refundLightbox img { max-width: 90vw; max-height: 80vh; border-radius: 14px; object-fit: contain; box-shadow: 0 0 80px rgba(168,85,247,0.3); border: 1px solid rgba(168,85,247,0.3); }
@@ -370,12 +376,12 @@
             $statusIcon  = match($status) { 'pending'=>'fa-hourglass-half','confirmed'=>'fa-circle-check','completed'=>'fa-trophy','cancelled'=>'fa-ban',default=>'fa-circle' };
             $tabGroup    = match($status) { 'pending','confirmed'=>'active','completed'=>'completed','cancelled'=>'cancelled',default=>'all' };
 
-            // ── Refund data (only for cancelled bookings that were paid) ──
+            // Refund data (only for cancelled bookings that were paid)
             $refund  = $booking['refund'] ?? null;
             $wasPaid = ($booking['payment_status'] ?? '') === 'paid'
                     || ($booking['down_payment_status'] ?? '') === 'paid';
 
-            // ── Payment badge — refund states override pay states for cancelled bookings ──
+            // Payment badge — refund states override pay states for cancelled bookings
             if ($status === 'cancelled' && $wasPaid) {
                 if ($refund && ($refund['refund_status'] ?? '') === 'processed') {
                     $payClass = 'pay-refund-done';
@@ -394,7 +400,7 @@
                 $payClass = 'pay-unpaid'; $payText = 'Unpaid';  $payIcon = 'fa-hourglass';
             }
 
-            /* ── Activities ── */
+            /* Activities */
             $allActNames = array_values(array_filter(array_map('trim', explode(',', $booking['all_activities'] ?? $booking['activity_name']))));
             if (empty($allActNames)) $allActNames = [$booking['activity_name']];
             $multiActivity = count($allActNames) > 1;
@@ -404,7 +410,7 @@
             $displayTitle = $multiActivity ? implode(' + ', $allActNames) : $booking['activity_name'];
             $searchStr    = strtolower($displayTitle . ' ' . $booking['booking_code'] . ' ' . implode(' ', $allActNames));
 
-            /* ── Participants per activity ── */
+            /* Participants per activity */
             $ppaMap = [];
             if (!empty($booking['participants_per_activity'])) {
                 $decoded = json_decode($booking['participants_per_activity'], true);
@@ -417,7 +423,7 @@
                 foreach ($allActNames as $idx => $an) { $ppaMap[trim($an)] = $perAct + ($idx === 0 ? $remainder : 0); }
             }
 
-            /* ── Time per activity ── */
+            /* Time per activity */
             $tpaMap = [];
             if (!empty($booking['time_per_activity'])) {
                 $decoded = json_decode($booking['time_per_activity'], true);
@@ -433,7 +439,7 @@
                 }
             }
 
-            /* ── Fetch activity rows ── */
+            /* Fetch activity rows */
             $actRowCache = [];
             foreach ($allActNames as $an) {
                 $an  = trim($an);
@@ -441,7 +447,7 @@
                 if ($row) $actRowCache[$an] = $row;
             }
 
-            /* ── Compute per-activity line totals ── */
+            /* Compute per-activity line totals */
             $lineItems     = [];
             $computedTotal = 0.0;
             foreach ($allActNames as $an) {
@@ -455,15 +461,22 @@
             }
             $displayTotal = ($computedTotal > 0) ? $computedTotal : (float)$booking['total_amount'];
 
-            /* ── Dates ── */
+            /* Dates */
             $bookedOn = date('M d, Y', strtotime($booking['created_at']));
             $actDate  = date('M d, Y', strtotime($booking['date']));
 
-            /* ── Remaining balance ── */
-            $remaining = $displayTotal - (float)($booking['down_payment'] ?? 0);
+            /* Down payment info */
+            $downPaid      = (float)($booking['down_payment'] ?? 0);
+            $remaining     = $displayTotal - $downPaid;
             $totalParticipants = array_sum($ppaMap);
 
-            /* ── Refund receipt path ── */
+            /* Determine if second payment receipt is pending admin review */
+            $latestPayType       = $booking['latest_payment']['payment_type'] ?? '';
+            $hasRemainingReceipt = !empty($booking['latest_payment']['gcash_receipt'])
+                                && ($latestPayType === 'remaining' || $latestPayType === 'full_remaining')
+                                && ($booking['payment_status'] ?? '') !== 'paid';
+
+            /* Refund receipt path */
             $refundReceiptUrl = null;
             if ($refund && !empty($refund['refund_receipt'])) {
                 $refundReceiptUrl = base_url('uploads/gcash_receipts/' . basename($refund['refund_receipt']));
@@ -574,15 +587,17 @@
                     <div class="info-val"><?= esc($booking['contact_number']) ?></div>
                 </div>
                 <?php endif; ?>
-                <?php if ((float)($booking['down_payment'] ?? 0) > 0 && $status !== 'cancelled'): ?>
+                <?php if ($downPaid > 0 && $status !== 'cancelled'): ?>
                 <div class="bc-info-item">
                     <div class="info-label"><i class="fa-solid fa-circle-half-stroke me-1"></i> Down Paid</div>
-                    <div class="info-val" style="color:#ffc107;">₱<?= number_format($booking['down_payment'], 2) ?></div>
+                    <div class="info-val" style="color:#ffc107;">₱<?= number_format($downPaid, 2) ?></div>
                 </div>
+                <?php if ($booking['payment_status'] !== 'paid'): ?>
                 <div class="bc-info-item">
                     <div class="info-label"><i class="fa-solid fa-scale-balanced me-1"></i> Remaining</div>
                     <div class="info-val" style="color:#ff9999;">₱<?= number_format($remaining, 2) ?></div>
                 </div>
+                <?php endif; ?>
                 <?php endif; ?>
                 <?php if (!empty($booking['special_requests'])): ?>
                 <div class="bc-info-item" style="flex-basis:100%;">
@@ -599,9 +614,20 @@
             </div>
 
             <?php
-            // ══════════════════════════════════════════════════════════
+            // Second payment receipt pending admin review — show notice
+            if ($hasRemainingReceipt && in_array($status, ['pending','confirmed'])):
+            ?>
+            <div class="bc-second-pay-notice">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <div>
+                    <strong style="display:block;margin-bottom:2px;">Remaining balance receipt submitted</strong>
+                    Your payment screenshot for the remaining balance has been uploaded and is awaiting admin verification. Your booking will be marked as fully paid once confirmed.
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <?php
             // REFUND BLOCK — only for cancelled bookings that were paid
-            // ══════════════════════════════════════════════════════════
             if ($status === 'cancelled' && $wasPaid):
                 $refundProcessed = $refund && ($refund['refund_status'] ?? '') === 'processed';
                 $refundAmt       = $refund ? (float)$refund['refund_amount'] : 0;
@@ -662,7 +688,6 @@
                     <?php endif; ?>
 
                 <?php else: ?>
-                    <!-- Refund record not yet created (edge case: just cancelled, page not yet reloaded) -->
                     <div class="bc-refund-note">
                         <i class="fa-solid fa-spinner fa-spin me-1"></i>
                         Your cancellation has been received. Since you had already paid, a refund record is being prepared. Please check back in a moment.
@@ -677,17 +702,32 @@
                     <i class="fa-solid fa-eye"></i> View Status
                 </a>
 
-                <?php if (in_array($status, ['pending','confirmed']) && $booking['payment_status'] !== 'paid'): ?>
-                <button class="btn-pay-now"
-                    onclick="openPayModal(
-                        <?= $booking['id'] ?>,
-                        '<?= esc(addslashes($displayTitle)) ?>',
-                        <?= $displayTotal ?>,
-                        '<?= $booking['down_payment_status'] ?>'
-                    )">
-                    <i class="fa-solid fa-peso-sign"></i>
-                    <?= ($booking['down_payment_status'] === 'paid') ? 'Pay Remaining' : 'Pay Now' ?>
-                </button>
+                <?php if (in_array($status, ['pending','confirmed']) && $booking['payment_status'] !== 'paid' && !$hasRemainingReceipt): ?>
+                    <?php if (($booking['down_payment_status'] ?? '') === 'paid'): ?>
+                        <!-- Second payment: remaining balance -->
+                        <button class="btn-pay-remaining"
+                            onclick="openPayModal(
+                                <?= $booking['id'] ?>,
+                                '<?= esc(addslashes($displayTitle)) ?>',
+                                <?= $displayTotal ?>,
+                                'paid',
+                                <?= $downPaid ?>
+                            )">
+                            <i class="fa-solid fa-circle-half-stroke"></i> Pay Remaining Balance
+                        </button>
+                    <?php else: ?>
+                        <!-- First payment -->
+                        <button class="btn-pay-now"
+                            onclick="openPayModal(
+                                <?= $booking['id'] ?>,
+                                '<?= esc(addslashes($displayTitle)) ?>',
+                                <?= $displayTotal ?>,
+                                '',
+                                0
+                            )">
+                            <i class="fa-solid fa-peso-sign"></i> Pay Now
+                        </button>
+                    <?php endif; ?>
                 <?php endif; ?>
 
                 <?php if ($status === 'cancelled' && $wasPaid && $refund && ($refund['refund_status'] ?? '') === 'processed' && $refundReceiptUrl): ?>
@@ -736,10 +776,22 @@
             <div>
                 <div class="pay-modal-title"><i class="fa-solid fa-peso-sign me-2"></i>Pay for Booking</div>
                 <div class="pay-modal-subtitle" id="pay-modal-activity">—</div>
+                <div class="pay-modal-subtitle" id="pay-modal-subtitle-text" style="margin-top:2px;">Choose your payment option and upload your GCash receipt.</div>
             </div>
             <button class="btn-close-pay" onclick="closePayModal()"><i class="fa-solid fa-xmark me-1"></i> Close</button>
         </div>
-        <div class="pay-opt-row">
+
+        <!-- Remaining balance notice — shown only when paying 2nd half -->
+        <div class="pay-remaining-notice d-none" id="pay-remaining-notice">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+            <div>
+                <strong style="display:block;margin-bottom:2px;">Paying remaining balance</strong>
+                <span id="pay-remaining-notice-text">You have already paid the 50% down payment. This payment covers the remaining balance to complete your booking.</span>
+            </div>
+        </div>
+
+        <!-- Half / Full toggle — hidden when paying remaining balance -->
+        <div class="pay-opt-row" id="pay-opt-row">
             <div class="pay-opt selected" id="payopt-half" onclick="selectPayOpt('half')">
                 <i class="fa-brands fa-google-pay me-1" style="color:#1a73e8;"></i><br>
                 50% Down<br><span style="font-size:0.68rem;font-weight:400;">Secure your slot</span>
@@ -749,6 +801,7 @@
                 Full Payment<br><span style="font-size:0.68rem;font-weight:400;">Pay everything now</span>
             </div>
         </div>
+
         <div class="pay-amount-box">
             <div>
                 <div class="pay-amount-label" id="pay-amount-label">Down Payment (50%)</div>
@@ -818,6 +871,8 @@
 <script>
     let currentTab     = 'all';
     let payTotalAmount = 0;
+    let payIsRemainingMode = false;
+    let payDownPaid = 0;
 
     <?php if ($successMsg): ?>
     window.addEventListener('DOMContentLoaded', function () {
@@ -832,20 +887,59 @@
         setTimeout(function () { toast.classList.remove('show'); }, 4500);
     }
 
-    function openPayModal(bookingId, activityName, total, downPayStatus) {
-        payTotalAmount = parseFloat(total);
+    function openPayModal(bookingId, activityName, total, downPayStatus, downPaidAmount) {
+        payTotalAmount     = parseFloat(total);
+        payIsRemainingMode = (downPayStatus === 'paid');
+        payDownPaid        = parseFloat(downPaidAmount || 0);
+
         document.getElementById('pay-booking-id').value           = bookingId;
         document.getElementById('pay-modal-activity').textContent = activityName + ' · Booking #' + bookingId;
         document.getElementById('pay-total-display').textContent  = '₱' + payTotalAmount.toLocaleString('en-PH', {minimumFractionDigits:2});
-        selectPayOpt(downPayStatus === 'paid' ? 'full' : 'half');
+
+        var optRow          = document.getElementById('pay-opt-row');
+        var remainingNotice = document.getElementById('pay-remaining-notice');
+        var subtitleText    = document.getElementById('pay-modal-subtitle-text');
+
+        if (payIsRemainingMode) {
+            // Lock to remaining balance — hide toggle, show notice
+            optRow.style.display          = 'none';
+            remainingNotice.classList.remove('d-none');
+            document.getElementById('pay-type-hidden').value = 'remaining';
+
+            var remainingAmt = payDownPaid > 0
+                ? (payTotalAmount - payDownPaid)
+                : Math.ceil(payTotalAmount / 2);
+
+            document.getElementById('pay-amount-label').textContent   = 'Remaining Balance (2nd Half)';
+            document.getElementById('pay-amount-display').textContent =
+                '₱' + remainingAmt.toLocaleString('en-PH', {minimumFractionDigits:2});
+
+            document.getElementById('pay-remaining-notice-text').textContent =
+                'You have already paid ₱' + payDownPaid.toLocaleString('en-PH', {minimumFractionDigits:2}) +
+                ' as down payment. This payment covers the remaining ₱' +
+                remainingAmt.toLocaleString('en-PH', {minimumFractionDigits:2}) + ' to complete your booking.';
+
+            subtitleText.textContent = 'Upload your GCash receipt for the remaining balance.';
+        } else {
+            optRow.style.display = 'flex';
+            remainingNotice.classList.add('d-none');
+            subtitleText.textContent = 'Choose your payment option and upload your GCash receipt.';
+            selectPayOpt('half');
+        }
+
         document.getElementById('payModal').classList.remove('d-none');
     }
 
     function closePayModal() {
         document.getElementById('payModal').classList.add('d-none');
+        // Reset file input
+        document.getElementById('gcash-file-input').value = '';
+        payIsRemainingMode = false;
+        payDownPaid = 0;
     }
 
     function selectPayOpt(type) {
+        if (payIsRemainingMode) return; // locked when paying remaining
         document.getElementById('pay-type-hidden').value = type;
         document.getElementById('payopt-half').classList.toggle('selected', type === 'half');
         document.getElementById('payopt-full').classList.toggle('selected', type === 'full');
@@ -875,7 +969,7 @@
         if (e.target === this) closePayModal();
     });
 
-    /* ── Refund receipt lightbox ── */
+    /* Refund receipt lightbox */
     function openRefundLightbox(url, caption) {
         document.getElementById('refundLightboxImg').src       = url;
         document.getElementById('refundLightboxCaption').textContent = caption || '';
