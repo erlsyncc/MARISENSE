@@ -8,6 +8,163 @@ use App\Models\BuoyDataModel;
 
 class User extends BaseController
 {
+    private function sendBookingActionNotification(
+        int $bookingId,
+        string $subject,
+        string $headline,
+        string $message,
+        array $extraDetails = []
+    ): void {
+        log_message('info', '[BOOKING-EMAIL] START: Attempting to send "{subject}" for booking {booking_id}', [
+            'subject'    => $subject,
+            'booking_id' => $bookingId,
+        ]);
+
+        if ($bookingId <= 0) {
+            log_message('warning', '[BOOKING-EMAIL] SKIPPED: Invalid booking ID {booking_id}', ['booking_id' => $bookingId]);
+            return;
+        }
+
+        try {
+            $db = \Config\Database::connect();
+            log_message('debug', '[BOOKING-EMAIL] DB connected for booking {booking_id}', ['booking_id' => $bookingId]);
+
+            $booking = $db->table('bookings b')
+                ->select('
+                    b.id,
+                    b.booking_code,
+                    b.date,
+                    b.time,
+                    b.status,
+                    b.payment_status,
+                    b.down_payment_status,
+                    b.down_payment,
+                    b.total_amount,
+                    b.cancel_reason,
+                    u.username,
+                    ai.secret AS email
+                ')
+                ->join('users u', 'u.id = b.user_id', 'left')
+                ->join('auth_identities ai', 'ai.user_id = b.user_id AND ai.type = "email_password"', 'left')
+                ->where('b.id', $bookingId)
+                ->get()
+                ->getRowArray();
+
+            if (! $booking) {
+                log_message('warning', '[BOOKING-EMAIL] SKIPPED: Booking {booking_id} not found in database', ['booking_id' => $bookingId]);
+                return;
+            }
+
+            log_message('debug', '[BOOKING-EMAIL] Booking {booking_id} fetched: code={code}, user_id={user_id}', [
+                'booking_id' => $bookingId,
+                'code'       => $booking['booking_code'] ?? 'N/A',
+                'user_id'    => $booking['user_id'] ?? 'N/A',
+            ]);
+
+            $to = trim((string) ($booking['email'] ?? ''));
+            if ($to === '') {
+                log_message('warning', '[BOOKING-EMAIL] SKIPPED: No email found for booking {booking_id}', ['booking_id' => $bookingId]);
+                return;
+            }
+
+            log_message('info', '[BOOKING-EMAIL] Email target: {email} for booking {booking_id}', [
+                'email'      => $to,
+                'booking_id' => $bookingId,
+            ]);
+
+            $scheduleDate = ! empty($booking['date']) ? date('M d, Y', strtotime((string) $booking['date'])) : 'N/A';
+            $scheduleTime = ! empty($booking['time']) ? date('h:i A', strtotime((string) $booking['time'])) : 'N/A';
+            $guestName    = trim((string) ($booking['username'] ?? 'Guest'));
+
+            $details = [
+                'Booking Code'        => (string) ($booking['booking_code'] ?? ('#' . $bookingId)),
+                'Schedule'            => $scheduleDate . ' at ' . $scheduleTime,
+                'Booking Status'      => ucfirst((string) ($booking['status'] ?? 'pending')),
+                'Payment Status'      => ucfirst((string) ($booking['payment_status'] ?? 'pending')),
+                'Down Payment Status' => ucfirst((string) ($booking['down_payment_status'] ?? 'pending')),
+            ];
+
+            if (! empty($booking['cancel_reason'])) {
+                $details['Cancellation Reason'] = (string) $booking['cancel_reason'];
+            }
+
+            foreach ($extraDetails as $label => $value) {
+                if ($value === null || $value === '') {
+                    continue;
+                }
+                $details[(string) $label] = (string) $value;
+            }
+
+            $detailHtml = '';
+            foreach ($details as $label => $value) {
+                $detailHtml .= '<tr>'
+                    . '<td style="padding:8px 10px;border:1px solid #dbe7ef;background:#f8fbfd;font-weight:600;">' . esc($label) . '</td>'
+                    . '<td style="padding:8px 10px;border:1px solid #dbe7ef;">' . esc($value) . '</td>'
+                    . '</tr>';
+            }
+
+            $emailBody = '
+                <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.6;color:#163447;">
+                    <h2 style="margin:0 0 12px;color:#0a5872;">' . esc($headline) . '</h2>
+                    <p style="margin:0 0 12px;">Hi ' . esc($guestName) . ',</p>
+                    <p style="margin:0 0 16px;">' . esc($message) . '</p>
+                    <table style="border-collapse:collapse;width:100%;max-width:700px;margin:0 0 16px;">' . $detailHtml . '</table>
+                    <p style="margin:0;">Thank you,<br>Waves Water Sports</p>
+                </div>
+            ';
+
+            log_message('debug', '[BOOKING-EMAIL] Email body composed for booking {booking_id}. To: {email}', [
+                'booking_id' => $bookingId,
+                'email'      => $to,
+            ]);
+
+            $email = \Config\Services::email();
+            $email->clear(true);
+            $email->setTo($to)
+                ->setFrom(env('MAIL_FROM_ADDRESS', 'admin@marisense.networq.online'), 'Waves Water Sports')
+                ->setSubject($subject)
+                ->setMessage($emailBody);
+
+            log_message('debug', '[BOOKING-EMAIL] Calling email->send() for booking {booking_id}', ['booking_id' => $bookingId]);
+
+            $sent = false;
+            try {
+                $sent = $email->send();
+            } catch (\Exception $e) {
+                log_message('error', '[BOOKING-EMAIL] EXCEPTION during email->send() for booking {booking_id}: {message}', [
+                    'booking_id' => $bookingId,
+                    'message'    => $e->getMessage(),
+                    'exception'  => get_class($e),
+                ]);
+                $debugger = $email->printDebugger(['headers', 'subject', 'body']);
+                log_message('error', '[BOOKING-EMAIL] DEBUGGER OUTPUT: {debugger}', ['debugger' => $debugger]);
+            }
+
+            if ($sent) {
+                log_message('info', '[BOOKING-EMAIL] SUCCESS: Email sent for booking {booking_id} to {email}', [
+                    'booking_id' => $bookingId,
+                    'email'      => $to,
+                    'subject'    => $subject,
+                ]);
+            } else {
+                log_message('error', '[BOOKING-EMAIL] FAILED: Email not sent for booking {booking_id} to {email}', [
+                    'booking_id' => $bookingId,
+                    'email'      => $to,
+                ]);
+                $debugger = $email->printDebugger(['headers', 'subject', 'body']);
+                log_message('error', '[BOOKING-EMAIL] DEBUGGER OUTPUT: {debugger}', ['debugger' => $debugger]);
+            }
+        } catch (\Exception $e) {
+            log_message('error', '[BOOKING-EMAIL] FATAL ERROR for booking {booking_id}: {message}', [
+                'booking_id' => $bookingId,
+                'message'    => $e->getMessage(),
+                'exception'  => get_class($e),
+                'file'       => $e->getFile(),
+                'line'       => $e->getLine(),
+            ]);
+        }
+    }
+
     // -----------------------------------------------------------------------
     // HOME
     // -----------------------------------------------------------------------
@@ -278,6 +435,17 @@ class User extends BaseController
 
         $newId = $bookingModel->getInsertID();
 
+        $this->sendBookingActionNotification(
+            (int) $newId,
+            'Booking Request Received',
+            'Your booking request was received',
+            'We received your booking request. Our admin team will review and update your booking status shortly.',
+            [
+                'Total Amount' => 'PHP ' . number_format((float) $total, 2),
+                'Selected Activities' => implode(', ', $allActivities),
+            ]
+        );
+
         return redirect()->to(base_url("user/booking-details/{$newId}"))
                          ->with('success', "Booking confirmed! Your booking code is {$bookingCode}.");
     }
@@ -394,9 +562,24 @@ class User extends BaseController
                 log_message('error', 'booking_refunds insert failed (user cancel): ' . $e->getMessage());
             }
 
+            $this->sendBookingActionNotification(
+                (int) $id,
+                'Booking Cancelled',
+                'Your booking has been cancelled',
+                'You cancelled this booking successfully. Your refund request is now pending admin processing.',
+                ['Refund Status' => 'Pending']
+            );
+
             return redirect()->to(base_url('user/my-bookings'))
                 ->with('success', 'Booking cancelled. Since you had already paid, your refund is being processed. You will see the GCash proof here once the admin sends it back.');
         }
+
+        $this->sendBookingActionNotification(
+            (int) $id,
+            'Booking Cancelled',
+            'Your booking has been cancelled',
+            'You cancelled this booking successfully.'
+        );
 
         return redirect()->to(base_url('user/my-bookings'))->with('success', 'Booking cancelled successfully.');
     }
@@ -477,6 +660,19 @@ class User extends BaseController
                 'updated_at'           => date('Y-m-d H:i:s'),
             ]);
         }
+
+        $this->sendBookingActionNotification(
+            $bookingId,
+            'Payment Submitted',
+            'Your payment submission was received',
+            'We received your payment receipt. Our admin team will verify it and send another email once reviewed.',
+            [
+                'Payment Type' => $paymentType === 'full' ? 'Full Payment' : 'Down Payment (50%)',
+                'Amount Submitted' => 'PHP ' . number_format((float) $amountPaid, 2),
+                'GCash Reference' => $gcashRef ?: null,
+                'Verification Status' => 'Pending Admin Verification',
+            ]
+        );
 
         return redirect()->to(base_url('user/my-bookings'))
                          ->with('success', 'Payment submitted! Please wait for admin verification.');
