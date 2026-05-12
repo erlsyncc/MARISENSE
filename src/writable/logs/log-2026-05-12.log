@@ -8215,3 +8215,590 @@ DEBUG - 2026-05-12 16:51:02 --> Session: Class initialized using 'CodeIgniter\Se
 DEBUG - 2026-05-12 16:51:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 DEBUG - 2026-05-12 16:51:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 DEBUG - 2026-05-12 16:51:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:14:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:14:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:14:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:15:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:15:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:15:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:15:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:15:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:15:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-12 17:15:14 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-05-12 17:15:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-12 17:15:45 --> [BOOKING-EMAIL] START: Attempting to send "Booking Confirmed by Admin" for booking 51
+DEBUG - 2026-05-12 17:15:45 --> [BOOKING-EMAIL] DB connected for booking 51
+DEBUG - 2026-05-12 17:15:45 --> [BOOKING-EMAIL] Booking 51 fetched: code=WWS-2D3727B0, user_id=N/A
+INFO - 2026-05-12 17:15:45 --> [BOOKING-EMAIL] Email target: magnaye.rp@gmail.com for booking 51
+DEBUG - 2026-05-12 17:15:45 --> [BOOKING-EMAIL] Email body composed for booking 51. To: magnaye.rp@gmail.com
+DEBUG - 2026-05-12 17:15:45 --> [BOOKING-EMAIL] Calling email->send() for booking 51
+INFO - 2026-05-12 17:15:45 --> [BOOKING-EMAIL] SUCCESS: Email sent for booking 51 to magnaye.rp@gmail.com
+DEBUG - 2026-05-12 17:15:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-12 17:15:45 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-05-12 17:16:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-12 17:16:01 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = 50', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = 50')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = 50')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:', [...], false)
+ 5 APPPATH/Controllers/Admin.php(381): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->updateBookingStatus()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-05-12 17:16:01 --> booking_refunds insert failed: Table 'marisense_vrbms.booking_refunds' doesn't exist
+INFO - 2026-05-12 17:16:01 --> [BOOKING-EMAIL] START: Attempting to send "Booking Cancelled by Admin" for booking 50
+DEBUG - 2026-05-12 17:16:01 --> [BOOKING-EMAIL] DB connected for booking 50
+DEBUG - 2026-05-12 17:16:01 --> [BOOKING-EMAIL] Booking 50 fetched: code=WWS-335F1B51, user_id=N/A
+INFO - 2026-05-12 17:16:01 --> [BOOKING-EMAIL] Email target: useracc@gmail.com for booking 50
+DEBUG - 2026-05-12 17:16:01 --> [BOOKING-EMAIL] Email body composed for booking 50. To: useracc@gmail.com
+DEBUG - 2026-05-12 17:16:01 --> [BOOKING-EMAIL] Calling email->send() for booking 50
+INFO - 2026-05-12 17:16:01 --> [BOOKING-EMAIL] SUCCESS: Email sent for booking 50 to useracc@gmail.com
+DEBUG - 2026-05-12 17:16:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-12 17:16:01 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-05-12 17:16:01 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-05-12 17:16:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-12 17:16:28 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = 50
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = 50
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = 50
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(505): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->processRefund()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-05-12 17:16:28 --> CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_vrbms.booking_refunds' doesn't exist
+[Method: POST, Route: admin/bookings/process-refund]
+in SYSTEMPATH/Database/BaseConnection.php on line 724.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 2 APPPATH/Controllers/Admin.php(505): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->processRefund()
+ 4 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 5 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-05-12 17:16:28 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
+ 1 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = 50
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 2 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = 50
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 4 APPPATH/Controllers/Admin.php(505): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->processRefund()
+ 6 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 7 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-05-12 17:16:29 --> [Caused by] mysqli_sql_exception: Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = 50
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = 50
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = 50
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(505): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->processRefund()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-05-12 17:19:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-12 17:19:49 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-05-12 17:19:49 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-05-12 17:19:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:20:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-12 17:20:02 --> [BOOKING-EMAIL] START: Attempting to send "Payment Submitted" for booking 51
+DEBUG - 2026-05-12 17:20:02 --> [BOOKING-EMAIL] DB connected for booking 51
+DEBUG - 2026-05-12 17:20:02 --> [BOOKING-EMAIL] Booking 51 fetched: code=WWS-2D3727B0, user_id=N/A
+INFO - 2026-05-12 17:20:02 --> [BOOKING-EMAIL] Email target: magnaye.rp@gmail.com for booking 51
+DEBUG - 2026-05-12 17:20:02 --> [BOOKING-EMAIL] Email body composed for booking 51. To: magnaye.rp@gmail.com
+DEBUG - 2026-05-12 17:20:02 --> [BOOKING-EMAIL] Calling email->send() for booking 51
+INFO - 2026-05-12 17:20:02 --> [BOOKING-EMAIL] SUCCESS: Email sent for booking 51 to magnaye.rp@gmail.com
+DEBUG - 2026-05-12 17:20:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:20:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-12 17:20:06 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-05-12 17:20:06 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-05-12 17:20:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-12 17:20:08 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-05-12 17:20:08 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-05-12 17:20:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-12 17:20:16 --> [BOOKING-EMAIL] START: Attempting to send "Booking Fully Paid" for booking 51
+DEBUG - 2026-05-12 17:20:16 --> [BOOKING-EMAIL] DB connected for booking 51
+DEBUG - 2026-05-12 17:20:16 --> [BOOKING-EMAIL] Booking 51 fetched: code=WWS-2D3727B0, user_id=N/A
+INFO - 2026-05-12 17:20:16 --> [BOOKING-EMAIL] Email target: magnaye.rp@gmail.com for booking 51
+DEBUG - 2026-05-12 17:20:16 --> [BOOKING-EMAIL] Email body composed for booking 51. To: magnaye.rp@gmail.com
+DEBUG - 2026-05-12 17:20:16 --> [BOOKING-EMAIL] Calling email->send() for booking 51
+INFO - 2026-05-12 17:20:16 --> [BOOKING-EMAIL] SUCCESS: Email sent for booking 51 to magnaye.rp@gmail.com
+DEBUG - 2026-05-12 17:20:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-12 17:20:16 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-05-12 17:20:16 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-05-12 17:20:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:20:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:20:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-05-12 17:20:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-05-12 17:20:33 --> [BOOKING-EMAIL] START: Attempting to send "Booking Completed" for booking 51
+DEBUG - 2026-05-12 17:20:33 --> [BOOKING-EMAIL] DB connected for booking 51
+DEBUG - 2026-05-12 17:20:33 --> [BOOKING-EMAIL] Booking 51 fetched: code=WWS-2D3727B0, user_id=N/A
+INFO - 2026-05-12 17:20:33 --> [BOOKING-EMAIL] Email target: magnaye.rp@gmail.com for booking 51
+DEBUG - 2026-05-12 17:20:33 --> [BOOKING-EMAIL] Email body composed for booking 51. To: magnaye.rp@gmail.com
+DEBUG - 2026-05-12 17:20:33 --> [BOOKING-EMAIL] Calling email->send() for booking 51
+INFO - 2026-05-12 17:20:33 --> [BOOKING-EMAIL] SUCCESS: Email sent for booking 51 to magnaye.rp@gmail.com
+DEBUG - 2026-05-12 17:20:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-05-12 17:20:33 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'50\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-05-12 17:20:33 --> Table 'marisense_vrbms.booking_refunds' doesn't exist
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(769): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 3 SYSTEMPATH/Database/BaseConnection.php(686): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = \'37\'
+ORDER BY `created_at` DESC
+ LIMIT 1')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `booking_refunds`
+WHERE `booking_id` = :booking_id:
+ORDER BY `created_at` DESC
+ LIMIT 1', [...], false)
+ 5 APPPATH/Controllers/Admin.php(281): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Admin->bookings()
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

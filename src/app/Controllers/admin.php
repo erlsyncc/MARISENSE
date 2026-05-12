@@ -128,7 +128,6 @@ class Admin extends BaseController
             ]);
 
             $email = \Config\Services::email();
-            $email->clear(true);
             $email->setTo($to)
                 ->setFrom(env('MAIL_FROM_ADDRESS', 'admin@marisense.networq.online'), 'Waves Water Sports')
                 ->setSubject($subject)
