@@ -1,3 +1,6 @@
+
+
+
 #include <SPI.h>
 #include <LoRa.h>
 #include <WiFiClientSecure.h>
@@ -8,16 +11,13 @@
 // =============================================================================
 // WIFI
 // =============================================================================
-const char* SSID = "iPhone";
-const char* PASSWORD = "hotspot0123";
-// const char* SSID = "HUAWEI-2.4G-V6aF";
-// const char* PASSWORD = "WCKT9Q8f";
+const char* SSID = "HUAWEI-2.4G-V6aF";
+const char* PASSWORD = "WCKT9Q8f";
 
 // =============================================================================
 // API
 // =============================================================================
-const char* API_ENDPOINT =
-  "https://marisense.networq.online/api/buoy-data";
+const char* API_ENDPOINT = "https://marisense.networq.online/api/buoy-data";
 
 // =============================================================================
 // LORA PINS
@@ -28,22 +28,10 @@ const char* API_ENDPOINT =
 #define LORA_SS     5
 #define LORA_RST   14
 #define LORA_DIO0   2
-
 #define LORA_FREQ 433E6
 
 // =============================================================================
-// OVERRIDE MODES
-// =============================================================================
-enum OverrideMode {
-  MODE_NORMAL,
-  MODE_MODERATE,
-  MODE_DANGER
-};
-
-OverrideMode currentMode = MODE_NORMAL;
-
-// =============================================================================
-// PACKED STRUCT
+// STRUCT & MODES
 // =============================================================================
 struct __attribute__((packed)) BuoyData {
   float pitch;
@@ -54,338 +42,192 @@ struct __attribute__((packed)) BuoyData {
   int packetID;
 };
 
+enum OverrideMode {
+  MODE_NORMAL,
+  MODE_MODERATE,
+  MODE_DANGER
+};
+
+OverrideMode currentMode = MODE_NORMAL;
+
 // =============================================================================
-// RANDOM FLOAT
+// AGGREGATION & TIMERS
 // =============================================================================
+float sumWave = 0, sumWind = 0, sumPitch = 0, sumRoll = 0, sumTemp = 0;
+float maxWind = 0;
+int sampleCount = 0;
+
 unsigned long lastSendTime = 0;
-const unsigned long SEND_INTERVAL = 60000;
+const unsigned long SEND_INTERVAL = 60000; // 1 Minute
 
-// =============================================================================
-// RANDOM FLOAT
-// =============================================================================
-float randomFloat(float minVal, float maxVal) {
-
-  return minVal +
-    ((float)random(0, 10000) / 10000.0f)
-    * (maxVal - minVal);
-}
+unsigned long lastSimTime = 0;
+const unsigned long SIM_INTERVAL = 10000;  // Generate sim data every 10s
 
 // =============================================================================
 // WIFI CONNECT
 // =============================================================================
 void connectWiFi() {
-
-  if (WiFi.status() == WL_CONNECTED)
-    return;
-
+  if (WiFi.status() == WL_CONNECTED) return;
   Serial.println("[WiFi] Connecting...");
-
   WiFi.begin(SSID, PASSWORD);
-
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
-
-  Serial.println();
-  Serial.println("[WiFi] Connected");
-
-  Serial.print("[WiFi] IP: ");
-  Serial.println(WiFi.localIP());
-}
-
-// =============================================================================
-// PRINT RAW HEX
-// =============================================================================
-void printRawHex(uint8_t* buffer, int len) {
-
-  Serial.println("Raw HEX:");
-
-  for (int i = 0; i < len; i++) {
-
-    if (buffer[i] < 0x10)
-      Serial.print("0");
-
-    Serial.print(buffer[i], HEX);
-    Serial.print(" ");
-  }
-
-  Serial.println();
+  Serial.println("\n[WiFi] Connected");
 }
 
 // =============================================================================
 // SEND TO API
 // =============================================================================
 void sendToAPI(BuoyData data, int rssi, float snr) {
+  if (WiFi.status() != WL_CONNECTED) { connectWiFi(); }
 
-  // --------------------------------------------------------------------------
-  // OVERRIDE MODES (Simulation Logic)
-  // --------------------------------------------------------------------------
-  if (currentMode == MODE_MODERATE) {
-    data.waveHeight = randomFloat(0.8, 1.5);
-    data.windSpeed  = randomFloat(7.0, 12.0);
-    data.waterTemp  = randomFloat(28.0, 30.0);
-    data.pitch      = randomFloat(10.0, 25.0);
-    Serial.println("[SIMULATION] MODERATE MODE ACTIVE");
-  } else if (currentMode == MODE_DANGER) {
-    data.waveHeight = randomFloat(2.5, 6.0);
-    data.windSpeed  = randomFloat(18.0, 35.0);
-    data.waterTemp  = randomFloat(29.0, 33.0);
-    data.pitch      = randomFloat(28.0, 50.0);
-    Serial.println("[SIMULATION] DANGER MODE ACTIVE");
-  }
+  StaticJsonDocument<768> doc;
+  doc["sampleCount"]   = sampleCount;
+  doc["avgWaveHeight"] = data.waveHeight;
+  doc["avgWindSpeed"]  = data.windSpeed;
+  doc["maxWindSpeed"]  = maxWind;
+  doc["mode"]          = (int)currentMode; // Indicate mode to API
 
-  if (WiFi.status() != WL_CONNECTED) {
-    Serial.println("[HTTP] No WiFi");
-    return;
-  }
+  doc.createNestedObject("pitch")["avg"] = data.pitch;
+  doc.createNestedObject("roll")["avg"]  = data.roll;
+  doc.createNestedObject("waterTemp")["avg"] = data.waterTemp;
 
-  // --------------------------------------------------------------------------
-  // JSON - Restructured for CodeIgniter Controller Requirements
-  // --------------------------------------------------------------------------
-  StaticJsonDocument<768> doc; // Increased size for nested objects
-
-  // 1. Mandatory Top-Level Fields for parseBuoyPayload()
-  doc["sampleCount"]    = 1; 
-  doc["avgWaveHeight"]  = data.waveHeight;
-  doc["avgWindSpeed"]   = data.windSpeed;
-  doc["maxWindSpeed"]   = data.windSpeed; 
-
-  // 2. Nested Objects for parseObjectField()
-  JsonObject pitchObj = doc.createNestedObject("pitch");
-  pitchObj["avg"] = data.pitch;
-
-  JsonObject waterTempObj = doc.createNestedObject("waterTemp");
-  waterTempObj["avg"] = data.waterTemp;
-
-  // 3. Metadata for logging/debugging (Optional but helpful)
   doc["packetID"] = data.packetID;
-  doc["rssi"]     = rssi;
-  doc["snr"]      = snr;
-  doc["mode"]     = (currentMode == MODE_DANGER)   ? "danger" :
-                    (currentMode == MODE_MODERATE) ? "moderate" : "normal";
+  doc["rssi"] = rssi;
+  doc["snr"] = snr;
 
   String payload;
   serializeJson(doc, payload);
 
-  Serial.println("[HTTP] Sending Payload:");
-  Serial.println(payload);
-
-  // --------------------------------------------------------------------------
-  // HTTP POST
-  // --------------------------------------------------------------------------
-  WiFiClientSecure client;      // Use WiFiClientSecure for HTTPS
-  client.setInsecure();         // Simplifies testing on ESP32 by skipping SSL cert check
+  WiFiClientSecure client;
+  client.setInsecure();
   HTTPClient http;
-
-  // Ensure API_ENDPOINT is "https://marisense.networq.online/api/buoy-data"
-  http.begin(client, API_ENDPOINT); 
+  http.begin(client, API_ENDPOINT);
   http.addHeader("Content-Type", "application/json");
 
-  int httpCode = http.POST(payload);
-
-  Serial.printf("[HTTP] Code: %d\n", httpCode);
-
-  if (httpCode > 0) {
-    String response = http.getString();
-    Serial.println("[HTTP] Response:");
-    Serial.println(response);
-  } else {
-    Serial.printf("[HTTP] Error: %s\n", http.errorToString(httpCode).c_str());
-  }
-
-  // Debugging redirects if they still occur
-  if (httpCode == 301 || httpCode == 302) {
-      Serial.printf("[HTTP] Redirected to: %s\n", http.getLocation().c_str());
-  }
-
+  int code = http.POST(payload);
+  Serial.printf("[HTTP] Sent! Code: %d\n", code);
   http.end();
+}
+
+// =============================================================================
+// SIMULATION LOGIC
+// =============================================================================
+void runSimulation() {
+  if (currentMode == MODE_NORMAL) return;
+
+  if (millis() - lastSimTime >= SIM_INTERVAL) {
+    lastSimTime = millis();
+    
+    float sWind, sWave, sPitch, sRoll;
+    
+    if (currentMode == MODE_MODERATE) {
+      sWind = 12.0 + (random(0, 500) / 100.0); // 12-17 m/s
+      sWave = 1.5 + (random(0, 150) / 100.0);  // 1.5-3.0 m
+      sPitch = random(-10, 10);
+      sRoll = random(-15, 15);
+    } else { // DANGER
+      sWind = 30.0 + (random(0, 2000) / 100.0); // 30-50 m/s
+      sWave = 4.0 + (random(0, 600) / 100.0);   // 4.0-10.0 m
+      sPitch = random(-25, 25);
+      sRoll = random(-35, 35);
+    }
+
+    sumWind += sWind;
+    sumWave += sWave;
+    sumPitch += sPitch;
+    sumRoll += sRoll;
+    sumTemp += 24.5; // Constant temp for sim
+    if (sWind > maxWind) maxWind = sWind;
+    sampleCount++;
+
+    Serial.printf("[SIM] Mode:%d Wind:%.2f Samples:%d\n", (int)currentMode, sWind, sampleCount);
+  }
+}
+
+// =============================================================================
+// COMMAND HANDLING
+// =============================================================================
+void checkSerialCommands() {
+  if (Serial.available() > 0) {
+    String input = Serial.readStringUntil('\n');
+    input.trim();
+    input.toUpperCase();
+
+    if (input == "NORMAL") {
+      currentMode = MODE_NORMAL;
+      Serial.println(">>> SWITCHED TO NORMAL MODE");
+    } else if (input == "MODERATE") {
+      currentMode = MODE_MODERATE;
+      Serial.println(">>> SWITCHED TO MODERATE SIMULATION");
+    } else if (input == "DANGER") {
+      currentMode = MODE_DANGER;
+      Serial.println(">>> SWITCHED TO DANGER SIMULATION");
+    }
+  }
 }
 
 // =============================================================================
 // SETUP
 // =============================================================================
 void setup() {
-
   Serial.begin(115200);
-
-  randomSeed(analogRead(0));
-
-  Serial.println();
-  Serial.println("=================================");
-  Serial.println(" LORA RECEIVER + API");
-  Serial.println("=================================");
-
-  Serial.printf("Struct Size: %d bytes\n",
-    sizeof(BuoyData));
-
-  Serial.println();
-  Serial.println("AVAILABLE COMMANDS:");
-  Serial.println(" danger");
-  Serial.println(" moderate");
-  Serial.println(" normal");
-  Serial.println();
-
   connectWiFi();
 
-  // --------------------------------------------------------------------------
-  // LORA
-  // --------------------------------------------------------------------------
-  SPI.begin(
-    LORA_SCK,
-    LORA_MISO,
-    LORA_MOSI,
-    LORA_SS
-  );
-
-  LoRa.setPins(
-    LORA_SS,
-    LORA_RST,
-    LORA_DIO0
-  );
-
+  SPI.begin(LORA_SCK, LORA_MISO, LORA_MOSI, LORA_SS);
+  LoRa.setPins(LORA_SS, LORA_RST, LORA_DIO0);
   if (!LoRa.begin(LORA_FREQ)) {
-
-    Serial.println("[ERROR] LoRa init failed!");
-
+    Serial.println("[ERROR] LoRa failed");
     while (1);
   }
-
   LoRa.setSyncWord(0xF3);
-
-  Serial.println("[OK] LoRa initialized");
-  Serial.println("[INFO] Waiting for packets...");
+  Serial.println("[OK] Gateway Ready. Commands: NORMAL, MODERATE, DANGER");
 }
 
 // =============================================================================
 // LOOP
 // =============================================================================
 void loop() {
+  checkSerialCommands();
+  runSimulation();
 
-  // --------------------------------------------------------------------------
-  // SERIAL COMMANDS
-  // --------------------------------------------------------------------------
-  if (Serial.available()) {
-
-    String cmd = Serial.readStringUntil('\n');
-
-    cmd.trim();
-
-    if (cmd == "dang") {
-
-      currentMode = MODE_DANGER;
-
-      Serial.println("[MODE] DANGER MODE ENABLED");
-
-    } else if (cmd == "mod") {
-
-      currentMode = MODE_MODERATE;
-
-      Serial.println("[MODE] MODERATE MODE ENABLED");
-
-    } else if (cmd == "norm") {
-
-      currentMode = MODE_NORMAL;
-
-      Serial.println("[MODE] NORMAL MODE ENABLED");
-    }
-  }
-
-  if (currentMode != MODE_NORMAL) {
-    if (millis() - lastSendTime >= SEND_INTERVAL) {
-      lastSendTime = millis();
-
-      Serial.println("\n[SIMULATION] Triggering scheduled update...");
-      
-      BuoyData simData;
-      simData.packetID   = 888; // Use 888 to identify simulated interval data
-      simData.pitch      = 0;   // These will be overwritten by randomFloat 
-      simData.roll       = 0;   // inside the sendToAPI function
-      simData.waveHeight = 0;
-      simData.waterTemp  = 0;
-      simData.windSpeed  = 0;
-
-      sendToAPI(simData, -40, 9.5); 
-    }
-  }
-
-  // --------------------------------------------------------------------------
-  // RECEIVE LORA
-  // --------------------------------------------------------------------------
+  // Handle incoming LoRa packets (Real Data)
   int packetSize = LoRa.parsePacket();
+  if (packetSize == sizeof(BuoyData)) {
+    BuoyData rxData;
+    LoRa.readBytes((uint8_t*)&rxData, sizeof(BuoyData));
 
-  if (packetSize) {
+    sumWave += rxData.waveHeight;
+    sumWind += rxData.windSpeed;
+    sumPitch += rxData.pitch;
+    sumRoll += rxData.roll;
+    sumTemp += rxData.waterTemp;
+    if (rxData.windSpeed > maxWind) maxWind = rxData.windSpeed;
+    sampleCount++;
 
-    Serial.println();
-    Serial.println("========== RECEIVED ==========");
+    Serial.printf("[RX] PacketID:%d Wind:%.2f\n", rxData.packetID, rxData.windSpeed);
+  }
 
-    Serial.printf("Packet Size : %d\n", packetSize);
+  // 1-Minute Reporting Trigger
+  if (millis() - lastSendTime >= SEND_INTERVAL) {
+    if (sampleCount > 0) {
+      BuoyData report;
+      report.waveHeight = sumWave / sampleCount;
+      report.windSpeed  = sumWind / sampleCount;
+      report.pitch      = sumPitch / sampleCount;
+      report.roll       = sumRoll / sampleCount;
+      report.waterTemp  = sumTemp / sampleCount;
+      report.packetID   = 888; // Virtual ID for gateway report
 
-    Serial.printf("RSSI        : %d dBm\n",
-      LoRa.packetRssi());
-
-    Serial.printf("SNR         : %.2f\n",
-      LoRa.packetSnr());
-
-    uint8_t rawBuffer[64];
-
-    int index = 0;
-
-    while (LoRa.available() && index < 64) {
-
-      rawBuffer[index++] =
-        LoRa.read();
+      sendToAPI(report, (packetSize ? LoRa.packetRssi() : 0), (packetSize ? LoRa.packetSnr() : 0));
+      
+      // Reset Aggregators
+      sumWave = sumWind = sumPitch = sumRoll = sumTemp = 0;
+      maxWind = 0;
+      sampleCount = 0;
     }
-
-    printRawHex(rawBuffer, index);
-
-    // ------------------------------------------------------------------------
-    // DECODE
-    // ------------------------------------------------------------------------
-    if (index == sizeof(BuoyData)) {
-
-      BuoyData data;
-
-      memcpy(&data,
-             rawBuffer,
-             sizeof(BuoyData));
-
-      Serial.println("--------------------------------");
-
-      Serial.printf("Packet ID : %d\n",
-        data.packetID);
-
-      Serial.printf("Pitch     : %.2f\n",
-        data.pitch);
-
-      Serial.printf("Roll      : %.2f\n",
-        data.roll);
-
-      Serial.printf("Wave      : %.2f m\n",
-        data.waveHeight);
-
-      Serial.printf("Temp      : %.2f C\n",
-        data.waterTemp);
-
-      Serial.printf("Wind      : %.2f m/s\n",
-        data.windSpeed);
-
-      Serial.println("--------------------------------");
-
-      // ----------------------------------------------------------------------
-      // SEND TO API
-      // ----------------------------------------------------------------------
-      sendToAPI(
-        data,
-        LoRa.packetRssi(),
-        LoRa.packetSnr()
-      );
-
-    } else {
-
-      Serial.println("[WARNING] Size mismatch!");
-    }
-
-    Serial.println("==============================");
+    lastSendTime = millis();
   }
 }

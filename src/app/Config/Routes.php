@@ -21,6 +21,14 @@ $routes->get('verify-email-pending', 'Auth::verifyEmailPending');
 $routes->get('auth/verify-email/(:any)', 'Auth::verifyEmail/$1');
 $routes->post('auth/resend-verification', 'Auth::resendVerificationEmail');
 
+// Forgot Password / Magic Link Routes
+$routes->get('forgot-password', 'Auth::forgotPassword');
+$routes->post('auth/send-magic-link', 'Auth::sendMagicLink');
+$routes->get('auth/reset-password/(:any)', 'Auth::resetPassword/$1');
+$routes->post('auth/update-password', 'Auth::updatePassword');
+// Alias for backward compatibility with login view
+$routes->get('magic-link', 'Auth::forgotPassword');
+
 // API Routes (PUBLIC — no auth required for receiving data)
 $routes->group('api', function($routes) {
     $routes->post('buoy-data', 'Api::buoyData');
