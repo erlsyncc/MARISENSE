@@ -11,16 +11,21 @@
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; }
         body {font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; min-height: 100vh}
         /* Navbar Styles */
-        .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
-        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
-        .user-greeting { color: white; font-size: 1.2rem; font-weight: 400; flex: 1; }
-        .nav-menu-center { display: flex; gap: 10px; justify-content: center; flex: 2; }
-        .logout-wrapper { flex: 1; display: flex; justify-content: flex-end; gap: 10px; align-items: center; }
-        .nav-link-custom { color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 8px 16px; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
-        .nav-link-custom:hover { color: var(--accent-cyan); background: rgba(255, 255, 255, 0.1); }
+        .waves-navbar {background: var(--ocean-blue); padding: 35px 0;position: sticky; top: 0;z-index: 1000;box-shadow: 0 4px 20px rgba(0,0,0,0.15);}        
+        .header-container { position: relative;display: flex; align-items: center; padding: 0 15px; }
+        .user-greeting {flex: 0;white-space: nowrap;}
+        .nav-menu-center {position: absolute; left: 45%; transform: translateX(-50%); display: flex; align-items: center;gap: 2px;}
+        .logout-wrapper {display: flex;align-items: center;gap: 10px;margin-left: auto;}       
+        .nav-link-custom { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 8px 16px; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
+        .nav-link-custom:hover { color: var(--accent-cyan); background: rgba(255,255,255,0.1); }
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
-        .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 50px; transition: 0.3s; }
+        .btn-logout-custom { color: #ff6b6b; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 8px 18px; border: 1px solid rgba(255,107,107,0.3); border-radius: 50px; transition: 0.3s; }
         .btn-logout-custom:hover { background: #ff6b6b; color: white; }
+        /* ============================================================
+           NEW: HELP BUTTON STYLE
+           ============================================================ */
+        .btn-help-custom { color: #48cae4;font-weight: 600;font-size: 0.85rem;padding: 8px 18px;border: 1px solid rgba(72,202,228,0.5);border-radius: 50px; background: rgba(72,202,228,0.08);cursor: pointer;transition: 0.3s;}
+        .btn-help-custom:hover { background: rgba(72,202,228,0.2);border-color: var(--accent-cyan);}
         /* ============================================================
            ADDED: HELP BUTTON STYLE
            ============================================================ */
