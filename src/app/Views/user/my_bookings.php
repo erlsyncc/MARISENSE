@@ -155,10 +155,10 @@
         .empty-state p { opacity: 0.5; margin: 0; }
 
         /* Toast */
-        #toast-notification { position: fixed; top: 100px; left: 50%; transform: translateX(-50%) translateY(-20px); background: linear-gradient(135deg, #0a4d28, #0a5872); border: 1px solid rgba(93,219,138,0.5); border-radius: 50px; padding: 14px 28px; display: flex; align-items: center; gap: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.4); z-index: 99999; opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: none; white-space: nowrap; }
-        #toast-notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        #toast-notification i { color: #5ddb8a; font-size: 1.1rem; }
-        #toast-notification span { color: white; font-size: 0.88rem; font-weight: 600; font-family: 'Poppins', sans-serif; }
+        #toast-notification { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0a3d52; border: 1px solid rgba(93,219,138,0.4); border-radius: 20px; padding: 32px 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); z-index: 99999; opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: none; text-align: center; min-width: 300px; }
+        #toast-notification.show { opacity: 1; transform: translate(-50%, -50%); }
+        #toast-notification i { color: #5ddb8a; font-size: 2.5rem; }
+        #toast-notification span { color: white; font-size: 1rem; font-weight: 600; font-family: 'Poppins', sans-serif; }
 
         /* Payment Modal */
         #payModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,44,57,0.92); backdrop-filter: blur(10px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
@@ -278,6 +278,7 @@
 
 <header class="welcome-hero">
     <div class="container">
+        <div class="container text-center">
         <h1 class="display-5 fw-bold mb-2">My Bookings</h1>
         <p class="lead mb-5 opacity-90 mx-auto" style="max-width: 800px;">
             View all your current and past reservations in one place easily and quickly.

@@ -185,6 +185,7 @@
 
 <header class="welcome-hero">
     <div class="container">
+        <div class="container text-center">
         <h1 class="display-5 fw-bold mb-2">Adventure Reviews</h1>
         <p class="lead mb-5 opacity-90 mx-auto" style="max-width: 800px;">
             Read helpful feedback from fellow adventurers to guide your choices better.

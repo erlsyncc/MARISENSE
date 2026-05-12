@@ -62,9 +62,7 @@
         .recent-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 14% 86%, rgba(72,202,228,0.12), transparent 48%); pointer-events: none; }
         .recent-card > * { position: relative; z-index: 1; }
         .dashboard-buoy-panel { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(72,202,228,0.28); border-radius: 22px; padding: 14px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 16px 34px rgba(0,0,0,0.2); overflow: hidden; }
-        .dashboard-buoy-panel::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 15% 16%, rgba(72,202,228,0.2), transparent 44%); pointer-events: none; }
-        .dashboard-buoy-panel > * { position: relative; z-index: 1; }
-        .dashboard-buoy-panel .buoy-widget.card { background: transparent !important; border: 0 !important; box-shadow: none !important; margin-bottom: 0; }
+        .dashboard-buoy-panel { background: linear-gradient(145deg, rgba(72,202,228,0.08), rgba(255,255,255,0.03)); border: 1px solid rgba(72,202,228,0.2); border-radius: 22px; padding: 20px 28px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 16px 34px rgba(0,0,0,0.2); }        .dashboard-buoy-panel .buoy-widget.card { background: transparent !important; border: 0 !important; box-shadow: none !important; margin-bottom: 0; }
         .dashboard-buoy-panel .buoy-widget .card-header { background: rgba(72,202,228,0.16) !important; border: 1px solid rgba(72,202,228,0.32); border-radius: 16px !important; color: #dff8ff !important; }
         .dashboard-buoy-panel .buoy-widget .card-body { color: var(--soft-white); }
         .dashboard-buoy-panel .buoy-widget .metric-box { background: rgba(255,255,255,0.08) !important; border: 1px solid rgba(255,255,255,0.16); border-radius: 14px !important; backdrop-filter: blur(8px); }
@@ -114,6 +112,10 @@
         .help-item-desc { font-size: 0.76rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
         .help-tip { background: rgba(72,202,228,0.07); border: 1px solid rgba(72,202,228,0.2); border-radius: 12px; padding: 12px 16px; font-size: 0.78rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
         .help-tip strong { color: var(--accent-cyan); }
+        .dashboard-buoy-panel { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(72,202,228,0.28); border-radius: 22px; padding: 28px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 16px 34px rgba(0,0,0,0.2); overflow: hidden; }
+        .dashboard-buoy-panel .buoy-widget .metric-box { background: rgba(255,255,255,0.08) !important; border: 1px solid rgba(255,255,255,0.16); border-radius: 14px !important; backdrop-filter: blur(8px); padding: 18px !important; }
+        .dashboard-buoy-panel .buoy-widget .metric-box h4 { color: var(--accent-cyan) !important; font-size: 1.4rem !important; }
+        .dashboard-buoy-panel .buoy-widget .card-header { background: rgba(72,202,228,0.16) !important; border: 1px solid rgba(72,202,228,0.32); border-radius: 16px !important; color: #dff8ff !important; padding: 14px 18px !important; font-size: 1rem !important; }
     </style>
 </head>
 <body>
@@ -256,54 +258,54 @@
     </div>
 
     <!-- BUOY + RECENT BOOKINGS -->
-    <div style="display:grid;grid-template-columns:1fr 2.2fr;gap:18px;margin-bottom:24px;">
-        <!-- Buoy data -->
-        <div class="dashboard-buoy-panel">
-            <?php include __DIR__ . '/../components/buoy_widget.php'; ?>
-        </div>
-
-        <!-- Recent Bookings -->
-        <div class="recent-card" style="margin-bottom:0;">
-            <div class="section-header">
-                <span class="section-title"><i class="fa-solid fa-clock-rotate-left me-2" style="color:var(--accent-cyan);"></i>Recent Bookings</span>
-                <a href="<?= base_url('admin/bookings') ?>" class="btn-view-all">View All</a>
-            </div>
-            <?php if (!empty($recentBookings)): ?>
-            <table class="recent-table">
-                <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>User</th>
-                        <th>Activity</th>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($recentBookings as $b): ?>
-                    <?php
-                        $sc = match(strtolower($b['status'])) {
-                            'pending' => 'status-pending', 'confirmed','approved' => 'status-confirmed',
-                            'completed' => 'status-completed', 'cancelled' => 'status-cancelled', default => '',
-                        };
-                    ?>
-                    <tr>
-                        <td style="font-size:0.76rem;opacity:0.7;">#<?= esc($b['booking_code']) ?></td>
-                        <td style="font-weight:600;"><?= esc($b['username'] ?? '—') ?></td>
-                        <td><?= esc($b['activity_name']) ?></td>
-                        <td style="opacity:0.7;"><?= date('M d, Y', strtotime($b['date'])) ?></td>
-                        <td style="color:var(--accent-cyan);font-weight:600;">₱<?= number_format($b['total_amount'],0) ?></td>
-                        <td><span class="badge-status <?= $sc ?>"><?= ucfirst($b['status']) ?></span></td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-            <?php else: ?>
-            <p style="opacity:0.4;font-size:0.84rem;text-align:center;padding:20px 0;">No bookings yet.</p>
-            <?php endif; ?>
-        </div>
+    <div style="display:flex;flex-direction:column;gap:18px;margin-bottom:24px;">
+    <!-- Buoy data -->
+    <div class="dashboard-buoy-panel">
+        <?php include __DIR__ . '/../components/buoy_widget.php'; ?>
     </div>
+
+    <!-- Recent Bookings -->
+    <div class="recent-card" style="margin-bottom:0;">
+        <div class="section-header">
+            <span class="section-title"><i class="fa-solid fa-clock-rotate-left me-2" style="color:var(--accent-cyan);"></i>Recent Bookings</span>
+            <a href="<?= base_url('admin/bookings') ?>" class="btn-view-all">View All</a>
+        </div>
+        <?php if (!empty($recentBookings)): ?>
+        <table class="recent-table">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>User</th>
+                    <th>Activity</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($recentBookings as $b): ?>
+                <?php
+                    $sc = match(strtolower($b['status'])) {
+                        'pending' => 'status-pending', 'confirmed','approved' => 'status-confirmed',
+                        'completed' => 'status-completed', 'cancelled' => 'status-cancelled', default => '',
+                    };
+                ?>
+                <tr>
+                    <td style="font-size:0.76rem;opacity:0.7;">#<?= esc($b['booking_code']) ?></td>
+                    <td style="font-weight:600;"><?= esc($b['username'] ?? '—') ?></td>
+                    <td><?= esc($b['activity_name']) ?></td>
+                    <td style="opacity:0.7;"><?= date('M d, Y', strtotime($b['date'])) ?></td>
+                    <td style="color:var(--accent-cyan);font-weight:600;">₱<?= number_format($b['total_amount'],0) ?></td>
+                    <td><span class="badge-status <?= $sc ?>"><?= ucfirst($b['status']) ?></span></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php else: ?>
+        <p style="opacity:0.4;font-size:0.84rem;text-align:center;padding:20px 0;">No bookings yet.</p>
+        <?php endif; ?>
+    </div>
+</div>
 
 </main>
 
@@ -319,8 +321,7 @@ if (actNames.length > 0) {
             labels: actNames,
             datasets: [{
                 data: actCounts,
-                backgroundColor: ['#48cae4','#ffc107','#5ddb8a','#74b4ff'],
-                borderColor: 'rgba(5,44,57,0.8)',
+                backgroundColor: ['#48cae4','#ffc107','#5ddb8a','#ff9999','#c084fc','#74b4ff','#ff8c42','#a8e063'],                borderColor: 'rgba(5,44,57,0.8)',
                 borderWidth: 2,
             }]
         },

@@ -260,7 +260,7 @@
 </nav>
 
 <header class="welcome-hero">
-    <div class="container">
+    <div class="container text-center">
         <h1 class="display-5 fw-bold mb-2">Book Your Water Adventure</h1>
         <p class="lead mb-5 opacity-90 mx-auto" style="max-width: 800px;">
             Explore exciting water activities at Matabungkay Beach and choose your perfect adventure.

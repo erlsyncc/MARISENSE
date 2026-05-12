@@ -150,11 +150,36 @@
     </div>
 
     <?php if (session()->getFlashdata('success')): ?>
-        <div class="alert alert-success rounded-4 mb-3"><?= session()->getFlashdata('success') ?></div>
-    <?php endif; ?>
-    <?php if (session()->getFlashdata('error')): ?>
-        <div class="alert alert-danger rounded-4 mb-3"><?= session()->getFlashdata('error') ?></div>
-    <?php endif; ?>
+        <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '<?= addslashes(session()->getFlashdata('success')) ?>',
+            background: '#0a3d52',
+            color: '#f4f9fc',
+            iconColor: '#5ddb8a',
+            confirmButtonColor: '#48cae4',
+            confirmButtonText: 'OK',
+            borderRadius: '20px',
+            customClass: { popup: 'rounded-4' }
+        });
+        </script>
+        <?php endif; ?>
+        <?php if (session()->getFlashdata('error')): ?>
+        <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '<?= addslashes(session()->getFlashdata('error')) ?>',
+            background: '#0a3d52',
+            color: '#f4f9fc',
+            iconColor: '#ff6b6b',
+            confirmButtonColor: '#48cae4',
+            confirmButtonText: 'OK',
+            customClass: { popup: 'rounded-4' }
+        });
+        </script>
+        <?php endif; ?>
 
     <div class="layout-row">
 

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 /* ===== GLOBAL ===== */
@@ -17,7 +18,10 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   overflow-x: hidden;
-  background: #f0f8ff;
+  /* Binago: Ginawang Ocean Gradient para tumugma sa dashboard */
+  background: linear-gradient(180deg, #0a5872 0%, #052c39 100%);
+  background-attachment: fixed;
+  color: white;
 }
 
 /* ===== HERO ===== */
@@ -173,7 +177,7 @@ body {
 /* ===== LANDING SNAPSHOT ===== */
 .landing-snapshot {
   padding: 80px 0 100px;
-  background: linear-gradient(180deg, #f0f8ff 0%, #e0f4fb 100%);
+  background: transparent; /* Binura ang light blue bg */
   position: relative;
 }
 
@@ -204,7 +208,7 @@ body {
 .snap-section-heading h2 {
   font-size: 2rem;
   font-weight: 700;
-  color: #052c39;
+  color: #ffffff; /* Ginawang puti */
   margin: 0;
   line-height: 1.25;
 }
@@ -478,6 +482,14 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+/* --- SCREENSHOT-MATCHED FOOTER --- */
+footer { background: #052c39; padding: 100px 0 40px 0; color: rgba(255,255,255,0.6) !important; border-top: 1px solid rgba(255,255,255,0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.footer-inquiry-text { font-size: 0.95rem; margin-bottom: 15px; color: rgba(255,255,255,0.6); letter-spacing: 0.3px; }
+.social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
+.social-icons a { color: #f4f9fc; font-size: 1.5rem; transition: 0.3s ease; text-decoration: none; }
+.social-icons a:hover { color: #48cae4; transform: scale(1.2); }
+.copyright-text { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 5px; }
+.tech-by { color: #48cae4; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
 </style>
 </head>
 
@@ -490,9 +502,6 @@ body {
     <p>Smart Water Adventure Booking with Real-Time Safety Monitoring
        Powered by <span class="highlight-brand">MARISENSE</span>
     </p>
-    <a href="<?= base_url('login') ?>" class="btn btn-ocean mt-3">
-      Login to Continue
-    </a>
   </div>
 
   <a href="#landing-snapshot" class="scroll-cue" aria-label="Scroll to more content">
@@ -645,84 +654,29 @@ body {
 </script>
 
 <!-- ========== FOOTER ========== -->
-<footer class="landing-footer">
-  <div class="container">
-    <div class="footer-brand">
-      <i class="fa-solid fa-water"></i>
-      <span>Waves Water Sports</span>
+<footer class="text-center">
+    <div class="container d-flex flex-column align-items-center">
+        <div class="footer-inquiry-text">
+            For inquiries, message us through our social media platforms.
+        </div>
+
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=100077368436521" target="_blank" title="Facebook">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" title="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" title="Twitter">
+                <i class="fa-brands fa-twitter"></i>
+            </a>
+        </div>
+
+        <div class="copyright-text">
+            &copy; 2026 Waves Water Sports | Tech by 
+            <span class="tech-by">MARISENSE</span>
+        </div>
     </div>
-    <p class="footer-tagline">Experience the thrill of Matabungkay Beach</p>
-    <div class="footer-socials">
-      <a href="https://www.facebook.com/profile.php?id=100077368436521" target="_blank" title="Facebook">
-        <i class="fa-brands fa-facebook-f"></i>
-      </a>
-      <a href="https://instagram.com" target="_blank" title="Instagram">
-        <i class="fa-brands fa-instagram"></i>
-      </a>
-      <a href="https://twitter.com" target="_blank" title="Twitter">
-        <i class="fa-brands fa-twitter"></i>
-      </a>
-    </div>
-    <div class="footer-copy">
-      &copy; 2026 Waves Water Sports | Tech by
-      <span class="text-info fw-bold" style="letter-spacing: 1px;">MARISENSE</span>
-    </div>
-  </div>
 </footer>
-
-<style>
-.landing-footer {
-  background: linear-gradient(180deg, #052c39 0%, #0a5872 100%);
-  color: rgba(255,255,255,0.85);
-  padding: 50px 20px 30px;
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-}
-.landing-footer .container { max-width: 600px; margin: 0 auto; }
-.footer-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 8px;
-}
-.footer-brand i { color: #48cae4; font-size: 1.4rem; }
-.footer-tagline {
-  font-size: 0.85rem;
-  color: rgba(255,255,255,0.55);
-  margin-bottom: 20px;
-}
-.footer-socials {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin-bottom: 24px;
-}
-.footer-socials a {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,0.7);
-  font-size: 1rem;
-  text-decoration: none;
-  transition: 0.25s;
-}
-.footer-socials a:hover {
-  background: rgba(72,202,228,0.15);
-  color: #48cae4;
-  border-color: rgba(72,202,228,0.4);
-  transform: translateY(-2px);
-}
-.footer-copy {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.45);
-}
-.footer-copy .text-info { color: #48cae4 !important; }
-</style>
-
 </body>
 </html>

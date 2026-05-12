@@ -60,10 +60,13 @@
         .btn-book-now {background: var(--accent-cyan); color: var(--deep-blue);font-weight: 700; padding: 15px 40px; border-radius: 50px;text-decoration: none;transition: 0.3s; display: inline-block;margin-top: 20px; border: none; text-transform: uppercase; letter-spacing: 1px; }
         .btn-book-now:hover { background: white; color: var(--deep-blue); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
         /* Footer Styles */
-        footer { background: var(--deep-blue); padding: 100px 0 40px 0; color: rgba(255, 255, 255, 0.6) !important; border-top: 1px solid rgba(255, 255, 255, 0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        footer { background: var(--deep-blue); padding: 100px 0 40px 0; color: rgba(255,255,255,0.6) !important; border-top: 1px solid rgba(255,255,255,0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .footer-inquiry-text { font-size: 0.95rem; margin-bottom: 15px; color: rgba(255,255,255,0.6); letter-spacing: 0.3px; }
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
-        .social-icons i { color: rgba(255, 255, 255, 0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
+        .social-icons i { color: rgba(255,255,255,0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
         .social-icons i:hover { color: var(--accent-cyan); transform: scale(1.2); }
+        .copyright-text { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 5px; }
+        .tech-by { color: #48cae4; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
         /* Gallery setup */
         .vertical-gallery { display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(2, 180px);gap: 12px;}
         .vertical-gallery img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px;box-shadow: 0 4px 12px rgba(0,0,0,0.2);transition: 0.3s ease; }
@@ -270,24 +273,7 @@
             We may suspend operations during high tide or strong winds to ensure your protection.
         </p>
     </div>
-
-<footer class="text-center">
-    <div class="container d-flex flex-column align-items-center">
-        <div class="footer-inquiry-text mb-4 opacity-75">For inquiries, message us through our social media platforms.</div>
-        <div class="social-icons">
-            <a href="https://www.facebook.com/profile.php?id=100077368436521" target="_blank" title="Facebook">
-                <i class="fa-brands fa-facebook"></i>
-            </a>
-            <a href="https://instagram.com" target="_blank" title="Instagram">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://twitter.com" target="_blank" title="Twitter">
-                <i class="fa-brands fa-twitter"></i>
-            </a>
-        </div>
-        <div class="copyright-text opacity-50">&copy; 2026 Waves Water Sports | Tech by <span class="text-info fw-bold">MARISENSE</span></div>
-    </div>
-</footer>
+</div>
 
 <!-- ADDED: HELP MODAL -->
 <div id="helpModal" class="d-none">
@@ -484,5 +470,16 @@
     </div>
 </div>
 <!-- END GLOBAL SEARCH OVERLAY -->
+     <footer class="text-center">
+    <div class="container d-flex flex-column align-items-center">
+        <div class="footer-inquiry-text">For inquiries, message us through our social media platforms.</div>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=100077368436521" target="_blank" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        </div>
+        <div class="copyright-text">&copy; 2026 Waves Water Sports | Tech by <span class="tech-by">MARISENSE</span></div>
+    </div>
+</footer>
 </body>
 </html>

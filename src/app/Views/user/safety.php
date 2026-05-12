@@ -68,8 +68,7 @@
         .data-card .label { font-size: 0.75rem; text-transform: uppercase; opacity: 0.7; letter-spacing: 1px; }
         .data-card .value { font-size: 1.3rem; font-weight: 700; }
         .system-features-wrapper {padding: 0 15%;margin: 80px 0;}
-        .system-grid-layout {display: grid;grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(2, auto);gap: 30px; }
-        .feature-box {background: rgba(255, 255, 255, 0.05);border: 1px solid rgba(255, 255, 255, 0.15);border-radius: 25px;padding: 40px;text-align: center;display: flex;flex-direction: column; align-items: center;justify-content: center;transition: 0.3s;}
+        .system-grid-layout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }        .feature-box {background: rgba(255, 255, 255, 0.05);border: 1px solid rgba(255, 255, 255, 0.15);border-radius: 25px;padding: 40px;text-align: center;display: flex;flex-direction: column; align-items: center;justify-content: center;transition: 0.3s;}
         .feature-box h5 {font-size: 1.5rem;font-weight: 700;color: var(--accent-cyan);margin: 15px 0;}
         .feature-box p {font-size: 1rem;line-height: 1.5;opacity: 0.9;margin: 0;}
         .feature-box i { font-size: 3.5rem;color: var(--accent-cyan);}
@@ -358,6 +357,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <footer class="text-center">
