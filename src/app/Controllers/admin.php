@@ -22,7 +22,8 @@ class Admin extends BaseController
         string $subject,
         string $headline,
         string $message,
-        array $extraDetails = []
+        array $extraDetails = [],
+        bool $minimalDetails = false
     ): void {
         log_message('info', '[BOOKING-EMAIL] START: Attempting to send "{subject}" for booking {booking_id}', [
             'subject'    => $subject,
@@ -85,16 +86,24 @@ class Admin extends BaseController
             $scheduleTime = ! empty($booking['time']) ? date('h:i A', strtotime((string) $booking['time'])) : 'N/A';
             $guestName    = trim((string) ($booking['username'] ?? 'Guest'));
 
-            $baseDetails = [
-                'Booking Code'        => (string) ($booking['booking_code'] ?? ('#' . $bookingId)),
-                'Schedule'            => $scheduleDate . ' at ' . $scheduleTime,
-                'Booking Status'      => ucfirst((string) ($booking['status'] ?? 'pending')),
-                'Payment Status'      => ucfirst((string) ($booking['payment_status'] ?? 'pending')),
-                'Down Payment Status' => ucfirst((string) ($booking['down_payment_status'] ?? 'pending')),
-            ];
+            $baseDetails = [];
+            
+            if (! $minimalDetails) {
+                $baseDetails = [
+                    'Booking Code'        => (string) ($booking['booking_code'] ?? ('#' . $bookingId)),
+                    'Schedule'            => $scheduleDate . ' at ' . $scheduleTime,
+                    'Booking Status'      => ucfirst((string) ($booking['status'] ?? 'pending')),
+                    'Payment Status'      => ucfirst((string) ($booking['payment_status'] ?? 'pending')),
+                    'Down Payment Status' => ucfirst((string) ($booking['down_payment_status'] ?? 'pending')),
+                ];
 
-            if (! empty($booking['cancel_reason'])) {
-                $baseDetails['Cancellation Reason'] = (string) $booking['cancel_reason'];
+                if (! empty($booking['cancel_reason'])) {
+                    $baseDetails['Cancellation Reason'] = (string) $booking['cancel_reason'];
+                }
+            } else {
+                $baseDetails = [
+                    'Booking Code' => (string) ($booking['booking_code'] ?? ('#' . $bookingId)),
+                ];
             }
 
             foreach ($extraDetails as $label => $value) {
@@ -128,7 +137,6 @@ class Admin extends BaseController
             ]);
 
             $email = \Config\Services::email();
-            $email->clear(true);
             $email->setTo($to)
                 ->setFrom(env('MAIL_FROM_ADDRESS', 'admin@marisense.networq.online'), 'Waves Water Sports')
                 ->setSubject($subject)
@@ -538,7 +546,8 @@ class Admin extends BaseController
                 'Refund Amount' => 'PHP ' . number_format($refundAmount, 2),
                 'GCash Reference' => $gcashRef ?: 'N/A',
                 'Refund Note' => $refundNote ?: null,
-            ]
+            ],
+            true
         );
 
         return redirect()->to(base_url('admin/bookings'))
