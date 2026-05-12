@@ -263,8 +263,10 @@ class Auth extends BaseController
                       ->get()
                       ->getRowArray();
 
+        // Do not reveal whether the email exists. Show a generic message to improve UX
+        // and avoid account enumeration. If identity not found, still show same message.
         if (!$identity) {
-            return redirect()->to('/forgot-password')->with('error', 'Email not found in our system.');
+            return redirect()->to('/forgot-password')->with('message', 'If an account with that email exists, a reset link has been sent. Check your inbox.');
         }
 
         $token = bin2hex(random_bytes(32));
@@ -361,16 +363,37 @@ class Auth extends BaseController
         $password = $this->request->getPost('password');
         $passwordConfirm = $this->request->getPost('password_confirm');
 
+        $errors = [];
         if (!$token || !$password || !$passwordConfirm) {
-            return redirect()->back()->with('error', 'All fields are required.');
+            $errors[] = 'All fields are required.';
         }
 
         if ($password !== $passwordConfirm) {
-            return redirect()->back()->with('error', 'Passwords do not match.');
+            $errors[] = 'Passwords do not match.';
         }
 
         if (strlen($password) < 8) {
-            return redirect()->back()->with('error', 'Password must be at least 8 characters long.');
+            $errors[] = 'Password must be at least 8 characters long.';
+        }
+
+        if (!preg_match('/[A-Z]/', $password)) {
+            $errors[] = 'Password must contain at least one uppercase letter.';
+        }
+
+        if (!preg_match('/[a-z]/', $password)) {
+            $errors[] = 'Password must contain at least one lowercase letter.';
+        }
+
+        if (!preg_match('/\d/', $password)) {
+            $errors[] = 'Password must contain at least one number.';
+        }
+
+        if (!preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password)) {
+            $errors[] = 'Password must contain at least one special character (e.g. !@#$%).';
+        }
+
+        if (!empty($errors)) {
+            return redirect()->back()->withInput()->with('errors', $errors);
         }
 
         $db = \Config\Database::connect();

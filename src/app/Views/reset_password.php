@@ -214,6 +214,41 @@
             Enter your new password below. Make sure it's at least 8 characters long.
         </p>
 
+        <?php if($session->getFlashdata('errors')): ?>
+            <div class="mb-3">
+                <div style="color: #ff4d4d; border-left: 3px solid #ff4d4d; padding-left: 10px;">
+                    <strong>There were problems with your submission:</strong>
+                    <ul style="margin: .5rem 0 0 1rem;">
+                        <?php foreach((array)$session->getFlashdata('errors') as $err): ?>
+                            <li><?= esc($err) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if($session->getFlashdata('error')): ?>
+            <div class="small fw-bold mb-3" style="color: #ff4d4d; border-left: 3px solid #ff4d4d; padding-left: 10px;">
+                <?= $session->getFlashdata('error') ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if($session->getFlashdata('message')): ?>
+            <div class="small fw-bold mb-3" style="color: #28a745; border-left: 3px solid #28a745; padding-left: 10px;">
+                ✓ <?= $session->getFlashdata('message') ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="password-rules mb-3">
+            <ul id="pwdRules" style="list-style:none; padding-left:0; margin:0;">
+                <li data-rule="length" class="text-muted">✖ At least 8 characters</li>
+                <li data-rule="upper" class="text-muted">✖ At least one uppercase letter</li>
+                <li data-rule="lower" class="text-muted">✖ At least one lowercase letter</li>
+                <li data-rule="number" class="text-muted">✖ At least one number</li>
+                <li data-rule="special" class="text-muted">✖ At least one special character (e.g. !@#$%)</li>
+            </ul>
+        </div>
+
         <form method="post" action="/auth/update-password">
             <input type="hidden" name="token" value="<?= esc($token) ?>">
 
@@ -228,7 +263,7 @@
                 <input type="password" name="password_confirm" id="password_confirm" class="form-control" placeholder="••••••••" required>
             </div>
 
-            <button type="submit" class="btn btn-submit w-100" id="submitBtn">Update Password</button>
+            <button type="submit" class="btn btn-submit w-100" id="submitBtn" disabled>Update Password</button>
         </form>
 
         <div class="back-link">
@@ -306,25 +341,54 @@
     init();
     animate();
 
-    // Password strength indicator
+    // Password strength indicator and rules checklist
     const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('password_confirm');
     const strengthIndicator = document.getElementById('passwordStrength');
+    const submitBtn = document.getElementById('submitBtn');
+    const rules = {
+        length: document.querySelector('[data-rule="length"]'),
+        upper: document.querySelector('[data-rule="upper"]'),
+        lower: document.querySelector('[data-rule="lower"]'),
+        number: document.querySelector('[data-rule="number"]'),
+        special: document.querySelector('[data-rule="special"]'),
+    };
 
-    passwordInput.addEventListener('input', () => {
-        const pwd = passwordInput.value;
+    function updateRules(pwd) {
+        const checks = {
+            length: pwd.length >= 8,
+            upper: /[A-Z]/.test(pwd),
+            lower: /[a-z]/.test(pwd),
+            number: /\d/.test(pwd),
+            special: /[!@#$%^&*(),.?":{}|<>]/.test(pwd),
+        };
+
+        Object.keys(checks).forEach(k => {
+            if (checks[k]) {
+                rules[k].classList.remove('text-muted');
+                rules[k].classList.add('text-success');
+                rules[k].textContent = '✓ ' + rules[k].textContent.replace(/^.\s*/, '');
+            } else {
+                rules[k].classList.remove('text-success');
+                rules[k].classList.add('text-muted');
+                rules[k].textContent = '✖ ' + rules[k].textContent.replace(/^.\s*/, '');
+            }
+        });
+
+        return Object.values(checks).every(Boolean);
+    }
+
+    function updateStrength(pwd) {
         strengthIndicator.textContent = '';
         strengthIndicator.className = 'password-strength';
-
-        if (pwd.length === 0) {
-            return;
-        }
+        if (!pwd) return;
 
         let strength = 0;
         if (pwd.length >= 8) strength++;
         if (pwd.length >= 12) strength++;
         if (/[a-z]/.test(pwd) && /[A-Z]/.test(pwd)) strength++;
         if (/\d/.test(pwd)) strength++;
-        if (/[!@#$%^&*]/.test(pwd)) strength++;
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(pwd)) strength++;
 
         if (strength < 2) {
             strengthIndicator.className = 'password-strength strength-weak';
@@ -336,7 +400,21 @@
             strengthIndicator.className = 'password-strength strength-strong';
             strengthIndicator.textContent = '✓ Strong password';
         }
-    });
+    }
+
+    function validateFormState() {
+        const pwd = passwordInput.value;
+        const confirm = confirmInput.value;
+        const rulesOk = updateRules(pwd);
+        updateStrength(pwd);
+        const match = pwd && (pwd === confirm);
+
+        // Enable submit only when all rules are met and passwords match
+        submitBtn.disabled = !(rulesOk && match);
+    }
+
+    passwordInput.addEventListener('input', validateFormState);
+    confirmInput.addEventListener('input', validateFormState);
 </script>
 
 </body>
