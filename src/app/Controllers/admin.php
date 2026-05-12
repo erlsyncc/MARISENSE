@@ -61,11 +61,9 @@ class Admin extends BaseController
         $page    = max(1, (int)($this->request->getGet('page') ?? 1));
         $offset  = ($page - 1) * $perPage;
 
-        // Active filter & search
         $statusFilter = $this->request->getGet('status') ?? 'all';
         $search       = trim($this->request->getGet('search') ?? '');
 
-        // Base builder
         $builder = $db->table('bookings b')
             ->select('b.*, u.username')
             ->join('users u', 'u.id = b.user_id', 'left');
@@ -80,7 +78,7 @@ class Admin extends BaseController
                 ->groupEnd();
         }
 
-        $totalBookings = $builder->countAllResults(false); // false = don't reset
+        $totalBookings = $builder->countAllResults(false);
         $totalPages    = (int)ceil($totalBookings / $perPage);
 
         $bookings = $builder
@@ -98,15 +96,37 @@ class Admin extends BaseController
 
             $b['latest_payment'] = $ph ?: null;
 
-            if (empty($b['gcash_receipt']) && !empty($ph['gcash_receipt'])) {
+            if ($ph && !empty($ph['gcash_receipt'])) {
                 $b['gcash_receipt']      = $ph['gcash_receipt'];
                 $b['gcash_ref']          = $ph['gcash_ref'] ?? null;
                 $b['gcash_submitted_at'] = $ph['created_at'] ?? null;
+            } else {
+                $b['gcash_receipt']      = null;
+                $b['gcash_ref']          = null;
+                $b['gcash_submitted_at'] = null;
             }
 
-            $b['gcash_receipt_path'] = $b['gcash_receipt']      ?? null;
-            $b['gcash_ref_no']       = $b['gcash_ref']          ?? null;
-            $b['gcash_submitted_at'] = $b['gcash_submitted_at'] ?? $ph['created_at'] ?? null;
+            $b['gcash_receipt_path'] = $b['gcash_receipt'] ?? null;
+            $b['gcash_ref_no']       = $b['gcash_ref']     ?? null;
+
+            // ── Fetch refund info for cancelled bookings that were paid ──
+            $b['refund'] = null;
+            $statusRaw   = strtolower($b['status'] ?? '');
+            $wasPaid     = ($b['payment_status'] ?? '') === 'paid'
+                        || ($b['down_payment_status'] ?? '') === 'paid';
+
+            if ($statusRaw === 'cancelled' && $wasPaid) {
+                try {
+                    $refund = $db->table('booking_refunds')
+                        ->where('booking_id', $b['id'])
+                        ->orderBy('created_at', 'DESC')
+                        ->limit(1)
+                        ->get()->getRowArray();
+                    $b['refund'] = $refund ?: null;
+                } catch (\Exception $e) {
+                    $b['refund'] = null;
+                }
+            }
         }
         unset($b);
 
@@ -133,8 +153,9 @@ class Admin extends BaseController
                 $row   = $db->table('activities')->where('name', $an)->get()->getRowArray();
                 $price = $row ? (float)$row['price'] : 0;
                 $type  = $row ? ($row['price_type'] ?? 'flat') : 'flat';
+                $dur   = $row ? (int)($row['duration'] ?? 60) : 60;
                 $lineT = ($type === 'per_person') ? $price * $pax : $price;
-                $lineItems[$an] = ['price' => $price, 'price_type' => $type, 'pax' => $pax, 'line_total' => $lineT];
+                $lineItems[$an] = ['price' => $price, 'price_type' => $type, 'duration' => $dur, 'pax' => $pax, 'line_total' => $lineT];
             }
             $b['_line_items'] = $lineItems;
         }
@@ -159,12 +180,15 @@ class Admin extends BaseController
         ]);
     }
 
+    // =========================================================
+    //  UPDATE BOOKING STATUS
+    // =========================================================
     public function updateBookingStatus()
     {
         if ($r = $this->requireAdmin()) return $r;
 
-        $id     = (int) $this->request->getPost('id');
-        $status = $this->request->getPost('status');
+        $id           = (int) $this->request->getPost('id');
+        $status       = $this->request->getPost('status');
         $cancelReason = trim((string) ($this->request->getPost('cancel_reason') ?? ''));
 
         $allowed = ['confirmed', 'completed', 'cancelled'];
@@ -186,12 +210,151 @@ class Admin extends BaseController
 
         $db->table('bookings')->where('id', $id)->update($updateData);
 
+        // ── If cancelled and booking had any payment, create a pending refund record ──
+        if ($status === 'cancelled') {
+            $booking = $db->table('bookings')->where('id', $id)->get()->getRowArray();
+            if ($booking) {
+                $wasPaid = ($booking['payment_status'] ?? '') === 'paid'
+                        || ($booking['down_payment_status'] ?? '') === 'paid';
+
+                if ($wasPaid) {
+                    try {
+                        $existing = $db->table('booking_refunds')
+                            ->where('booking_id', $id)
+                            ->get()->getRowArray();
+
+                        if (! $existing) {
+                            // Use actual down_payment column value if set, else half of total
+                            $downAmt = (float)($booking['down_payment'] ?? 0);
+                            $refundAmount = ($booking['payment_status'] === 'paid')
+                                ? (float)($booking['total_amount'] ?? 0)
+                                : ($downAmt > 0
+                                    ? $downAmt
+                                    : round((float)($booking['total_amount'] ?? 0) * 0.5, 2));
+
+                            $db->table('booking_refunds')->insert([
+                                'booking_id'    => $id,
+                                'refund_amount' => $refundAmount,
+                                'refund_status' => 'pending',
+                                'refund_note'   => 'Auto-created on cancellation. Admin must process and upload GCash proof.',
+                                'created_by'    => auth()->id(),
+                                'created_at'    => date('Y-m-d H:i:s'),
+                                'updated_at'    => date('Y-m-d H:i:s'),
+                            ]);
+                        }
+                    } catch (\Exception $e) {
+                        log_message('error', 'booking_refunds insert failed: ' . $e->getMessage());
+                    }
+                }
+            }
+        }
+
         return redirect()->to(base_url('admin/bookings'))
                          ->with('success', 'Booking status updated to ' . ucfirst($status) . '.');
     }
 
     // =========================================================
-    //  UPDATE PAYMENT (mark down / full paid / reject receipt)
+    //  PROCESS REFUND — admin uploads GCash proof receipt
+    // =========================================================
+    public function processRefund()
+    {
+        if ($r = $this->requireAdmin()) return $r;
+
+        $bookingId  = (int) $this->request->getPost('booking_id');
+        $refundId   = (int) $this->request->getPost('refund_id'); // may be 0 if record was never created
+        $gcashRef   = trim((string) ($this->request->getPost('gcash_ref') ?? ''));
+        $refundNote = trim((string) ($this->request->getPost('refund_note') ?? ''));
+
+        if (! $bookingId) {
+            return redirect()->back()->with('error', 'Invalid refund request.');
+        }
+
+        $db = \Config\Database::connect();
+
+        // ── Handle receipt upload ──
+        $receiptFile     = $this->request->getFile('refund_receipt');
+        $receiptFilename = null;
+
+        if ($receiptFile && $receiptFile->isValid() && ! $receiptFile->hasMoved()) {
+            $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (! in_array($receiptFile->getMimeType(), $allowed)) {
+                return redirect()->back()->with('error', 'Receipt must be an image file (JPG, PNG, GIF, WEBP).');
+            }
+            if ($receiptFile->getSize() > 5 * 1024 * 1024) {
+                return redirect()->back()->with('error', 'Receipt image must be under 5MB.');
+            }
+            $newName = $receiptFile->getRandomName();
+            $receiptFile->move(ROOTPATH . 'public/uploads/gcash_receipts', $newName);
+            $receiptFilename = $newName;
+        }
+
+        if (! $receiptFilename) {
+            return redirect()->back()->with('error', 'Please upload a GCash receipt screenshot.');
+        }
+
+        // ── Fetch booking to compute actual refund amount ──
+        $booking = $db->table('bookings')->where('id', $bookingId)->get()->getRowArray();
+        if (! $booking) {
+            return redirect()->back()->with('error', 'Booking not found.');
+        }
+
+        // Refund = what was actually paid, not always the full total
+        $downAmt = (float)($booking['down_payment'] ?? 0);
+        $refundAmount = ($booking['payment_status'] === 'paid')
+            ? (float)($booking['total_amount'] ?? 0)
+            : ($downAmt > 0
+                ? $downAmt
+                : round((float)($booking['total_amount'] ?? 0) * 0.5, 2));
+
+        // ── Upsert: try by refund_id first, then by booking_id, then create fresh ──
+        $existingRefund = null;
+
+        if ($refundId > 0) {
+            $existingRefund = $db->table('booking_refunds')
+                ->where('id', $refundId)
+                ->where('booking_id', $bookingId)
+                ->get()->getRowArray();
+        }
+
+        if (! $existingRefund) {
+            $existingRefund = $db->table('booking_refunds')
+                ->where('booking_id', $bookingId)
+                ->orderBy('created_at', 'DESC')
+                ->limit(1)
+                ->get()->getRowArray();
+        }
+
+        $updateData = [
+            'refund_status'  => 'processed',
+            'refund_amount'  => $refundAmount,
+            'gcash_ref'      => $gcashRef ?: null,
+            'refund_note'    => $refundNote ?: null,
+            'refund_receipt' => $receiptFilename,
+            'processed_by'   => auth()->id(),
+            'processed_at'   => date('Y-m-d H:i:s'),
+            'updated_at'     => date('Y-m-d H:i:s'),
+        ];
+
+        if ($existingRefund) {
+            $db->table('booking_refunds')
+                ->where('id', $existingRefund['id'])
+                ->update($updateData);
+        } else {
+            // No record exists at all — create it and mark as processed in one shot
+            $db->table('booking_refunds')->insert(array_merge($updateData, [
+                'booking_id' => $bookingId,
+                'created_by' => auth()->id(),
+                'created_at' => date('Y-m-d H:i:s'),
+            ]));
+        }
+
+        return redirect()->to(base_url('admin/bookings'))
+            ->with('success', 'Refund marked as processed. GCash proof has been saved and the guest can now view it.');
+    }
+
+    // =========================================================
+    //  UPDATE PAYMENT
+    //  Actions: down_paid | half_paid | full_paid | reject_receipt
     // =========================================================
     public function updatePayment()
     {
@@ -200,22 +363,34 @@ class Admin extends BaseController
         $bookingId     = (int) $this->request->getPost('booking_id');
         $paymentAction = $this->request->getPost('payment_action');
 
-        if (! $bookingId || ! in_array($paymentAction, ['down_paid', 'full_paid', 'reject_receipt'])) {
+        $allowedActions = ['down_paid', 'half_paid', 'full_paid', 'reject_receipt'];
+        if (! $bookingId || ! in_array($paymentAction, $allowedActions)) {
             return redirect()->back()->with('error', 'Invalid payment request.');
         }
 
         $db = \Config\Database::connect();
 
+        // ── Mark 50% Down Paid (from receipt verification) ──
         if ($paymentAction === 'down_paid') {
+            $booking = $db->table('bookings')->where('id', $bookingId)->get()->getRowArray();
+            if (! $booking) {
+                return redirect()->back()->with('error', 'Booking not found.');
+            }
+
+            $halfAmount = round((float)($booking['total_amount'] ?? 0) / 2, 2);
+
             $db->table('bookings')->where('id', $bookingId)->update([
+                'down_payment'         => $halfAmount,
                 'down_payment_status'  => 'paid',
                 'down_payment_paid_at' => date('Y-m-d H:i:s'),
                 'updated_at'           => date('Y-m-d H:i:s'),
             ]);
+
             $ph = $db->table('payment_history')
                 ->where('booking_id', $bookingId)
                 ->orderBy('created_at', 'DESC')
                 ->limit(1)->get()->getRowArray();
+
             if ($ph) {
                 $db->table('payment_history')->where('id', $ph['id'])->update([
                     'is_verified' => 1,
@@ -223,34 +398,92 @@ class Admin extends BaseController
                     'verified_at' => date('Y-m-d H:i:s'),
                 ]);
             }
-            return redirect()->to(base_url('admin/bookings'))->with('success', '50% down payment marked as confirmed.');
 
+            return redirect()->to(base_url('admin/bookings'))
+                ->with('success', '50% down payment confirmed successfully.');
+
+        // ── Mark as Half Paid (manual — admin override, no receipt required) ──
+        } elseif ($paymentAction === 'half_paid') {
+            $booking = $db->table('bookings')->where('id', $bookingId)->get()->getRowArray();
+            if (! $booking) {
+                return redirect()->back()->with('error', 'Booking not found.');
+            }
+
+            $halfAmount = round((float)($booking['total_amount'] ?? 0) / 2, 2);
+
+            $db->table('bookings')->where('id', $bookingId)->update([
+                'down_payment'         => $halfAmount,
+                'down_payment_status'  => 'paid',
+                'down_payment_paid_at' => date('Y-m-d H:i:s'),
+                'updated_at'           => date('Y-m-d H:i:s'),
+            ]);
+
+            $ph = $db->table('payment_history')
+                ->where('booking_id', $bookingId)
+                ->orderBy('created_at', 'DESC')
+                ->limit(1)->get()->getRowArray();
+
+            if ($ph) {
+                $db->table('payment_history')->where('id', $ph['id'])->update([
+                    'amount'       => $halfAmount,
+                    'payment_type' => 'down_payment',
+                    'is_verified'  => 1,
+                    'verified_by'  => auth()->id(),
+                    'verified_at'  => date('Y-m-d H:i:s'),
+                ]);
+            } else {
+                $db->table('payment_history')->insert([
+                    'booking_id'   => $bookingId,
+                    'amount'       => $halfAmount,
+                    'payment_type' => 'down_payment',
+                    'gcash_ref'    => 'MANUAL-ADMIN',
+                    'is_verified'  => 1,
+                    'verified_by'  => auth()->id(),
+                    'verified_at'  => date('Y-m-d H:i:s'),
+                    'created_at'   => date('Y-m-d H:i:s'),
+                ]);
+            }
+
+            return redirect()->to(base_url('admin/bookings'))
+                ->with('success', 'Booking marked as 50% (half) paid.');
+
+        // ── Mark as Fully Paid ──
         } elseif ($paymentAction === 'full_paid') {
             $db->table('bookings')->where('id', $bookingId)->update([
                 'payment_status' => 'paid',
                 'updated_at'     => date('Y-m-d H:i:s'),
             ]);
+
             $ph = $db->table('payment_history')
                 ->where('booking_id', $bookingId)
                 ->orderBy('created_at', 'DESC')
                 ->limit(1)->get()->getRowArray();
+
             if ($ph) {
                 $db->table('payment_history')->where('id', $ph['id'])->update([
-                    'is_verified' => 1,
-                    'verified_by' => auth()->id(),
-                    'verified_at' => date('Y-m-d H:i:s'),
+                    'payment_type' => 'full_payment',
+                    'is_verified'  => 1,
+                    'verified_by'  => auth()->id(),
+                    'verified_at'  => date('Y-m-d H:i:s'),
                 ]);
             }
-            return redirect()->to(base_url('admin/bookings'))->with('success', 'Booking marked as fully paid.');
 
+            return redirect()->to(base_url('admin/bookings'))
+                ->with('success', 'Booking marked as fully paid.');
+
+        // ── Reject Receipt ──
         } elseif ($paymentAction === 'reject_receipt') {
             $db->table('payment_history')->where('booking_id', $bookingId)->delete();
+
             $db->table('bookings')->where('id', $bookingId)->update([
-                'gcash_receipt' => null,
-                'gcash_ref'     => null,
-                'updated_at'    => date('Y-m-d H:i:s'),
+                'payment_status'      => 'pending',
+                'down_payment_status' => 'pending',
+                'down_payment'        => 0,
+                'updated_at'          => date('Y-m-d H:i:s'),
             ]);
-            return redirect()->to(base_url('admin/bookings'))->with('success', 'Receipt rejected. User can now re-upload.');
+
+            return redirect()->to(base_url('admin/bookings'))
+                ->with('success', 'Receipt rejected. The guest may now re-upload a valid receipt.');
         }
 
         return redirect()->back()->with('error', 'Unknown action.');
@@ -289,8 +522,9 @@ class Admin extends BaseController
                         'updated_at'     => date('Y-m-d H:i:s'),
                     ]);
                 } elseif ($ph['payment_type'] === 'down_payment') {
+                    $halfAmount = round((float)($ph['amount'] ?? 0), 2);
                     $db->table('bookings')->where('id', $bookingId)->update([
-                        'down_payment'         => $ph['amount'],
+                        'down_payment'         => $halfAmount,
                         'down_payment_status'  => 'paid',
                         'down_payment_paid_at' => date('Y-m-d H:i:s'),
                         'updated_at'           => date('Y-m-d H:i:s'),
@@ -346,11 +580,11 @@ class Admin extends BaseController
         }
 
         return view('admin/users', [
-            'users'      => $users,
-            'totalUsers' => $totalUsers,
-            'totalPages' => $totalPages,
-            'currentPage'=> $page,
-            'perPage'    => $perPage,
+            'users'       => $users,
+            'totalUsers'  => $totalUsers,
+            'totalPages'  => $totalPages,
+            'currentPage' => $page,
+            'perPage'     => $perPage,
         ]);
     }
 
@@ -361,8 +595,8 @@ class Admin extends BaseController
     {
         if ($r = $this->requireAdmin()) return $r;
 
-        $buoyModel = new BuoyDataModel();
-        $latestBuoy = $buoyModel->getLatestReading();
+        $buoyModel   = new BuoyDataModel();
+        $latestBuoy  = $buoyModel->getLatestReading();
         $buoyHistory = $buoyModel->getRecentReadings(40);
         if (! is_array($buoyHistory)) {
             $buoyHistory = [];
@@ -465,8 +699,8 @@ class Admin extends BaseController
         $activityId = (int) $this->request->getPost('activity_id');
 
         $uploadedImages = [];
-        $files = $this->request->getFiles();
-        $imageFiles = $files['images'] ?? [];
+        $files          = $this->request->getFiles();
+        $imageFiles     = $files['images'] ?? [];
 
         foreach ($imageFiles as $imgFile) {
             if ($imgFile && $imgFile->isValid() && ! $imgFile->hasMoved()) {
@@ -543,21 +777,21 @@ class Admin extends BaseController
 
         $totalRevenue = array_sum(array_column($sales, 'total_amount'));
 
-        return view( 'admin/sales', [
+        return view('admin/sales', [
             'sales'        => $sales,
             'totalRevenue' => $totalRevenue,
         ]);
     }
 
     // =========================================================
-    //  WALK-IN BOOKING — create booking for walk-in customers
+    //  WALK-IN BOOKING
     // =========================================================
     public function checkBookingBlocked()
     {
         if (! $this->request->isAJAX()) {
             return $this->response->setStatusCode(400);
         }
-        
+
         if (! auth()->user() || ! auth()->user()->inGroup('admin')) {
             return $this->response->setJSON(['blocked' => false]);
         }
@@ -569,10 +803,10 @@ class Admin extends BaseController
 
         if ($isBlocked && $requestedDate !== '' && $safetyMonitor->canBookForDate($requestedDate)) {
             return $this->response->setJSON([
-                'blocked'     => false,
-                'message'     => '',
-                'unsafe_now'  => true,
-                'allowed_from'=> $allowedFrom,
+                'blocked'      => false,
+                'message'      => '',
+                'unsafe_now'   => true,
+                'allowed_from' => $allowedFrom,
             ]);
         }
 
@@ -590,75 +824,91 @@ class Admin extends BaseController
     {
         if ($r = $this->requireAdmin()) return $r;
 
-        $db = \Config\Database::connect();
+        $db            = \Config\Database::connect();
         $safetyMonitor = new BookingSafetyMonitor();
 
         $rules = [
-            'activity_name'     => 'required|string',
-            'date'              => 'required|valid_date[Y-m-d]',
-            'time'              => 'required|regex_match[/^\d{2}:\d{2}$/]',
-            'participants'      => 'required|integer|greater_than[0]|less_than_equal_to[20]',
-            'contact_number'    => 'required|string|max_length[20]',
-            'special_requests'  => 'string|max_length[500]',
+            'activity_name'    => 'required|string',
+            'date'             => 'required|valid_date[Y-m-d]',
+            'time'             => 'required|regex_match[/^\d{2}:\d{2}$/]',
+            'participants'     => 'required|integer|greater_than[0]|less_than_equal_to[20]',
+            'contact_number'   => 'required|string|max_length[20]',
+            'special_requests' => 'permit_empty|string|max_length[500]',
         ];
 
         if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()
+            return redirect()->to(base_url('admin/bookings'))
                 ->with('error', implode(' ', $this->validator->getErrors()));
         }
 
-        $activityName   = trim($this->request->getPost('activity_name'));
-        $date           = trim($this->request->getPost('date'));
-        $time           = trim($this->request->getPost('time'));
-        $participants   = (int) $this->request->getPost('participants');
-        $contactNumber  = trim($this->request->getPost('contact_number'));
+        $activityName    = trim($this->request->getPost('activity_name'));
+        $date            = trim($this->request->getPost('date'));
+        $time            = trim($this->request->getPost('time'));
+        $participants    = (int) $this->request->getPost('participants');
+        $contactNumber   = trim($this->request->getPost('contact_number'));
         $specialRequests = trim($this->request->getPost('special_requests') ?? '');
 
         if (! $safetyMonitor->canBookForDate($date)) {
-            return redirect()->back()->withInput()
+            return redirect()->to(base_url('admin/bookings'))
                 ->with('error', 'Unsafe sea conditions are active. Bookings for today are paused. You can still create bookings from ' . $safetyMonitor->getUnsafeBookingAllowedFromDate() . ' onward.');
         }
 
-        // Validate activity exists and is active
         $activity = $db->table('activities')
             ->where('name', $activityName)
             ->where('status', 'active')
-            ->first();
+            ->get()->getRowArray();
 
         if (! $activity) {
-            return redirect()->back()->withInput()
-                ->with('error', 'Invalid or inactive activity.');
+            return redirect()->to(base_url('admin/bookings'))
+                ->with('error', 'Invalid or inactive activity selected.');
         }
 
-        // Calculate total amount
-        $totalAmount = BookingModel::calculateTotal($activityName, $participants);
+        $price       = (float)($activity['price'] ?? 0);
+        $priceType   = $activity['price_type'] ?? 'flat';
+        $totalAmount = ($priceType === 'per_person') ? $price * $participants : $price;
+        $downPayment = round($totalAmount * 0.5, 2);
 
-        // Create a system user record for walk-in if not exists (user_id = 0 for walk-ins)
+        // Generate a unique booking code
+        do {
+            $bookingCode = 'WI-' . strtoupper(substr(md5(uniqid((string)mt_rand(), true)), 0, 8));
+        } while ($db->table('bookings')->where('booking_code', $bookingCode)->countAllResults() > 0);
+
         $bookingData = [
-            'user_id'           => 0,  // 0 = walk-in customer
-            'booking_code'      => (new BookingModel())->generateBookingCode(),
-            'activity_id'       => $activity['id'],
-            'activity_name'     => $activityName,
-            'all_activities'    => $activityName,
-            'date'              => $date,
-            'time'              => $time,
-            'participants'      => $participants,
-            'contact_number'    => $contactNumber,
-            'special_requests'  => $specialRequests ?: null,
-            'booking_type'      => 'walk_in',
-            'total_amount'      => $totalAmount,
-            'down_payment'      => $totalAmount * 0.5,
+            'user_id'             => 0,
+            'booking_code'        => $bookingCode,
+            'activity_id'         => (int)$activity['id'],
+            'activity_name'       => $activityName,
+            'all_activities'      => $activityName,
+            'date'                => $date,
+            'time'                => $time . ':00',
+            'participants'        => $participants,
+            'contact_number'      => $contactNumber,
+            'special_requests'    => $specialRequests ?: null,
+            'booking_type'        => 'walk_in',
+            'total_amount'        => $totalAmount,
+            'down_payment'        => 0,
             'down_payment_status' => 'pending',
-            'status'            => 'confirmed',  // Auto-confirm walk-ins
-            'payment_status'    => 'pending',
-            'created_at'        => date('Y-m-d H:i:s'),
-            'updated_at'        => date('Y-m-d H:i:s'),
+            'status'              => 'confirmed',
+            'payment_status'      => 'pending',
+            'created_at'          => date('Y-m-d H:i:s'),
+            'updated_at'          => date('Y-m-d H:i:s'),
         ];
 
-        $db->table('bookings')->insert($bookingData);
-        $bookingId = $db->insertID();
+        try {
+            $db->table('bookings')->insert($bookingData);
+            $insertedId = $db->insertID();
+
+            if (! $insertedId) {
+                return redirect()->to(base_url('admin/bookings'))
+                    ->with('error', 'Walk-in booking could not be saved. Please check your database and try again.');
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'Walk-in booking insert failed: ' . $e->getMessage());
+            return redirect()->to(base_url('admin/bookings'))
+                ->with('error', 'Walk-in booking failed: ' . $e->getMessage());
+        }
 
         return redirect()->to(base_url('admin/bookings'))
-            ->with('success', 'Walk-in booking created: ' . $bookingData['booking_code']);
+            ->with('success', 'Walk-in booking created successfully! Code: ' . $bookingCode . ' — Total: ₱' . number_format($totalAmount, 2));
     }
 }

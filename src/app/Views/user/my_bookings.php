@@ -74,13 +74,13 @@
         .bc-code { font-size: 0.72rem; color: var(--accent-cyan); font-weight: 600; letter-spacing: 1px; opacity: 0.8; }
         .bc-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
-        /* Booking meta strip — no Time here anymore */
+        /* Booking meta strip */
         .bc-meta-strip { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 10px; padding: 10px 14px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); }
         .bc-meta-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
         .bc-meta-item i { color: var(--accent-cyan); font-size: 0.7rem; }
         .bc-meta-item span { color: rgba(255,255,255,0.8); font-weight: 600; }
 
-        /* ── Per-activity time slots block ── */
+        /* Per-activity time slots block */
         .bc-time-block { background: rgba(72,202,228,0.05); border: 1px solid rgba(72,202,228,0.15); border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; }
         .bc-time-block-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-cyan); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
         .bc-time-row { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; margin-bottom: 5px; }
@@ -105,17 +105,14 @@
         .bc-info-item .info-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); font-weight: 700; margin-bottom: 2px; }
         .bc-info-item .info-val { font-size: 0.82rem; font-weight: 600; color: white; }
 
-        /* Activity pills */
-        .bc-activities { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
-        .bc-act-pill { background: rgba(10,88,114,0.3); border: 1px solid rgba(72,202,228,0.2); border-radius: 50px; padding: 5px 14px; font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 6px; }
-        .bc-act-pill i { color: var(--accent-cyan); font-size: 0.75rem; }
-
         /* Action row */
         .bc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
         .btn-view-details { background: rgba(72,202,228,0.12); color: var(--accent-cyan); border: 1px solid rgba(72,202,228,0.35); padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
         .btn-view-details:hover { background: var(--accent-cyan); color: var(--deep-blue); transform: translateY(-1px); }
         .btn-pay-now { background: rgba(40,167,69,0.12); color: #5ddb8a; border: 1px solid rgba(40,167,69,0.35); padding: 8px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
         .btn-pay-now:hover { background: rgba(40,167,69,0.3); transform: translateY(-1px); }
+        .btn-view-refund { background: rgba(168,85,247,0.12); color: #c084fc; border: 1px solid rgba(168,85,247,0.35); padding: 8px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-view-refund:hover { background: rgba(168,85,247,0.28); transform: translateY(-1px); }
 
         /* Badges */
         .badge-status { padding: 5px 14px; border-radius: 50px; font-weight: 700; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 5px; }
@@ -124,9 +121,33 @@
         .status-completed { background: rgba(72,202,228,0.12); color: #48cae4; border: 1px solid rgba(72,202,228,0.4); }
         .status-cancelled { background: rgba(220,53,69,0.12);  color: #ff9999; border: 1px solid rgba(220,53,69,0.4); }
         .payment-badge { padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
-        .pay-paid   { background: rgba(40,167,69,0.15);   color: #5ddb8a; border: 1px solid rgba(40,167,69,0.4); }
-        .pay-half   { background: rgba(255,193,7,0.12);   color: #ffc107; border: 1px solid rgba(255,193,7,0.4); }
-        .pay-unpaid { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.12); }
+        .pay-paid    { background: rgba(40,167,69,0.15);   color: #5ddb8a; border: 1px solid rgba(40,167,69,0.4); }
+        .pay-half    { background: rgba(255,193,7,0.12);   color: #ffc107; border: 1px solid rgba(255,193,7,0.4); }
+        .pay-unpaid  { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.12); }
+        /* ── Refund badges ── */
+        .pay-refund-pending  { background: rgba(255,107,107,0.12); color: #ff8888; border: 1px solid rgba(255,107,107,0.4); padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+        .pay-refund-done     { background: rgba(168,85,247,0.12);  color: #c084fc; border: 1px solid rgba(168,85,247,0.4); padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+
+        /* ── Refund info block inside cancelled card ── */
+        .bc-refund-block { border-radius: 14px; padding: 16px 18px; margin-bottom: 14px; }
+        .bc-refund-block.pending   { background: rgba(255,107,107,0.05); border: 1px solid rgba(255,107,107,0.22); }
+        .bc-refund-block.processed { background: rgba(168,85,247,0.05); border: 1px solid rgba(168,85,247,0.22); }
+        .bc-refund-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+        .bc-refund-label.pending   { color: #ff8888; }
+        .bc-refund-label.processed { color: #c084fc; }
+        .bc-refund-amount { font-size: 1.3rem; font-weight: 900; margin-bottom: 6px; }
+        .bc-refund-amount.pending   { color: #ff9999; }
+        .bc-refund-amount.processed { color: #c084fc; }
+        .bc-refund-note { font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.6; margin-bottom: 6px; }
+        .bc-refund-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+        .bc-refund-meta-item { font-size: 0.75rem; color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 5px; }
+        .bc-refund-meta-item i { color: #c084fc; font-size: 0.68rem; }
+        .bc-refund-meta-item span { color: white; font-weight: 600; }
+
+        /* ── Refund receipt preview inside card ── */
+        .bc-refund-receipt-thumb { width: 100%; max-height: 200px; object-fit: contain; background: rgba(0,0,0,0.3); border-radius: 10px; cursor: zoom-in; display: block; transition: 0.2s; margin-top: 12px; border: 1px solid rgba(168,85,247,0.2); }
+        .bc-refund-receipt-thumb:hover { transform: scale(1.01); border-color: rgba(168,85,247,0.5); }
+        .bc-refund-receipt-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: rgba(168,85,247,0.7); margin-top: 12px; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
 
         /* Empty state */
         .empty-state { text-align: center; padding: 50px 20px; }
@@ -165,6 +186,14 @@
         .btn-close-pay { background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); border-radius: 50px; padding: 6px 18px; cursor: pointer; font-size: 0.82rem; transition: 0.3s; }
         .btn-close-pay:hover { background: rgba(255,255,255,0.1); color: white; }
 
+        /* ── Refund receipt lightbox ── */
+        #refundLightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.93); z-index: 99999; align-items: center; justify-content: center; cursor: zoom-out; flex-direction: column; gap: 16px; padding: 24px; }
+        #refundLightbox.open { display: flex; }
+        #refundLightbox img { max-width: 90vw; max-height: 80vh; border-radius: 14px; object-fit: contain; box-shadow: 0 0 80px rgba(168,85,247,0.3); border: 1px solid rgba(168,85,247,0.3); }
+        .lightbox-caption { color: rgba(255,255,255,0.55); font-size: 0.82rem; text-align: center; }
+        .lightbox-close-btn { position: fixed; top: 20px; right: 24px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 50px; padding: 6px 18px; font-size: 0.82rem; cursor: pointer; font-family: 'Poppins', sans-serif; transition: 0.2s; }
+        .lightbox-close-btn:hover { background: rgba(168,85,247,0.3); border-color: #c084fc; }
+
         footer { background: var(--deep-blue); padding: 100px 0 40px; color: rgba(255,255,255,0.6) !important; border-top: 1px solid rgba(255,255,255,0.1); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
         .social-icons i { color: rgba(255,255,255,0.7); transition: 0.3s; cursor: pointer; font-size: 1.5rem; }
@@ -193,19 +222,12 @@
         .sdn-no-result { text-align: center; padding: 30px; color: rgba(255,255,255,0.4); font-size: 0.88rem; }
         .sdn-hint { text-align: center; padding: 20px; color: rgba(255,255,255,0.3); font-size: 0.8rem; }
         .sdn-highlight { background: rgba(72,202,228,0.25); color: #48cae4; border-radius: 2px; padding: 0 2px; }
+
         @media (max-width: 991.98px) {
             .waves-navbar { padding: 14px 0; }
             .header-container { flex-wrap: wrap; gap: 10px; padding: 0 14px; }
             .user-greeting { flex: 1 1 100%; font-size: 0.95rem; }
-            .nav-menu-center.d-none.d-lg-flex {
-                display: flex !important;
-                flex: 1 1 100%;
-                justify-content: flex-start;
-                overflow-x: auto;
-                white-space: nowrap;
-                gap: 8px;
-                padding-bottom: 4px;
-            }
+            .nav-menu-center.d-none.d-lg-flex { display: flex !important; flex: 1 1 100%; justify-content: flex-start; overflow-x: auto; white-space: nowrap; gap: 8px; padding-bottom: 4px; }
             .logout-wrapper { flex: 1 1 100%; justify-content: flex-end; }
             .nav-link-custom { font-size: 0.82rem; padding: 6px 12px; }
             .welcome-hero { padding: 84px 16px; border-radius: 0 0 36px 36px; margin-bottom: 32px; }
@@ -280,19 +302,6 @@
         return ['price' => $price, 'price_type' => $priceType, 'pax' => $pax, 'line_total' => $lineTotal];
     }
 
-    /**
-     * Format "HH:MM:SS" or "HH:MM" to "h:i A – end h:i A" given duration in minutes.
-     * Used for single-activity display.
-     */
-    function fmtTimeSlot(string $timeStr, int $durationMins = 60): string {
-        $ts  = strtotime('1970-01-01 ' . $timeStr);
-        $end = $ts + ($durationMins * 60);
-        return date('g:i A', $ts) . ' – ' . date('g:i A', $end);
-    }
-
-    /**
-     * Format "HH:MM:SS" or "HH:MM" to just "h:i A – end" given duration.
-     */
     function fmtTimeSlotEnd(string $timeStr, int $durationMins = 60): string {
         $ts  = strtotime('1970-01-01 ' . $timeStr);
         $end = $ts + ($durationMins * 60);
@@ -360,9 +369,29 @@
             $statusIcon  = match($status) { 'pending'=>'fa-hourglass-half','confirmed'=>'fa-circle-check','completed'=>'fa-trophy','cancelled'=>'fa-ban',default=>'fa-circle' };
             $tabGroup    = match($status) { 'pending','confirmed'=>'active','completed'=>'completed','cancelled'=>'cancelled',default=>'all' };
 
-            $payClass = 'pay-unpaid'; $payText = 'Unpaid'; $payIcon = 'fa-hourglass';
-            if ($booking['payment_status'] === 'paid')                  { $payClass = 'pay-paid';  $payText = 'Paid';     $payIcon = 'fa-check'; }
-            elseif (($booking['down_payment_status'] ?? '') === 'paid') { $payClass = 'pay-half';  $payText = '50% Paid'; $payIcon = 'fa-circle-half-stroke'; }
+            // ── Refund data (only for cancelled bookings that were paid) ──
+            $refund  = $booking['refund'] ?? null;
+            $wasPaid = ($booking['payment_status'] ?? '') === 'paid'
+                    || ($booking['down_payment_status'] ?? '') === 'paid';
+
+            // ── Payment badge — refund states override pay states for cancelled bookings ──
+            if ($status === 'cancelled' && $wasPaid) {
+                if ($refund && ($refund['refund_status'] ?? '') === 'processed') {
+                    $payClass = 'pay-refund-done';
+                    $payText  = 'Refunded';
+                    $payIcon  = 'fa-rotate-left';
+                } else {
+                    $payClass = 'pay-refund-pending';
+                    $payText  = 'Refund Pending';
+                    $payIcon  = 'fa-clock-rotate-left';
+                }
+            } elseif ($booking['payment_status'] === 'paid') {
+                $payClass = 'pay-paid';  $payText = 'Paid';     $payIcon = 'fa-check';
+            } elseif (($booking['down_payment_status'] ?? '') === 'paid') {
+                $payClass = 'pay-half';  $payText = '50% Paid'; $payIcon = 'fa-circle-half-stroke';
+            } else {
+                $payClass = 'pay-unpaid'; $payText = 'Unpaid';  $payIcon = 'fa-hourglass';
+            }
 
             /* ── Activities ── */
             $allActNames = array_values(array_filter(array_map('trim', explode(',', $booking['all_activities'] ?? $booking['activity_name']))));
@@ -393,7 +422,6 @@
                 $decoded = json_decode($booking['time_per_activity'], true);
                 if (is_array($decoded)) $tpaMap = $decoded;
             }
-            // Fallback: stagger each activity consecutively from the booked start time
             if (empty($tpaMap)) {
                 $cursor = strtotime('1970-01-01 ' . $booking['time']);
                 foreach ($allActNames as $an) {
@@ -433,6 +461,12 @@
             /* ── Remaining balance ── */
             $remaining = $displayTotal - (float)($booking['down_payment'] ?? 0);
             $totalParticipants = array_sum($ppaMap);
+
+            /* ── Refund receipt path ── */
+            $refundReceiptUrl = null;
+            if ($refund && !empty($refund['refund_receipt'])) {
+                $refundReceiptUrl = base_url('uploads/gcash_receipts/' . basename($refund['refund_receipt']));
+            }
         ?>
         <div class="booking-card"
              data-tab="<?= $tabGroup ?>"
@@ -462,7 +496,7 @@
                 </div>
             </div>
 
-            <!-- Meta strip — Booked On + Activity Date only (no single Time here) -->
+            <!-- Meta strip -->
             <div class="bc-meta-strip">
                 <div class="bc-meta-item">
                     <i class="fa-regular fa-clock"></i>
@@ -474,7 +508,7 @@
                 </div>
             </div>
 
-            <!-- ── Per-activity time slots ── -->
+            <!-- Per-activity time slots -->
             <div class="bc-time-block">
                 <div class="bc-time-block-label">
                     <i class="fa-regular fa-clock"></i> Time
@@ -539,7 +573,7 @@
                     <div class="info-val"><?= esc($booking['contact_number']) ?></div>
                 </div>
                 <?php endif; ?>
-                <?php if ((float)($booking['down_payment'] ?? 0) > 0): ?>
+                <?php if ((float)($booking['down_payment'] ?? 0) > 0 && $status !== 'cancelled'): ?>
                 <div class="bc-info-item">
                     <div class="info-label"><i class="fa-solid fa-circle-half-stroke me-1"></i> Down Paid</div>
                     <div class="info-val" style="color:#ffc107;">₱<?= number_format($booking['down_payment'], 2) ?></div>
@@ -555,13 +589,93 @@
                     <div class="info-val" style="font-size:0.78rem;opacity:0.85;font-style:italic;"><?= esc($booking['special_requests']) ?></div>
                 </div>
                 <?php endif; ?>
+                <?php if ($status === 'cancelled' && !empty($booking['cancel_reason'])): ?>
+                <div class="bc-info-item" style="flex-basis:100%;">
+                    <div class="info-label" style="color:#ff8888;"><i class="fa-solid fa-ban me-1"></i> Cancellation Reason</div>
+                    <div class="info-val" style="color:#ff9999;font-style:italic;font-size:0.78rem;"><?= esc($booking['cancel_reason']) ?></div>
+                </div>
+                <?php endif; ?>
             </div>
+
+            <?php
+            // ══════════════════════════════════════════════════════════
+            // REFUND BLOCK — only for cancelled bookings that were paid
+            // ══════════════════════════════════════════════════════════
+            if ($status === 'cancelled' && $wasPaid):
+                $refundProcessed = $refund && ($refund['refund_status'] ?? '') === 'processed';
+                $refundAmt       = $refund ? (float)$refund['refund_amount'] : 0;
+            ?>
+            <div class="bc-refund-block <?= $refundProcessed ? 'processed' : 'pending' ?>">
+                <div class="bc-refund-label <?= $refundProcessed ? 'processed' : 'pending' ?>">
+                    <i class="fa-solid <?= $refundProcessed ? 'fa-circle-check' : 'fa-clock-rotate-left' ?>"></i>
+                    <?= $refundProcessed ? 'Refund Processed' : 'Refund Pending' ?>
+                </div>
+
+                <?php if ($refund): ?>
+                    <div class="bc-refund-amount <?= $refundProcessed ? 'processed' : 'pending' ?>">
+                        ₱<?= number_format($refundAmt, 2) ?>
+                    </div>
+
+                    <?php if ($refundProcessed): ?>
+                        <div class="bc-refund-note">
+                            <i class="fa-solid fa-circle-check me-1" style="color:#5ddb8a;"></i>
+                            Your refund of <strong style="color:#c084fc;">₱<?= number_format($refundAmt, 2) ?></strong> has been sent back to you via GCash. Please check the receipt below as proof.
+                        </div>
+                        <div class="bc-refund-meta">
+                            <?php if (!empty($refund['gcash_ref'])): ?>
+                            <div class="bc-refund-meta-item">
+                                <i class="fa-solid fa-hashtag"></i>
+                                GCash Ref: <span><?= esc($refund['gcash_ref']) ?></span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if (!empty($refund['processed_at'])): ?>
+                            <div class="bc-refund-meta-item">
+                                <i class="fa-regular fa-calendar-check"></i>
+                                Processed: <span><?= date('M d, Y h:i A', strtotime($refund['processed_at'])) ?></span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if (!empty($refund['refund_note'])): ?>
+                            <div class="bc-refund-meta-item" style="flex-basis:100%;">
+                                <i class="fa-solid fa-comment"></i>
+                                Note: <span><?= esc($refund['refund_note']) ?></span>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <?php if ($refundReceiptUrl): ?>
+                        <div class="bc-refund-receipt-label">
+                            <i class="fa-solid fa-image"></i> GCash Refund Receipt
+                        </div>
+                        <img src="<?= $refundReceiptUrl ?>"
+                             class="bc-refund-receipt-thumb"
+                             alt="GCash Refund Receipt"
+                             onclick="openRefundLightbox('<?= $refundReceiptUrl ?>','<?= esc(addslashes('₱' . number_format($refundAmt, 2) . ' refund — ' . ($refund['gcash_ref'] ?? 'No ref'))) ?>')"
+                             onerror="this.closest('.bc-refund-receipt-label-wrap') && this.closest('.bc-refund-receipt-label-wrap').remove(); this.remove();">
+                        <?php endif; ?>
+
+                    <?php else: ?>
+                        <div class="bc-refund-note">
+                            <i class="fa-solid fa-clock me-1" style="color:#ff8888;"></i>
+                            Your refund of <strong style="color:#ff9999;">₱<?= number_format($refundAmt, 2) ?></strong> is being processed. The admin will send it via GCash and upload proof here once done.
+                        </div>
+                    <?php endif; ?>
+
+                <?php else: ?>
+                    <!-- Refund record not yet created (edge case: just cancelled, page not yet reloaded) -->
+                    <div class="bc-refund-note">
+                        <i class="fa-solid fa-spinner fa-spin me-1"></i>
+                        Your cancellation has been received. Since you had already paid, a refund record is being prepared. Please check back in a moment.
+                    </div>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
 
             <!-- Action buttons -->
             <div class="bc-actions">
                 <a href="<?= base_url('user/booking-details/' . $booking['id']) ?>" class="btn-view-details">
                     <i class="fa-solid fa-eye"></i> View Status
                 </a>
+
                 <?php if (in_array($status, ['pending','confirmed']) && $booking['payment_status'] !== 'paid'): ?>
                 <button class="btn-pay-now"
                     onclick="openPayModal(
@@ -572,6 +686,13 @@
                     )">
                     <i class="fa-solid fa-peso-sign"></i>
                     <?= ($booking['down_payment_status'] === 'paid') ? 'Pay Remaining' : 'Pay Now' ?>
+                </button>
+                <?php endif; ?>
+
+                <?php if ($status === 'cancelled' && $wasPaid && $refund && ($refund['refund_status'] ?? '') === 'processed' && $refundReceiptUrl): ?>
+                <button class="btn-view-refund"
+                    onclick="openRefundLightbox('<?= $refundReceiptUrl ?>','<?= esc(addslashes('₱' . number_format((float)$refund['refund_amount'], 2) . ' refund receipt' . (!empty($refund['gcash_ref']) ? ' — Ref: ' . $refund['gcash_ref'] : ''))) ?>')">
+                    <i class="fa-solid fa-image"></i> View Refund Receipt
                 </button>
                 <?php endif; ?>
             </div>
@@ -596,7 +717,7 @@
 </div>
 
 <footer class="text-center">
-    <div class="container d-flex flex-column align-items-center">
+    <div class="container d-flex flex-column align-items: center">
         <div class="footer-inquiry-text mb-4 opacity-75">For inquiries, message us through our social media platforms.</div>
         <div class="social-icons">
             <a href="https://www.facebook.com/profile.php?id=100077368436521" target="_blank"><i class="fa-brands fa-facebook"></i></a>
@@ -677,11 +798,20 @@
             <div class="help-item"><strong><i class="fa-solid fa-person-swimming me-2"></i>Activities</strong><p>Browse all available water sports — Jet Ski, Banana Boat, Kayaking, and Flying Saucer — with descriptions and pricing info.</p></div>
             <div class="help-item"><strong><i class="fa-solid fa-water me-2"></i>Safety & Sea Conditions</strong><p>View real-time MARISENSE data: wind speed, wave height, wave period, and whether activities are currently safe to proceed.</p></div>
             <div class="help-item"><strong><i class="fa-solid fa-calendar-check me-2"></i>Book & Reserve</strong><p>Select your preferred activity, pick a date and time slot, and confirm your reservation online before heading to the beach.</p></div>
-            <div class="help-item"><strong><i class="fa-solid fa-list-check me-2"></i>My Bookings</strong><p>Track all your active and past reservations. View booking status, schedule, and activity details anytime.</p></div>
+            <div class="help-item"><strong><i class="fa-solid fa-list-check me-2"></i>My Bookings</strong><p>Track all your active and past reservations. If a paid booking is cancelled, check here for your refund status and GCash proof from the admin.</p></div>
             <div class="help-item"><strong><i class="fa-solid fa-star me-2"></i>Reviews</strong><p>Read honest feedback from fellow adventurers, or leave your own review and rating after completing an activity.</p></div>
         </div>
         <div class="help-modal-footer"><i class="fa-solid fa-shield-halved me-1"></i>For further assistance, contact us via our social media pages.</div>
     </div>
+</div>
+
+<!-- REFUND RECEIPT LIGHTBOX -->
+<div id="refundLightbox" onclick="if(event.target===this||event.target.id==='refundLightbox') closeRefundLightbox()">
+    <button class="lightbox-close-btn" onclick="closeRefundLightbox()">
+        <i class="fa-solid fa-xmark me-1"></i> Close
+    </button>
+    <img id="refundLightboxImg" src="" alt="Refund Receipt">
+    <div class="lightbox-caption" id="refundLightboxCaption"></div>
 </div>
 
 <script>
@@ -744,6 +874,25 @@
         if (e.target === this) closePayModal();
     });
 
+    /* ── Refund receipt lightbox ── */
+    function openRefundLightbox(url, caption) {
+        document.getElementById('refundLightboxImg').src       = url;
+        document.getElementById('refundLightboxCaption').textContent = caption || '';
+        document.getElementById('refundLightbox').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeRefundLightbox() {
+        document.getElementById('refundLightbox').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeRefundLightbox();
+            closePayModal();
+            document.getElementById('helpModal').classList.add('d-none');
+        }
+    });
+
     function filterTab(tab, btn) {
         currentTab = tab;
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -788,6 +937,7 @@
         { section: 'My Bookings', title: 'My Reservations', sub: 'View all your active and past bookings',          icon: 'fa-list-check',     url: BASE + 'user/my-bookings' },
         { section: 'My Bookings', title: 'Booking Status',  sub: 'Pending, Confirmed, Completed, Cancelled',        icon: 'fa-circle-check',   url: BASE + 'user/my-bookings' },
         { section: 'My Bookings', title: 'Pay Balance',     sub: 'Pay remaining balance via GCash',                 icon: 'fa-credit-card',    url: BASE + 'user/my-bookings' },
+        { section: 'My Bookings', title: 'Refund Status',   sub: 'Check GCash cashback proof for cancelled paid bookings', icon: 'fa-rotate-left', url: BASE + 'user/my-bookings' },
         { section: 'Safety & Sea Conditions', title: 'Sea Conditions', sub: 'Full MARISENSE live data dashboard',   icon: 'fa-tower-broadcast',url: BASE + 'user/safety' },
         { section: 'Safety & Sea Conditions', title: 'Safety Status', sub: 'Safe / Moderate / Unsafe indicator',    icon: 'fa-shield-halved',  url: BASE + 'user/safety' },
         { section: 'Reviews', title: 'Read Reviews',   sub: 'Browse feedback from fellow adventurers',              icon: 'fa-star',           url: BASE + 'user/reviews' },

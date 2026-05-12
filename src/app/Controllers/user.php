@@ -283,7 +283,7 @@ class User extends BaseController
     }
 
     // -----------------------------------------------------------------------
-    // MY BOOKINGS — latest booked first
+    // MY BOOKINGS — latest booked first, with refund data for cancelled paid bookings
     // -----------------------------------------------------------------------
 
     public function my_bookings()
@@ -293,6 +293,30 @@ class User extends BaseController
         $bookings     = $bookingModel->where('user_id', $userId)
                                      ->orderBy('created_at', 'DESC')
                                      ->findAll();
+
+        // ── Attach refund record to any cancelled booking that was paid ──
+        $db = \Config\Database::connect();
+        foreach ($bookings as &$booking) {
+            $booking['refund'] = null;
+
+            $statusRaw = strtolower($booking['status'] ?? '');
+            $wasPaid   = ($booking['payment_status'] ?? '') === 'paid'
+                      || ($booking['down_payment_status'] ?? '') === 'paid';
+
+            if ($statusRaw === 'cancelled' && $wasPaid) {
+                try {
+                    $refund = $db->table('booking_refunds')
+                        ->where('booking_id', $booking['id'])
+                        ->orderBy('created_at', 'DESC')
+                        ->limit(1)
+                        ->get()->getRowArray();
+                    $booking['refund'] = $refund ?: null;
+                } catch (\Exception $e) {
+                    $booking['refund'] = null;
+                }
+            }
+        }
+        unset($booking);
 
         return view('user/my_bookings', ['bookings' => $bookings]);
     }
@@ -316,6 +340,7 @@ class User extends BaseController
 
     // -----------------------------------------------------------------------
     // CANCEL BOOKING (POST)
+    // ── If the user already paid, auto-create a pending refund record ──
     // -----------------------------------------------------------------------
 
     public function cancelBooking($id)
@@ -332,7 +357,46 @@ class User extends BaseController
             return redirect()->to(base_url('user/my-bookings'))->with('error', 'This booking cannot be cancelled.');
         }
 
-        $bookingModel->update((int) $id, ['status' => 'cancelled']);
+        // Mark booking as cancelled
+        $bookingModel->update((int) $id, [
+            'status'        => 'cancelled',
+            'cancel_reason' => 'Cancelled by guest',
+            'updated_at'    => date('Y-m-d H:i:s'),
+        ]);
+
+        // ── Auto-create refund record if booking had a payment ──
+        $wasPaid = ($booking['payment_status'] ?? '') === 'paid'
+                || ($booking['down_payment_status'] ?? '') === 'paid';
+
+        if ($wasPaid) {
+            $db = \Config\Database::connect();
+            try {
+                $existing = $db->table('booking_refunds')
+                    ->where('booking_id', (int) $id)
+                    ->get()->getRowArray();
+
+                if (! $existing) {
+                    $refundAmount = ($booking['payment_status'] === 'paid')
+                        ? (float)($booking['total_amount'] ?? 0)
+                        : (float)($booking['down_payment'] ?? round((float)($booking['total_amount'] ?? 0) * 0.5, 2));
+
+                    $db->table('booking_refunds')->insert([
+                        'booking_id'    => (int) $id,
+                        'refund_amount' => $refundAmount,
+                        'refund_status' => 'pending',
+                        'refund_note'   => 'Cancelled by guest. Admin will process GCash refund.',
+                        'created_by'    => $userId,
+                        'created_at'    => date('Y-m-d H:i:s'),
+                        'updated_at'    => date('Y-m-d H:i:s'),
+                    ]);
+                }
+            } catch (\Exception $e) {
+                log_message('error', 'booking_refunds insert failed (user cancel): ' . $e->getMessage());
+            }
+
+            return redirect()->to(base_url('user/my-bookings'))
+                ->with('success', 'Booking cancelled. Since you had already paid, your refund is being processed. You will see the GCash proof here once the admin sends it back.');
+        }
 
         return redirect()->to(base_url('user/my-bookings'))->with('success', 'Booking cancelled successfully.');
     }

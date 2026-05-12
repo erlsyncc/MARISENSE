@@ -63,6 +63,7 @@ $routes->group('', ['filter' => 'session'], function($routes) {
         $routes->get('bookings',       'Admin::bookings');
         $routes->post('bookings/update-status', 'Admin::updateBookingStatus');
         $routes->post('bookings/update-payment', 'Admin::updatePayment');
+        $routes->post('bookings/process-refund', 'Admin::processRefund');
         $routes->get('check-booking-blocked', 'Admin::checkBookingBlocked');
         $routes->post('create-walk-in-booking', 'Admin::createWalkInBooking');
 
