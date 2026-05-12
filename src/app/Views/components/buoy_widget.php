@@ -151,7 +151,7 @@ $formatFloat = static function ($value, int $precision = 2): string {
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
     .buoy-widget {
-        background: linear-gradient(145deg, rgba(72, 202, 228, 0.12), rgba(255, 255, 255, 0.05));
+        background: linear-gradient(145deg, rgba(20, 80, 100, 0.85), rgba(10, 50, 65, 0.95));
         border: 1px solid rgba(72, 202, 228, 0.28);
         border-radius: 20px;
         padding: 24px;
@@ -167,7 +167,7 @@ $formatFloat = static function ($value, int $precision = 2): string {
         content: '';
         position: absolute;
         inset: 0;
-        background: radial-gradient(circle at 15% 16%, rgba(72, 202, 228, 0.2), transparent 44%);
+        background: radial-gradient(circle at 15% 16%, rgba(72, 202, 228, 0.07), transparent 44%);
         pointer-events: none;
     }
 
@@ -214,7 +214,7 @@ $formatFloat = static function ($value, int $precision = 2): string {
 
     .buoy-subtitle {
         font-size: 0.72rem;
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.75);
         margin: 4px 0 0;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -304,7 +304,7 @@ $formatFloat = static function ($value, int $precision = 2): string {
         font-size: 0.7rem;
         text-transform: uppercase;
         letter-spacing: 0.8px;
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.75);
         margin-bottom: 4px;
         font-weight: 600;
     }
@@ -323,7 +323,7 @@ $formatFloat = static function ($value, int $precision = 2): string {
 
     .metric-detail {
         font-size: 0.7rem;
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.75);
         margin-top: 2px;
     }
 
@@ -431,7 +431,7 @@ $formatFloat = static function ($value, int $precision = 2): string {
         align-items: center;
         gap: 8px;
         font-size: 0.76rem;
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.75);
         padding-top: 12px;
         border-top: 1px solid rgba(72, 202, 228, 0.1);
         animation: fadeUp 0.8s ease-out 0.4s both;

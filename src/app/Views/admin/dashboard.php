@@ -12,7 +12,6 @@
         :root { --deep-blue: #052c39; --ocean-blue: #0a5872; --accent-cyan: #48cae4; --soft-white: #f4f9fc; --sidebar-width: 260px; }
         * { box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 60%); background-attachment: fixed; color: var(--soft-white); margin: 0; min-height: 100vh; }
-        /* SIDEBAR — same as dashboard */
         .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100vh; background: rgba(5,44,57,0.95); backdrop-filter: blur(20px); border-right: 1px solid rgba(255,255,255,0.1); z-index: 1000; display: flex; flex-direction: column; overflow-y: auto; }
         .sidebar-brand { padding: 28px 24px 22px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .sidebar-brand .brand-icon { font-size: 2rem; color: var(--accent-cyan); margin-bottom: 6px; }
@@ -28,13 +27,11 @@
         .sidebar-footer { margin-top: auto; padding: 16px 12px; border-top: 1px solid rgba(255,255,255,0.08); }
         .logout-btn { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-radius: 12px; color: #ff6b6b; text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(255,107,107,0.25); transition: 0.25s; }
         .logout-btn:hover { background: #ff6b6b; color: white; text-decoration: none; }
-
         .main-content { margin-left: var(--sidebar-width); padding: 32px 36px; min-height: 100vh; }
         .page-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
         .page-title { font-size: 1.6rem; font-weight: 700; color: white; margin: 0; }
         .page-subtitle { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin: 2px 0 0; }
         .admin-pill { background: rgba(72,202,228,0.12); border: 1px solid rgba(72,202,228,0.3); color: var(--accent-cyan); border-radius: 50px; padding: 6px 18px; font-size: 0.78rem; font-weight: 600; letter-spacing: 1px; }
-        /* KPI cards */
         .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
         .kpi-card { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.16); border-radius: 20px; padding: 22px; display: flex; align-items: center; gap: 16px; transition: 0.25s; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 12px 28px rgba(0,0,0,0.2); overflow: hidden; }
         .kpi-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 12% 12%, rgba(72,202,228,0.18), transparent 42%); pointer-events: none; }
@@ -47,7 +44,6 @@
         .kpi-icon.blue   { background: rgba(13,110,253,0.15); color: #74b4ff; }
         .kpi-value { font-size: 1.6rem; font-weight: 700; color: white; line-height: 1; }
         .kpi-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.48); margin-top: 3px; }
-        /* Charts row */
         .charts-row { display: grid; grid-template-columns: 1fr 1.8fr; gap: 18px; margin-bottom: 24px; }
         .chart-card { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.1), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 24px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 12px 28px rgba(0,0,0,0.18); overflow: hidden; }
         .chart-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 88% 14%, rgba(72,202,228,0.14), transparent 45%); pointer-events: none; }
@@ -57,15 +53,14 @@
         .sales-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
         .sales-tab { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); padding: 5px 14px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .sales-tab.active, .sales-tab:hover { background: var(--accent-cyan); color: var(--deep-blue); border-color: var(--accent-cyan); }
-        /* Recent bookings table */
         .recent-card { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.1), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 24px; margin-bottom: 24px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 12px 28px rgba(0,0,0,0.18); overflow: hidden; }
         .recent-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 14% 86%, rgba(72,202,228,0.12), transparent 48%); pointer-events: none; }
         .recent-card > * { position: relative; z-index: 1; }
-        .dashboard-buoy-panel { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(72,202,228,0.28); border-radius: 22px; padding: 14px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 16px 34px rgba(0,0,0,0.2); overflow: hidden; }
-        .dashboard-buoy-panel { background: linear-gradient(145deg, rgba(72,202,228,0.08), rgba(255,255,255,0.03)); border: 1px solid rgba(72,202,228,0.2); border-radius: 22px; padding: 20px 28px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 16px 34px rgba(0,0,0,0.2); }        .dashboard-buoy-panel .buoy-widget.card { background: transparent !important; border: 0 !important; box-shadow: none !important; margin-bottom: 0; }
-        .dashboard-buoy-panel .buoy-widget .card-header { background: rgba(72,202,228,0.16) !important; border: 1px solid rgba(72,202,228,0.32); border-radius: 16px !important; color: #dff8ff !important; }
+        .dashboard-buoy-panel { background: rgba(72,202,228,0.06); border: 1px solid rgba(72,202,228,0.15); border-radius: 22px; padding: 20px 28px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .dashboard-buoy-panel .buoy-widget.card { background: transparent !important; border: 0 !important; box-shadow: none !important; margin-bottom: 0; }
+        .dashboard-buoy-panel .buoy-widget .card-header { background: rgba(72,202,228,0.1) !important; border: 1px solid rgba(72,202,228,0.2); border-radius: 16px !important; color: #dff8ff !important; }
         .dashboard-buoy-panel .buoy-widget .card-body { color: var(--soft-white); }
-        .dashboard-buoy-panel .buoy-widget .metric-box { background: rgba(255,255,255,0.08) !important; border: 1px solid rgba(255,255,255,0.16); border-radius: 14px !important; backdrop-filter: blur(8px); }
+        .dashboard-buoy-panel .buoy-widget .metric-box { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px !important; backdrop-filter: blur(8px); }
         .dashboard-buoy-panel .buoy-widget .metric-box h4 { color: var(--accent-cyan) !important; }
         .dashboard-buoy-panel .buoy-widget .text-muted { color: rgba(255,255,255,0.72) !important; }
         .dashboard-buoy-panel .buoy-widget .border-top { border-color: rgba(255,255,255,0.18) !important; }
@@ -83,7 +78,6 @@
         .status-confirmed { background: rgba(40,167,69,0.1); color: #28a745; border-color: #28a745; }
         .status-completed { background: rgba(72,202,228,0.1); color: #48cae4; border-color: #48cae4; }
         .status-cancelled { background: rgba(220,53,69,0.1); color: #dc3545; border-color: #dc3545; }
-        /* Sea condition widget */
         .sea-widget { background: rgba(72,202,228,0.06); border: 1px solid rgba(72,202,228,0.18); border-radius: 16px; padding: 18px 22px; }
         .sea-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 10px; text-align: center; }
         .sea-item strong { display: block; font-size: 1.2rem; color: var(--accent-cyan); }
@@ -92,9 +86,8 @@
         .safe-tag { background: rgba(40,167,69,0.12); color: #5ddb8a; border: 1px solid rgba(40,167,69,0.3); }
         .moderate-tag { background: rgba(255,193,7,0.12); color: #ffc107; border: 1px solid rgba(255,193,7,0.3); }
         .unsafe-tag { background: rgba(220,53,69,0.12); color: #ff9999; border: 1px solid rgba(220,53,69,0.3); }
-        @keyframes wave-motion {0% { transform: translateY(0); }50% { transform: translateY(-3px); }100% { transform: translateY(0); }}
-        .brand-icon i { animation: wave-motion 3s ease-in-out infinite;display: inline-block;}
-        /* Help Button & Modal */
+        @keyframes wave-motion { 0% { transform: translateY(0); } 50% { transform: translateY(-3px); } 100% { transform: translateY(0); } }
+        .brand-icon i { animation: wave-motion 3s ease-in-out infinite; display: inline-block; }
         .help-btn { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-radius: 12px; color: var(--accent-cyan); text-decoration: none; font-size: 0.88rem; font-weight: 600; border: 1px solid rgba(72,202,228,0.25); transition: 0.25s; cursor: pointer; background: none; width: 100%; margin-top: 8px; }
         .help-btn:hover { background: rgba(72,202,228,0.15); color: white; }
         .help-overlay { display: none; position: fixed; inset: 0; background: rgba(5,44,57,0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; }
@@ -112,10 +105,6 @@
         .help-item-desc { font-size: 0.76rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
         .help-tip { background: rgba(72,202,228,0.07); border: 1px solid rgba(72,202,228,0.2); border-radius: 12px; padding: 12px 16px; font-size: 0.78rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
         .help-tip strong { color: var(--accent-cyan); }
-        .dashboard-buoy-panel { position: relative; background: linear-gradient(145deg, rgba(72,202,228,0.12), rgba(255,255,255,0.05)); border: 1px solid rgba(72,202,228,0.28); border-radius: 22px; padding: 28px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 16px 34px rgba(0,0,0,0.2); overflow: hidden; }
-        .dashboard-buoy-panel .buoy-widget .metric-box { background: rgba(255,255,255,0.08) !important; border: 1px solid rgba(255,255,255,0.16); border-radius: 14px !important; backdrop-filter: blur(8px); padding: 18px !important; }
-        .dashboard-buoy-panel .buoy-widget .metric-box h4 { color: var(--accent-cyan) !important; font-size: 1.4rem !important; }
-        .dashboard-buoy-panel .buoy-widget .card-header { background: rgba(72,202,228,0.16) !important; border: 1px solid rgba(72,202,228,0.32); border-radius: 16px !important; color: #dff8ff !important; padding: 14px 18px !important; font-size: 1rem !important; }
     </style>
 </head>
 <body>

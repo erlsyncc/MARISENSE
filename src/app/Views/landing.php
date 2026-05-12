@@ -181,13 +181,7 @@ body {
   position: relative;
 }
 
-.landing-snapshot::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(72,202,228,0.4), transparent);
-}
+.landing-snapshot::before  { display: none; }
 
 /* Section heading */
 .snap-section-heading {

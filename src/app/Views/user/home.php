@@ -302,19 +302,19 @@
     <div class="row">
       <div class="col-md-4">
         <div class="feature-box">
-          <h3 class="fw-bold">Water Activities</h3>
+          <h4 class="fw-bold">Water Activities</h4>
           <p>Jet Ski, Banana Boat, Kayaking and exciting ocean adventures.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="feature-box">
-          <h3 class="fw-bold">Easy Online Booking</h3>
+          <h4 class="fw-bold">Easy Online Booking</h4>
           <p>Reserve your preferred schedule anytime with our smart system.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="feature-box">
-          <h3 class="fw-bold">Safe & Monitored</h3>
+          <h4 class="fw-bold">Safe & Monitored</h4>
           <p>Real-time water condition monitoring for your safety.</p>
         </div>
       </div>
