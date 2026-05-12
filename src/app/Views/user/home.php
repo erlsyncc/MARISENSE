@@ -13,11 +13,11 @@
         .highlight-brand {font-weight: 700;color: #48cae4;text-shadow: 0 0 10px rgba(72, 202, 228, 0.4);letter-spacing: 1px;}
         body {font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--deep-blue) 100%); background-attachment: fixed; color: var(--soft-white); margin: 0; min-height: 100vh}
         /* --- NAVBAR --- */
-        .waves-navbar { background: var(--ocean-blue); padding: 35px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
-        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 0 40px; }
-        .user-greeting { color: white; font-size: 1.2rem; font-weight: 400; flex: 1; }
-        .nav-menu-center { display: flex; gap: 10px; justify-content: center; flex: 2; }
-        .logout-wrapper { flex: 1; display: flex; justify-content: flex-end; gap: 10px; align-items: center; }
+        .waves-navbar {background: var(--ocean-blue); padding: 35px 0;position: sticky; top: 0;z-index: 1000;box-shadow: 0 4px 20px rgba(0,0,0,0.15);}        
+        .header-container { position: relative;display: flex; align-items: center; padding: 0 15px; }
+        .user-greeting {flex: 0;white-space: nowrap;}
+        .nav-menu-center {position: absolute; left: 45%; transform: translateX(-50%); display: flex; align-items: center;gap: 2px;}
+        .logout-wrapper {display: flex;align-items: center;gap: 10px;margin-left: auto;}       
         .nav-link-custom { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 8px 16px; border-radius: 50px; transition: 0.3s; white-space: nowrap; }
         .nav-link-custom:hover { color: var(--accent-cyan); background: rgba(255,255,255,0.1); }
         .nav-link-custom.active { background: var(--accent-cyan); color: var(--deep-blue); font-weight: 600; }
@@ -244,7 +244,7 @@
 
 <header class="welcome-hero text-center">
     <div class="container">
-        <h1 class="display-3 fw-bold mb-3">Welcome to Waves Water Sports</h1>
+        <h2 class="display-3 fw-bold mb-3">Welcome to Waves Water Sports</h2>
         <p class="lead mb-5 opacity-90 mx-auto" style="max-width: 800px;">
             Plan your perfect water adventure at Matabungkay Beach. Explore exciting activities, 
             check real-time sea conditions powered by <span class="highlight-brand">MARISENSE</span>, and reserve with ease.
@@ -297,7 +297,7 @@
 
 <section class="features text-center">
   <div class="container">
-    <h1 class="mb-5 fw-bold text-uppercase" style="letter-spacing: 2px;">Experience the Sea</h1>
+    <h2 class="mb-5 fw-bold text-uppercase" style="letter-spacing: 2px;">Experience the Sea</h2>
     <div class="title-line"></div>
     <div class="row">
       <div class="col-md-4">
@@ -325,7 +325,7 @@
 <div class="container">
 
     <div class="section-header">
-        <h1 class="fw-bold text-white">Featured Activities</h1>
+        <h2 class="fw-bold text-white">Featured Activities</h2>
         <div class="title-line"></div>
     </div>
 
@@ -356,7 +356,7 @@
     <section class="py-5">
         <div class="container">
             <div class="section-header">
-                <h1 class="fw-bold">Real-Time Buoy Data</h1>
+                <h2 class="fw-bold">Real-Time Buoy Data</h2>
                 <div class="title-line"></div>
             </div>
             <div class="centered-data-wrapper motif-glass-panel">
@@ -374,7 +374,7 @@
 
 <section class="reviews-section">
     <div class="section-header">
-        <h1 class="fw-bold text-white">What Our Adventurers Say</h1>
+        <h2 class="fw-bold text-white">What Our Adventurers Say</h2>
         <div class="title-line"></div>
     </div>
 
@@ -478,7 +478,7 @@
 <section style="padding: 80px 0 60px;">
     <div class="container">
         <div class="section-header">
-            <h1 class="fw-bold text-white">Find Us Here</h1>
+            <h2 class="fw-bold text-white">Find Us Here</h2>
             <div class="title-line"></div>
             <p class="opacity-75 mt-2">Matabungkay Beach, Lian, Batangas, Philippines</p>
         </div>
